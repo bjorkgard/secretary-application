@@ -44,23 +44,23 @@ app
  * Install Vue.js or any other extension in development mode only.
  * Note: You must install `electron-devtools-installer` manually
  */
-// if (import.meta.env.DEV) {
-//   app
-//     .whenReady()
-//     .then(() => import('electron-devtools-installer'))
-//     .then(module => {
-//       const {default: installExtension, VUEJS3_DEVTOOLS} =
-//         // @ts-expect-error Hotfix for https://github.com/cawa-93/vite-electron-builder/issues/915
-//         typeof module.default === 'function' ? module : (module.default as typeof module);
-//
-//       return installExtension(VUEJS3_DEVTOOLS, {
-//         loadExtensionOptions: {
-//           allowFileAccess: true,
-//         },
-//       });
-//     })
-//     .catch(e => console.error('Failed install extension:', e));
-// }
+if (import.meta.env.DEV) {
+  app
+    .whenReady()
+    .then(() => import('electron-devtools-installer'))
+    .then(module => {
+      const {default: installExtension, VUEJS3_DEVTOOLS} =
+        // @ts-expect-error Hotfix for https://github.com/cawa-93/vite-electron-builder/issues/915
+        typeof module.default === 'function' ? module : (module.default as typeof module);
+
+      return installExtension(VUEJS3_DEVTOOLS, {
+        loadExtensionOptions: {
+          allowFileAccess: true,
+        },
+      });
+    })
+    .catch(e => console.error('Failed install extension:', e));
+}
 
 /**
  * Check for app updates, install it in background and notify user that new version was installed.
@@ -77,9 +77,7 @@ if (import.meta.env.PROD) {
     .then(() => import('electron-updater'))
     .then(module => {
       const autoUpdater =
-        module.autoUpdater ||
-        // @ts-expect-error Hotfix for https://github.com/electron-userland/electron-builder/issues/7338
-        (module.default.autoUpdater as (typeof module)['autoUpdater']);
+        module.autoUpdater || (module.default.autoUpdater as (typeof module)['autoUpdater']);
       return autoUpdater.checkForUpdatesAndNotify();
     })
     .catch(e => console.error('Failed check and install updates:', e));

@@ -1,9 +1,23 @@
 import {app, BrowserWindow} from 'electron';
+import Store from 'electron-store';
 import {join, resolve} from 'node:path';
 
+const CONFIG = new Store();
+
 async function createWindow() {
-  const browserWindow = new BrowserWindow({
+  const windowConfig = {
     show: false, // Use the 'ready-to-show' event to show the instantiated BrowserWindow.
+    width: 1024,
+    height: 768,
+    minWidth: 840,
+    minHeight: 640,
+    fullscreen: false,
+    frame: false,
+    titleBarOverlay: true,
+    trafficLightPosition: {
+      x: 20,
+      y: 20,
+    },
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -11,7 +25,14 @@ async function createWindow() {
       webviewTag: false, // The webview tag is not recommended. Consider alternatives like an iframe or Electron's BrowserView. @see https://www.electronjs.org/docs/latest/api/webview-tag#warning
       preload: join(app.getAppPath(), 'packages/preload/dist/index.cjs'),
     },
-  });
+  };
+
+  Object.assign(windowConfig, CONFIG.get('winBounds'));
+  const browserWindow = new BrowserWindow(windowConfig);
+
+  if (windowConfig.fullscreen) {
+    browserWindow.maximize();
+  }
 
   /**
    * If the 'show' property of the BrowserWindow's constructor is omitted from the initialization options,
@@ -27,6 +48,17 @@ async function createWindow() {
     if (import.meta.env.DEV) {
       browserWindow?.webContents.openDevTools();
     }
+  });
+
+  browserWindow.on('close', () => {
+    Object.assign(
+      windowConfig,
+      {
+        fullscreen: browserWindow.isMaximized(),
+      },
+      browserWindow.getNormalBounds(),
+    );
+    CONFIG.set('winBounds', windowConfig); // saves window's properties using electron-store
   });
 
   /**
