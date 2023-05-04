@@ -7,13 +7,7 @@ const APP_VERSION = import.meta.env.VITE_APP_VERSION;
 </script>
 
 <template>
-  <img
-    alt="Vue logo"
-    src="../assets/logo.svg"
-    width="150"
-  />
-
-  <p>
+  <p class="font-roboto text-xl text-sky-600 font-bold">
     <!-- Example how to inject current app version to UI -->
     App version: {{ APP_VERSION }}
   </p>
@@ -50,20 +44,3 @@ const APP_VERSION = import.meta.env.VITE_APP_VERSION;
     <code>packages/renderer/src/App.vue</code> to test hot module replacement.
   </p>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin: 60px auto;
-  max-width: 700px;
-}
-
-fieldset {
-  margin: 2rem;
-  padding: 1rem;
-}
-</style>
