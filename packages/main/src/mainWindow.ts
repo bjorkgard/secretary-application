@@ -34,6 +34,18 @@ async function createWindow() {
     browserWindow.maximize();
   }
 
+  // Splash screen
+  const splash = new BrowserWindow({
+    width: 400,
+    height: 400,
+    transparent: true,
+    frame: false,
+    alwaysOnTop: true,
+    center: true,
+  });
+
+  await splash.loadFile(resolve(__dirname, '../../renderer/splash.html'));
+
   /**
    * If the 'show' property of the BrowserWindow's constructor is omitted from the initialization options,
    * it then defaults to 'true'. This can cause flickering as the window loads the html content,
@@ -44,6 +56,7 @@ async function createWindow() {
    */
   browserWindow.on('ready-to-show', () => {
     browserWindow?.show();
+    splash.close();
 
     if (import.meta.env.DEV) {
       browserWindow?.webContents.openDevTools();
