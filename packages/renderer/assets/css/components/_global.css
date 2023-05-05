@@ -1,0 +1,35 @@
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+  background-color: theme("colors.primary");
+  &.dark {
+    background-color: theme("colors.darkmode.800");
+    body {
+      color: theme("colors.slate.300");
+      *,
+      ::before,
+      ::after {
+        border-color: theme("colors.white" / 5%);
+      }
+    }
+  }
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100%;
+    overflow-x: hidden;
+    padding: theme("spacing.3");
+    font-family: theme("fontFamily.roboto");
+    font-size: theme("fontSize.sm");
+    line-height: theme("lineHeight.5");
+    color: theme("colors.slate.800");
+    @media screen(sm) {
+      padding-left: theme("spacing.5");
+      padding-right: theme("spacing.5");
+    }
+  }
+  *, a, button {
+    cursor: default;
+    user-select: none;
+  }
+}

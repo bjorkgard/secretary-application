@@ -1,11 +1,12 @@
+import type {BrowserWindowConstructorOptions} from 'electron';
 import {app, BrowserWindow} from 'electron';
 import Store from 'electron-store';
 import {join, resolve} from 'node:path';
 
 const CONFIG = new Store();
-
+//BrowserWindowConstructorOptions
 async function createWindow() {
-  const windowConfig = {
+  const windowConfig: BrowserWindowConstructorOptions = {
     show: false, // Use the 'ready-to-show' event to show the instantiated BrowserWindow.
     width: 1024,
     height: 768,
@@ -14,6 +15,7 @@ async function createWindow() {
     fullscreen: false,
     frame: false,
     titleBarOverlay: true,
+    titleBarStyle: 'hidden',
     trafficLightPosition: {
       x: 20,
       y: 20,
@@ -28,6 +30,7 @@ async function createWindow() {
   };
 
   Object.assign(windowConfig, CONFIG.get('winBounds'));
+  // TODO: Fix this error
   const browserWindow = new BrowserWindow(windowConfig);
 
   if (windowConfig.fullscreen) {

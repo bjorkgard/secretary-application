@@ -25,6 +25,20 @@
 |
 */
  @import "./_roboto.css";
+
+/*
+|--------------------------------------------------------------------------
+| 3rd Party Libraries
+|--------------------------------------------------------------------------
+|
+| Import 3rd party library CSS files.
+|
+*/
+@import "tippy.js/dist/tippy.css";
+@import "tippy.js/themes/light.css";
+@import "tippy.js/dist/svg-arrow.css";
+@import "tippy.js/animations/shift-away.css";
+
 /*
 |--------------------------------------------------------------------------
 | Components
@@ -33,4 +47,8 @@
 | Import CSS components.
 |
 */
-@import "./_base.css";
+@import "./components/_global.css";
+@import "./components/_electron.css";
+@import "./components/_scrollbar-hidden.css";
+@import "./components/_box.css";
+@import"./components/_tippy.css";
