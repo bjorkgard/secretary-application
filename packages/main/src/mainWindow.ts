@@ -1,5 +1,5 @@
 import type {BrowserWindowConstructorOptions} from 'electron';
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, Menu} from 'electron';
 import Store from 'electron-store';
 import {join, resolve} from 'node:path';
 
@@ -14,6 +14,7 @@ async function createWindow() {
     minHeight: 640,
     fullscreen: false,
     frame: false,
+    autoHideMenuBar: true,
     titleBarOverlay: true,
     titleBarStyle: 'hidden',
     trafficLightPosition: {
@@ -30,8 +31,8 @@ async function createWindow() {
   };
 
   Object.assign(windowConfig, CONFIG.get('winBounds'));
-  // TODO: Fix this error
   const browserWindow = new BrowserWindow(windowConfig);
+  Menu.setApplicationMenu(null);
 
   if (windowConfig.fullscreen) {
     browserWindow.maximize();

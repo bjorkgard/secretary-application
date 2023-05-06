@@ -4,7 +4,7 @@ import Breadcrumb from '/@/base-components/Breadcrumb';
 
 <template>
   <!-- BEGIN: Top Bar -->
-  <div class="h-[67px] z-[51] flex items-center relative border-b border-slate-200">
+  <div class="h-12 z-[51] flex items-center relative border-b border-slate-200">
     <!-- BEGIN: Breadcrumb -->
     <Breadcrumb class="hidden mr-auto -intro-x sm:flex">
       <Breadcrumb.Link to="/">Secretary</Breadcrumb.Link>

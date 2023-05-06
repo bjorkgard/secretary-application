@@ -31,7 +31,7 @@ onMounted(() => {
   <div class="pt-8 pb-2 min-h-full flex">
     <div class="flex mt-[4.7rem] md:mt-0 min-h-full grow">
       <!-- BEGIN: Side Menu -->
-      <nav class="pr-5 pb-16 overflow-x-hidden hidden md:block w-[85px] xl:w-[230px]">
+      <nav class="pr-5 mt-7 pb-16 overflow-x-hidden hidden md:block w-[85px] xl:w-[230px] no-drag">
         <ul>
           <!-- BEGIN: First Child -->
           <template v-for="(menu, menuKey) in formattedMenu">
@@ -40,7 +40,7 @@ onMounted(() => {
               :key="'divider-' + menuKey"
               type="li"
               :class="[
-                'my-6',
+                'my-2',
 
                 // Animation
                 `opacity-0 animate-[0.4s_ease-in-out_0.1s_intro-divider] animate-fill-mode-forwards animate-delay-${

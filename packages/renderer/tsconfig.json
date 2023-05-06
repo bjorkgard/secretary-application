@@ -7,7 +7,6 @@
     "skipLibCheck": true,
     "strict": true,
     "isolatedModules": true,
-    "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
     "types": ["node"],
     "baseUrl": ".",
@@ -15,7 +14,9 @@
       "#preload": ["../preload/src/index"],
       "/@/*": ["./src/*"]
     },
-    "lib": ["ESNext", "dom", "dom.iterable"]
+    "lib": ["ESNext", "dom", "dom.iterable"],
+    "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": true
   },
   "include": [
     "src/**/*.vue",

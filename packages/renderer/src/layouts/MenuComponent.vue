@@ -42,7 +42,7 @@ const [formattedMenu, setFormattedMenu] = props.formattedMenuState;
       }
     })(props.menu.pageName)"
     :class="[
-      'h-[50px] flex items-center text-white mb-1 relative rounded-full',
+      'h-[50px] flex items-center text-white mb-1 relative rounded-full pl-4',
       {
         'dark:text-slate-300': props.menu.active && props.level != 'first',
         'text-white/70 dark:text-slate-400': !props.menu.active && props.level != 'first',

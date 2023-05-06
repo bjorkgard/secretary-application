@@ -17,18 +17,28 @@ export const useSideMenuStore = defineStore('sideMenu', {
   state: (): SideMenuState => ({
     menu: [
       {
-        icon: 'Home',
-        pageName: 'side-menu-dashboard',
+        icon: 'LayoutDashboard',
+        pageName: 'dashboard',
         title: 'Dashboard',
+      },
+      'divider',
+      {
+        icon: 'Users',
+        pageName: 'publishers',
+        title: 'Förkunnare',
         subMenu: [
           {
-            icon: 'Activity',
-            pageName: 'side-menu-dashboard-overview-1',
-            title: 'Overview',
+            icon: 'Users',
+            pageName: 'publishers-list',
+            title: 'Visa alla',
+          },
+          {
+            icon: 'UserPlus',
+            pageName: 'publishers-add',
+            title: 'Lägg till',
           },
         ],
       },
-      'divider',
     ],
   }),
 });
