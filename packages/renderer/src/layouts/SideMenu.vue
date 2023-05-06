@@ -129,7 +129,7 @@ onMounted(() => {
       <div
         class="no-drag rounded-[30px] min-w-0 flex-1 pb-10 bg-slate-100 dark:bg-darkmode-700 px-4 md:px-[22px] max-w-full md:max-w-auto before:content-[''] before:w-full before:h-px before:block"
       >
-        <TopBar />
+        <TopBar :formatted-menu="formattedMenu" />
         <RouterView />
       </div>
       <!-- END: Content -->

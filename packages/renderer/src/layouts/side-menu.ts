@@ -86,4 +86,25 @@ const leave = (el: HTMLElement) => {
   slideUp(el, 300);
 };
 
-export {nestedMenu, linkTo, enter, leave};
+const buildBreadCrumbs = (menu: Array<FormattedMenu | 'divider'>) => {
+  const breadCeumbs: FormattedMenu[] = [];
+
+  menu.forEach(item => {
+    if (item !== 'divider') {
+      if (item.active) {
+        breadCeumbs.push(item);
+        if (item.subMenu) {
+          item.subMenu.forEach(item => {
+            if (item.active) {
+              breadCeumbs.push(item);
+            }
+          });
+        }
+      }
+    }
+  });
+
+  return breadCeumbs;
+};
+
+export {nestedMenu, linkTo, enter, leave, buildBreadCrumbs};
