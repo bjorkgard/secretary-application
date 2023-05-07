@@ -8,6 +8,7 @@ import TopBar from '/@/components/TopBar';
 import Divider from './DividerComponent.vue';
 import Menu from './MenuComponent.vue';
 
+const APP_VERSION = import.meta.env.VITE_APP_VERSION;
 const route = useRoute();
 const sideMenuStore = useSideMenuStore();
 const sideMenu = computed(() => nestedMenu(sideMenuStore.menu, route));
@@ -132,6 +133,7 @@ onMounted(() => {
         <TopBar :formatted-menu="formattedMenu" />
         <RouterView />
       </div>
+      <span class="absolute bottom-1 right-1 text-xs"> v{{ APP_VERSION }} </span>
       <!-- END: Content -->
     </div>
   </div>

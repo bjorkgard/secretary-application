@@ -9,7 +9,7 @@ const toRGB = value => {
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./**/*.{html,vue,jsx,tsx}'],
+  content: ['./packages/renderer/*.html', './packages/renderer/src/**/*.{js,ts,jsx,tsx,vue}'],
   darkMode: 'class',
   safelist: [
     {
