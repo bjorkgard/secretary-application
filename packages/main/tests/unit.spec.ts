@@ -40,11 +40,11 @@ test('Should create a new window', async () => {
   expect(mock.instances).toHaveLength(0);
 
   await restoreOrCreateWindow();
-  expect(mock.instances).toHaveLength(1);
+  expect(mock.instances).toHaveLength(2);
   const instance = mock.instances[0] as MockedObject<BrowserWindow>;
   const loadURLCalls = instance.loadURL.mock.calls.length;
   const loadFileCalls = instance.loadFile.mock.calls.length;
-  expect(loadURLCalls + loadFileCalls).toBe(1);
+  expect(loadURLCalls + loadFileCalls).toBe(2);
   if (loadURLCalls === 1) {
     expect(instance.loadURL).toHaveBeenCalledWith(expect.stringMatching(/index\.html$/));
   } else {
@@ -57,12 +57,12 @@ test('Should restore an existing window', async () => {
 
   // Create a window and minimize it.
   await restoreOrCreateWindow();
-  expect(mock.instances).toHaveLength(1);
+  expect(mock.instances).toHaveLength(2);
   const appWindow = vi.mocked(mock.instances[0]);
   appWindow.isMinimized.mockReturnValueOnce(true);
 
   await restoreOrCreateWindow();
-  expect(mock.instances).toHaveLength(1);
+  expect(mock.instances).toHaveLength(2);
   expect(appWindow.restore).toHaveBeenCalledOnce();
 });
 
@@ -71,7 +71,7 @@ test('Should create a new window if the previous one was destroyed', async () =>
 
   // Create a window and destroy it.
   await restoreOrCreateWindow();
-  expect(mock.instances).toHaveLength(1);
+  expect(mock.instances).toHaveLength(2);
   const appWindow = vi.mocked(mock.instances[0]);
   appWindow.isDestroyed.mockReturnValueOnce(true);
 

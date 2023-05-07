@@ -1,5 +1,5 @@
 import type {BrowserWindowConstructorOptions} from 'electron';
-import {app, BrowserWindow, Menu} from 'electron';
+import {app, BrowserWindow} from 'electron';
 import Store from 'electron-store';
 import {join, resolve} from 'node:path';
 
@@ -32,7 +32,6 @@ async function createWindow() {
 
   Object.assign(windowConfig, CONFIG.get('winBounds'));
   const browserWindow = new BrowserWindow(windowConfig);
-  Menu.setApplicationMenu(null);
 
   if (windowConfig.fullscreen) {
     browserWindow.maximize();
