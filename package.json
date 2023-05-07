@@ -1,7 +1,7 @@
 {
   "name": "secretary-application",
-  "description": "Secure boilerplate for Electron app based on Vite",
-  "version": "1.0.2",
+  "description": "An application to help the secretary in the congregation",
+  "version": "0.0.1",
   "private": true,
   "author": {
     "email": "nathanael@bjorkgard.se",
