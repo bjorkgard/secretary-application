@@ -67,7 +67,6 @@ onMounted(() => {
   <component
     :is="as"
     v-tippy-directive
-    class="cursor-pointer"
   >
     <slot></slot>
   </component>
