@@ -1,9 +1,12 @@
 import type {BrowserWindowConstructorOptions} from 'electron';
 import {app, BrowserWindow} from 'electron';
-import Store from 'electron-store';
+import electronStore from 'electron-store';
 import {join, resolve} from 'node:path';
 
-const CONFIG = new Store();
+const store = new electronStore({
+  name: 'settings',
+});
+
 //BrowserWindowConstructorOptions
 async function createWindow() {
   const windowConfig: BrowserWindowConstructorOptions = {
@@ -30,7 +33,7 @@ async function createWindow() {
     },
   };
 
-  Object.assign(windowConfig, CONFIG.get('winBounds'));
+  Object.assign(windowConfig, store.get('winBounds'));
   const browserWindow = new BrowserWindow(windowConfig);
 
   if (windowConfig.fullscreen) {
@@ -74,7 +77,7 @@ async function createWindow() {
       },
       browserWindow.getNormalBounds(),
     );
-    CONFIG.set('winBounds', windowConfig); // saves window's properties using electron-store
+    store.set('winBounds', windowConfig); // saves window's properties using electron-store
   });
 
   /**
