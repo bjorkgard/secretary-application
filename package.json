@@ -46,7 +46,7 @@
     "happy-dom": "9.10.8",
     "lucide-vue-next": "^0.217.0",
     "nano-staged": "0.8.0",
-    "pinia": "^2.0.35",
+    "pinia": "^2.0.36",
     "playwright": "1.33.0",
     "postcss": "^8.4.23",
     "postcss-advanced-variables": "^3.0.1",
