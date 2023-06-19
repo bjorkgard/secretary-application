@@ -41,7 +41,7 @@
     "electron": "24.3.1",
     "electron-builder": "23.6.0",
     "electron-devtools-installer": "^3.2.0",
-    "eslint": "8.42.0",
+    "eslint": "8.43.0",
     "eslint-plugin-vue": "9.14.1",
     "happy-dom": "9.20.3",
     "lucide-vue-next": "^0.244.0",
