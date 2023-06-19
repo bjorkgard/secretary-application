@@ -51,7 +51,7 @@
     "postcss": "^8.4.24",
     "postcss-advanced-variables": "^3.0.1",
     "postcss-import": "^15.1.0",
-    "postcss-nesting": "^11.2.2",
+    "postcss-nesting": "^11.3.0",
     "simple-git-hooks": "2.8.1",
     "tailwindcss": "^3.3.2",
     "tippy.js": "^6.3.7",
