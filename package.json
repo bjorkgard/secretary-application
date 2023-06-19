@@ -44,7 +44,7 @@
     "eslint": "8.42.0",
     "eslint-plugin-vue": "9.14.1",
     "happy-dom": "9.20.3",
-    "lucide-vue-next": "^0.244.0",
+    "lucide-vue-next": "^0.246.0",
     "nano-staged": "0.8.0",
     "pinia": "^2.1.3",
     "playwright": "1.35.0",
