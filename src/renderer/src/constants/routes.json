@@ -1,0 +1,22 @@
+{
+  "DASHBOARD": "/dashboard",
+  "LOADING": "/",
+  "PUBLISHER_APPOINTMENTS_FORM": "/publishers/appointments",
+  "PUBLISHER_CONTACT_FORM": "/publishers/contact",
+  "PUBLISHER_OTHER_FORM": "/publishers/other",
+  "PUBLISHER_PERSONAL_FORM": "/publishers/personal",
+  "PUBLISHERS": "/publishers",
+  "REPORTS": "/reports",
+  "REPORTS_FORM": "/reports/form",
+  "REPORTS_MEETINGS": "/reports/meetings",
+  "REPORTS_COMPLETION": "/reports/completion",
+  "RESPONSIBILITIES": "/responsibilities",
+  "RESPONSIBILITY_FORM": "/responsibilities/add",
+  "SERVICE_GROUP_FORM": "/serviceGroups/add",
+  "SERVICE_GROUPS": "/serviceGroups",
+  "SETTINGS": "/settings",
+  "SETUP": "/registration",
+  "TASK_FORM": "/tasks/add",
+  "TASKS": "/tasks",
+  "CIRCUIT_OVERSEER": "/circuitOverseer"
+}

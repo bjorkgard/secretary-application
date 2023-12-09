@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-white dark:bg-slate-900 h-full;
+}
+
+h2 {
+  @apply !mt-1;
+}
+
+p {
+  @apply !my-2;
+}
+
+#root {
+  @apply h-full;
+}
+
+.PhoneInputInput {
+  @apply bg-transparent;
+}
+
+.fieldset {
+  @apply border border-gray-700/20 dark:border-neutral-300/20 bg-transparent rounded-lg p-4;
+}

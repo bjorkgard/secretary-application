@@ -1,0 +1,25 @@
+{
+  "export": {
+    "PIONEER": "export.PIONEER",
+    "ELDER": "export.ELDER",
+    "MINISTERIALSERVANT": "export.MINISTERIALSERVANT",
+    "AUXILIARY": "export.AUXILIARY",
+    "reportSummary": "export.reportSummary"
+  },
+  "reports": {
+    "updated": {
+      "body": "reports.updated.body"
+    }
+  },
+  "history": {
+    "active": "history.active"
+  },
+  "label": {
+    "stiudies": "label.stiudies",
+    "irregularPublishers": "label.irregularPublishers",
+    "inactivePublishers": "label.inactivePublishers"
+  },
+  "meeting": {
+    "motherCongregationSimple": "meeting.motherCongregationSimple"
+  }
+}
