@@ -4,3 +4,7 @@ out
 *.log*
 
 db
+
+.env
+.env.production
+.env.development
