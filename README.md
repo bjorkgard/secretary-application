@@ -1,3 +1,5 @@
+[![Crowdin](https://badges.crowdin.net/secretary/localized.svg)](https://crowdin.com/project/secretary)
+
 # secretary-application
 
 An Electron application with React and TypeScript
