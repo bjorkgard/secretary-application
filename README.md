@@ -1,36 +1,7 @@
 [![Crowdin](https://badges.crowdin.net/secretary/localized.svg)](https://crowdin.com/project/secretary)
 
-# secretary-application
+# Secretary application
 
-An Electron application with React and TypeScript
+This is still under development and not ready for production use.
 
-## Recommended IDE Setup
-
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-
-## Project Setup
-
-### Install
-
-```bash
-$ npm install
-```
-
-### Development
-
-```bash
-$ npm run dev
-```
-
-### Build
-
-```bash
-# For windows
-$ npm run build:win
-
-# For macOS
-$ npm run build:mac
-
-# For Linux
-$ npm run build:linux
-```
+Occaecat consequat fugiat qui aute fugiat aute cupidatat qui aliquip. Aliqua non sunt ad non culpa nostrud. Duis est anim occaecat proident ex do eiusmod pariatur labore fugiat velit fugiat officia cupidatat. Ipsum nisi ex enim mollit anim magna esse labore pariatur.
