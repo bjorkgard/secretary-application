@@ -35,7 +35,7 @@
     "i18next": "^23.5.1",
     "i18next-fs-backend": "^2.2.0",
     "jspdf": "^2.5.1",
-    "jspdf-autotable": "^3.7.1",
+    "jspdf-autotable": "^3.8.1",
     "jszip": "^3.10.1",
     "nedb-promises": "^6.2.3",
     "pdf-lib": "^1.17.1",
