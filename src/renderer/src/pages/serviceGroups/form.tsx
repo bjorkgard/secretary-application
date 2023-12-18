@@ -94,7 +94,6 @@ export default function ServiceGroupForm(): JSX.Element {
                   errors.responsibleId ? 'select-error' : '',
                   'select select-bordered w-full'
                 )}
-                placeholder={t('label.responsible')}
                 {...register('responsibleId')}
               >
                 <option value="">{t('label.selectResponsible')}</option>
@@ -117,7 +116,6 @@ export default function ServiceGroupForm(): JSX.Element {
                   errors.assistantId ? 'select-error' : '',
                   'select select-bordered w-full'
                 )}
-                placeholder={t('label.assistant')}
                 {...register('assistantId')}
               >
                 <option value="">{t('label.selectAssistant')}</option>

@@ -1,5 +1,6 @@
 import { PublisherModel } from '../../types/models'
 import {
+  AuxiliaryService,
   PublisherService,
   ServiceMonthService,
   ServiceYearService,
@@ -83,7 +84,8 @@ const closeReporting = async (
   serviceYearService: ServiceYearService,
   serviceMonthService: ServiceMonthService,
   publisherService: PublisherService,
-  settingsService: SettingsService
+  settingsService: SettingsService,
+  auxiliaryService: AuxiliaryService
 ): Promise<string> => {
   const serviceMonth = await serviceMonthService.findActive()
 
@@ -106,6 +108,8 @@ const closeReporting = async (
     })
   }
   await fetch(`${import.meta.env.MAIN_VITE_API}/delete_report`, options)
+
+  auxiliaryService.deleteServiceMonth(serviceMonth.serviceMonth)
 
   // Push report to publisher.reports (if completed)
   for (const report of serviceMonth.reports) {

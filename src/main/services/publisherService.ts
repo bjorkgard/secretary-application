@@ -9,8 +9,8 @@ const parsePublisherModel = (data: PublisherModel): Publisher => {
   const publisher: Publisher = {
     s290: false,
     registerCard: false,
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     birthday: '',
     gender: 'MAN',
     baptised: '',
@@ -38,8 +38,8 @@ const parsePublisherModel = (data: PublisherModel): Publisher => {
 
   publisher.s290 = data.s290
   publisher.registerCard = data.registerCard
-  publisher.firstName = data.firstname
-  publisher.lastName = data.lastname
+  publisher.firstname = data.firstname
+  publisher.lastname = data.lastname
   publisher.birthday = data.birthday
   publisher.gender = data.gender
   publisher.baptised = data.baptised
@@ -106,8 +106,8 @@ const parsePublisher = (data: Publisher): PublisherModel => {
   publisherModel._id = data._id
   publisherModel.s290 = data.s290
   publisherModel.registerCard = data.registerCard
-  publisherModel.firstname = data.firstName
-  publisherModel.lastname = data.lastName
+  publisherModel.firstname = data.firstname
+  publisherModel.lastname = data.lastname
   publisherModel.birthday = data.birthday
   publisherModel.gender = data.gender
   publisherModel.baptised = data.baptised

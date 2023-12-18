@@ -6,6 +6,7 @@ import ServiceGroupService from '../services/serviceGroupService'
 import PublisherService from '../services/publisherService'
 import ServiceMonthService from '../services/serviceMonthService'
 import ServiceYearService from '../services/serviceYearService'
+import AuxiliaryService from '../services/auxiliaryService'
 import {
   Appointment,
   Child,
@@ -210,7 +211,8 @@ export default function ImportJson(
   serviceGroupService: ServiceGroupService,
   publisherService: PublisherService,
   serviceMonthService: ServiceMonthService,
-  serviceYearService: ServiceYearService
+  serviceYearService: ServiceYearService,
+  auxiliaryService: AuxiliaryService
 ): void {
   const options: Electron.OpenDialogOptions = {
     title: 'Importera från secretary.jwapp.info',
@@ -238,6 +240,7 @@ export default function ImportJson(
           publisherService.drop()
           serviceMonthService.drop()
           serviceYearService.drop()
+          auxiliaryService.drop()
 
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           importData.groups.map(async (group: { name: string; publishers: any[] }) => {
@@ -274,6 +277,7 @@ export default function ImportJson(
                     if (serviceMonth.status === 'done') {
                       const name = serviceMonth.name.split('-')
                       const date = new Date(parseInt(name[0]), parseInt(name[1]) - 1, 1)
+                      const serviceMonthName = `${name[0]}-${name[1] < 10 ? '0' : ''}${name[1]}`
 
                       const midweekMeetings: number[] = new Array(serviceMonth.mid_no_meeting).fill(
                         Math.round(serviceMonth.mid_sum / serviceMonth.mid_no_meeting)
@@ -290,7 +294,7 @@ export default function ImportJson(
                           hasNotBeenInService: false,
                           identifier: generateIdentifier(),
                           type: 'PUBLISHER',
-                          serviceMonth: serviceMonth.name,
+                          serviceMonth: serviceMonthName,
                           serviceYear: sy.name,
                           sortOrder: serviceMonth.sort_order,
                           name: date.toLocaleString('default', { month: 'long' }).toLowerCase(),

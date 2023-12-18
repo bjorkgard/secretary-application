@@ -9,16 +9,16 @@ export default class PublisherStore extends BaseStore<Publisher> {
 
     switch (sortField) {
       case 'LASTNAME':
-        sort = { lastName: 1, firstName: 1 }
+        sort = { lastname: 1, firstname: 1 }
         break
       case 'LASTNAME_REV':
-        sort = { lastName: -1, firstName: -1 }
+        sort = { lastname: -1, firstname: -1 }
         break
       case 'FIRSTNAME':
-        sort = { firstName: 1, lastName: 1 }
+        sort = { firstname: 1, lastname: 1 }
         break
       case 'FIRSTNAME_REV':
-        sort = { firstName: -1, lastName: -1 }
+        sort = { firstname: -1, lastname: -1 }
         break
       case 'EMAIL':
         sort = { email: 1 }
@@ -27,7 +27,7 @@ export default class PublisherStore extends BaseStore<Publisher> {
         sort = { email: -1 }
         break
       default:
-        sort = { lastName: 1, firstName: 1 }
+        sort = { lastname: 1, firstname: 1 }
     }
 
     if (queryString && queryString !== '') {

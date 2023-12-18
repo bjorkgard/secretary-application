@@ -1,5 +1,6 @@
 import { BrowserWindow } from 'electron'
 import {
+  AuxiliaryService,
   PublisherService,
   ServiceGroupService,
   ServiceMonthService,
@@ -37,11 +38,13 @@ const startReporting = async (
   serviceMonthService: ServiceMonthService,
   publisherService: PublisherService,
   settingsService: SettingsService,
-  serviceYearService: ServiceYearService
+  serviceYearService: ServiceYearService,
+  auxiliaryService: AuxiliaryService
 ): Promise<string> => {
   const date = new Date()
   date.setDate(0)
-  const serviceMonthName = `${date.getFullYear()}-${date.getMonth() + 1}`
+  let monthString = date.getMonth() + 1
+  const serviceMonthName = `${date.getFullYear()}-${monthString < 10 ? '0' : ''}${monthString}`
 
   const serviceMonth = await serviceMonthService.findByServiceMonth(serviceMonthName)
 
@@ -55,13 +58,15 @@ const startReporting = async (
     serviceYearService,
     serviceMonthService,
     publisherService,
-    settingsService
+    settingsService,
+    auxiliaryService
   )
 
   const reports: Report[] = []
   const meetings: Meeting[] = []
   const publishers = await publisherService.find('lastname', '')
   const settings = await settingsService.find()
+  const auxiliaryMonth = await auxiliaryService.findByServiceMonth(serviceMonthName)
 
   if (settings?.congregation.languageGroups.length) {
     meetings.push({
@@ -112,7 +117,12 @@ const startReporting = async (
         | 'AUXILIARY'
         | 'MISSIONARY'
         | 'CIRCUITOVERSEER',
-      auxiliary: type === 'AUXILIARY' ? true : false,
+      auxiliary:
+        type === 'AUXILIARY'
+          ? true
+          : auxiliaryMonth?.publisherIds.includes(publisher._id || '')
+            ? true
+            : false,
       publisherId: publisher._id,
       publisherName: `${publisher.lastname}, ${publisher.firstname}`,
       publisherEmail: publisher.email,

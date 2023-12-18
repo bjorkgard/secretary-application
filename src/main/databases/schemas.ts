@@ -6,6 +6,12 @@ interface Base {
   updatedAt?: Date
 }
 
+export interface Auxiliary extends Base {
+  serviceMonth: string
+  name: string
+  publisherIds: string[]
+}
+
 interface LanguageGroup {
   name: string
 }
@@ -93,8 +99,8 @@ export interface Report {
 export interface Publisher extends Base {
   s290: boolean
   registerCard: boolean
-  firstName: string
-  lastName: string
+  firstname: string
+  lastname: string
   birthday?: string
   gender: 'MAN' | 'WOMAN'
   baptised?: string
@@ -374,8 +380,8 @@ export const PublisherSchema: JSONSchemaType<Publisher> = {
     _id: { type: 'string', nullable: true },
     s290: { type: 'boolean' },
     registerCard: { type: 'boolean' },
-    firstName: { type: 'string' },
-    lastName: { type: 'string' },
+    firstname: { type: 'string' },
+    lastname: { type: 'string' },
     birthday: { type: 'string', nullable: true },
     gender: { type: 'string' },
     baptised: { type: 'string', nullable: true },
@@ -408,8 +414,8 @@ export const PublisherSchema: JSONSchemaType<Publisher> = {
   required: [
     's290',
     'registerCard',
-    'firstName',
-    'lastName',
+    'firstname',
+    'lastname',
     'gender',
     'unknown_baptised',
     'hope',
@@ -466,6 +472,20 @@ export const TaskSchema: JSONSchemaType<Task> = {
     updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
   },
   required: ['name', 'responsibilityId', 'default'],
+  additionalProperties: false
+}
+
+export const AuxiliarySchema: JSONSchemaType<Auxiliary> = {
+  type: 'object',
+  properties: {
+    _id: { type: 'string', nullable: true },
+    serviceMonth: { type: 'string' },
+    name: { type: 'string' },
+    publisherIds: { type: 'array', items: { type: 'string' } },
+    createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
+    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
+  },
+  required: ['serviceMonth', 'name', 'publisherIds'],
   additionalProperties: false
 }
 
