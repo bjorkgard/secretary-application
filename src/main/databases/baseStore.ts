@@ -3,6 +3,7 @@ import Ajv, { JSONSchemaType } from 'ajv'
 import addFormats from 'ajv-formats'
 import Datastore from 'nedb-promises'
 import {
+  Auxiliary,
   Export,
   Publisher,
   Responsibility,
@@ -17,6 +18,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 
 export default class BaseStore<
   T extends
+    | Auxiliary
     | CircuitOverseer
     | Export
     | Publisher

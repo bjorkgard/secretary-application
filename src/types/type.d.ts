@@ -1,4 +1,5 @@
 import {
+  AuxiliaryModel,
   CircuitOverseerModel,
   ExportModel,
   History,
@@ -74,6 +75,13 @@ export interface TaskService extends BaseService<TaskModel> {
   find(): Promise<TaskModel[]>
   upsert(data: TaskModel): Promise<number>
   remove(data: TaskModel): Promise<number>
+}
+
+export interface AuxiliaryService extends BaseService<AuxiliaryModel> {
+  find(): Promise<AuxiliaryModel[]>
+  findByServiceMonth(serviceMonth: string): Promise<AuxiliaryModel | null>
+  deleteServiceMonth(serviceMonth: string): Promise<number>
+  upsert({ serviceMonth: string, name: string }): Promise<AuxiliaryModel>
 }
 
 export interface ExportService extends BaseService<ExportModel> {

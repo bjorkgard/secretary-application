@@ -4,6 +4,13 @@ interface Base {
   updatedAt?: string
 }
 
+export interface AuxiliaryModel extends Base {
+  serviceMonth: string
+  name: string
+  publisherIds: string[]
+  publishers?: PublisherModel[]
+}
+
 export interface LanguageGroupModel {
   name: string
 }

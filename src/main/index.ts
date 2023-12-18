@@ -23,6 +23,8 @@ import ServiceGroupService from './services/serviceGroupService'
 import ResponsibilityService from './services/responsibilityService'
 import ExportService from './services/exportService'
 import TaskService from './services/taskService'
+import CircuitOverseerService from './services/circuitOverseerService'
+import AuxiliaryService from './services/auxiliaryService'
 import migrateDatabase from './migrateDatabase'
 import {
   importJson,
@@ -36,7 +38,6 @@ import {
   getReportUpdates,
   closeReporting
 } from './functions'
-import CircuitOverseerService from './services/circuitOverseerService'
 
 const isDebug = process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true'
 
@@ -217,6 +218,7 @@ const serviceYearService = new ServiceYearService()
 const serviceMonthService = new ServiceMonthService()
 const settingsService = new SettingsService()
 const taskService = new TaskService()
+const auxiliaryService = new AuxiliaryService()
 
 ipcMain.on('import', () => {
   if (!mainWindow) return
@@ -225,7 +227,8 @@ ipcMain.on('import', () => {
     serviceGroupService,
     publisherService,
     serviceMonthService,
-    serviceYearService
+    serviceYearService,
+    auxiliaryService
   )
 })
 
@@ -459,7 +462,8 @@ ipcMain.handle('start-reporting', async () => {
     serviceMonthService,
     publisherService,
     settingsService,
-    serviceYearService
+    serviceYearService,
+    auxiliaryService
   )
 })
 
@@ -469,12 +473,39 @@ ipcMain.handle('close-reporting', async () => {
     serviceYearService,
     serviceMonthService,
     publisherService,
-    settingsService
+    settingsService,
+    auxiliaryService
   )
 })
 
 ipcMain.handle('save-meetings', async (_, props) => {
   return serviceMonthService.saveMeetings(props)
+})
+
+ipcMain.handle('auxiliaries', async () => {
+  const auxiliaries = await auxiliaryService.find()
+
+  for await (const auxiliary of auxiliaries) {
+    auxiliary.publishers = await publisherService.findByIds(auxiliary.publisherIds)
+  }
+
+  return auxiliaries
+})
+
+ipcMain.handle('add-auxiliary', async (_, props) => {
+  const name = props.serviceMonth.split('-')
+  const date = new Date(parseInt(name[0]), parseInt(name[1]) - 1, 1)
+  const auxiliary = await auxiliaryService.upsert({
+    ...props,
+    name: date.toLocaleString('default', { month: 'long' }).toLowerCase()
+  })
+
+  if (auxiliary._id && auxiliary.publisherIds.indexOf(props.publisher) === -1) {
+    auxiliary.publisherIds.push(props.publisher)
+    return await auxiliaryService.update(auxiliary._id, auxiliary)
+  }
+
+  return null
 })
 
 ipcMain.handle('save-report', async (_, report) => {

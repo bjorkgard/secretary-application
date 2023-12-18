@@ -232,7 +232,6 @@ export default function PublisherPersonalForm(): JSX.Element {
                   errors.status ? 'select-error' : '',
                   'select select-bordered w-full'
                 )}
-                placeholder={t('label.selectFamily')}
                 {...register('status')}
               >
                 <option value="ACTIVE">{t('status.active')}</option>
@@ -278,7 +277,6 @@ export default function PublisherPersonalForm(): JSX.Element {
                   errors.serviceGroupId ? 'select-error' : '',
                   'select select-bordered w-full'
                 )}
-                placeholder={t('label.serviceGroup')}
                 {...register('serviceGroupId', {
                   required: t('errors.serviceGroupId.required')
                 })}
