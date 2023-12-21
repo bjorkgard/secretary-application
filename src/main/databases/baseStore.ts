@@ -11,7 +11,8 @@ import {
   ServiceGroup,
   Settings,
   CircuitOverseer,
-  ServiceYear
+  ServiceYear,
+  Template
 } from './schemas'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -27,6 +28,7 @@ export default class BaseStore<
     | ServiceGroup
     | ServiceYear
     | Settings
+    | Template
 > {
   filePath: string = ''
   databaseInstance: Datastore<T>

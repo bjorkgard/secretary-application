@@ -36,6 +36,13 @@ interface Online {
   public?: boolean
 }
 
+export interface Template extends Base {
+  code: string
+  name: string
+  date: string
+  path: string
+}
+
 export interface Settings extends Base {
   identifier: string
   token: string
@@ -254,6 +261,17 @@ const OnlineSchema: JSONSchemaType<Online> = {
     public: { type: 'boolean', nullable: true }
   },
   required: []
+}
+
+export const TemplateSchema: JSONSchemaType<Template> = {
+  type: 'object',
+  properties: {
+    code: { type: 'string' },
+    name: { type: 'string' },
+    date: { type: 'string' },
+    path: { type: 'string' }
+  },
+  required: ['name', 'path', 'date', 'code']
 }
 
 export const SettingsSchema: JSONSchemaType<Settings> = {
