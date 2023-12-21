@@ -2,7 +2,13 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { PlusIcon } from '@heroicons/react/24/solid'
-import { PencilIcon } from '@heroicons/react/20/solid'
+import {
+  DevicePhoneMobileIcon,
+  DocumentArrowDownIcon,
+  EllipsisHorizontalIcon,
+  PencilIcon,
+  TrashIcon
+} from '@heroicons/react/20/solid'
 import { formatPhoneNumber } from 'react-phone-number-input'
 import { PublisherModel, ServiceGroupModel } from 'src/types/models'
 import ROUTES from '../../constants/routes.json'
@@ -36,6 +42,12 @@ export default function Publishers(): JSX.Element {
   const editPublisher = (id: string | undefined): void => {
     if (id) {
       navigate(`${ROUTES.PUBLISHERS}/${id}/edit`)
+    }
+  }
+
+  const exportS21 = (id: string | undefined): void => {
+    if (id) {
+      window.electron.ipcRenderer.send('export-s21', id)
     }
   }
 
@@ -96,15 +108,63 @@ export default function Publishers(): JSX.Element {
                   </td>
                   <td>
                     <div className="flex justify-end space-x-4">
-                      <div className="tooltip tooltip-left" data-tip={t('tooltip.editPublisher')}>
-                        <button
+                      <div className="dropdown dropdown-left">
+                        <div
+                          tabIndex={0}
+                          role="button"
                           className="btn btn-circle btn-outline btn-xs"
-                          onClick={(): void => {
-                            editPublisher(publisher._id)
-                          }}
                         >
-                          <PencilIcon className="h-4 w-4" />
-                        </button>
+                          <EllipsisHorizontalIcon className="h-4 w-4" />
+                        </div>
+                        <ul
+                          tabIndex={0}
+                          className="menu menu-sm dropdown-content rounded-box w-52 z-10 border border-gray-900/10 dark:border-slate-400/50 shadow-xl dark:bg-slate-800 bg-gray-50"
+                        >
+                          <li className="m-0 py-1">
+                            <a
+                              className="no-underline pl-0"
+                              onClick={(): void => {
+                                editPublisher(publisher._id)
+                              }}
+                            >
+                              <PencilIcon className="h-5 w-5 ml-2" />
+                              {t('menu.edit')}
+                            </a>
+                          </li>
+                          <li className="m-0 py-1">
+                            <a
+                              className="no-underline pl-0"
+                              onClick={(): void => {
+                                exportS21(publisher._id)
+                              }}
+                            >
+                              <DocumentArrowDownIcon className="h-5 w-5 ml-2" />
+                              {t('menu.s21')}
+                            </a>
+                          </li>
+                          <li className="m-0 py-1">
+                            <a
+                              className="no-underline pl-0"
+                              onClick={(): void => {
+                                console.log('send contact')
+                              }}
+                            >
+                              <DevicePhoneMobileIcon className="h-5 w-5 ml-2" />
+                              {t('menu.sendContact')}
+                            </a>
+                          </li>
+                          <li className="m-0 py-1">
+                            <a
+                              className="no-underline pl-0"
+                              onClick={(): void => {
+                                console.log('export s21')
+                              }}
+                            >
+                              <TrashIcon className="h-5 w-5 ml-2" />
+                              {t('menu.delete')}
+                            </a>
+                          </li>
+                        </ul>
                       </div>
                     </div>
                   </td>

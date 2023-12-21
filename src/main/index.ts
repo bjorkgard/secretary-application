@@ -25,18 +25,21 @@ import ExportService from './services/exportService'
 import TaskService from './services/taskService'
 import CircuitOverseerService from './services/circuitOverseerService'
 import AuxiliaryService from './services/auxiliaryService'
+import TemplateService from './services/templateService'
 import migrateDatabase from './migrateDatabase'
 import {
   importJson,
   getPublishersStats,
   exportAddressList,
+  exportPublisherS21,
   getCommonExports,
   startReporting,
   generateXLSXReportForms,
   importServiceReports,
   updateSettings,
   getReportUpdates,
-  closeReporting
+  closeReporting,
+  importTemplate
 } from './functions'
 
 const isDebug = process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true'
@@ -219,6 +222,7 @@ const serviceMonthService = new ServiceMonthService()
 const settingsService = new SettingsService()
 const taskService = new TaskService()
 const auxiliaryService = new AuxiliaryService()
+const templateService = new TemplateService()
 
 ipcMain.on('import', () => {
   if (!mainWindow) return
@@ -536,4 +540,22 @@ ipcMain.handle('import-service-reports', async () => {
   if (!mainWindow) return
 
   importServiceReports(mainWindow, serviceMonthService)
+})
+
+ipcMain.on('export-s21', async (_, publisherId) => {
+  if (!mainWindow) return
+
+  exportPublisherS21(mainWindow, publisherId)
+})
+
+ipcMain.handle('get-templates', async () => {
+  const templates = await templateService.find()
+
+  return templates
+})
+
+ipcMain.handle('import-template', async (_, args) => {
+  if (!mainWindow) return
+
+  importTemplate(mainWindow, templateService, args)
 })
