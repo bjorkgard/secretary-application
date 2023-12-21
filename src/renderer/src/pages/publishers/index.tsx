@@ -12,6 +12,7 @@ import {
 import { formatPhoneNumber } from 'react-phone-number-input'
 import { PublisherModel, ServiceGroupModel } from 'src/types/models'
 import ROUTES from '../../constants/routes.json'
+import { isTemplateCorrect } from '@renderer/utils/isTemplateCorrect'
 
 export default function Publishers(): JSX.Element {
   const { t } = useTranslation()
@@ -19,6 +20,7 @@ export default function Publishers(): JSX.Element {
 
   const [publishers, setPublishers] = useState<PublisherModel[]>([])
   const [serviceGroups, setServiceGroups] = useState<ServiceGroupModel[]>([])
+  const [hasS21, setHasS21] = useState<boolean>(false)
 
   const getPublishers = (sortField = 'lastname', queryString = ''): void => {
     window.electron.ipcRenderer
@@ -37,6 +39,10 @@ export default function Publishers(): JSX.Element {
   useEffect(() => {
     getServiceGroups()
     getPublishers()
+    isTemplateCorrect('S-21').then((result) => {
+      console.log('result', result)
+      setHasS21(result)
+    })
   }, [])
 
   const editPublisher = (id: string | undefined): void => {
@@ -120,49 +126,53 @@ export default function Publishers(): JSX.Element {
                           tabIndex={0}
                           className="menu menu-sm dropdown-content rounded-box w-52 z-10 border border-gray-900/10 dark:border-slate-400/50 shadow-xl dark:bg-slate-800 bg-gray-50"
                         >
+                          <li className="m-0 py-1 menu-title">
+                            {publisher.firstname} {publisher.lastname}
+                          </li>
                           <li className="m-0 py-1">
-                            <a
-                              className="no-underline pl-0"
+                            <button
+                              className="pl-0"
                               onClick={(): void => {
                                 editPublisher(publisher._id)
                               }}
                             >
                               <PencilIcon className="h-5 w-5 ml-2" />
                               {t('menu.edit')}
-                            </a>
+                            </button>
                           </li>
                           <li className="m-0 py-1">
-                            <a
-                              className="no-underline pl-0"
+                            <button
+                              className="pl-0 disabled:opacity-50 disabled:cursor-not-allowed"
                               onClick={(): void => {
                                 exportS21(publisher._id)
                               }}
+                              disabled={!hasS21}
                             >
                               <DocumentArrowDownIcon className="h-5 w-5 ml-2" />
-                              {t('menu.s21')}
-                            </a>
+                              {t('menu.s21')} {hasS21.toString()}
+                            </button>
                           </li>
-                          <li className="m-0 py-1">
-                            <a
-                              className="no-underline pl-0"
+                          <li className="m-0 py-1 hidden">
+                            <button
+                              className="pl-0"
                               onClick={(): void => {
                                 console.log('send contact')
                               }}
                             >
                               <DevicePhoneMobileIcon className="h-5 w-5 ml-2" />
                               {t('menu.sendContact')}
-                            </a>
+                            </button>
                           </li>
-                          <li className="m-0 py-1">
-                            <a
-                              className="no-underline pl-0"
+                          <li className="m-0 py-1 hidden">
+                            <button
+                              className="pl-0"
                               onClick={(): void => {
                                 console.log('export s21')
                               }}
                             >
                               <TrashIcon className="h-5 w-5 ml-2" />
                               {t('menu.delete')}
-                            </a>
+                            </button>
                           </li>
                         </ul>
                       </div>
