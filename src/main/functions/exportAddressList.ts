@@ -58,7 +58,8 @@ const getPublisherRows = (
     }
 
     if (publisher.children.length) {
-      other += `${i18n.t('label.children')}: `
+      //other += `${i18n.t('label.children')}: `
+      other += ''
       publisher.children.map((child, index) => {
         other += (index > 0 ? ', ' : '') + child.name
       })
@@ -199,6 +200,11 @@ const generate_PDF = async (
       )
     },
     margin: { top: 10, left: 6, right: 6, bottom: 15 },
+    columnStyles: {
+      2: { cellWidth: 46 },
+      3: { overflow: 'linebreak', cellWidth: 'auto' },
+      4: { overflow: 'linebreak', cellWidth: 'auto' }
+    },
     styles: {
       cellPadding: 1,
       fontSize: 8,
