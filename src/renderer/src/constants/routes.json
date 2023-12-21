@@ -18,5 +18,6 @@
   "SETUP": "/registration",
   "TASK_FORM": "/tasks/add",
   "TASKS": "/tasks",
-  "CIRCUIT_OVERSEER": "/circuitOverseer"
+  "CIRCUIT_OVERSEER": "/circuitOverseer",
+  "TEMPLATES": "/templates"
 }

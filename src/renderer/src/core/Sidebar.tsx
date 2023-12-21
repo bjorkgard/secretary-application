@@ -2,7 +2,7 @@ import { Disclosure } from '@headlessui/react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { BriefcaseIcon, Cog6ToothIcon, HomeIcon, UsersIcon } from '@heroicons/react/24/outline'
-import { ChevronRightIcon } from '@heroicons/react/20/solid'
+import { ChevronRightIcon, DocumentTextIcon } from '@heroicons/react/20/solid'
 import ROUTES from '../constants/routes.json'
 import classNames from '../utils/classNames'
 import {
@@ -35,7 +35,8 @@ const administration = [
   { name: 'menu.serviceGroups', route: ROUTES.SERVICE_GROUPS, icon: UserGroupIcon },
   { name: 'menu.circuitOverseer', route: ROUTES.CIRCUIT_OVERSEER, icon: UserIcon },
   { name: 'menu.responsibilities', route: ROUTES.RESPONSIBILITIES, icon: IdentificationIcon },
-  { name: 'menu.tasks', route: ROUTES.TASKS, icon: RectangleStackIcon }
+  { name: 'menu.tasks', route: ROUTES.TASKS, icon: RectangleStackIcon },
+  { name: 'menu.templates', route: ROUTES.TEMPLATES, icon: DocumentTextIcon }
 ]
 
 export function SidebarSmall(): JSX.Element {

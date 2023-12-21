@@ -31,6 +31,7 @@ const ReportsForm = lazy(() => import('../pages/reports/form'))
 const ReportsMeetings = lazy(() => import('../pages/reports/meetings'))
 const ReportsCompletion = lazy(() => import('../pages/reports/completion'))
 const CircuitOverseer = lazy(() => import('../pages/circuitOverseer'))
+const Templates = lazy(() => import('../pages/templates'))
 
 const UMAMI_CONFIG = {
   apiUrl: 'https://stats.jwapp.info/',
@@ -69,6 +70,7 @@ const router = createMemoryRouter(
         <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
 
         <Route path={ROUTES.CIRCUIT_OVERSEER} element={<CircuitOverseer />} />
+        <Route path={ROUTES.TEMPLATES} element={<Templates />} />
 
         <Route path={ROUTES.PUBLISHERS}>
           <Route index element={<Publishers />} />

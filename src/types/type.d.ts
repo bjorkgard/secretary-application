@@ -77,6 +77,12 @@ export interface TaskService extends BaseService<TaskModel> {
   remove(data: TaskModel): Promise<number>
 }
 
+export interface TemplateService extends BaseService<TemplateModel> {
+  find(): Promise<TemplateModel[]>
+  findByCode(code: string): Promise<TemplateModel>
+  upsert(data: TemplateModel): Promise<number>
+}
+
 export interface AuxiliaryService extends BaseService<AuxiliaryModel> {
   find(): Promise<AuxiliaryModel[]>
   findByServiceMonth(serviceMonth: string): Promise<AuxiliaryModel | null>

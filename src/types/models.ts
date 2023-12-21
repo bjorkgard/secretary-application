@@ -200,3 +200,10 @@ export interface CircuitOverseerModel extends Base {
   zip: string
   city: string
 }
+
+export interface TemplateModel extends Base {
+  code: string
+  name: string
+  date: string
+  path: string
+}
