@@ -390,6 +390,7 @@
   "templates.someMissing": "En eller flera blanketter måste laddas upp!",
   "templates.title": "Importera blankett",
   "templates.uploadedAt": "Uppladdad",
+  "templates.warning": "Det saknas blanketter eller så är de felaktiga. Kontrollera att du har laddat upp rätt blanketter under Administration/Blanketter.",
   "Tjänster": "Tjänster",
   "tooltip.addPublisher": "Lägg till förkunnare",
   "tooltip.addResponsibility": "Lägg till ansvarsområde",
