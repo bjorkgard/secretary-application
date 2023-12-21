@@ -554,6 +554,12 @@ ipcMain.handle('get-templates', async () => {
   return templates
 })
 
+ipcMain.handle('get-template', async (_, props) => {
+  const template = await templateService.findByCode(props.code)
+
+  return template
+})
+
 ipcMain.handle('import-template', async (_, args) => {
   if (!mainWindow) return
 

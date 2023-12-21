@@ -4,6 +4,7 @@ out
 *.log*
 
 db
+templates
 
 .env
 .env.production
