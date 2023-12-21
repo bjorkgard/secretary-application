@@ -10,6 +10,7 @@ import { Report, Stats } from '../databases/schemas'
 import i18n from '../../localization/i18next.config'
 import exportReportSummary from './exportReportSummary'
 import { BrowserWindow } from 'electron'
+import clearAuxiliaryTable from './clearAuxiliaryTable'
 
 const cleanUpReport = (report: Report): Report => {
   delete report.publisherId
@@ -133,6 +134,9 @@ const closeReporting = async (
   }
 
   const publishers = await publisherService.find('lastname')
+
+  // clear auxiliary table
+  clearAuxiliaryTable(serviceMonth.serviceMonth)
 
   // Calculate stats
   const stats: Stats = {
