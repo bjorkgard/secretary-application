@@ -51,7 +51,7 @@ export function usePublisherState(): {
       state.set(initialState)
     },
     get publisher(): PublisherModel {
-      return state.get()
+      return JSON.parse(JSON.stringify(state.get()))
     }
   }
 }

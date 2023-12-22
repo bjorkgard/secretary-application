@@ -186,7 +186,6 @@ export default function PublisherContactForm(): JSX.Element {
                   errors.familyId ? 'select-error' : '',
                   'select select-bordered w-full'
                 )}
-                placeholder={t('label.selectFamily')}
                 {...register('familyId', {
                   required: {
                     value: !watchContact,

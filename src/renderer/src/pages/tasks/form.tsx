@@ -98,7 +98,6 @@ export default function TaskForm(): JSX.Element {
                   errors.responsibilityId ? 'select-error' : '',
                   'select select-bordered w-full'
                 )}
-                placeholder={t('label.responsibility')}
                 {...register('responsibilityId', {
                   required: t('errors.responsibleId.required')
                 })}

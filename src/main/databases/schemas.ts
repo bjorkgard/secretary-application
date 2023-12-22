@@ -266,10 +266,13 @@ const OnlineSchema: JSONSchemaType<Online> = {
 export const TemplateSchema: JSONSchemaType<Template> = {
   type: 'object',
   properties: {
+    _id: { type: 'string', nullable: true },
     code: { type: 'string' },
     name: { type: 'string' },
     date: { type: 'string' },
-    path: { type: 'string' }
+    path: { type: 'string' },
+    createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
+    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
   },
   required: ['name', 'path', 'date', 'code']
 }
