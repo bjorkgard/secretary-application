@@ -1,5 +1,6 @@
 import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { updateElectronApp } from 'update-electron-app'
 import windowStateKeeper from 'electron-window-state'
 import log from 'electron-log'
 import os from 'os'
@@ -565,3 +566,5 @@ ipcMain.handle('import-template', async (_, args) => {
 
   importTemplate(mainWindow, templateService, args)
 })
+
+updateElectronApp()
