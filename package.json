@@ -23,7 +23,7 @@
     "@electron-toolkit/preload": "^2.0.0",
     "@electron-toolkit/utils": "^2.0.0",
     "@headlessui/react": "^1.7.17",
-    "@heroicons/react": "^2.0.18",
+    "@heroicons/react": "^2.1.1",
     "@hookstate/core": "^4.0.1",
     "ajv": "^8.12.0",
     "ajv-formats": "^2.1.1",
