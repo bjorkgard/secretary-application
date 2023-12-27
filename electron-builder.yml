@@ -1,43 +1,92 @@
-appId: com.electron.app
-productName: secretary-application
-directories:
-  buildResources: build
-files:
-  - '!**/.vscode/*'
-  - '!src/*'
-  - '!electron.vite.config.{js,ts,mjs,cjs}'
-  - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
-  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
-  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+productName: Secretary
+artifactName: "Secretary-${version}.${ext}"
+appId: se.bjorkgard.secretary
+
+# Package electron code into a asar archive. Set to false to debug issues.
+asar: true
 asarUnpack:
   - resources/**
+
+extraResources:
+  - ".env.production"
+  - from: "./src/localization/locales"
+    to: "locales"
+    filter:
+      - "**/*"
+
+# TODO: This line must be activated when publishing an application
+#afterSign: ./build/notarize.js
+
+directories:
+  buildResources: build
+
+files:
+  - "!**/.vscode/*"
+  - "!src/*"
+  - "!electron.vite.config.{js,ts,mjs,cjs}"
+  - "!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}"
+  - "!{.env,.env.*,.npmrc,pnpm-lock.yaml}"
+  - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
+
+includeSubNodeModules: true
+
 win:
-  executableName: secretary-application
+  icon: "build/icons/win/icon.ico"
+  target:
+    - "zip"
+    - "nsis"
+
 nsis:
+  oneClick: true
+  perMachine: true
+  installerIcon: "build/icons/win/icon.ico"
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+
 mac:
+  gatekeeperAssess: false
+  hardenedRuntime: true
+  entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
+  icon: "build/icons/mac/icon.icns"
+  mergeASARs: false
+  target:
+    - target: dmg
+      arch:
+        - universal
+    - target: zip
   extendInfo:
-    - NSCameraUsageDescription: Application requests access to the device's camera.
-    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
     - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
     - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
   notarize: false
+
+# Config for OSX dmg
 dmg:
-  artifactName: ${name}-${version}.${ext}
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: "link"
+      path: "/Applications"
+
 linux:
-  target:
-    - AppImage
-    - snap
-    - deb
-  maintainer: electronjs.org
   category: Utility
+  icon: "build/icons/png/512x512.png"
+  target:
+    - target: AppImage
+      arch:
+        - x64
+    - target: deb
+
 appImage:
   artifactName: ${name}-${version}.${ext}
+
 npmRebuild: false
+
 publish:
-  provider: generic
-  url: https://example.com/auto-updates
+  provider: github
+  repo: secretary-application
+  owner: bjorkgard
