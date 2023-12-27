@@ -8,7 +8,7 @@ import i18n from '../../localization/i18next.config'
 import adjustColumnWidth from '../utils/adjustColumnWidth'
 import JSZip from 'jszip'
 
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isDevelopment = import.meta.env.MAIN_VITE_NODE_ENV !== 'production'
 
 /**
  * Represents a service group with its associated reports.
@@ -90,8 +90,8 @@ const generateFile = async (
           hasBeenInService: report.hasBeenInService
             ? i18n.t('label.yes')
             : report.hasNotBeenInService
-            ? i18n.t('label.no')
-            : i18n.t('label.noReport'),
+              ? i18n.t('label.no')
+              : i18n.t('label.noReport'),
           studies: report.studies,
           auxiliary: report.auxiliary ? i18n.t('label.yes') : i18n.t('label.no'),
           hours: report.hours,
@@ -112,8 +112,8 @@ const generateFile = async (
         hasBeenInService: report.hasBeenInService
           ? i18n.t('label.yes')
           : report.hasNotBeenInService
-          ? i18n.t('label.no')
-          : i18n.t('label.noReport'),
+            ? i18n.t('label.no')
+            : i18n.t('label.noReport'),
         studies: report.studies,
         auxiliary: report.auxiliary ? i18n.t('label.yes') : i18n.t('label.no'),
         hours: report.hours,

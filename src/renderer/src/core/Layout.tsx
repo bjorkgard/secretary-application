@@ -29,7 +29,7 @@ export default function Layout(): JSX.Element {
     <div
       className={classNames(
         'h-full w-full bg-white scrollbar-hide dark:bg-slate-900',
-        process.env.NODE_ENV !== 'production' ? 'debug-screens' : ''
+        import.meta.env.RENDERER_VITE_NODE_ENV !== 'production' ? 'debug-screens' : ''
       )}
     >
       <Transition.Root show={sidebarOpen} as={Fragment}>

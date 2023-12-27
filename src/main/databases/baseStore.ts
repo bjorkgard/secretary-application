@@ -14,8 +14,9 @@ import {
   ServiceYear,
   Template
 } from './schemas'
+//import log from 'electron-log'
 
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isDevelopment = import.meta.env.MAIN_VITE_NODE_ENV !== 'production'
 
 export default class BaseStore<
   T extends
@@ -37,6 +38,7 @@ export default class BaseStore<
   constructor(fileName: string, schema: JSONSchemaType<T>, index = '', autocompaction = false) {
     const userDataPath = isDevelopment ? './db' : app.getPath('userData') + '/db'
     this.filePath = `${userDataPath}/${fileName}`
+
     this.databaseInstance = Datastore.create({
       filename: this.filePath,
       timestampData: true,
