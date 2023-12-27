@@ -16,9 +16,9 @@ export default class MenuBuilder {
   }
 
   buildMenu(i18n: typeof i18next): Menu {
-    if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-      this.setupDevelopmentEnvironment()
-    }
+    //if (import.meta.env.MAIN_VITE_NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
+    this.setupDevelopmentEnvironment()
+    //}
 
     const template =
       process.platform === 'darwin'
@@ -27,7 +27,7 @@ export default class MenuBuilder {
 
     const menu = Menu.buildFromTemplate(template as MenuItemConstructorOptions[])
     Menu.setApplicationMenu(menu)
-
+    //log.info('menu', menu)
     return menu
   }
 
@@ -260,7 +260,7 @@ export default class MenuBuilder {
     }
 
     const subMenuView =
-      process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true'
+      import.meta.env.MAIN_VITE_NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true'
         ? subMenuViewDev
         : subMenuViewProd
 
@@ -293,7 +293,7 @@ export default class MenuBuilder {
       {
         label: i18n.t('&Visa'),
         submenu:
-          process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true'
+          import.meta.env.MAIN_VITE_NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true'
             ? [
                 {
                   label: i18n.t('&Ladda om'),
