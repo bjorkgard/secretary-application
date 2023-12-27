@@ -13,6 +13,7 @@ import getServiceYear from '../utils/getServiceYear'
 import getSortOrder from '../utils/getSortOrder'
 import closeReporting from './closeReporting'
 import { postServiceGroupReport } from './postServiceGroupReport'
+//import log from 'electron-log'
 
 const getMissingReports = async (
   date: Date,
@@ -160,6 +161,7 @@ const startReporting = async (
 
   if (serviceMonthReport._id) {
     const serviceYear = await serviceYearService.findOrCreate(getServiceYear(serviceMonthName))
+
     serviceYear.serviceMonths.push(serviceMonthReport._id)
     if (serviceYear._id) {
       serviceYearService.update(serviceYear._id, serviceYear)
