@@ -26,7 +26,21 @@ export default function Auxiliaries(): JSX.Element {
     window.electron.ipcRenderer
       .invoke('get-publishers', { sortField: 'lastname', queryString: '' })
       .then((result: PublisherModel[]) => {
-        setPublishers(result)
+        // filter out publishers that are not able to be auxiliary
+        const publishers = result.filter(
+          (p) =>
+            (p.status === 'ACTIVE' || p.status === 'IRREGULAR') &&
+            (p.baptised || p.unknown_baptised) &&
+            !p.appointments.some(
+              (a) =>
+                a.type === 'PIONEER' ||
+                a.type === 'AUXILIARY' ||
+                a.type === 'MISSIONARY' ||
+                a.type === 'SPECIALPIONEER' ||
+                a.type === 'CIRCUITOVERSEER'
+            )
+        )
+        setPublishers(publishers)
       })
   }, [])
 
