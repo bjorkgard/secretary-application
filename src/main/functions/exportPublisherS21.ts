@@ -16,7 +16,6 @@ export default async function exportPublisherS21(
   const publisherFullName = publisher.firstname + ' ' + publisher.lastname
   const name = `S-21_${publisherFullName}_${new Date().toLocaleDateString('sv')}.pdf`
   const mergedPdf = await PDFDocument.create()
-  log.info('publisher', publisher)
 
   const uniqueServiceYears = [...new Set(publisher.reports.map((obj) => obj.serviceYear))].sort()
 
