@@ -1,12 +1,18 @@
 import i18n from 'i18next'
 import i18nextBackend from 'i18next-fs-backend'
 import whitelist from './whitelist'
+import isDev from 'electron-is-dev'
+import path from 'path'
 
 const i18nextOptions = {
-  debug: false,
+  debug: true,
   backend: {
-    loadPath: './src/localization/locales/{{lng}}/{{ns}}.json',
-    addPath: './src/localization/locales/{{lng}}/{{ns}}.missing.json',
+    loadPath: isDev
+      ? './src/localization/locales/{{lng}}/{{ns}}.json'
+      : path.join(process.resourcesPath, 'locales', '{{lng}}/{{ns}}.json'),
+    addPath: isDev
+      ? './src/localization/locales/{{lng}}/{{ns}}.missing.json'
+      : path.join(process.resourcesPath, 'locales', '{{lng}}/{{ns}}.missing.json'),
     jsonIndent: 2
   },
   interpolation: {
@@ -14,6 +20,7 @@ const i18nextOptions = {
   },
   saveMissing: true,
   fallbackLng: 'sv',
+  lng: 'sv',
   whitelist: whitelist.languages
 }
 

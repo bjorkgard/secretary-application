@@ -149,7 +149,7 @@ export default function Publishers(): JSX.Element {
                               disabled={!hasS21}
                             >
                               <DocumentArrowDownIcon className="h-5 w-5 ml-2" />
-                              {t('menu.s21')} {hasS21.toString()}
+                              {t('menu.s21')}
                             </button>
                           </li>
                           <li className="m-0 py-1 hidden">

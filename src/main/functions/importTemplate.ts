@@ -4,7 +4,7 @@ import log from 'electron-log'
 import i18n from '../../localization/i18next.config'
 import { TemplateService } from '../../types/type'
 
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isDevelopment = import.meta.env.MAIN_VITE_NODE_ENV !== 'production'
 
 export default function importTemplate(
   mainWindow: BrowserWindow,
@@ -19,6 +19,11 @@ export default function importTemplate(
   }
 
   const userTemplatePath = isDevelopment ? './templates' : app.getPath('userData') + '/templates'
+  try {
+    fs.mkdirSync(userTemplatePath, { recursive: true })
+  } catch (e) {
+    log.error('Cannot create folder ', e)
+  }
 
   dialog.showOpenDialog(mainWindow, options).then((result) => {
     if (!result.canceled) {

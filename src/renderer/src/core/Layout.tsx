@@ -26,7 +26,12 @@ export default function Layout(): JSX.Element {
   }, [settingsState.online])
 
   return (
-    <div className="h-full w-full bg-white scrollbar-hide dark:bg-slate-900">
+    <div
+      className={classNames(
+        'h-full w-full bg-white scrollbar-hide dark:bg-slate-900',
+        import.meta.env.RENDERER_VITE_NODE_ENV !== 'production' ? 'debug-screens' : ''
+      )}
+    >
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
           <Transition.Child

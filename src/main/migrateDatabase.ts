@@ -1,6 +1,7 @@
 import { ResponsibilityModel, TaskModel } from '../types/models'
 import ResponsibilityService from './services/responsibilityService'
 import TaskService from './services/taskService'
+//import log from 'electron-log'
 
 const responsibiltyService = new ResponsibilityService()
 const taskService = new TaskService()

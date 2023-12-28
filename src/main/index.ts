@@ -1,5 +1,6 @@
 import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { updateElectronApp } from 'update-electron-app'
 import windowStateKeeper from 'electron-window-state'
 import log from 'electron-log'
 import os from 'os'
@@ -42,7 +43,8 @@ import {
   importTemplate
 } from './functions'
 
-const isDebug = process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true'
+const isDebug =
+  import.meta.env.MAIN_VITE_NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true'
 
 let mainWindow: BrowserWindow | null = null
 let menuBuilder: MenuBuilder | null = null
@@ -70,8 +72,8 @@ async function createWindow(): Promise<void> {
   }
 
   const mainWindowState = windowStateKeeper({
-    defaultWidth: 1024,
-    defaultHeight: 728
+    defaultWidth: 1200,
+    defaultHeight: 1024
   })
 
   // Create the browser window.
@@ -100,7 +102,6 @@ async function createWindow(): Promise<void> {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined')
     }
-
     migrateDatabase()
 
     mainWindow.show()
@@ -134,7 +135,8 @@ async function createWindow(): Promise<void> {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
+  //electronApp.setAppUserModelId('com.electron')
+  electronApp.setAppUserModelId('se.bjorkgard.secretary')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -156,6 +158,7 @@ app.on('ready', () => {
   getReportUpdates(mainWindow)
 
   setInterval(() => {
+    log.info('getReportUpdates')
     getReportUpdates(mainWindow)
   }, 600000) // every 10 minute
 })
@@ -565,3 +568,5 @@ ipcMain.handle('import-template', async (_, args) => {
 
   importTemplate(mainWindow, templateService, args)
 })
+
+updateElectronApp()

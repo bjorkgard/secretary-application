@@ -66,7 +66,11 @@ export default class AuxiliaryService implements IAuxiliaryService {
   async findByServiceMonth(serviceMonth: string): Promise<AuxiliaryModel | null> {
     const auxiliary = (await auxiliaryStore.findByServiceMonth(serviceMonth)) as Auxiliary
 
-    return parseAuxiliary(auxiliary)
+    if (auxiliary) {
+      return parseAuxiliary(auxiliary)
+    } else {
+      return null
+    }
   }
 
   async find(): Promise<AuxiliaryModel[]> {

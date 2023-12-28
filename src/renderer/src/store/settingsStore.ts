@@ -9,7 +9,7 @@ const settingsState = hookstate<SettingsModel>({
     number: '',
     country: '',
     locale: '',
-    languageGroups: []
+    languageGroups: [{ name: '' }]
   },
   user: { firstname: '', lastname: '', email: '' },
   online: {
@@ -40,7 +40,7 @@ export function useSettingsState(): {
       state.set(settings)
     },
     get congregation(): CongregationModel {
-      return state.congregation.get()
+      return JSON.parse(JSON.stringify(state.congregation.get()))
     },
     get user(): UserModel {
       return state.user.get()
@@ -49,7 +49,7 @@ export function useSettingsState(): {
       return state.online.get()
     },
     get complete(): SettingsModel {
-      return state.get()
+      return JSON.parse(JSON.stringify(state.get()))
     }
   }
 }

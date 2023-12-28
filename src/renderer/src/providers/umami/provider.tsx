@@ -35,7 +35,7 @@ export default function UmamiProvider({
       return {
         screen: `SSR`,
         language: '',
-        hostname: '',
+        hostname: 'localhost',
         pathname: '',
         search: '',
         title: ''
@@ -68,7 +68,7 @@ export default function UmamiProvider({
     const { hostname, language, screen, title } = windowInfo
     return {
       website: websiteId,
-      hostname,
+      hostname: hostname ? hostname : 'localhost',
       language,
       screen,
       url: getCurrentUrl(),
