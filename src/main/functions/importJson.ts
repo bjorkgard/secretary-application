@@ -193,7 +193,11 @@ const parsePublisher = (publisher: any, serviceGroupId = '', familyId = ''): Pub
     responsibilities: [],
     tasks: [],
     appointments: getAppointments(publisher.appointments),
-    emergencyContact: { name: '', email: '', phone: '' },
+    emergencyContact: {
+      name: publisher.contact_person?.name ? publisher.contact_person.name : '',
+      email: publisher.contact_person?.email ? publisher.contact_person.email : '',
+      phone: publisher.contact_person?.phone ? publisher.contact_person.phone : ''
+    },
     other: publisher.information,
     status: getStatus(publisher.status),
     deaf: publisher.deaf,
