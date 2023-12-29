@@ -13,6 +13,10 @@ extraResources:
     to: "locales"
     filter:
       - "**/*"
+  - from: "./resources/fonts"
+    to: "fonts"
+    filter:
+      - "**/*"
 
 # TODO: This line must be activated when publishing an application
 #afterSign: ./build/notarize.js

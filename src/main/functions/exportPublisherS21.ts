@@ -19,17 +19,36 @@ export default async function exportPublisherS21(
 
   const uniqueServiceYears = [...new Set(publisher.reports.map((obj) => obj.serviceYear))].sort()
 
-  for await (const serviceYear of uniqueServiceYears) {
-    await generatePublisherS21(publisher, serviceYear).then(async (pdfBytes) => {
-      let yearPage = await PDFDocument.load(pdfBytes)
-      const copiedPages = await mergedPdf.copyPages(yearPage, yearPage.getPageIndices())
-      copiedPages.forEach((page) => mergedPdf.addPage(page))
-    })
+  try {
+    for await (const serviceYear of uniqueServiceYears) {
+      await generatePublisherS21(publisher, serviceYear).then(async (pdfBytes) => {
+        let yearPage = await PDFDocument.load(pdfBytes)
+        const copiedPages = await mergedPdf.copyPages(yearPage, yearPage.getPageIndices())
+        copiedPages.forEach((page) => mergedPdf.addPage(page))
+      })
+    }
+
+    const mergedPdfBytes = await mergedPdf.save()
+
+    savePdfFile(mainWindow, mergedPdfBytes, name)
+  } catch (err) {
+    log.error(err)
+
+    mainWindow?.webContents.send('show-spinner', { status: false })
+
+    const responseErrorOptions = {
+      type: 'error' as const,
+      buttons: ['OK'],
+      defaultId: 0,
+      title: i18n.t('error.export'),
+      message: i18n.t('error.export'),
+      detail: i18n.t('error.exportError', { error: err })
+    }
+
+    if (mainWindow) {
+      dialog.showMessageBox(mainWindow, responseErrorOptions)
+    }
   }
-
-  const mergedPdfBytes = await mergedPdf.save()
-
-  savePdfFile(mainWindow, mergedPdfBytes, name)
 }
 
 function savePdfFile(mainWindow: BrowserWindow, data: Uint8Array, name: string) {
@@ -51,4 +70,6 @@ function savePdfFile(mainWindow: BrowserWindow, data: Uint8Array, name: string) 
     .catch((err) => {
       log.error(err)
     })
+
+  mainWindow?.webContents.send('show-spinner', { status: false })
 }

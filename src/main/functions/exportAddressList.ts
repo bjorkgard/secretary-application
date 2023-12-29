@@ -104,7 +104,9 @@ const saveXlsxFile = (mainWindow: BrowserWindow, name: string, workbook: Excel.W
     })
     .catch((err) => {
       log.error(err)
+      mainWindow?.webContents.send('show-spinner', { status: false })
     })
+  mainWindow?.webContents.send('show-spinner', { status: false })
 }
 
 const savePdfFile = (mainWindow: BrowserWindow, name: string, data: ArrayBuffer): void => {
@@ -125,7 +127,10 @@ const savePdfFile = (mainWindow: BrowserWindow, name: string, data: ArrayBuffer)
     })
     .catch((err) => {
       log.error(err)
+      mainWindow?.webContents.send('show-spinner', { status: false })
     })
+
+  mainWindow?.webContents.send('show-spinner', { status: false })
 }
 
 const generate_PDF = async (
@@ -317,6 +322,7 @@ const generate_XLSX = async (
     saveXlsxFile(mainWindow, `${name}.xlsx`, workbook)
   } catch (err) {
     log.error(err)
+    mainWindow?.webContents.send('show-spinner', { status: false })
   }
 }
 
