@@ -170,7 +170,7 @@ export default class MenuBuilder {
       label: i18n.t('mainMenu.export'),
       submenu: [
         {
-          label: i18n.t('mainMenu.publishers'),
+          label: i18n.t('mainMenu.addressList'),
           submenu: [
             {
               label: i18n.t('mainMenu.addressListAlphabetically'),
@@ -205,6 +205,41 @@ export default class MenuBuilder {
                   }
                 }
               ]
+            }
+          ]
+        },
+        {
+          label: i18n.t('mainMenu.registerCard'),
+          submenu: [
+            {
+              label: i18n.t('mainMenu.exportCompleteRegisterCard'),
+              click: (): void => {
+                ipcMain.emit('export-register-card', null, { type: 'complete' })
+              }
+            },
+            {
+              label: i18n.t('mainMenu.exportFullTimeRegisterCard'),
+              click: (): void => {
+                ipcMain.emit('export-register-card', null, { type: 'fullTime' })
+              }
+            },
+            {
+              label: i18n.t('mainMenu.exportPublisherRegisterCard'),
+              click: (): void => {
+                ipcMain.emit('export-register-card', null, { type: 'publishers' })
+              }
+            },
+            {
+              label: i18n.t('mainMenu.exportIrregularRegisterCard'),
+              click: (): void => {
+                ipcMain.emit('export-register-card', null, { type: 'irregular' })
+              }
+            },
+            {
+              label: i18n.t('mainMenu.exportInactiveRegisterCard'),
+              click: (): void => {
+                ipcMain.emit('export-register-card', null, { type: 'inactive' })
+              }
             }
           ]
         }
@@ -331,7 +366,7 @@ export default class MenuBuilder {
         label: i18n.t('mainMenu.export'),
         submenu: [
           {
-            label: i18n.t('mainMenu.publishers'),
+            label: i18n.t('mainMenu.addressList'),
             submenu: [
               {
                 label: i18n.t('mainMenu.addressListAlphabetically'),
@@ -345,11 +380,45 @@ export default class MenuBuilder {
                   {
                     label: i18n.t('mainMenu.xlsx'),
                     click: (): void => {
-                      console.log('here')
                       ipcMain.emit('export-addresslist-alphabetically-xlsx')
                     }
                   }
                 ]
+              }
+            ]
+          },
+          {
+            label: i18n.t('mainMenu.registerCard'),
+            submenu: [
+              {
+                label: i18n.t('mainMenu.exportCompleteRegisterCard'),
+                click: (): void => {
+                  ipcMain.emit('export-register-card', null, { type: 'complete' })
+                }
+              },
+              {
+                label: i18n.t('mainMenu.exportFullTimeRegisterCard'),
+                click: (): void => {
+                  ipcMain.emit('export-register-card', null, { type: 'fullTime' })
+                }
+              },
+              {
+                label: i18n.t('mainMenu.exportPublisherRegisterCard'),
+                click: (): void => {
+                  ipcMain.emit('export-register-card', null, { type: 'publishers' })
+                }
+              },
+              {
+                label: i18n.t('mainMenu.exportIrregularRegisterCard'),
+                click: (): void => {
+                  ipcMain.emit('export-register-card', null, { type: 'irregular' })
+                }
+              },
+              {
+                label: i18n.t('mainMenu.exportInactiveRegisterCard'),
+                click: (): void => {
+                  ipcMain.emit('export-register-card', null, { type: 'inactive' })
+                }
               }
             ]
           }

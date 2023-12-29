@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { updateElectronApp } from 'update-electron-app'
 import windowStateKeeper from 'electron-window-state'
+import prompt from 'electron-prompt'
 import log from 'electron-log'
 import os from 'os'
 import { join } from 'path'
@@ -40,7 +41,8 @@ import {
   updateSettings,
   getReportUpdates,
   closeReporting,
-  importTemplate
+  importTemplate,
+  exportPublishersS21
 } from './functions'
 
 const isDebug =
@@ -418,6 +420,7 @@ ipcMain.handle('common-exports', async () => {
 // EXPORTS
 ipcMain.on('export-addresslist-alphabetically-xlsx', async () => {
   if (!mainWindow) return
+  mainWindow?.webContents.send('show-spinner', { status: true })
 
   exportService.upsert('ADDRESSLIST_ALPHA', 'XLSX', 'export-addresslist-alphabetically-xlsx')
   exportAddressList(mainWindow, publisherService, 'NAME', 'XLSX')
@@ -425,6 +428,7 @@ ipcMain.on('export-addresslist-alphabetically-xlsx', async () => {
 
 ipcMain.on('export-addresslist-alphabetically-pdf', async () => {
   if (!mainWindow) return
+  mainWindow?.webContents.send('show-spinner', { status: true })
 
   exportService.upsert('ADDRESSLIST_ALPHA', 'PDF', 'export-addresslist-alphabetically-pdf')
   exportAddressList(mainWindow, publisherService, 'NAME', 'PDF')
@@ -432,6 +436,7 @@ ipcMain.on('export-addresslist-alphabetically-pdf', async () => {
 
 ipcMain.on('export-addresslist-group-xlsx', async () => {
   if (!mainWindow) return
+  mainWindow?.webContents.send('show-spinner', { status: true })
 
   exportService.upsert('ADDRESSLIST_GROUP', 'XLSX', 'export-addresslist-group-xlsx')
   exportAddressList(mainWindow, publisherService, 'GROUP', 'XLSX')
@@ -439,9 +444,46 @@ ipcMain.on('export-addresslist-group-xlsx', async () => {
 
 ipcMain.on('export-addresslist-group-pdf', async () => {
   if (!mainWindow) return
+  mainWindow?.webContents.send('show-spinner', { status: true })
 
   exportService.upsert('ADDRESSLIST_GROUP', 'PDF', 'export-addresslist-group-pdf')
   exportAddressList(mainWindow, publisherService, 'GROUP', 'PDF')
+})
+
+ipcMain.on('export-register-card', async (_event, args) => {
+  if (!mainWindow) return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  let sy: string[] = []
+
+  serviceYearService.find().then((serviceYears) => {
+    serviceYears.forEach((serviceYear) => {
+      sy.push(serviceYear.name.toString())
+    })
+  })
+
+  prompt({
+    title: i18n.t('dialog.selectServiceYear'),
+    label: i18n.t('dialog.selectServiceYearDescription'),
+    type: 'select',
+    selectOptions: sy,
+    alwaysOnTop: true,
+    buttonLabels: { cancel: i18n.t('label.cancel'), ok: i18n.t('label.ok') },
+    resizable: true
+  })
+    .then((r: number | null) => {
+      if (r !== null) {
+        if (mainWindow) {
+          exportPublishersS21(mainWindow, +sy[r], args.type)
+        }
+      } else {
+        mainWindow?.webContents.send('show-spinner', { status: false })
+      }
+    })
+    .catch((err: Error) => {
+      mainWindow?.webContents.send('show-spinner', { status: false })
+      log.error(err)
+    })
 })
 
 // REPORTS
@@ -547,6 +589,8 @@ ipcMain.handle('import-service-reports', async () => {
 
 ipcMain.on('export-s21', async (_, publisherId) => {
   if (!mainWindow) return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
 
   exportPublisherS21(mainWindow, publisherId)
 })

@@ -1,5 +1,8 @@
-import { PDFCheckBox, PDFDocument, PDFTextField } from 'pdf-lib'
+import { PDFCheckBox, PDFDocument, PDFFont, PDFTextField } from 'pdf-lib'
+import fontkit from '@pdf-lib/fontkit'
 import fs from 'fs-extra'
+import isDev from 'electron-is-dev'
+import path from 'path'
 import TemplateService from '../services/templateService'
 import { PublisherModel } from '../../types/models'
 
@@ -9,14 +12,38 @@ export default async function generatePublisherS21(
   publisher: PublisherModel,
   serviceYear: number
 ): Promise<Uint8Array> {
+  const fontBytes = await new Promise((resolve: (data: null | Buffer) => void) =>
+    fs.readFile(
+      isDev
+        ? './resources/fonts/NotoSans-Regular.ttf'
+        : path.join(process.resourcesPath, 'fonts', 'NotoSans-Regular.ttf'),
+      (err, data) => {
+        if (err) resolve(null)
+        else resolve(data)
+      }
+    )
+  )
+
   const template = await templatesService.findByCode('S-21')
   const publisherFullName = publisher.firstname + ' ' + publisher.lastname
+  let customFont: PDFFont
   let sumHours = 0
 
   if (template) {
     const originalPdfBytes = fs.readFileSync(template.path)
     const pdfDoc = await PDFDocument.load(originalPdfBytes)
+
+    if (fontBytes) {
+      pdfDoc.registerFontkit(fontkit)
+      await pdfDoc.embedFont(fontBytes)
+      customFont = await pdfDoc.embedFont(fontBytes)
+    }
+
     const form = pdfDoc.getForm()
+    const rawUpdateFieldAppearances = form.updateFieldAppearances.bind(form)
+    form.updateFieldAppearances = function () {
+      return rawUpdateFieldAppearances(customFont)
+    }
 
     // get form fields
     const nameField = form.getTextField('900_1_Text_SanSerif')
