@@ -462,6 +462,8 @@ ipcMain.on('export-register-card', async (_event, args) => {
     })
   })
 
+  sy.sort().reverse()
+
   prompt({
     title: i18n.t('dialog.selectServiceYear'),
     label: i18n.t('dialog.selectServiceYearDescription'),
