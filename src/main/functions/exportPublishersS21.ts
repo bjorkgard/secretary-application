@@ -119,7 +119,6 @@ export default async function exportPublishersS21(
       dialog.showMessageBox(mainWindow, responseErrorOptions)
     }
   }
-  1
 }
 
 function savePdfFile(mainWindow: BrowserWindow, data: Uint8Array, name: string) {
