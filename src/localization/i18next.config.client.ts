@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next'
 import Whitelist from './whitelist'
 
 const i18nextOptions = {
-  debug: true,
+  debug: false,
   interpolation: {
     escapeValue: false
   },
