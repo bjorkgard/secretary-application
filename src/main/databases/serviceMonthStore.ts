@@ -14,6 +14,10 @@ export default class ServiceMonthStore extends BaseStore<ServiceMonth> {
     return this.databaseInstance.findOne({ serviceMonth: serviceMonth })
   }
 
+  findByIds(ids: string[]): Promise<ServiceMonth[]> {
+    return this.databaseInstance.find({ _id: { $in: ids } }).sort({ sortOrder: 1 })
+  }
+
   delete(id: string): Promise<number> {
     // options set to {} since the default for multi is false
     return this.databaseInstance.remove({ _id: id }, {})

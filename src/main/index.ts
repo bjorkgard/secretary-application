@@ -42,7 +42,8 @@ import {
   getReportUpdates,
   closeReporting,
   importTemplate,
-  exportPublishersS21
+  exportPublishersS21,
+  exportS88
 } from './functions'
 
 const isDebug =
@@ -237,7 +238,8 @@ ipcMain.on('import', () => {
     publisherService,
     serviceMonthService,
     serviceYearService,
-    auxiliaryService
+    auxiliaryService,
+    settingsService
   )
 })
 
@@ -448,6 +450,29 @@ ipcMain.on('export-addresslist-group-pdf', async () => {
 
   exportService.upsert('ADDRESSLIST_GROUP', 'PDF', 'export-addresslist-group-pdf')
   exportAddressList(mainWindow, publisherService, 'GROUP', 'PDF')
+})
+
+ipcMain.on('export-meeting-attendance', async (_event, args) => {
+  if (!mainWindow) return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  log.info('exporting S-88', args)
+
+  let sy: number[] = []
+
+  await serviceYearService.find().then((serviceYears) => {
+    serviceYears.forEach((serviceYear) => {
+      sy.push(serviceYear.name)
+    })
+  })
+
+  if (args.type === 'latest') {
+    sy = sy.slice(0, 2)
+  }
+
+  sy.sort()
+
+  exportS88(mainWindow, sy)
 })
 
 ipcMain.on('export-register-card', async (_event, args) => {

@@ -9,6 +9,8 @@ export default async function confirmTemplete(code: string, path: string): Promi
   switch (code) {
     case 'S-21':
       return confirmS21(form)
+    case 'S-88':
+      return confirmS88(form)
 
     default:
       return false
@@ -19,4 +21,10 @@ const confirmS21 = async (form: PDFForm): Promise<boolean> => {
   const fields = form.getFields()
 
   return fields.length === 75
+}
+
+const confirmS88 = async (form: PDFForm): Promise<boolean> => {
+  const fields = form.getFields()
+
+  return fields.length === 152
 }
