@@ -585,6 +585,7 @@ ipcMain.handle('add-auxiliary', async (_, props) => {
 })
 
 ipcMain.handle('save-report', async (_, report) => {
+  const settings = await settingsService.find()
   let newReport = report
 
   if (report.studies && report.studies !== '') {
@@ -597,6 +598,20 @@ ipcMain.handle('save-report', async (_, report) => {
     newReport = { ...newReport, hours: parseInt(report.hours) }
   } else {
     newReport = { ...newReport, hours: undefined }
+  }
+
+  if (settings?.online.send_report_group || settings?.online.send_report_publisher) {
+    const options = {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization:
+          'Bearer ' + (await settingsService.token()) || import.meta.env.MAIN_VITE_TOKEN
+      },
+      body: JSON.stringify(newReport)
+    }
+    fetch(`${import.meta.env.MAIN_VITE_API}/reports/update`, options)
   }
 
   return serviceMonthService.saveReport(newReport)
