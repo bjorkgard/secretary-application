@@ -46,6 +46,7 @@ export default function importTemplate(
               detail: ''
             })
           } else {
+            log.error('Template not confirmed')
             return dialog.showMessageBox(mainWindow, {
               type: 'info' as const,
               buttons: ['OK'],

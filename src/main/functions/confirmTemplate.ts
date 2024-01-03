@@ -1,5 +1,6 @@
 import { PDFDocument, PDFForm } from 'pdf-lib'
 import fs from 'fs-extra'
+import log from 'electron-log'
 
 export default async function confirmTemplete(code: string, path: string): Promise<boolean> {
   const pdfBytes = fs.readFileSync(path)
@@ -24,7 +25,12 @@ const confirmS21 = async (form: PDFForm): Promise<boolean> => {
 }
 
 const confirmS88 = async (form: PDFForm): Promise<boolean> => {
-  const fields = form.getFields()
+  try {
+    const fields = form.getFields()
 
-  return fields.length === 152
+    return fields.length === 152
+  } catch (error) {
+    log.error(error)
+    return false
+  }
 }
