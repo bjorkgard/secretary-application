@@ -52,6 +52,7 @@ export interface ServiceMonthService extends BaseService<ServiceMonthModel> {
   find(): Promise<ServiceMonthModel[]>
   findActive(): Promise<ServiceMonthModel | null>
   findByServiceMonth(serviceMonth: string): Promise<ServiceMonthModel | null>
+  findByIds(ids: string[]): Promise<ServiceMonthModel[]>
   closeActive(): Promise<void>
   saveReport(report: Report): Promise<number | undefined>
   saveMeetings(props: {

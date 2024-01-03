@@ -5,7 +5,7 @@ import isDev from 'electron-is-dev'
 import path from 'path'
 
 const i18nextOptions = {
-  debug: true,
+  debug: false,
   backend: {
     loadPath: isDev
       ? './src/localization/locales/{{lng}}/{{ns}}.json'

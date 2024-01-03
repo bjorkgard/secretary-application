@@ -242,6 +242,23 @@ export default class MenuBuilder {
               }
             }
           ]
+        },
+        {
+          label: i18n.t('mainMenu.meetingAttendance'),
+          submenu: [
+            {
+              label: i18n.t('mainMenu.exportLatestMeetingAttendance'),
+              click: (): void => {
+                ipcMain.emit('export-meeting-attendance', null, { type: 'latest' })
+              }
+            },
+            {
+              label: i18n.t('mainMenu.exportCompleteMeetingAttendance'),
+              click: (): void => {
+                ipcMain.emit('export-meeting-attendance', null, { type: 'complete' })
+              }
+            }
+          ]
         }
       ]
     }

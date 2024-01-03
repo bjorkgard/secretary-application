@@ -77,6 +77,11 @@ const parseServiceMonth = (data: ServiceMonth): ServiceMonthModel => {
 }
 
 export default class ServiceMonthService implements IServiceMonthService {
+  async findByIds(ids: string[]): Promise<ServiceMonthModel[]> {
+    const serviceMonths = (await serviceMonthStore.findByIds(ids)) as ServiceMonth[]
+
+    return serviceMonths.map((serviceMonth) => parseServiceMonth(serviceMonth))
+  }
   async saveReport(newReport: Report): Promise<number | undefined> {
     await this.findByServiceMonth(newReport.serviceMonth).then(async (serviceMonth) => {
       if (serviceMonth && serviceMonth._id) {

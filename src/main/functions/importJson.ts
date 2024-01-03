@@ -7,6 +7,7 @@ import PublisherService from '../services/publisherService'
 import ServiceMonthService from '../services/serviceMonthService'
 import ServiceYearService from '../services/serviceYearService'
 import AuxiliaryService from '../services/auxiliaryService'
+import SettingsService from '../services/settingsService'
 import {
   Appointment,
   Child,
@@ -216,7 +217,8 @@ export default function ImportJson(
   publisherService: PublisherService,
   serviceMonthService: ServiceMonthService,
   serviceYearService: ServiceYearService,
-  auxiliaryService: AuxiliaryService
+  auxiliaryService: AuxiliaryService,
+  settingsService: SettingsService
 ): void {
   const options: Electron.OpenDialogOptions = {
     title: 'Importera från secretary.jwapp.info',
@@ -245,6 +247,20 @@ export default function ImportJson(
           serviceMonthService.drop()
           serviceYearService.drop()
           auxiliaryService.drop()
+
+          if (importData.languageGroup && importData.languageGroup !== '') {
+            await settingsService.find().then(async (settings) => {
+              if (settings?._id) {
+                settingsService.update(settings._id, {
+                  ...settings,
+                  congregation: {
+                    ...settings.congregation,
+                    languageGroups: [{ name: importData.languageGroup }]
+                  }
+                })
+              }
+            })
+          }
 
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           importData.groups.map(async (group: { name: string; publishers: any[] }) => {
@@ -283,12 +299,66 @@ export default function ImportJson(
                       const date = new Date(parseInt(name[0]), parseInt(name[1]) - 1, 1)
                       const serviceMonthName = `${name[0]}-${name[1] < 10 ? '0' : ''}${name[1]}`
 
-                      const midweekMeetings: number[] = new Array(serviceMonth.mid_no_meeting).fill(
-                        Math.round(serviceMonth.mid_sum / serviceMonth.mid_no_meeting)
-                      )
-                      const weekendMeetings: number[] = new Array(
-                        serviceMonth.week_no_meeting
-                      ).fill(Math.round(serviceMonth.week_sum / serviceMonth.week_no_meeting))
+                      let midweekMeetings: number[] = []
+                      let weekendMeetings: number[] = []
+                      let midweekMeetingsLang: number[] = []
+                      let weekendMeetingsLang: number[] = []
+                      let meetings: {
+                        identifier: string
+                        name?: string
+                        midweek: number[]
+                        weekend: number[]
+                      }[] = []
+
+                      if (importData.languageGroup && importData.languageGroup !== '') {
+                        midweekMeetings = new Array(serviceMonth.mid_no_meeting).fill(
+                          Math.round(
+                            (serviceMonth.mid_sum - serviceMonth.mid_sum_lg) /
+                              serviceMonth.mid_no_meeting
+                          )
+                        )
+                        weekendMeetings = new Array(serviceMonth.week_no_meeting).fill(
+                          Math.round(
+                            (serviceMonth.week_sum - serviceMonth.week_sum_lg) /
+                              serviceMonth.week_no_meeting
+                          )
+                        )
+                        midweekMeetingsLang = new Array(serviceMonth.mid_no_meeting_lg).fill(
+                          Math.round(serviceMonth.mid_sum_lg / serviceMonth.mid_no_meeting_lg)
+                        )
+                        weekendMeetingsLang = new Array(serviceMonth.week_no_meeting_lg).fill(
+                          Math.round(serviceMonth.week_sum_lg / serviceMonth.week_no_meeting_lg)
+                        )
+
+                        meetings = [
+                          {
+                            identifier: generateIdentifier(),
+                            midweek: midweekMeetings,
+                            weekend: weekendMeetings
+                          },
+                          {
+                            identifier: generateIdentifier(),
+                            name: importData.languageGroup,
+                            midweek: midweekMeetingsLang,
+                            weekend: weekendMeetingsLang
+                          }
+                        ]
+                      } else {
+                        midweekMeetings = new Array(serviceMonth.mid_no_meeting).fill(
+                          Math.round(serviceMonth.mid_sum / serviceMonth.mid_no_meeting)
+                        )
+                        weekendMeetings = new Array(serviceMonth.week_no_meeting).fill(
+                          Math.round(serviceMonth.week_sum / serviceMonth.week_no_meeting)
+                        )
+
+                        meetings = [
+                          {
+                            identifier: generateIdentifier(),
+                            midweek: midweekMeetings,
+                            weekend: weekendMeetings
+                          }
+                        ]
+                      }
 
                       const reports: Report[] = []
 
@@ -374,13 +444,7 @@ export default function ImportJson(
                         serviceMonth: serviceMonth.name,
                         sortOrder: serviceMonth.sort_order,
                         reports: reports,
-                        meetings: [
-                          {
-                            identifier: generateIdentifier(),
-                            midweek: midweekMeetings,
-                            weekend: weekendMeetings
-                          }
-                        ],
+                        meetings: meetings,
                         stats: {
                           activePublishers: serviceMonth.active_publisher,
                           regularPublishers: serviceMonth.regular_publisher,
