@@ -9,7 +9,6 @@ function App(): JSX.Element {
 
   window.electron.ipcRenderer.on('show-spinner', (_, args) => {
     setSpinner(args.status)
-    console.log('show-spinner', args)
   })
 
   return (
