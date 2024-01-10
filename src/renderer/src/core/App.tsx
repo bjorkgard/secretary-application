@@ -1,6 +1,6 @@
 import { RouterProvider } from 'react-router-dom'
 import router from './router'
-import ConfirmationModalContextProvider from '@renderer/components/modalConfirmationContext'
+import ConfirmationModalContextProvider from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
 import { useState } from 'react'
 import { Spinner } from '@renderer/components/Spinner'
 

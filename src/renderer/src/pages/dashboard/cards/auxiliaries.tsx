@@ -102,52 +102,50 @@ export default function Auxiliaries(): JSX.Element {
             open={showModal}
             onClose={() => setShowModal(false)}
             onConfirm={() => handleSubmit(onSubmit)()}
+            title={t('auxiliary.headline')}
           >
-            <div>
-              <h3>{t('auxiliary.headline')}</h3>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="mx-auto grid w-full grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6 sm:mx-0">
-                  <div className="sm:col-span-3">
-                    <Field label={t('label.publisher')} error={errors.publisher?.message}>
-                      <select
-                        className={classNames(
-                          errors.publisher ? 'select-error' : '',
-                          'select select-bordered w-full'
-                        )}
-                        {...register('publisher', {
-                          required: t('errors.publisher.required')
-                        })}
-                      >
-                        <option value="">{t('label.selectPublisher')}</option>
-                        {publishers.map((p) => {
-                          return (
-                            <option key={p._id} value={p._id}>
-                              {p.lastname}, {p.firstname}
-                            </option>
-                          )
-                        })}
-                      </select>
-                    </Field>
-                  </div>
-                  <div className="sm:col-span-3">
-                    <Field label={t('label.month')} error={errors.serviceMonth?.message}>
-                      <input
-                        id="serviceMonth"
-                        type="month"
-                        placeholder={t('label.month')}
-                        className={classNames(
-                          errors.serviceMonth ? 'input-error' : '',
-                          'input w-full input-bordered'
-                        )}
-                        {...register('serviceMonth', {
-                          required: t('errors.serviceMonth.required')
-                        })}
-                      />
-                    </Field>
-                  </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="mx-auto grid w-full grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6 sm:mx-0">
+                <div className="sm:col-span-3">
+                  <Field label={t('label.publisher')} error={errors.publisher?.message}>
+                    <select
+                      className={classNames(
+                        errors.publisher ? 'select-error' : '',
+                        'select select-bordered w-full'
+                      )}
+                      {...register('publisher', {
+                        required: t('errors.publisher.required')
+                      })}
+                    >
+                      <option value="">{t('label.selectPublisher')}</option>
+                      {publishers.map((p) => {
+                        return (
+                          <option key={p._id} value={p._id}>
+                            {p.lastname}, {p.firstname}
+                          </option>
+                        )
+                      })}
+                    </select>
+                  </Field>
                 </div>
-              </form>
-            </div>
+                <div className="sm:col-span-3">
+                  <Field label={t('label.month')} error={errors.serviceMonth?.message}>
+                    <input
+                      id="serviceMonth"
+                      type="month"
+                      placeholder={t('label.month')}
+                      className={classNames(
+                        errors.serviceMonth ? 'input-error' : '',
+                        'input w-full input-bordered'
+                      )}
+                      {...register('serviceMonth', {
+                        required: t('errors.serviceMonth.required')
+                      })}
+                    />
+                  </Field>
+                </div>
+              </div>
+            </form>
           </Modal>
         </>
       )}

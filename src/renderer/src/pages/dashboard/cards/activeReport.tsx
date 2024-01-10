@@ -5,7 +5,7 @@ import { Doughnut } from 'react-chartjs-2'
 import colors from 'tailwindcss/colors'
 import { Card } from '@renderer/components/Card'
 import { ServiceMonthModel } from 'src/types/models'
-import { useConfirmationModalContext } from '@renderer/components/modalConfirmationContext'
+import { useConfirmationModalContext } from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 

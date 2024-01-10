@@ -5,7 +5,7 @@ import { PlusIcon } from '@heroicons/react/24/solid'
 import { PencilIcon, TrashIcon } from '@heroicons/react/20/solid'
 import { ResponsibilityModel, TaskModel } from 'src/types/models'
 import ROUTES from '../../constants/routes.json'
-import { useConfirmationModalContext } from '@renderer/components/modalConfirmationContext'
+import { useConfirmationModalContext } from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
 
 export default function Tasks(): JSX.Element {
   const { t } = useTranslation()
