@@ -117,7 +117,7 @@ async function createWindow(): Promise<void> {
   })
 
   mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow?.setTitle(`Secretary (v${app.getVersion()})`)
+    mainWindow?.setTitle(`Secretary (v${import.meta.env.MAIN_VITE_APP_VERSION})`)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
