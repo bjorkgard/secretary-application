@@ -434,5 +434,17 @@
   "Växla &Helskärmsläge": "Växla &Helskärmsläge",
   "Växla &Utvecklarverktyg": "Växla &Utvecklarverktyg",
   "Växla utvecklarverktyg": "Växla Utvecklarverktyg",
-  "Ångra": "Undo"
+  "Ångra": "Undo",
+  "menu.event": "Händelse",
+  "event.selectDate": "Välj datum",
+  "event.description": "Välj datum för händelsen och klicka sedan på den aktuella händelsen. Vissa händelser kan kräva att ytterligare uppgifter kan fyllas i.",
+  "event.disfellowshipped": "Utesluten",
+  "event.delete": "Radera förkunnare",
+  "event.disassociation": "Avståndstagande",
+  "event.reinstated": "Återupptagen",
+  "event.deceased": "Avliden",
+  "history.deceased": "{{name}} har dött",
+  "history.reinstated": "{{name}} har återupptagits",
+  "history.disassociation": "{{name}} har tagit avstånd",
+  "history.disfellowshipped": "{{name}} har blivit utesluten"
 }
