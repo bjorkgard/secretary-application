@@ -10,14 +10,11 @@ export const isTemplateCorrect = async (code: string): Promise<boolean> => {
     .then((template: TemplateModel) => {
       if (template) {
         if (template.date === TEMPLATES[code]) {
-          console.log('template date ok')
           response = true
         } else {
-          console.log('template date wrong')
           response = false
         }
       } else {
-        console.log('No template')
         response = false
       }
     })

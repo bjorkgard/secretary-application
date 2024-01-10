@@ -82,6 +82,7 @@ export default class ServiceMonthService implements IServiceMonthService {
 
     return serviceMonths.map((serviceMonth) => parseServiceMonth(serviceMonth))
   }
+
   async saveReport(newReport: Report): Promise<number | undefined> {
     await this.findByServiceMonth(newReport.serviceMonth).then(async (serviceMonth) => {
       if (serviceMonth && serviceMonth._id) {
@@ -99,6 +100,19 @@ export default class ServiceMonthService implements IServiceMonthService {
     })
 
     return undefined
+  }
+
+  async deleteReport(publisherId: string): Promise<void> {
+    await this.findActive().then(async (serviceMonth) => {
+      if (serviceMonth && serviceMonth._id) {
+        const reportIndex = serviceMonth.reports.findIndex((r) => r.publisherId === publisherId)
+
+        if (reportIndex !== undefined || null) {
+          serviceMonth.reports.splice(reportIndex, 1)
+          await this.update(serviceMonth._id, serviceMonth)
+        }
+      }
+    })
   }
 
   async saveMeetings(props: {

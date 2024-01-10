@@ -5,7 +5,7 @@ import { useEffectOnce } from '@renderer/hooks/useOnMountUnsafe'
 import { ServiceMonthModel } from 'src/types/models'
 import ReportComplilation from './components/reportCompilation'
 import MeetingComplilation from './components/meetingCompilation'
-import { useConfirmationModalContext } from '@renderer/components/modalConfirmationContext'
+import { useConfirmationModalContext } from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
 import ROUTES from '../../constants/routes.json'
 
 export default function ReportsCompletion(): JSX.Element {

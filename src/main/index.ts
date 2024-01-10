@@ -43,7 +43,8 @@ import {
   closeReporting,
   importTemplate,
   exportPublishersS21,
-  exportS88
+  exportS88,
+  storeEvent
 } from './functions'
 
 const isDebug =
@@ -653,6 +654,12 @@ ipcMain.handle('import-template', async (_, args) => {
   if (!mainWindow) return
 
   importTemplate(mainWindow, templateService, args)
+})
+
+ipcMain.handle('store-event', async (_, args) => {
+  if (!mainWindow) return
+
+  storeEvent(args.event)
 })
 
 updateElectronApp()
