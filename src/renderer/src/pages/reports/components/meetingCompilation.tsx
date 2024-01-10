@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Meeting } from 'src/types/models'
+import type { Meeting }   from 'src/types/models'
 
 interface ComponentProps {
   meetings: Meeting[]
@@ -8,9 +8,9 @@ interface ComponentProps {
 export default function ReportsComplilation({ meetings }: ComponentProps): JSX.Element {
   const { t } = useTranslation()
 
-  let sumMidweek = 0
+  let sumMidweek     = 0
   const countMidweek = meetings[0].midweek.length
-  let sumWeekend = 0
+  let sumWeekend     = 0
   const countWeekend = meetings[0].weekend.length
 
   return (
@@ -25,8 +25,8 @@ export default function ReportsComplilation({ meetings }: ComponentProps): JSX.E
                   {meeting.name
                     ? meeting.name
                     : meetings.length > 1
-                    ? t('meeting.motherCongregation')
-                    : t('label.total')}
+                      ? t('meeting.motherCongregation')
+                      : t('label.total')}
                 </th>
               )
             })}

@@ -1,12 +1,13 @@
-import { createContext } from 'react'
-import { UmamiContextValue } from './types'
+import { createContext }          from 'react'
+import type { UmamiContextValue } from './types'
 
 export const UmamiContext = createContext<UmamiContextValue>({
   canTrack: () => false,
-  hostUrl: '',
-  track: () => {
+  hostUrl:  '',
+  track:    () => {
+    // eslint-disable-next-line no-console
     console.log('NO TRACK - DEFAULT')
   },
   getEventPayloadFields: () => null,
-  websiteId: ''
+  websiteId:             '',
 })

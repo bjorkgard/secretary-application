@@ -1,14 +1,14 @@
-import { JSONSchemaType } from 'ajv'
+import type { JSONSchemaType } from 'ajv'
 
 interface Base {
-  _id?: string
+  _id?:       string
   createdAt?: Date
   updatedAt?: Date
 }
 
 export interface Auxiliary extends Base {
   serviceMonth: string
-  name: string
+  name:         string
   publisherIds: string[]
 }
 
@@ -17,23 +17,23 @@ interface LanguageGroup {
 }
 
 interface Congregation {
-  name: string
-  number: string
-  country: string
-  locale: string
+  name:           string
+  number:         string
+  country:        string
+  locale:         string
   languageGroups: LanguageGroup[]
 }
 
 interface User {
   firstname: string
-  lastname: string
-  email: string
+  lastname:  string
+  email:     string
 }
 
 interface Online {
-  send_report_group?: boolean
+  send_report_group?:     boolean
   send_report_publisher?: boolean
-  public?: boolean
+  public?:                boolean
 }
 
 export interface Template extends Base {
@@ -44,343 +44,343 @@ export interface Template extends Base {
 }
 
 export interface Settings extends Base {
-  identifier: string
-  token: string
+  identifier:   string
+  token:        string
   congregation: Congregation
-  user: User
-  online: Online
+  user:         User
+  online:       Online
 }
 
 export interface ServiceGroup extends Base {
-  name: string
+  name:           string
   responsibleId?: string
-  assistantId?: string
+  assistantId?:   string
 }
 
 export interface Appointment {
-  type: string
+  type:  string
   date?: string
 }
 
 export interface EmergencyContact {
-  name?: string
+  name?:  string
   email?: string
   phone?: string
 }
 
 export interface Child {
-  name: string
+  name:       string
   identifier: string
-  birthday?: string
+  birthday?:  string
 }
 
 export interface History {
-  date: string
-  type: string
+  date:         string
+  type:         string
   information?: string
 }
 
 export interface Report {
-  serviceYear: number
-  serviceMonth: string
-  name: string
-  hasBeenInService: boolean
-  hasNotBeenInService: boolean
-  studies?: number
-  hours?: number
-  credit?: number
-  remarks?: string
-  sortOrder: number
-  identifier: string
-  type: 'PUBLISHER' | 'PIONEER' | 'SPECIALPIONEER' | 'AUXILIARY' | 'MISSIONARY' | 'CIRCUITOVERSEER'
-  auxiliary: boolean
-  publisherId?: string
-  publisherName?: string
-  publisherEmail?: string
-  publisherMobile?: string
+  serviceYear:              number
+  serviceMonth:             string
+  name:                     string
+  hasBeenInService:         boolean
+  hasNotBeenInService:      boolean
+  studies?:                 number
+  hours?:                   number
+  credit?:                  number
+  remarks?:                 string
+  sortOrder:                number
+  identifier:               string
+  type:                     'PUBLISHER' | 'PIONEER' | 'SPECIALPIONEER' | 'AUXILIARY' | 'MISSIONARY' | 'CIRCUITOVERSEER'
+  auxiliary:                boolean
+  publisherId?:             string
+  publisherName?:           string
+  publisherEmail?:          string
+  publisherMobile?:         string
   publisherServiceGroupId?: string
-  publisherStatus?: 'ACTIVE' | 'INACTIVE' | 'IRREGULAR'
-  publisherSendEmail?: boolean
+  publisherStatus?:         'ACTIVE' | 'INACTIVE' | 'IRREGULAR'
+  publisherSendEmail?:      boolean
 }
 
 export interface Publisher extends Base {
-  s290: boolean
-  registerCard: boolean
-  firstname: string
-  lastname: string
-  birthday?: string
-  gender: 'MAN' | 'WOMAN'
-  baptised?: string
-  unknown_baptised: boolean
-  histories: History[]
-  hope: 'OTHER_SHEEP' | 'ANOINTED'
-  email?: string
-  phone?: string
-  mobile?: string
-  contact: boolean
-  familyId?: string
-  address: string
-  zip: string
-  city: string
-  serviceGroupId?: string
+  s290:              boolean
+  registerCard:      boolean
+  firstname:         string
+  lastname:          string
+  birthday?:         string
+  gender:            'MAN' | 'WOMAN'
+  baptised?:         string
+  unknown_baptised:  boolean
+  histories:         History[]
+  hope:              'OTHER_SHEEP' | 'ANOINTED'
+  email?:            string
+  phone?:            string
+  mobile?:           string
+  contact:           boolean
+  familyId?:         string
+  address:           string
+  zip:               string
+  city:              string
+  serviceGroupId?:   string
   responsibilities?: string[]
-  tasks?: string[]
-  appointments?: Appointment[]
-  emergencyContact: EmergencyContact
-  other?: string
-  status: 'ACTIVE' | 'INACTIVE' | 'IRREGULAR'
-  deaf: boolean
-  blind: boolean
-  sendReports: boolean
-  children: Child[]
-  reports: Report[]
+  tasks?:            string[]
+  appointments?:     Appointment[]
+  emergencyContact:  EmergencyContact
+  other?:            string
+  status:            'ACTIVE' | 'INACTIVE' | 'IRREGULAR'
+  deaf:              boolean
+  blind:             boolean
+  sendReports:       boolean
+  children:          Child[]
+  reports:           Report[]
 }
 
 export interface Responsibility extends Base {
-  name: string
+  name:    string
   default: boolean
 }
 
 export interface Task extends Base {
-  name: string
+  name:             string
   responsibilityId: string
-  default: boolean
+  default:          boolean
 }
 
 export interface Export extends Base {
-  name: string
+  name:   string
   format: string
   method: string
-  count: number
+  count:  number
 }
 
 export interface History {
-  date: string
-  type: string
+  date:         string
+  type:         string
   information?: string
 }
 
 export interface Meeting {
-  name?: string
+  name?:      string
   identifier: string
-  midweek: number[]
-  weekend: number[]
+  midweek:    number[]
+  weekend:    number[]
 }
 
 export interface Stats {
-  activePublishers: number
-  regularPublishers: number
+  activePublishers:    number
+  regularPublishers:   number
   irregularPublishers: number
-  inactivePublishers: number
-  deaf: number
-  blind: number
+  inactivePublishers:  number
+  deaf:                number
+  blind:               number
 }
 
 export interface ServiceMonth extends Base {
-  status: 'ACTIVE' | 'DONE'
-  name: string
+  status:       'ACTIVE' | 'DONE'
+  name:         string
   serviceMonth: string
-  serviceYear: number
-  sortOrder: number
-  reports: Report[]
-  meetings: Meeting[]
-  stats: Stats
+  serviceYear:  number
+  sortOrder:    number
+  reports:      Report[]
+  meetings:     Meeting[]
+  stats:        Stats
 }
 
 export interface ServiceYear extends Base {
-  name: number
+  name:          number
   serviceMonths: string[]
-  history: History[]
+  history:       History[]
 }
 
 export interface CircuitOverseer extends Base {
   firstname: string
-  lastname: string
-  email?: string
-  phone?: string
-  mobile?: string
-  address: string
-  zip: string
-  city: string
+  lastname:  string
+  email?:    string
+  phone?:    string
+  mobile?:   string
+  address:   string
+  zip:       string
+  city:      string
 }
 
 export const CircuitOverseerSchema: JSONSchemaType<CircuitOverseer> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    _id: { type: 'string', nullable: true },
+    _id:       { type: 'string', nullable: true },
     firstname: { type: 'string' },
-    lastname: { type: 'string' },
-    email: { type: 'string', nullable: true },
-    phone: { type: 'string', nullable: true },
-    mobile: { type: 'string', nullable: true },
-    address: { type: 'string' },
-    zip: { type: 'string' },
-    city: { type: 'string' },
+    lastname:  { type: 'string' },
+    email:     { type: 'string', nullable: true },
+    phone:     { type: 'string', nullable: true },
+    mobile:    { type: 'string', nullable: true },
+    address:   { type: 'string' },
+    zip:       { type: 'string' },
+    city:      { type: 'string' },
     createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
-    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
+    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },
-  required: ['firstname', 'lastname', 'address', 'zip', 'city'],
-  additionalProperties: false
+  required:             ['firstname', 'lastname', 'address', 'zip', 'city'],
+  additionalProperties: false,
 }
 
 const LanguageGroupSchema: JSONSchemaType<LanguageGroup> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    name: { type: 'string' }
+    name: { type: 'string' },
   },
-  required: ['name']
+  required: ['name'],
 }
 
 const CongregationSchema: JSONSchemaType<Congregation> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    name: { type: 'string' },
-    number: { type: 'string' },
-    country: { type: 'string' },
-    locale: { type: 'string' },
-    languageGroups: { type: 'array', items: LanguageGroupSchema }
+    name:           { type: 'string' },
+    number:         { type: 'string' },
+    country:        { type: 'string' },
+    locale:         { type: 'string' },
+    languageGroups: { type: 'array', items: LanguageGroupSchema },
   },
-  required: ['name', 'number', 'country', 'locale']
+  required: ['name', 'number', 'country', 'locale'],
 }
 
 const UserSchema: JSONSchemaType<User> = {
-  type: 'object',
+  type:       'object',
   properties: {
     firstname: { type: 'string' },
-    lastname: { type: 'string' },
-    email: { type: 'string' }
+    lastname:  { type: 'string' },
+    email:     { type: 'string' },
   },
-  required: ['firstname', 'lastname', 'email']
+  required: ['firstname', 'lastname', 'email'],
 }
 
 const OnlineSchema: JSONSchemaType<Online> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    send_report_group: { type: 'boolean', nullable: true },
+    send_report_group:     { type: 'boolean', nullable: true },
     send_report_publisher: { type: 'boolean', nullable: true },
-    public: { type: 'boolean', nullable: true }
+    public:                { type: 'boolean', nullable: true },
   },
-  required: []
+  required: [],
 }
 
 export const TemplateSchema: JSONSchemaType<Template> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    _id: { type: 'string', nullable: true },
-    code: { type: 'string' },
-    name: { type: 'string' },
-    date: { type: 'string' },
-    path: { type: 'string' },
+    _id:       { type: 'string', nullable: true },
+    code:      { type: 'string' },
+    name:      { type: 'string' },
+    date:      { type: 'string' },
+    path:      { type: 'string' },
     createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
-    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
+    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },
-  required: ['name', 'path', 'date', 'code']
+  required: ['name', 'path', 'date', 'code'],
 }
 
 export const SettingsSchema: JSONSchemaType<Settings> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    _id: { type: 'string', nullable: true },
-    identifier: { type: 'string' },
-    token: { type: 'string' },
+    _id:          { type: 'string', nullable: true },
+    identifier:   { type: 'string' },
+    token:        { type: 'string' },
     congregation: CongregationSchema,
-    user: UserSchema,
-    online: OnlineSchema,
-    createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
-    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
+    user:         UserSchema,
+    online:       OnlineSchema,
+    createdAt:    { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
+    updatedAt:    { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },
-  required: ['identifier', 'token'],
-  additionalProperties: false
+  required:             ['identifier', 'token'],
+  additionalProperties: false,
 }
 
 export const ExportSchema: JSONSchemaType<Export> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    _id: { type: 'string', nullable: true },
-    name: { type: 'string' },
-    format: { type: 'string' },
-    method: { type: 'string' },
-    count: { type: 'number' },
+    _id:       { type: 'string', nullable: true },
+    name:      { type: 'string' },
+    format:    { type: 'string' },
+    method:    { type: 'string' },
+    count:     { type: 'number' },
     createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
-    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
+    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },
-  required: ['name', 'format', 'method', 'count']
+  required: ['name', 'format', 'method', 'count'],
 }
 
 const AppointmentSchema: JSONSchemaType<Appointment> = {
-  type: 'object',
+  type:       'object',
   properties: {
     type: { type: 'string' },
-    date: { type: 'string', nullable: true }
+    date: { type: 'string', nullable: true },
   },
-  required: ['type']
+  required: ['type'],
 }
 
 const EmergencyContactSchema: JSONSchemaType<EmergencyContact> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    name: { type: 'string', nullable: true },
+    name:  { type: 'string', nullable: true },
     email: { type: 'string', nullable: true },
-    phone: { type: 'string', nullable: true }
+    phone: { type: 'string', nullable: true },
   },
-  required: []
+  required: [],
 }
 
 const ChildSchema: JSONSchemaType<Child> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    name: { type: 'string' },
+    name:       { type: 'string' },
     identifier: { type: 'string' },
-    birthday: { type: 'string', nullable: true }
+    birthday:   { type: 'string', nullable: true },
   },
-  required: ['name', 'identifier']
+  required: ['name', 'identifier'],
 }
 
 const HistorySchema: JSONSchemaType<History> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    date: { type: 'string' },
-    type: { type: 'string' },
-    information: { type: 'string', nullable: true }
+    date:        { type: 'string' },
+    type:        { type: 'string' },
+    information: { type: 'string', nullable: true },
   },
-  required: ['date', 'type']
+  required: ['date', 'type'],
 }
 
 const MeetingSchema: JSONSchemaType<Meeting> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    name: { type: 'string', nullable: true },
+    name:       { type: 'string', nullable: true },
     identifier: { type: 'string' },
-    midweek: { type: 'array', items: { type: 'number' } },
-    weekend: { type: 'array', items: { type: 'number' } }
+    midweek:    { type: 'array', items: { type: 'number' } },
+    weekend:    { type: 'array', items: { type: 'number' } },
   },
-  required: ['identifier', 'midweek', 'weekend']
+  required: ['identifier', 'midweek', 'weekend'],
 }
 
 const ReportSchema: JSONSchemaType<Report> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    identifier: { type: 'string' },
-    hasBeenInService: { type: 'boolean' },
-    hasNotBeenInService: { type: 'boolean' },
-    hours: { type: 'number', nullable: true },
-    studies: { type: 'number', nullable: true },
-    remarks: { type: 'string', nullable: true },
-    credit: { type: 'number', nullable: true },
-    type: { type: 'string' },
-    auxiliary: { type: 'boolean' },
-    name: { type: 'string' },
-    serviceMonth: { type: 'string' },
-    serviceYear: { type: 'number' },
-    sortOrder: { type: 'number' },
-    information: { type: 'string' },
-    publisherId: { type: 'string', nullable: true },
-    publisherName: { type: 'string', nullable: true },
-    publisherEmail: { type: 'string', nullable: true },
-    publisherMobile: { type: 'string', nullable: true },
+    identifier:              { type: 'string' },
+    hasBeenInService:        { type: 'boolean' },
+    hasNotBeenInService:     { type: 'boolean' },
+    hours:                   { type: 'number', nullable: true },
+    studies:                 { type: 'number', nullable: true },
+    remarks:                 { type: 'string', nullable: true },
+    credit:                  { type: 'number', nullable: true },
+    type:                    { type: 'string' },
+    auxiliary:               { type: 'boolean' },
+    name:                    { type: 'string' },
+    serviceMonth:            { type: 'string' },
+    serviceYear:             { type: 'number' },
+    sortOrder:               { type: 'number' },
+    information:             { type: 'string' },
+    publisherId:             { type: 'string', nullable: true },
+    publisherName:           { type: 'string', nullable: true },
+    publisherEmail:          { type: 'string', nullable: true },
+    publisherMobile:         { type: 'string', nullable: true },
     publisherServiceGroupId: { type: 'string', nullable: true },
-    publisherStatus: { type: 'string', nullable: true },
-    publisherSendEmail: { type: 'boolean', nullable: true }
+    publisherStatus:         { type: 'string', nullable: true },
+    publisherSendEmail:      { type: 'boolean', nullable: true },
   },
   required: [
     'hasBeenInService',
@@ -391,46 +391,46 @@ const ReportSchema: JSONSchemaType<Report> = {
     'sortOrder',
     'type',
     'auxiliary',
-    'name'
-  ]
+    'name',
+  ],
 }
 
 export const PublisherSchema: JSONSchemaType<Publisher> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    _id: { type: 'string', nullable: true },
-    s290: { type: 'boolean' },
-    registerCard: { type: 'boolean' },
-    firstname: { type: 'string' },
-    lastname: { type: 'string' },
-    birthday: { type: 'string', nullable: true },
-    gender: { type: 'string' },
-    baptised: { type: 'string', nullable: true },
+    _id:              { type: 'string', nullable: true },
+    s290:             { type: 'boolean' },
+    registerCard:     { type: 'boolean' },
+    firstname:        { type: 'string' },
+    lastname:         { type: 'string' },
+    birthday:         { type: 'string', nullable: true },
+    gender:           { type: 'string' },
+    baptised:         { type: 'string', nullable: true },
     unknown_baptised: { type: 'boolean' },
-    hope: { type: 'string' },
-    phone: { type: 'string', nullable: true },
-    mobile: { type: 'string', nullable: true },
-    email: { type: 'string', nullable: true },
-    contact: { type: 'boolean' },
-    familyId: { type: 'string', nullable: true },
-    address: { type: 'string' },
-    zip: { type: 'string' },
-    city: { type: 'string' },
-    serviceGroupId: { type: 'string', nullable: true },
+    hope:             { type: 'string' },
+    phone:            { type: 'string', nullable: true },
+    mobile:           { type: 'string', nullable: true },
+    email:            { type: 'string', nullable: true },
+    contact:          { type: 'boolean' },
+    familyId:         { type: 'string', nullable: true },
+    address:          { type: 'string' },
+    zip:              { type: 'string' },
+    city:             { type: 'string' },
+    serviceGroupId:   { type: 'string', nullable: true },
     responsibilities: { type: 'array', items: { type: 'string' }, nullable: true },
-    tasks: { type: 'array', items: { type: 'string' }, nullable: true },
-    appointments: { type: 'array', items: AppointmentSchema, nullable: true },
+    tasks:            { type: 'array', items: { type: 'string' }, nullable: true },
+    appointments:     { type: 'array', items: AppointmentSchema, nullable: true },
     emergencyContact: EmergencyContactSchema,
-    other: { type: 'string', nullable: true },
-    status: { type: 'string' },
-    deaf: { type: 'boolean' },
-    blind: { type: 'boolean' },
-    sendReports: { type: 'boolean' },
-    children: { type: 'array', items: ChildSchema },
-    histories: { type: 'array', items: HistorySchema },
-    reports: { type: 'array', items: ReportSchema },
-    createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
-    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
+    other:            { type: 'string', nullable: true },
+    status:           { type: 'string' },
+    deaf:             { type: 'boolean' },
+    blind:            { type: 'boolean' },
+    sendReports:      { type: 'boolean' },
+    children:         { type: 'array', items: ChildSchema },
+    histories:        { type: 'array', items: HistorySchema },
+    reports:          { type: 'array', items: ReportSchema },
+    createdAt:        { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
+    updatedAt:        { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },
   required: [
     's290',
@@ -450,108 +450,108 @@ export const PublisherSchema: JSONSchemaType<Publisher> = {
     'sendReports',
     'children',
     'histories',
-    'reports'
+    'reports',
   ],
-  additionalProperties: false
+  additionalProperties: false,
 }
 
 export const ServiceGroupSchema: JSONSchemaType<ServiceGroup> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    _id: { type: 'string', nullable: true },
-    name: { type: 'string' },
+    _id:           { type: 'string', nullable: true },
+    name:          { type: 'string' },
     responsibleId: { type: 'string', nullable: true },
-    assistantId: { type: 'string', nullable: true },
-    createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
-    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
+    assistantId:   { type: 'string', nullable: true },
+    createdAt:     { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
+    updatedAt:     { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },
-  required: ['name'],
-  additionalProperties: false
+  required:             ['name'],
+  additionalProperties: false,
 }
 
 export const ResponsibilitySchema: JSONSchemaType<Responsibility> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    _id: { type: 'string', nullable: true },
-    name: { type: 'string' },
-    default: { type: 'boolean' },
+    _id:       { type: 'string', nullable: true },
+    name:      { type: 'string' },
+    default:   { type: 'boolean' },
     createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
-    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
+    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },
-  required: ['name', 'default'],
-  additionalProperties: false
+  required:             ['name', 'default'],
+  additionalProperties: false,
 }
 
 export const TaskSchema: JSONSchemaType<Task> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    _id: { type: 'string', nullable: true },
-    name: { type: 'string' },
+    _id:              { type: 'string', nullable: true },
+    name:             { type: 'string' },
     responsibilityId: { type: 'string' },
-    default: { type: 'boolean' },
-    createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
-    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
+    default:          { type: 'boolean' },
+    createdAt:        { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
+    updatedAt:        { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },
-  required: ['name', 'responsibilityId', 'default'],
-  additionalProperties: false
+  required:             ['name', 'responsibilityId', 'default'],
+  additionalProperties: false,
 }
 
 export const AuxiliarySchema: JSONSchemaType<Auxiliary> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    _id: { type: 'string', nullable: true },
+    _id:          { type: 'string', nullable: true },
     serviceMonth: { type: 'string' },
-    name: { type: 'string' },
+    name:         { type: 'string' },
     publisherIds: { type: 'array', items: { type: 'string' } },
-    createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
-    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
+    createdAt:    { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
+    updatedAt:    { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },
-  required: ['serviceMonth', 'name', 'publisherIds'],
-  additionalProperties: false
+  required:             ['serviceMonth', 'name', 'publisherIds'],
+  additionalProperties: false,
 }
 
 export const ServiceYearSchema: JSONSchemaType<ServiceYear> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    _id: { type: 'string', nullable: true },
-    name: { type: 'number' },
+    _id:           { type: 'string', nullable: true },
+    name:          { type: 'number' },
     serviceMonths: { type: 'array', items: { type: 'string' } },
-    history: { type: 'array', items: HistorySchema },
-    createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
-    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
+    history:       { type: 'array', items: HistorySchema },
+    createdAt:     { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
+    updatedAt:     { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },
-  required: ['name', 'serviceMonths', 'history'],
-  additionalProperties: false
+  required:             ['name', 'serviceMonths', 'history'],
+  additionalProperties: false,
 }
 
 const StatsSchema: JSONSchemaType<Stats> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    activePublishers: { type: 'number' },
-    regularPublishers: { type: 'number' },
+    activePublishers:    { type: 'number' },
+    regularPublishers:   { type: 'number' },
     irregularPublishers: { type: 'number' },
-    inactivePublishers: { type: 'number' },
-    deaf: { type: 'number' },
-    blind: { type: 'number' }
+    inactivePublishers:  { type: 'number' },
+    deaf:                { type: 'number' },
+    blind:               { type: 'number' },
   },
-  required: []
+  required: [],
 }
 
 export const ServiceMonthSchema: JSONSchemaType<ServiceMonth> = {
-  type: 'object',
+  type:       'object',
   properties: {
-    _id: { type: 'string', nullable: true },
-    status: { type: 'string' },
-    name: { type: 'string' },
+    _id:          { type: 'string', nullable: true },
+    status:       { type: 'string' },
+    name:         { type: 'string' },
     serviceMonth: { type: 'string' },
-    serviceYear: { type: 'number' },
-    sortOrder: { type: 'number' },
-    reports: { type: 'array', items: ReportSchema },
-    meetings: { type: 'array', items: MeetingSchema },
-    stats: StatsSchema,
-    createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
-    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] }
+    serviceYear:  { type: 'number' },
+    sortOrder:    { type: 'number' },
+    reports:      { type: 'array', items: ReportSchema },
+    meetings:     { type: 'array', items: MeetingSchema },
+    stats:        StatsSchema,
+    createdAt:    { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
+    updatedAt:    { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },
-  required: ['name', 'status', 'serviceMonth', 'serviceYear', 'sortOrder', 'reports'],
-  additionalProperties: false
+  required:             ['name', 'status', 'serviceMonth', 'serviceYear', 'sortOrder', 'reports'],
+  additionalProperties: false,
 }

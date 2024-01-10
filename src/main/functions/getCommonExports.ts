@@ -1,8 +1,8 @@
-import { ExportModel } from '../../types/models'
-import { ExportService } from '../../types/type'
+import type { ExportModel }   from '../../types/models'
+import type { ExportService } from '../../types/type'
 
 export default async function GetCommonExports(
-  exportSErvice: ExportService
+  exportSErvice: ExportService,
 ): Promise<ExportModel[]> {
   return exportSErvice.find()
 }

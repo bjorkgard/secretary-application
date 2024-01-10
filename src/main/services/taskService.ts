@@ -1,37 +1,38 @@
-import { Task, TaskSchema } from '../databases/schemas'
-import { TaskModel } from '../../types/models'
-import { TaskService as ITaskService } from '../../types/type'
-import TaskStore from '../databases/taskStore'
+import type { Task }                        from '../databases/schemas'
+import { TaskSchema }                       from '../databases/schemas'
+import type { TaskModel }                   from '../../types/models'
+import type { TaskService as ITaskService } from '../../types/type'
+import TaskStore                            from '../databases/taskStore'
 
 const taskStore = new TaskStore('tasks.db', TaskSchema)
 
-const parseTaskModel = (data: TaskModel): Task => {
+function parseTaskModel(data: TaskModel): Task {
   const task: Task = {
-    name: '',
+    name:             '',
     responsibilityId: '',
-    default: false
+    default:          false,
   }
 
-  task.name = data.name
+  task.name             = data.name
   task.responsibilityId = data.responsibilityId
-  task.default = data.default ? data.default : false
+  task.default          = data.default ? data.default : false
 
   return task
 }
 
-const parseTask = (data: Task): TaskModel => {
+function parseTask(data: Task): TaskModel {
   const taskModel: TaskModel = {
-    name: '',
+    name:             '',
     responsibilityId: '',
-    default: false
+    default:          false,
   }
 
-  taskModel._id = data._id
-  taskModel.name = data.name
+  taskModel._id              = data._id
+  taskModel.name             = data.name
   taskModel.responsibilityId = data.responsibilityId
-  taskModel.default = data.default ? data.default : false
-  taskModel.createdAt = data.createdAt?.toLocaleString('sv-SE')
-  taskModel.updatedAt = data.updatedAt?.toLocaleString('sv-SE')
+  taskModel.default          = data.default ? data.default : false
+  taskModel.createdAt        = data.createdAt?.toLocaleString('sv-SE')
+  taskModel.updatedAt        = data.updatedAt?.toLocaleString('sv-SE')
 
   return taskModel
 }
@@ -40,11 +41,11 @@ export default class TaskService implements ITaskService {
   async find(): Promise<TaskModel[]> {
     const tasks = (await taskStore.find()) as Task[]
 
-    return tasks.map((t) => parseTask(t))
+    return tasks.map(t => parseTask(t))
   }
 
   async create(data: TaskModel): Promise<TaskModel> {
-    const task = parseTaskModel(data)
+    const task    = parseTaskModel(data)
     const newTask = (await taskStore.create(task)) as Task
 
     return parseTask(newTask)

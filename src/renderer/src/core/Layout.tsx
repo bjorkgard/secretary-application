@@ -1,35 +1,35 @@
 import { Fragment, useEffect, useState } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
-import { Dialog, Transition } from '@headlessui/react'
+import { Outlet, useNavigate }           from 'react-router-dom'
+import { Dialog, Transition }            from '@headlessui/react'
 import {
   Bars3Icon,
   BellIcon,
   SignalIcon,
   SignalSlashIcon,
-  XMarkIcon
+  XMarkIcon,
 } from '@heroicons/react/24/outline'
-import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import { useTranslation } from 'react-i18next'
+import { MagnifyingGlassIcon }   from '@heroicons/react/20/solid'
+import { useTranslation }        from 'react-i18next'
+import { useSettingsState }      from '@renderer/store/settingsStore'
+import classNames                from '@renderer/utils/classNames'
 import { Sidebar, SidebarSmall } from './Sidebar'
-import { useSettingsState } from '@renderer/store/settingsStore'
-import classNames from '@renderer/utils/classNames'
 
 export default function Layout(): JSX.Element {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
-  const settingsState = useSettingsState()
+  const { t }                         = useTranslation()
+  const navigate                      = useNavigate()
+  const settingsState                 = useSettingsState()
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [isOnline, setIsOnline] = useState<boolean>(false)
+  const [isOnline, setIsOnline]       = useState<boolean>(false)
 
   useEffect(() => {
-    setIsOnline(Object.values(settingsState.online).some((item) => item === true))
+    setIsOnline(Object.values(settingsState.online).includes(true))
   }, [settingsState.online])
 
   return (
     <div
       className={classNames(
         'h-full w-full bg-white scrollbar-hide dark:bg-slate-900',
-        import.meta.env.RENDERER_VITE_NODE_ENV !== 'production' ? 'debug-screens' : ''
+        import.meta.env.RENDERER_VITE_NODE_ENV !== 'production' ? 'debug-screens' : '',
       )}
     >
       <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -99,10 +99,10 @@ export default function Layout(): JSX.Element {
       </div>
 
       <div className="flex flex-col lg:pl-72">
-        <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm dark:border-slate-600 dark:bg-slate-900 sm:gap-x-6 sm:px-6 lg:px-8">
+        <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 dark:border-slate-600 dark:bg-slate-900">
           <button
             type="button"
-            className="-m-2.5 p-2.5 text-gray-700 dark:text-slate-400 lg:hidden"
+            className="-m-2.5 p-2.5 text-gray-700 lg:hidden dark:text-slate-400"
             onClick={(): void => setSidebarOpen(true)}
           >
             <span className="sr-only">Open sidebar</span>
@@ -110,7 +110,7 @@ export default function Layout(): JSX.Element {
           </button>
 
           {/* Separator */}
-          <div className="h-6 w-px bg-gray-200 dark:bg-slate-600 lg:hidden" aria-hidden="true" />
+          <div className="h-6 w-px bg-gray-200 lg:hidden dark:bg-slate-600" aria-hidden="true" />
 
           <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
             <form className="relative flex flex-1" action="#" method="GET">
@@ -120,7 +120,7 @@ export default function Layout(): JSX.Element {
               />
               <input
                 id="search-field"
-                className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:bg-slate-900 dark:text-slate-400 sm:text-sm"
+                className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm dark:bg-slate-900 dark:text-slate-400"
                 placeholder={t('label.search')}
                 type="search"
                 name="search"
@@ -140,20 +140,22 @@ export default function Layout(): JSX.Element {
                   isOnline
                     ? 'text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-500'
                     : 'text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500',
-                  '-m-2.5 p-2.5'
+                  '-m-2.5 p-2.5',
                 )}
                 onClick={(): void => navigate('/settings')}
               >
                 <span className="sr-only">View notifications</span>
-                {isOnline ? (
-                  <div className="tooltip tooltip-left" data-tip={t('label.online')}>
-                    <SignalIcon className="h-6 w-6" aria-hidden="true" />
-                  </div>
-                ) : (
-                  <div className="tooltip tooltip-left" data-tip={t('label.offline')}>
-                    <SignalSlashIcon className="h-6 w-6" aria-hidden="true" />
-                  </div>
-                )}
+                {isOnline
+                  ? (
+                    <div className="tooltip tooltip-left" data-tip={t('label.online')}>
+                      <SignalIcon className="h-6 w-6" aria-hidden="true" />
+                    </div>
+                    )
+                  : (
+                    <div className="tooltip tooltip-left" data-tip={t('label.offline')}>
+                      <SignalSlashIcon className="h-6 w-6" aria-hidden="true" />
+                    </div>
+                    )}
               </button>
             </div>
           </div>

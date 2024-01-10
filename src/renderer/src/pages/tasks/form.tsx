@@ -1,25 +1,25 @@
-import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from 'react-router-dom'
-import { ResponsibilityModel, TaskModel } from 'src/types/models'
-import ROUTES from '../../constants/routes.json'
-import { Field } from '@renderer/components/Field'
-import classNames from '@renderer/utils/classNames'
-import { useEffect, useState } from 'react'
+import { useForm }                             from 'react-hook-form'
+import { useTranslation }                      from 'react-i18next'
+import { useNavigate, useParams }              from 'react-router-dom'
+import type { ResponsibilityModel, TaskModel } from 'src/types/models'
+import { Field }                               from '@renderer/components/Field'
+import classNames                              from '@renderer/utils/classNames'
+import { useEffect, useState }                 from 'react'
+import ROUTES                                  from '../../constants/routes.json'
 
 export default function TaskForm(): JSX.Element {
-  const { t } = useTranslation()
-  const { id } = useParams()
+  const { t }    = useTranslation()
+  const { id }   = useParams()
   const navigate = useNavigate()
 
   const [responisbilities, setResponsibilities] = useState<ResponsibilityModel[]>([])
-  const [task, setTask] = useState<TaskModel>()
+  const [task, setTask]                         = useState<TaskModel>()
 
   const {
     handleSubmit,
     register,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm<TaskModel>({ defaultValues: {}, mode: 'onSubmit' })
 
   const onSubmit = (data: TaskModel): void => {
@@ -27,7 +27,8 @@ export default function TaskForm(): JSX.Element {
       window.electron.ipcRenderer.invoke('update-task', data).then(() => {
         navigate(ROUTES.TASKS)
       })
-    } else {
+    }
+    else {
       window.electron.ipcRenderer.invoke('create-task', data).then(() => {
         navigate(ROUTES.TASKS)
       })
@@ -43,7 +44,7 @@ export default function TaskForm(): JSX.Element {
         })
 
         setResponsibilities(
-          parsedResult.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
+          parsedResult.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)),
         )
       })
   }, [])
@@ -81,10 +82,10 @@ export default function TaskForm(): JSX.Element {
                 placeholder={t('label.name')}
                 className={classNames(
                   errors.name ? 'input-error' : '',
-                  'input w-full input-bordered'
+                  'input w-full input-bordered',
                 )}
                 {...register('name', {
-                  required: t('errors.name.required')
+                  required: t('errors.name.required'),
                 })}
               />
             </Field>
@@ -96,10 +97,10 @@ export default function TaskForm(): JSX.Element {
               <select
                 className={classNames(
                   errors.responsibilityId ? 'select-error' : '',
-                  'select select-bordered w-full'
+                  'select select-bordered w-full',
                 )}
                 {...register('responsibilityId', {
-                  required: t('errors.responsibleId.required')
+                  required: t('errors.responsibleId.required'),
                 })}
               >
                 <option value="">{t('label.selectResponsibility')}</option>

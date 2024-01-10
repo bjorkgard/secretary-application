@@ -1,12 +1,12 @@
 import React from 'react'
 
-type FieldProps = {
+interface FieldProps {
   children: React.ReactNode
-  label: string
-  error?: string
+  label:    string
+  error?:   string
 }
 
-export const Field = ({ children, label, error }: FieldProps): JSX.Element => {
+export function Field({ children, label, error }: FieldProps): JSX.Element {
   const id = getChildId(children)
 
   return (
@@ -23,12 +23,11 @@ export const Field = ({ children, label, error }: FieldProps): JSX.Element => {
 }
 
 // Get id prop from a child element
-export const getChildId = (children: React.ReactNode): string => {
+export function getChildId(children: React.ReactNode): string {
   const child = React.Children.only(children)
 
-  if (React.isValidElement(child) && 'id' in child.props) {
+  if (React.isValidElement(child) && 'id' in child.props)
     return child.props.id
-  }
 
   return ''
 }

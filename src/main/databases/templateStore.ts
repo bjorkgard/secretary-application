@@ -1,5 +1,5 @@
-import BaseStore from './baseStore'
-import { Template } from './schemas'
+import BaseStore         from './baseStore'
+import type { Template } from './schemas'
 
 export default class TemplateStore extends BaseStore<Template> {
   find(): Promise<Template[]> {
@@ -7,16 +7,16 @@ export default class TemplateStore extends BaseStore<Template> {
   }
 
   findByCode(code: string): Promise<Template | null> {
-    return this.databaseInstance.findOne({ code: code })
+    return this.databaseInstance.findOne({ code })
   }
 
   async upsert(data: Template): Promise<number | undefined> {
     const isValid: boolean = this.validate(data)
 
-    if (isValid) {
+    if (isValid)
       return await this.databaseInstance.update({ code: data.code }, data, { upsert: true })
-    } else {
+
+    else
       return undefined
-    }
   }
 }

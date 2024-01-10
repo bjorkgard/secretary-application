@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useFieldArray, useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
-import { usePublisherState } from '@renderer/store/publisherStore'
-import { Field } from '@renderer/components/Field'
-import { PublisherModel, ResponsibilityModel, TaskModel } from 'src/types/models'
-import ROUTES from '../../constants/routes.json'
+import { useEffect, useState }                                 from 'react'
+import { useNavigate }                                         from 'react-router-dom'
+import { useFieldArray, useForm }                              from 'react-hook-form'
+import { useTranslation }                                      from 'react-i18next'
+import { ChevronLeftIcon, ChevronRightIcon }                   from '@heroicons/react/24/solid'
+import { usePublisherState }                                   from '@renderer/store/publisherStore'
+import { Field }                                               from '@renderer/components/Field'
+import type { PublisherModel, ResponsibilityModel, TaskModel } from 'src/types/models'
+import ROUTES                                                  from '../../constants/routes.json'
 
 export default function PublisherAppointmentForm(): JSX.Element {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
+  const { t }          = useTranslation()
+  const navigate       = useNavigate()
   const publisherState = usePublisherState()
 
   const [responsibilities, setResponsibilities] = useState<ResponsibilityModel[]>([])
-  const [tasks, setTasks] = useState<TaskModel[]>([])
+  const [tasks, setTasks]                       = useState<TaskModel[]>([])
 
   useEffect(() => {
     window.electron.ipcRenderer
@@ -25,7 +25,7 @@ export default function PublisherAppointmentForm(): JSX.Element {
         })
 
         setResponsibilities(
-          parsedResult.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
+          parsedResult.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)),
         )
       })
 
@@ -39,18 +39,18 @@ export default function PublisherAppointmentForm(): JSX.Element {
   }, [])
 
   const { control, handleSubmit, register, watch } = useForm<PublisherModel>({
-    defaultValues: publisherState.publisher
+    defaultValues: publisherState.publisher,
   })
 
   useFieldArray({
     control,
-    name: 'appointments' // unique name for your Field Array
+    name: 'appointments', // unique name for your Field Array
   })
 
   const watchAppointments = watch('appointments')
 
   const saveData = (data: PublisherModel): void => {
-    data.appointments = data.appointments?.filter((appointment) => appointment.type)
+    data.appointments = data.appointments?.filter(appointment => appointment.type)
 
     publisherState.setPublisher({ ...publisherState.publisher, ...data })
     navigate(ROUTES.PUBLISHER_OTHER_FORM)
@@ -142,7 +142,7 @@ export default function PublisherAppointmentForm(): JSX.Element {
                         type="date"
                         className="input input-bordered w-48"
                         disabled={
-                          watchAppointments?.find((a) => a.type === 'PIONEER') ? false : true
+                          !watchAppointments?.find(a => a.type === 'PIONEER')
                         }
                       />
                     </dd>
@@ -166,7 +166,7 @@ export default function PublisherAppointmentForm(): JSX.Element {
                         type="date"
                         className="input input-bordered w-48"
                         disabled={
-                          watchAppointments?.find((a) => a.type === 'SPECIALPIONEER') ? false : true
+                          !watchAppointments?.find(a => a.type === 'SPECIALPIONEER')
                         }
                       />
                     </dd>
@@ -190,7 +190,7 @@ export default function PublisherAppointmentForm(): JSX.Element {
                         type="date"
                         className="input input-bordered w-48"
                         disabled={
-                          watchAppointments?.find((a) => a.type === 'MISSIONARY') ? false : true
+                          !watchAppointments?.find(a => a.type === 'MISSIONARY')
                         }
                       />
                     </dd>
@@ -214,9 +214,7 @@ export default function PublisherAppointmentForm(): JSX.Element {
                         type="date"
                         className="input input-bordered w-48"
                         disabled={
-                          watchAppointments?.find((a) => a.type === 'CIRCUITOVERSEER')
-                            ? false
-                            : true
+                          !watchAppointments?.find(a => a.type === 'CIRCUITOVERSEER')
                         }
                       />
                     </dd>
@@ -239,7 +237,7 @@ export default function PublisherAppointmentForm(): JSX.Element {
                         {...register('appointments.4.date' as const, { required: false })}
                         type="date"
                         className="input input-bordered w-48"
-                        disabled={watchAppointments?.find((a) => a.type === 'ELDER') ? false : true}
+                        disabled={!watchAppointments?.find(a => a.type === 'ELDER')}
                       />
                     </dd>
                   </div>
@@ -264,9 +262,7 @@ export default function PublisherAppointmentForm(): JSX.Element {
                         type="date"
                         className="input input-bordered w-48"
                         disabled={
-                          watchAppointments?.find((a) => a.type === 'MINISTERIALSERVANT')
-                            ? false
-                            : true
+                          !watchAppointments?.find(a => a.type === 'MINISTERIALSERVANT')
                         }
                       />
                     </dd>

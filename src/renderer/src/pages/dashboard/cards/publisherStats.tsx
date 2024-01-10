@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { Doughnut } from 'react-chartjs-2'
-import { useTranslation } from 'react-i18next'
-import colors from 'tailwindcss/colors'
-import { Card } from '@renderer/components/Card'
+import { useEffect, useState }                           from 'react'
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js'
+import { Doughnut }                                      from 'react-chartjs-2'
+import { useTranslation }                                from 'react-i18next'
+import colors                                            from 'tailwindcss/colors'
+import { Card }                                          from '@renderer/components/Card'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export default function PublisherStats(): JSX.Element {
-  const { t } = useTranslation()
-  const [stats, setStats] = useState({ active: 0, irregular: 0, inactive: 0 })
+  const { t }                 = useTranslation()
+  const [stats, setStats]     = useState({ active: 0, irregular: 0, inactive: 0 })
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -20,32 +20,32 @@ export default function PublisherStats(): JSX.Element {
   }, [])
 
   const data = {
-    labels: [t('label.actives'), t('label.irregulars'), t('label.inactives')],
+    labels:   [t('label.actives'), t('label.irregulars'), t('label.inactives')],
     datasets: [
       {
-        label: t('label.amount'),
-        data: [stats.active, stats.irregular, stats.inactive],
+        label:           t('label.amount'),
+        data:            [stats.active, stats.irregular, stats.inactive],
         backgroundColor: [colors.green[500], colors.yellow[500], colors.red[500]],
-        borderColor: [colors.green[800], colors.yellow[800], colors.red[800]],
-        borderWidth: 1
-      }
-    ]
+        borderColor:     [colors.green[800], colors.yellow[800], colors.red[800]],
+        borderWidth:     1,
+      },
+    ],
   }
 
   const options = {
-    animation: { animateScale: false, animateRotate: true },
+    animation:   { animateScale: false, animateRotate: true },
     aspectRatio: 1,
-    plugins: {
+    plugins:     {
       legend: {
         position: 'bottom' as const,
-        align: 'center' as const,
-        display: false,
-        labels: {
-          color: colors.slate[400]
-        }
-      }
+        align:    'center' as const,
+        display:  false,
+        labels:   {
+          color: colors.slate[400],
+        },
+      },
     },
-    responsive: true
+    responsive: true,
   }
 
   return (
@@ -54,11 +54,13 @@ export default function PublisherStats(): JSX.Element {
       footer={t('label.numberActivePublishers', { amount: stats.active + stats.irregular })}
       loading={loading}
     >
-      {loading ? (
-        <div className="aspect-square w-full rounded-full bg-slate-200" />
-      ) : (
-        <Doughnut data={data} options={options} />
-      )}
+      {loading
+        ? (
+          <div className="aspect-square w-full rounded-full bg-slate-200" />
+          )
+        : (
+          <Doughnut data={data} options={options} />
+          )}
     </Card>
   )
 }

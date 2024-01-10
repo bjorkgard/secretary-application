@@ -1,25 +1,25 @@
-import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from 'react-router-dom'
-import { PublisherModel, ServiceGroupModel } from 'src/types/models'
-import ROUTES from '../../constants/routes.json'
-import { Field } from '@renderer/components/Field'
-import classNames from '@renderer/utils/classNames'
-import { useEffect, useState } from 'react'
+import { useForm }                                from 'react-hook-form'
+import { useTranslation }                         from 'react-i18next'
+import { useNavigate, useParams }                 from 'react-router-dom'
+import type { PublisherModel, ServiceGroupModel } from 'src/types/models'
+import { Field }                                  from '@renderer/components/Field'
+import classNames                                 from '@renderer/utils/classNames'
+import { useEffect, useState }                    from 'react'
+import ROUTES                                     from '../../constants/routes.json'
 
 export default function ServiceGroupForm(): JSX.Element {
-  const { t } = useTranslation()
-  const { id } = useParams()
+  const { t }    = useTranslation()
+  const { id }   = useParams()
   const navigate = useNavigate()
 
-  const [publishers, setPublishers] = useState<PublisherModel[]>([])
+  const [publishers, setPublishers]     = useState<PublisherModel[]>([])
   const [serviceGroup, setServiceGroup] = useState<ServiceGroupModel>()
 
   const {
     handleSubmit,
     register,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm<ServiceGroupModel>({ defaultValues: {}, mode: 'onSubmit' })
 
   const onSubmit = (data: ServiceGroupModel): void => {
@@ -27,7 +27,8 @@ export default function ServiceGroupForm(): JSX.Element {
       window.electron.ipcRenderer.invoke('update-serviceGroup', data).then(() => {
         navigate(ROUTES.SERVICE_GROUPS)
       })
-    } else {
+    }
+    else {
       window.electron.ipcRenderer.invoke('create-serviceGroup', data).then(() => {
         navigate(ROUTES.SERVICE_GROUPS)
       })
@@ -77,10 +78,10 @@ export default function ServiceGroupForm(): JSX.Element {
                 placeholder={t('label.name')}
                 className={classNames(
                   errors.name ? 'input-error' : '',
-                  'input w-full input-bordered'
+                  'input w-full input-bordered',
                 )}
                 {...register('name', {
-                  required: t('errors.name.required')
+                  required: t('errors.name.required'),
                 })}
               />
             </Field>
@@ -92,7 +93,7 @@ export default function ServiceGroupForm(): JSX.Element {
               <select
                 className={classNames(
                   errors.responsibleId ? 'select-error' : '',
-                  'select select-bordered w-full'
+                  'select select-bordered w-full',
                 )}
                 {...register('responsibleId')}
               >
@@ -100,7 +101,10 @@ export default function ServiceGroupForm(): JSX.Element {
                 {publishers.map((p) => {
                   return (
                     <option key={p._id} value={p._id}>
-                      {p.lastname}, {p.firstname}
+                      {p.lastname}
+                      ,
+                      {' '}
+                      {p.firstname}
                     </option>
                   )
                 })}
@@ -114,7 +118,7 @@ export default function ServiceGroupForm(): JSX.Element {
               <select
                 className={classNames(
                   errors.assistantId ? 'select-error' : '',
-                  'select select-bordered w-full'
+                  'select select-bordered w-full',
                 )}
                 {...register('assistantId')}
               >
@@ -122,7 +126,10 @@ export default function ServiceGroupForm(): JSX.Element {
                 {publishers.map((p) => {
                   return (
                     <option key={p._id} value={p._id}>
-                      {p.lastname}, {p.firstname}
+                      {p.lastname}
+                      ,
+                      {' '}
+                      {p.firstname}
                     </option>
                   )
                 })}

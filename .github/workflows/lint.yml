@@ -7,7 +7,7 @@ concurrency:
 
 defaults:
   run:
-    shell: 'bash'
+    shell: bash
 
 jobs:
   eslint:
@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20 # Need for npm >=7.7
-          cache: 'npm'
+          cache: npm
 
       - run: npm ci
         env:

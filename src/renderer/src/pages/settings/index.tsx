@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form'
-import { getCountries } from 'react-phone-number-input/input'
-import countryLabels from 'react-phone-number-input/locale/en.json'
-import { TrashIcon } from '@heroicons/react/20/solid'
-import { SettingsModel } from 'src/types/models'
-import classNames from '@renderer/utils/classNames'
-import { useSettingsState } from '@renderer/store/settingsStore'
-import { Field } from '@renderer/components/Field'
-import { useUmamiEventTrack } from '@renderer/providers/umami'
+import { useEffect, useState }    from 'react'
+import { useTranslation }         from 'react-i18next'
+import type { SubmitHandler }     from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
+import { getCountries }           from 'react-phone-number-input/input'
+import countryLabels              from 'react-phone-number-input/locale/en.json'
+import { TrashIcon }              from '@heroicons/react/20/solid'
+import type { SettingsModel }     from 'src/types/models'
+import classNames                 from '@renderer/utils/classNames'
+import { useSettingsState }       from '@renderer/store/settingsStore'
+import { Field }                  from '@renderer/components/Field'
+import { useUmamiEventTrack }     from '@renderer/providers/umami'
 
 interface Country {
   code: string
@@ -16,24 +17,24 @@ interface Country {
 }
 
 export default function Settings(): JSX.Element {
-  const [data, setData] = useState<SettingsModel>()
+  const [data, setData]           = useState<SettingsModel>()
   const [countries, setCountries] = useState<Country[]>([])
-  const { t } = useTranslation()
-  const settingsState = useSettingsState()
-  const umamiTrack = useUmamiEventTrack()
+  const { t }                     = useTranslation()
+  const settingsState             = useSettingsState()
+  const umamiTrack                = useUmamiEventTrack()
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-    control
+    control,
   } = useForm<SettingsModel>({
-    values: data
+    values: data,
   })
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'congregation.languageGroups' // unique name for your Field Array
+    name: 'congregation.languageGroups', // unique name for your Field Array
   })
 
   const onSubmit: SubmitHandler<SettingsModel> = (data): void => {
@@ -42,8 +43,9 @@ export default function Settings(): JSX.Element {
       settingsState.setSettings(data)
 
       window.Notification.requestPermission().then(() => {
+        // eslint-disable-next-line no-new
         new window.Notification('SECRETARY', {
-          body: t('settings.updated.body')
+          body: t('settings.updated.body'),
         })
       })
     })
@@ -55,7 +57,7 @@ export default function Settings(): JSX.Element {
       .then((settings: SettingsModel) => setData(settings))
 
     const c: Country[] = []
-    getCountries().map((country) => {
+    getCountries().forEach((country) => {
       c.push({ code: country, name: countryLabels[country] })
     })
     c.sort((a, b) => (a.name > b.name ? 1 : -1))
@@ -66,7 +68,7 @@ export default function Settings(): JSX.Element {
     <form className="min-h-full" onSubmit={handleSubmit(onSubmit)}>
       <h1>{t('settings.headline')}</h1>
       <div className="space-y-12">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 dark:border-slate-400/50 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3 dark:border-slate-400/50">
           <div>
             <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-slate-300">
               {t('settings.congregation.headline')}
@@ -87,11 +89,11 @@ export default function Settings(): JSX.Element {
                   placeholder={t('label.congregationName')}
                   className={classNames(
                     errors.congregation?.name ? 'input-error' : '',
-                    'input input-bordered w-full'
+                    'input input-bordered w-full',
                   )}
                   defaultValue={data?.congregation?.name}
                   {...register('congregation.name', {
-                    required: t('errors.congregationName.required')
+                    required: t('errors.congregationName.required'),
                   })}
                   aria-invalid={errors.congregation?.name ? 'true' : 'false'}
                 />
@@ -115,11 +117,11 @@ export default function Settings(): JSX.Element {
                   placeholder={t('label.congregationNumber')}
                   className={classNames(
                     errors.congregation?.number ? 'input-error' : '',
-                    'input input-bordered w-full'
+                    'input input-bordered w-full',
                   )}
                   defaultValue={data?.congregation?.number}
                   {...register('congregation.number', {
-                    required: t('errors.congregationNumber.required')
+                    required: t('errors.congregationNumber.required'),
                   })}
                   aria-invalid={errors.congregation?.number ? 'true' : 'false'}
                 />
@@ -138,7 +140,7 @@ export default function Settings(): JSX.Element {
                 <select
                   className="select select-bordered w-full max-w-xs"
                   {...register('congregation.country', {
-                    required: t('errors.congregationCountry.required')
+                    required: t('errors.congregationCountry.required'),
                   })}
                 >
                   {countries.map((country) => {
@@ -157,7 +159,7 @@ export default function Settings(): JSX.Element {
                 <select
                   className="select select-bordered w-full max-w-xs"
                   {...register('congregation.locale', {
-                    required: t('errors.congregationLocale.required')
+                    required: t('errors.congregationLocale.required'),
                   })}
                 >
                   <option value="en">English</option>
@@ -168,7 +170,7 @@ export default function Settings(): JSX.Element {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 dark:border-slate-400/50 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3 dark:border-slate-400/50">
           <div>
             <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-slate-300">
               {t('settings.languageGroup.headline')}
@@ -189,7 +191,7 @@ export default function Settings(): JSX.Element {
                       >
                         <input
                           {...register(`congregation.languageGroups.${index}.name` as const, {
-                            required: t('errors.languageGroup.name.required')
+                            required: t('errors.languageGroup.name.required'),
                           })}
                           className="input input-bordered w-full"
                         />
@@ -222,7 +224,7 @@ export default function Settings(): JSX.Element {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 dark:border-slate-400/50 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3 dark:border-slate-400/50">
           <div>
             <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-slate-300">
               {t('settings.user.headline')}
@@ -243,10 +245,10 @@ export default function Settings(): JSX.Element {
                   placeholder={t('label.firstname')}
                   className={classNames(
                     errors.user?.firstname ? 'input-error' : '',
-                    'input input-bordered w-full'
+                    'input input-bordered w-full',
                   )}
                   {...register('user.firstname', {
-                    required: t('errors.firstname.required')
+                    required: t('errors.firstname.required'),
                   })}
                   aria-invalid={errors.user?.firstname ? 'true' : 'false'}
                 />
@@ -270,11 +272,11 @@ export default function Settings(): JSX.Element {
                   placeholder={t('label.lastname')}
                   className={classNames(
                     errors.user?.lastname ? 'input-error' : '',
-                    'input input-bordered w-full'
+                    'input input-bordered w-full',
                   )}
                   defaultValue={data?.user?.lastname}
                   {...register('user.lastname', {
-                    required: t('errors.lastname.required')
+                    required: t('errors.lastname.required'),
                   })}
                   aria-invalid={errors.user?.lastname ? 'true' : 'false'}
                 />
@@ -298,12 +300,12 @@ export default function Settings(): JSX.Element {
                   placeholder={t('label.email')}
                   className={classNames(
                     errors.user?.email ? 'input-error' : '',
-                    'input input-bordered w-full'
+                    'input input-bordered w-full',
                   )}
                   defaultValue={data?.user?.email}
                   {...register('user.email', {
                     required: t('errors.email.required'),
-                    validate: (value) => !value.includes('jwpub.org') || t('errors.email.jwpub')
+                    validate: value => !value.includes('jwpub.org') || t('errors.email.jwpub'),
                   })}
                   aria-invalid={errors.user?.email ? 'true' : 'false'}
                 />
@@ -317,7 +319,7 @@ export default function Settings(): JSX.Element {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 dark:border-slate-400/50 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3 dark:border-slate-400/50">
           <div>
             <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-slate-300">
               {t('settings.online.headline')}

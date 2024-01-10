@@ -1,34 +1,35 @@
-import i18n from 'i18next'
+import path           from 'node:path'
+import i18n           from 'i18next'
 import i18nextBackend from 'i18next-fs-backend'
-import whitelist from './whitelist'
-import isDev from 'electron-is-dev'
-import path from 'path'
+import isDev          from 'electron-is-dev'
+import whitelist      from './whitelist'
 
 const i18nextOptions = {
-  debug: false,
+  debug:   false,
   backend: {
     loadPath: isDev
       ? './src/localization/locales/{{lng}}/{{ns}}.json'
+      // eslint-disable-next-line node/prefer-global/process
       : path.join(process.resourcesPath, 'locales', '{{lng}}/{{ns}}.json'),
     addPath: isDev
       ? './src/localization/locales/{{lng}}/{{ns}}.missing.json'
+      // eslint-disable-next-line node/prefer-global/process
       : path.join(process.resourcesPath, 'locales', '{{lng}}/{{ns}}.missing.json'),
-    jsonIndent: 2
+    jsonIndent: 2,
   },
   interpolation: {
-    escapeValue: false
+    escapeValue: false,
   },
   saveMissing: true,
   fallbackLng: 'sv',
-  lng: 'sv',
-  whitelist: whitelist.languages
+  lng:         'sv',
+  whitelist:   whitelist.languages,
 }
 
 i18n.use(i18nextBackend)
 
 // initialize if not already initialized
-if (!i18n.isInitialized) {
+if (!i18n.isInitialized)
   i18n.init(i18nextOptions)
-}
 
 export default i18n

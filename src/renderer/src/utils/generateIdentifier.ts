@@ -8,13 +8,13 @@
  * @param {number} len
  * @return {string}
  */
-const generateIdentifier = (len: number = 16): string => {
-  let result = ''
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+function generateIdentifier(len: number = 16): string {
+  let result             = ''
+  const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   const charactersLength = characters.length
-  let counter = 0
+  let counter            = 0
   while (counter < len) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength))
+    result  += characters.charAt(Math.floor(Math.random() * charactersLength))
     counter += 1
   }
 

@@ -1,5 +1,5 @@
-import BaseStore from './baseStore'
-import { CircuitOverseer } from './schemas'
+import BaseStore                from './baseStore'
+import type { CircuitOverseer } from './schemas'
 
 export default class CircuitOverseerStore extends BaseStore<CircuitOverseer> {
   find(): Promise<CircuitOverseer[]> {
@@ -10,12 +10,13 @@ export default class CircuitOverseerStore extends BaseStore<CircuitOverseer> {
     const isValid: boolean = this.validate(data)
 
     if (isValid) {
-      if (id) {
+      if (id)
         return await this.databaseInstance.update({ _id: id }, data)
-      } else {
+
+      else
         return this.databaseInstance.insert(data)
-      }
-    } else {
+    }
+    else {
       return undefined
     }
   }

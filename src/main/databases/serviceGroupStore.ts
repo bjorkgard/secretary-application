@@ -1,5 +1,5 @@
-import BaseStore from './baseStore'
-import { ServiceGroup } from './schemas'
+import BaseStore             from './baseStore'
+import type { ServiceGroup } from './schemas'
 
 export default class ServiceGroupStore extends BaseStore<ServiceGroup> {
   find(): Promise<ServiceGroup[]> {

@@ -1,5 +1,5 @@
-import BaseStore from './baseStore'
-import { ServiceYear } from './schemas'
+import BaseStore            from './baseStore'
+import type { ServiceYear } from './schemas'
 
 export default class ServiceYearStore extends BaseStore<ServiceYear> {
   find(): Promise<ServiceYear[]> {
@@ -7,7 +7,7 @@ export default class ServiceYearStore extends BaseStore<ServiceYear> {
   }
 
   findByName(name: number): Promise<ServiceYear | null> {
-    return this.databaseInstance.findOne({ name: name })
+    return this.databaseInstance.findOne({ name })
   }
 
   delete(id: string): Promise<number> {
@@ -20,13 +20,14 @@ export default class ServiceYearStore extends BaseStore<ServiceYear> {
 
     if (!serviceYear) {
       const newServiceYear: ServiceYear = {
-        name: name,
+        name,
         serviceMonths: [],
-        history: []
+        history:       [],
       }
 
       return await this.databaseInstance.insert(newServiceYear)
-    } else {
+    }
+    else {
       return serviceYear
     }
   }

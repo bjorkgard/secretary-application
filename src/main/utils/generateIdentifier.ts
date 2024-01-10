@@ -1,4 +1,4 @@
-import crypto from 'crypto'
+import crypto from 'node:crypto'
 
 /**
  * Return a random alphanumerical string of length len
@@ -10,7 +10,7 @@ import crypto from 'crypto'
  * @param {number} len
  * @return {string}
  */
-const generateIdentifier = (len: number = 16): string => {
+function generateIdentifier(len: number = 16): string {
   const uid = crypto
     .randomBytes(Math.ceil(Math.max(8, len * 2)))
     .toString('base64')

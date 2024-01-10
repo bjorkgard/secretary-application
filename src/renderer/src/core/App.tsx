@@ -1,8 +1,8 @@
-import { RouterProvider } from 'react-router-dom'
-import router from './router'
+import { RouterProvider }               from 'react-router-dom'
 import ConfirmationModalContextProvider from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
-import { useState } from 'react'
-import { Spinner } from '@renderer/components/Spinner'
+import { useState }                     from 'react'
+import { Spinner }                      from '@renderer/components/Spinner'
+import router                           from './router'
 
 function App(): JSX.Element {
   const [spinner, setSpinner] = useState<boolean>(false)

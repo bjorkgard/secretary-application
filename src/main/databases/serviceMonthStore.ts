@@ -1,5 +1,5 @@
-import BaseStore from './baseStore'
-import { ServiceMonth } from './schemas'
+import BaseStore             from './baseStore'
+import type { ServiceMonth } from './schemas'
 
 export default class ServiceMonthStore extends BaseStore<ServiceMonth> {
   find(): Promise<ServiceMonth[]> {
@@ -11,7 +11,7 @@ export default class ServiceMonthStore extends BaseStore<ServiceMonth> {
   }
 
   findByServiceMonth(serviceMonth: string): Promise<ServiceMonth | null> {
-    return this.databaseInstance.findOne({ serviceMonth: serviceMonth })
+    return this.databaseInstance.findOne({ serviceMonth })
   }
 
   findByIds(ids: string[]): Promise<ServiceMonth[]> {

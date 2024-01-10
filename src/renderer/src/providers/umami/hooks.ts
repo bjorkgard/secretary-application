@@ -1,6 +1,6 @@
-import { useContext, useCallback, useEffect } from 'react'
-import { UmamiContext } from './context'
-import { UmamiCustomEventData, UmamiTrackEvent } from './types'
+import { useCallback, useContext, useEffect }         from 'react'
+import { UmamiContext }                               from './context'
+import type { UmamiCustomEventData, UmamiTrackEvent } from './types'
 
 export function useUmamiEventTrack(): (
   eventName?: string,
@@ -8,67 +8,69 @@ export function useUmamiEventTrack(): (
   eventValue?: UmamiCustomEventData,
   forceTrack?: boolean
 ) => void {
-  const umamiCtx = useContext(UmamiContext)
+  const umamiCtx   = useContext(UmamiContext)
   const trackEvent = (
     eventName: string = 'custom',
     pageUrl: string = '/',
     eventValue?: UmamiCustomEventData,
-    forceTrack: boolean = false
+    forceTrack: boolean = false,
   ): void => {
     try {
       /*
-				EVENT
+        EVENT
 
-				{
-				payload: {
-					event_name: "click",
-					event_value: "signup-button",
-					website: "your-website-id",
-					url: "/",
-					hostname: "your-hostname",
-					language: "en-US",
-					screen: "1920x1080"
-				},
-				type: "event"
-			}
-
-			*/
-
-      const commonFields = umamiCtx.getEventPayloadFields()
-      if (commonFields === null) {
-        throw new Error('Not initialized')
+        {
+        payload: {
+          event_name: "click",
+          event_value: "signup-button",
+          website: "your-website-id",
+          url: "/",
+          hostname: "your-hostname",
+          language: "en-US",
+          screen: "1920x1080"
+        },
+        type: "event"
       }
 
+      */
+
+      const commonFields = umamiCtx.getEventPayloadFields()
+      if (commonFields === null)
+        throw new Error('Not initialized')
+
+      // eslint-disable-next-line no-console
       console.log(commonFields)
       /*
-				EVENT
+        EVENT
 
-				{
-				payload: {
-					event_name: "click",
-					event_value: "signup-button",
-					website: "your-website-id",
-					url: "/",
-					hostname: "your-hostname",
-					language: "en-US",
-					screen: "1920x1080"
-				},
-				type: "event"
-			}
+        {
+        payload: {
+          event_name: "click",
+          event_value: "signup-button",
+          website: "your-website-id",
+          url: "/",
+          hostname: "your-hostname",
+          language: "en-US",
+          screen: "1920x1080"
+        },
+        type: "event"
+      }
 
-			*/
+      */
       const event: UmamiTrackEvent = {
         payload: {
           ...commonFields,
           name: eventName,
-          url: pageUrl,
-          data: eventValue
+          url:  pageUrl,
+          data: eventValue,
         },
-        type: 'event'
+        type: 'event',
       }
+      // eslint-disable-next-line no-console
       console.log(event)
       umamiCtx.track(event, forceTrack)
-    } catch (err) {
+    }
+    catch (err) {
       console.warn && console.warn(err)
     }
   }
@@ -78,53 +80,53 @@ export function useUmamiEventTrack(): (
 
 interface UseUmamiPageViewArg1 {
   referrer?: string
-  pageUrl: string
+  pageUrl:   string
 }
 
 export function useUmamiPageTrack(
   {
     referrer = typeof document != 'undefined' ? document.referrer : undefined,
-    pageUrl
+    pageUrl,
   }: UseUmamiPageViewArg1,
-  skipPageView = false
+  skipPageView = false,
 ): (_pageUrl: string) => void | Promise<string | undefined> {
   const umamiCtx = useContext(UmamiContext)
 
   const track = useCallback((_pageUrl: string) => {
     /*
-			PAGEVIEW
+      PAGEVIEW
 
-			{
-				payload: {
-					referrer: "",
-					website: "your-website-id",
-					url: "/",
-					hostname: "your-hostname",
-					language: "en-US",
-					screen: "1920x1080",
-				},
-				type: "event"
-			}
- 		*/
+      {
+        payload: {
+          referrer: "",
+          website: "your-website-id",
+          url: "/",
+          hostname: "your-hostname",
+          language: "en-US",
+          screen: "1920x1080",
+        },
+        type: "event"
+      }
+     */
 
     const commonFields = umamiCtx.getEventPayloadFields()
-    if (commonFields === null) {
+    if (commonFields === null)
       throw new Error('Not initialized')
-    }
 
     const pageViewEvt: UmamiTrackEvent = {
       payload: {
         ...commonFields,
-        url: _pageUrl ? _pageUrl : pageUrl,
-        referrer
+        url: _pageUrl || pageUrl,
+        referrer,
       },
-      type: 'event'
+      type: 'event',
     }
     return umamiCtx.track(pageViewEvt)
   }, [])
 
   useEffect(() => {
-    if (!skipPageView) track(pageUrl)
+    if (!skipPageView)
+      track(pageUrl)
   }, [pageUrl])
 
   return track

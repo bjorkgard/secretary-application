@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { PlusIcon } from '@heroicons/react/24/solid'
-import { PencilIcon, TrashIcon } from '@heroicons/react/20/solid'
-import { PublisherModel, ServiceGroupModel } from 'src/types/models'
-import ROUTES from '../../constants/routes.json'
-import { useConfirmationModalContext } from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import { useEffect, useState }                    from 'react'
+import { useTranslation }                         from 'react-i18next'
+import { useNavigate }                            from 'react-router-dom'
+import { PlusIcon }                               from '@heroicons/react/24/solid'
+import { PencilIcon, TrashIcon }                  from '@heroicons/react/20/solid'
+import type { PublisherModel, ServiceGroupModel } from 'src/types/models'
+import { useConfirmationModalContext }            from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import ROUTES                                     from '../../constants/routes.json'
 
 export default function ServiceGroups(): JSX.Element {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
+  const { t }          = useTranslation()
+  const navigate       = useNavigate()
   const confirmContext = useConfirmationModalContext()
 
   const [serviceGroups, setServiceGroups] = useState<ServiceGroupModel[]>([])
-  const [responibles, setResponsibles] = useState<PublisherModel[]>([])
+  const [responibles, setResponsibles]    = useState<PublisherModel[]>([])
 
   const getServiceGroups = (): void => {
     window.electron.ipcRenderer.invoke('get-serviceGroups').then((result: ServiceGroupModel[]) => {
@@ -26,10 +26,10 @@ export default function ServiceGroups(): JSX.Element {
   }, [])
 
   useEffect(() => {
-    const respIds = serviceGroups.map((serviceGroup) => serviceGroup.responsibleId)
-    const assistIds = serviceGroups.map((serviceGroup) => serviceGroup.assistantId)
-    let ids = respIds.concat(assistIds.filter((item) => respIds.indexOf(item) < 0))
-    ids = ids.filter((v) => v !== undefined)
+    const respIds   = serviceGroups.map(serviceGroup => serviceGroup.responsibleId)
+    const assistIds = serviceGroups.map(serviceGroup => serviceGroup.assistantId)
+    let ids         = respIds.concat(assistIds.filter(item => !respIds.includes(item)))
+    ids             = ids.filter(v => v !== undefined)
 
     window.electron.ipcRenderer
       .invoke('get-publishersByIds', { ids })
@@ -39,20 +39,19 @@ export default function ServiceGroups(): JSX.Element {
   }, [serviceGroups])
 
   const editServiceGroup = (id: string | undefined): void => {
-    if (id) {
+    if (id)
       navigate(`${ROUTES.SERVICE_GROUPS}/${id}/edit`)
-    }
   }
 
   const deleteServiceGroup = async (id: string | undefined): Promise<void> => {
     if (id) {
       const result = await confirmContext.showConfirmation(
         t('serviceGroups.deleteConfirmation.headline'),
-        t('serviceGroups.deleteConfirmation.body')
+        t('serviceGroups.deleteConfirmation.body'),
       )
       if (result) {
         window.electron.ipcRenderer.invoke('delete-serviceGroup', id).then(() => {
-          setServiceGroups(serviceGroups.filter((serviceGroup) => serviceGroup._id !== id))
+          setServiceGroups(serviceGroups.filter(serviceGroup => serviceGroup._id !== id))
         })
       }
     }
@@ -83,16 +82,20 @@ export default function ServiceGroups(): JSX.Element {
           </thead>
           <tbody>
             {serviceGroups.map((serviceGroup) => {
-              const responsible = responibles.find((r) => r._id === serviceGroup.responsibleId)
-              const assistant = responibles.find((r) => r._id === serviceGroup.assistantId)
+              const responsible = responibles.find(r => r._id === serviceGroup.responsibleId)
+              const assistant   = responibles.find(r => r._id === serviceGroup.assistantId)
               return (
                 <tr key={serviceGroup._id} className="hover">
                   <td>{serviceGroup.name}</td>
                   <td>
-                    {responsible?.firstname} {responsible?.lastname}
+                    {responsible?.firstname}
+                    {' '}
+                    {responsible?.lastname}
                   </td>
                   <td>
-                    {assistant?.firstname} {assistant?.lastname}
+                    {assistant?.firstname}
+                    {' '}
+                    {assistant?.lastname}
                   </td>
                   <td>
                     <div className="flex justify-end space-x-4">

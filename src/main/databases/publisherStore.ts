@@ -1,11 +1,11 @@
-import { PublisherModel } from '../../types/models'
-import BaseStore from './baseStore'
-import { Publisher } from './schemas'
+import type { PublisherModel } from '../../types/models'
+import BaseStore               from './baseStore'
+import type { Publisher }      from './schemas'
 
 export default class PublisherStore extends BaseStore<Publisher> {
   find(sortField: string, queryString = ''): Promise<Publisher[]> {
     let query = {}
-    let sort = {}
+    let sort  = {}
 
     switch (sortField) {
       case 'LASTNAME':
@@ -31,13 +31,13 @@ export default class PublisherStore extends BaseStore<Publisher> {
     }
 
     if (queryString && queryString !== '') {
-      //TODO: Fix search on more fields
+      // TODO: Fix search on more fields
       query = {
         $or: [
           { firstname: new RegExp(queryString, 'i') },
           { lastname: new RegExp(queryString, 'i') },
-          { email: new RegExp(queryString, 'i') }
-        ]
+          { email: new RegExp(queryString, 'i') },
+        ],
       }
     }
 
@@ -65,15 +65,15 @@ export default class PublisherStore extends BaseStore<Publisher> {
 
   resetServiceGroup(serviceGroupId: string): Promise<number> {
     return this.databaseInstance.updateMany(
-      { serviceGroupId: serviceGroupId },
-      { $set: { serviceGroupId: '' } }
+      { serviceGroupId },
+      { $set: { serviceGroupId: '' } },
     )
   }
 
   updateAddressOnFamilyMembers(publisher: PublisherModel): Promise<number> {
     return this.databaseInstance.updateMany(
       { familyId: publisher._id },
-      { $set: { address: publisher.address, zip: publisher.zip, city: publisher.city } }
+      { $set: { address: publisher.address, zip: publisher.zip, city: publisher.city } },
     )
   }
 }

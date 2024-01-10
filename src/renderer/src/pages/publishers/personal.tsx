@@ -1,22 +1,39 @@
-import { useNavigate, useParams } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
-import { ChevronRightIcon } from '@heroicons/react/24/solid'
-import { usePublisherState } from '@renderer/store/publisherStore'
-import { PublisherModel, ServiceGroupModel } from 'src/types/models'
-import { Field } from '@renderer/components/Field'
-import classNames from '@renderer/utils/classNames'
-import ROUTES from '../../constants/routes.json'
-import { useEffect, useState } from 'react'
+import { useNavigate, useParams }                 from 'react-router-dom'
+import { useForm }                                from 'react-hook-form'
+import { useTranslation }                         from 'react-i18next'
+import { ChevronRightIcon }                       from '@heroicons/react/24/solid'
+import { usePublisherState }                      from '@renderer/store/publisherStore'
+import type { PublisherModel, ServiceGroupModel } from 'src/types/models'
+import { Field }                                  from '@renderer/components/Field'
+import classNames                                 from '@renderer/utils/classNames'
+import { useEffect, useState }                    from 'react'
+import ROUTES                                     from '../../constants/routes.json'
 
 export default function PublisherPersonalForm(): JSX.Element {
-  const { t } = useTranslation()
-  const { id } = useParams()
-  const navigate = useNavigate()
+  const { t }          = useTranslation()
+  const { id }         = useParams()
+  const navigate       = useNavigate()
   const publisherState = usePublisherState()
-  const [publisher, setPublisher] = useState<PublisherModel>(publisherState.publisher)
 
+  const [publisher, setPublisher]         = useState<PublisherModel>(publisherState.publisher)
   const [serviceGroups, setServiceGroups] = useState<ServiceGroupModel[]>([])
+
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm<PublisherModel>({ defaultValues: publisherState.publisher, mode: 'onSubmit' })
+
+  const saveData = (data: PublisherModel): void => {
+    publisherState.setPublisher({ ...publisherState.publisher, ...data })
+    navigate(ROUTES.PUBLISHER_CONTACT_FORM)
+  }
+
+  const abort = (): void => {
+    publisherState.delete()
+    navigate(ROUTES.PUBLISHERS)
+  }
 
   useEffect(() => {
     window.electron.ipcRenderer.invoke('get-serviceGroups').then((result: ServiceGroupModel[]) => {
@@ -32,23 +49,6 @@ export default function PublisherPersonalForm(): JSX.Element {
       })
     }
   }, [id])
-
-  const {
-    handleSubmit,
-    register,
-    reset,
-    formState: { errors }
-  } = useForm<PublisherModel>({ defaultValues: publisherState.publisher, mode: 'onSubmit' })
-
-  const saveData = (data: PublisherModel): void => {
-    publisherState.setPublisher({ ...publisherState.publisher, ...data })
-    navigate(ROUTES.PUBLISHER_CONTACT_FORM)
-  }
-
-  const abort = (): void => {
-    publisherState.delete()
-    navigate(ROUTES.PUBLISHERS)
-  }
 
   if (id && !publisher) {
     // !This is a workaround wait for the publisher to be loaded
@@ -82,10 +82,10 @@ export default function PublisherPersonalForm(): JSX.Element {
                 placeholder={t('label.firstname')}
                 className={classNames(
                   errors.firstname ? 'input-error' : '',
-                  'input w-full input-bordered'
+                  'input w-full input-bordered',
                 )}
                 {...register('firstname', {
-                  required: t('errors.firstname.required')
+                  required: t('errors.firstname.required'),
                 })}
               />
             </Field>
@@ -99,10 +99,10 @@ export default function PublisherPersonalForm(): JSX.Element {
                 placeholder={t('label.lastname')}
                 className={classNames(
                   errors.lastname ? 'input-error' : '',
-                  'input w-full input-bordered'
+                  'input w-full input-bordered',
                 )}
                 {...register('lastname', {
-                  required: t('errors.lastname.required')
+                  required: t('errors.lastname.required'),
                 })}
               />
             </Field>
@@ -117,7 +117,7 @@ export default function PublisherPersonalForm(): JSX.Element {
                 placeholder={t('label.birthday')}
                 className={classNames(
                   errors.birthday ? 'input-error' : '',
-                  'input w-full input-bordered'
+                  'input w-full input-bordered',
                 )}
                 {...register('birthday', { required: false })}
               />
@@ -167,7 +167,7 @@ export default function PublisherPersonalForm(): JSX.Element {
                 placeholder={t('label.baptised')}
                 className={classNames(
                   errors.baptised ? 'input-error' : '',
-                  'input w-full input-bordered'
+                  'input w-full input-bordered',
                 )}
               />
             </Field>
@@ -230,7 +230,7 @@ export default function PublisherPersonalForm(): JSX.Element {
               <select
                 className={classNames(
                   errors.status ? 'select-error' : '',
-                  'select select-bordered w-full'
+                  'select select-bordered w-full',
                 )}
                 {...register('status')}
               >
@@ -275,10 +275,10 @@ export default function PublisherPersonalForm(): JSX.Element {
               <select
                 className={classNames(
                   errors.serviceGroupId ? 'select-error' : '',
-                  'select select-bordered w-full'
+                  'select select-bordered w-full',
                 )}
                 {...register('serviceGroupId', {
-                  required: t('errors.serviceGroupId.required')
+                  required: t('errors.serviceGroupId.required'),
                 })}
               >
                 <option value="">{t('label.selectServiceGroup')}</option>

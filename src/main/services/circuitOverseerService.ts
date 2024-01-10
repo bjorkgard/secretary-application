@@ -1,49 +1,50 @@
-import { CircuitOverseerModel } from '../../types/models'
-import { CircuitOverseer, CircuitOverseerSchema } from '../databases/schemas'
-import { CircuitOverseerService as ICircuitOverseerService } from '../../types/type'
-import CircuitOverseerStore from '../databases/circuitOverseerStore'
+import type { CircuitOverseerModel }                              from '../../types/models'
+import type { CircuitOverseer }                                   from '../databases/schemas'
+import { CircuitOverseerSchema }                                  from '../databases/schemas'
+import type { CircuitOverseerService as ICircuitOverseerService } from '../../types/type'
+import CircuitOverseerStore                                       from '../databases/circuitOverseerStore'
 
 const circuitOverseerStore = new CircuitOverseerStore('circuitOverseer.db', CircuitOverseerSchema)
 
-const parseCircuitOverseerModel = (data: CircuitOverseerModel): CircuitOverseer => {
+function parseCircuitOverseerModel(data: CircuitOverseerModel): CircuitOverseer {
   const circuitOverseer: CircuitOverseer = {
     firstname: '',
-    lastname: '',
-    address: '',
-    zip: '',
-    city: ''
+    lastname:  '',
+    address:   '',
+    zip:       '',
+    city:      '',
   }
 
   circuitOverseer.firstname = data.firstname
-  circuitOverseer.lastname = data.lastname
-  circuitOverseer.email = data.email
-  circuitOverseer.phone = data.phone
-  circuitOverseer.mobile = data.mobile
-  circuitOverseer.address = data.address
-  circuitOverseer.zip = data.zip
-  circuitOverseer.city = data.city
+  circuitOverseer.lastname  = data.lastname
+  circuitOverseer.email     = data.email
+  circuitOverseer.phone     = data.phone
+  circuitOverseer.mobile    = data.mobile
+  circuitOverseer.address   = data.address
+  circuitOverseer.zip       = data.zip
+  circuitOverseer.city      = data.city
 
   return circuitOverseer
 }
 
-const parseCircuitOverseer = (data: CircuitOverseer): CircuitOverseerModel => {
+function parseCircuitOverseer(data: CircuitOverseer): CircuitOverseerModel {
   const circuitOverseerModel: CircuitOverseerModel = {
     firstname: '',
-    lastname: '',
-    address: '',
-    zip: '',
-    city: ''
+    lastname:  '',
+    address:   '',
+    zip:       '',
+    city:      '',
   }
 
-  circuitOverseerModel._id = data._id
+  circuitOverseerModel._id       = data._id
   circuitOverseerModel.firstname = data.firstname
-  circuitOverseerModel.lastname = data.lastname
-  circuitOverseerModel.email = data.email
-  circuitOverseerModel.phone = data.phone
-  circuitOverseerModel.mobile = data.mobile
-  circuitOverseerModel.address = data.address
-  circuitOverseerModel.zip = data.zip
-  circuitOverseerModel.city = data.city
+  circuitOverseerModel.lastname  = data.lastname
+  circuitOverseerModel.email     = data.email
+  circuitOverseerModel.phone     = data.phone
+  circuitOverseerModel.mobile    = data.mobile
+  circuitOverseerModel.address   = data.address
+  circuitOverseerModel.zip       = data.zip
+  circuitOverseerModel.city      = data.city
   circuitOverseerModel.createdAt = data.createdAt?.toLocaleString('sv-SE')
   circuitOverseerModel.updatedAt = data.updatedAt?.toLocaleString('sv-SE')
 
@@ -53,17 +54,16 @@ const parseCircuitOverseer = (data: CircuitOverseer): CircuitOverseerModel => {
 export default class CircuitOverseerService implements ICircuitOverseerService {
   async find(): Promise<CircuitOverseerModel | undefined> {
     const circuitOverseer = (await circuitOverseerStore.find()) as CircuitOverseer[]
-    if (circuitOverseer.length > 0) {
+    if (circuitOverseer.length > 0)
       return parseCircuitOverseer(circuitOverseer[0])
-    }
 
     return undefined
   }
 
   async create(data: CircuitOverseerModel): Promise<CircuitOverseerModel> {
-    const circuitOverseer = parseCircuitOverseerModel(data)
+    const circuitOverseer    = parseCircuitOverseerModel(data)
     const newCircuitOverseer = (await circuitOverseerStore.create(
-      circuitOverseer
+      circuitOverseer,
     )) as CircuitOverseer
     return parseCircuitOverseer(newCircuitOverseer)
   }

@@ -1,37 +1,38 @@
-import { Auxiliary, AuxiliarySchema } from '../databases/schemas'
-import { AuxiliaryModel } from '../../types/models'
-import { AuxiliaryService as IAuxiliaryService } from '../../types/type'
-import AuxiliaryStore from '../databases/auxiliaryStore'
+import type { Auxiliary }                             from '../databases/schemas'
+import { AuxiliarySchema }                            from '../databases/schemas'
+import type { AuxiliaryModel }                        from '../../types/models'
+import type { AuxiliaryService as IAuxiliaryService } from '../../types/type'
+import AuxiliaryStore                                 from '../databases/auxiliaryStore'
 
 const auxiliaryStore = new AuxiliaryStore('auxiliaries.db', AuxiliarySchema)
 
-const parseAuxiliaryModel = (data: AuxiliaryModel): Auxiliary => {
+function parseAuxiliaryModel(data: AuxiliaryModel): Auxiliary {
   const auxiliary = <Auxiliary>{
     serviceMonth: '',
-    name: '',
-    publisherIds: []
+    name:         '',
+    publisherIds: [],
   }
 
   auxiliary.serviceMonth = data.serviceMonth
-  auxiliary.name = data.name
+  auxiliary.name         = data.name
   auxiliary.publisherIds = data.publisherIds
 
   return auxiliary
 }
 
-const parseAuxiliary = (data: Auxiliary): AuxiliaryModel => {
+function parseAuxiliary(data: Auxiliary): AuxiliaryModel {
   const auxiliaryModel = <AuxiliaryModel>{
     serviceMonth: '',
-    name: '',
-    publisherIds: []
+    name:         '',
+    publisherIds: [],
   }
 
-  auxiliaryModel._id = data._id
+  auxiliaryModel._id          = data._id
   auxiliaryModel.serviceMonth = data.serviceMonth
-  auxiliaryModel.name = data.name
+  auxiliaryModel.name         = data.name
   auxiliaryModel.publisherIds = data.publisherIds
-  auxiliaryModel.createdAt = data.createdAt?.toLocaleString('sv-SE')
-  auxiliaryModel.updatedAt = data.updatedAt?.toLocaleString('sv-SE')
+  auxiliaryModel.createdAt    = data.createdAt?.toLocaleString('sv-SE')
+  auxiliaryModel.updatedAt    = data.updatedAt?.toLocaleString('sv-SE')
 
   return auxiliaryModel
 }
@@ -43,20 +44,21 @@ export default class AuxiliaryService implements IAuxiliaryService {
 
   async upsert({
     serviceMonth,
-    name
+    name,
   }: {
     serviceMonth: string
-    name: string
+    name:         string
   }): Promise<AuxiliaryModel> {
     const auxiliary = (await auxiliaryStore.findByServiceMonth(serviceMonth)) as Auxiliary
 
     if (auxiliary) {
       return parseAuxiliary(auxiliary)
-    } else {
+    }
+    else {
       const newAuxiliary = (await auxiliaryStore.create({
-        serviceMonth: serviceMonth,
-        name: name,
-        publisherIds: []
+        serviceMonth,
+        name,
+        publisherIds: [],
       })) as Auxiliary
 
       return parseAuxiliary(newAuxiliary)
@@ -66,21 +68,21 @@ export default class AuxiliaryService implements IAuxiliaryService {
   async findByServiceMonth(serviceMonth: string): Promise<AuxiliaryModel | null> {
     const auxiliary = (await auxiliaryStore.findByServiceMonth(serviceMonth)) as Auxiliary
 
-    if (auxiliary) {
+    if (auxiliary)
       return parseAuxiliary(auxiliary)
-    } else {
+
+    else
       return null
-    }
   }
 
   async find(): Promise<AuxiliaryModel[]> {
     const auxiliaries = (await auxiliaryStore.find()) as Auxiliary[]
 
-    return auxiliaries.map((a) => parseAuxiliary(a))
+    return auxiliaries.map(a => parseAuxiliary(a))
   }
 
   async create(data: AuxiliaryModel): Promise<AuxiliaryModel> {
-    const auxiliary = parseAuxiliaryModel(data)
+    const auxiliary    = parseAuxiliaryModel(data)
     const newAuxiliary = (await auxiliaryStore.create(auxiliary)) as Auxiliary
 
     return parseAuxiliary(newAuxiliary)

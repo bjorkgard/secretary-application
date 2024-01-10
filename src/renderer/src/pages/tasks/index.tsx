@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { PlusIcon } from '@heroicons/react/24/solid'
-import { PencilIcon, TrashIcon } from '@heroicons/react/20/solid'
-import { ResponsibilityModel, TaskModel } from 'src/types/models'
-import ROUTES from '../../constants/routes.json'
-import { useConfirmationModalContext } from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import { useEffect, useState }                 from 'react'
+import { useTranslation }                      from 'react-i18next'
+import { useNavigate }                         from 'react-router-dom'
+import { PlusIcon }                            from '@heroicons/react/24/solid'
+import { PencilIcon, TrashIcon }               from '@heroicons/react/20/solid'
+import type { ResponsibilityModel, TaskModel } from 'src/types/models'
+import { useConfirmationModalContext }         from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import ROUTES                                  from '../../constants/routes.json'
 
 export default function Tasks(): JSX.Element {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
+  const { t }          = useTranslation()
+  const navigate       = useNavigate()
   const confirmContext = useConfirmationModalContext()
 
-  const [tasks, setTasks] = useState<TaskModel[]>([])
+  const [tasks, setTasks]                       = useState<TaskModel[]>([])
   const [responsibilities, setResponsibilities] = useState<ResponsibilityModel[]>([])
 
   const getTasks = (): void => {
@@ -38,26 +38,25 @@ export default function Tasks(): JSX.Element {
         })
 
         setResponsibilities(
-          parsedResult.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
+          parsedResult.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)),
         )
       })
   }, [tasks])
 
   const editTask = (id: string | undefined): void => {
-    if (id) {
+    if (id)
       navigate(`${ROUTES.TASKS}/${id}/edit`)
-    }
   }
 
   const deleteTask = async (id: string | undefined): Promise<void> => {
     if (id) {
       const result = await confirmContext.showConfirmation(
         t('tasks.deleteConfirmation.headline'),
-        t('tasks.deleteConfirmation.body')
+        t('tasks.deleteConfirmation.body'),
       )
       if (result) {
         window.electron.ipcRenderer.invoke('delete-task', id).then(() => {
-          setTasks(tasks.filter((t) => t._id !== id))
+          setTasks(tasks.filter(t => t._id !== id))
         })
       }
     }
@@ -87,7 +86,7 @@ export default function Tasks(): JSX.Element {
           </thead>
           <tbody>
             {tasks.map((task) => {
-              const responsibility = responsibilities.find((r) => r._id === task.responsibilityId)
+              const responsibility = responsibilities.find(r => r._id === task.responsibilityId)
 
               return (
                 <tr key={task._id} className="hover">

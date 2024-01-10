@@ -1,4 +1,4 @@
-const toNumber = (value: unknown): number => {
+function toNumber(value: unknown): number {
   return Number(value)
 }
 

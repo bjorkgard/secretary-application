@@ -1,5 +1,5 @@
-import BaseStore from './baseStore'
-import { Auxiliary } from './schemas'
+import BaseStore          from './baseStore'
+import type { Auxiliary } from './schemas'
 
 export default class AuxiliaryStore extends BaseStore<Auxiliary> {
   find(): Promise<Auxiliary[]> {
@@ -7,7 +7,7 @@ export default class AuxiliaryStore extends BaseStore<Auxiliary> {
   }
 
   findByServiceMonth(serviceMonth: string): Promise<Auxiliary | null> {
-    return this.databaseInstance.findOne({ serviceMonth: serviceMonth })
+    return this.databaseInstance.findOne({ serviceMonth })
   }
 
   delete(id: string): Promise<number> {
@@ -17,6 +17,6 @@ export default class AuxiliaryStore extends BaseStore<Auxiliary> {
 
   deleteServiceMonth(serviceMonth: string): Promise<number> {
     // options set to {} since the default for multi is false
-    return this.databaseInstance.remove({ serviceMonth: serviceMonth }, {})
+    return this.databaseInstance.remove({ serviceMonth }, {})
   }
 }

@@ -1,5 +1,5 @@
-import BaseStore from './baseStore'
-import { Task } from './schemas'
+import BaseStore     from './baseStore'
+import type { Task } from './schemas'
 
 export default class TaskStore extends BaseStore<Task> {
   find(): Promise<Task[]> {
@@ -19,10 +19,10 @@ export default class TaskStore extends BaseStore<Task> {
   async upsert(data: Task): Promise<number | undefined> {
     const isValid: boolean = this.validate(data)
 
-    if (isValid) {
+    if (isValid)
       return await this.databaseInstance.update({ name: data.name }, data, { upsert: true })
-    } else {
+
+    else
       return undefined
-    }
   }
 }

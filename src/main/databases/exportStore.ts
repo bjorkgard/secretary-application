@@ -1,5 +1,5 @@
-import BaseStore from './baseStore'
-import { Export } from './schemas'
+import BaseStore       from './baseStore'
+import type { Export } from './schemas'
 
 export default class ExportStore extends BaseStore<Export> {
   find(): Promise<Export[]> {
@@ -8,9 +8,9 @@ export default class ExportStore extends BaseStore<Export> {
 
   async upsert(name: string, format: string, method: string): Promise<number | undefined> {
     return await this.databaseInstance.update(
-      { name: name, format: format, method: method },
+      { name, format, method },
       { $inc: { count: 1 } },
-      { upsert: true }
+      { upsert: true },
     )
   }
 }

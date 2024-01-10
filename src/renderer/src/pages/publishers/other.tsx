@@ -1,22 +1,22 @@
-import { useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
-import { ChevronLeftIcon } from '@heroicons/react/24/solid'
-import { usePublisherState } from '@renderer/store/publisherStore'
-import { PublisherModel } from 'src/types/models'
-import { Field } from '@renderer/components/Field'
-import classNames from '@renderer/utils/classNames'
-import ROUTES from '../../constants/routes.json'
+import { useNavigate }         from 'react-router-dom'
+import { useForm }             from 'react-hook-form'
+import { useTranslation }      from 'react-i18next'
+import { ChevronLeftIcon }     from '@heroicons/react/24/solid'
+import { usePublisherState }   from '@renderer/store/publisherStore'
+import type { PublisherModel } from 'src/types/models'
+import { Field }               from '@renderer/components/Field'
+import classNames              from '@renderer/utils/classNames'
+import ROUTES                  from '../../constants/routes.json'
 
 export default function PublisherOtherForm(): JSX.Element {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
+  const { t }          = useTranslation()
+  const navigate       = useNavigate()
   const publisherState = usePublisherState()
 
   const {
     handleSubmit,
     register,
-    formState: { errors }
+    formState: { errors },
   } = useForm<PublisherModel>({ defaultValues: publisherState.publisher, mode: 'onSubmit' })
 
   const saveData = (data: PublisherModel): void => {
@@ -26,18 +26,21 @@ export default function PublisherOtherForm(): JSX.Element {
     if (newPublisher._id) {
       window.electron.ipcRenderer.invoke('update-publisher', newPublisher).then(() => {
         window.Notification.requestPermission().then(() => {
+          // eslint-disable-next-line no-new
           new window.Notification('SECRETARY', {
-            body: t('publishers.notification.updated')
+            body: t('publishers.notification.updated'),
           })
         })
         publisherState.delete()
         navigate(ROUTES.PUBLISHERS)
       })
-    } else {
+    }
+    else {
       window.electron.ipcRenderer.invoke('create-publisher', newPublisher).then(() => {
         window.Notification.requestPermission().then(() => {
+          // eslint-disable-next-line no-new
           new window.Notification('SECRETARY', {
-            body: t('publishers.notification.saved')
+            body: t('publishers.notification.saved'),
           })
         })
         publisherState.delete()
@@ -74,7 +77,7 @@ export default function PublisherOtherForm(): JSX.Element {
                 rows={5}
                 className={classNames(
                   errors.firstname ? 'textarea-error' : '',
-                  'textarea w-full textarea-bordered'
+                  'textarea w-full textarea-bordered',
                 )}
                 {...register('other')}
               />

@@ -1,37 +1,38 @@
-import { ServiceYear, ServiceYearSchema } from '../databases/schemas'
-import { History, ServiceYearModel } from '../../types/models'
-import { ServiceYearService as IServiceYearService } from '../../types/type'
-import ServiceYearStore from '../databases/serviceYearStore'
+import type { ServiceYear }                               from '../databases/schemas'
+import { ServiceYearSchema }                              from '../databases/schemas'
+import type { History, ServiceYearModel }                 from '../../types/models'
+import type { ServiceYearService as IServiceYearService } from '../../types/type'
+import ServiceYearStore                                   from '../databases/serviceYearStore'
 
 const serviceYearStore = new ServiceYearStore('serviceYears.db', ServiceYearSchema)
 
-const parseServiceYearModel = (data: ServiceYearModel): ServiceYear => {
+function parseServiceYearModel(data: ServiceYearModel): ServiceYear {
   const serviceYear: ServiceYear = {
-    name: 0,
+    name:          0,
     serviceMonths: [],
-    history: []
+    history:       [],
   }
 
-  serviceYear.name = data.name
+  serviceYear.name          = data.name
   serviceYear.serviceMonths = data.serviceMonths
-  serviceYear.history = data.history
+  serviceYear.history       = data.history
 
   return serviceYear
 }
 
-const parseServiceYear = (data: ServiceYear): ServiceYearModel => {
+function parseServiceYear(data: ServiceYear): ServiceYearModel {
   const serviceYearModel: ServiceYearModel = {
-    name: 0,
+    name:          0,
     serviceMonths: [],
-    history: []
+    history:       [],
   }
 
-  serviceYearModel._id = data._id
-  serviceYearModel.name = data.name
+  serviceYearModel._id           = data._id
+  serviceYearModel.name          = data.name
   serviceYearModel.serviceMonths = data.serviceMonths
-  serviceYearModel.history = data.history
-  serviceYearModel.createdAt = data.createdAt?.toLocaleString('sv-SE')
-  serviceYearModel.updatedAt = data.updatedAt?.toLocaleString('sv-SE')
+  serviceYearModel.history       = data.history
+  serviceYearModel.createdAt     = data.createdAt?.toLocaleString('sv-SE')
+  serviceYearModel.updatedAt     = data.updatedAt?.toLocaleString('sv-SE')
 
   return serviceYearModel
 }
@@ -54,9 +55,8 @@ export default class ServiceYearService implements IServiceYearService {
 
   async findByServiceYear(name: number): Promise<ServiceYearModel | null> {
     const serviceYear = (await serviceYearStore.findByName(name)) as ServiceYear
-    if (!serviceYear) {
+    if (!serviceYear)
       return null
-    }
 
     return parseServiceYear(serviceYear)
   }
@@ -68,11 +68,11 @@ export default class ServiceYearService implements IServiceYearService {
   async find(): Promise<ServiceYearModel[]> {
     const serviceYear = (await serviceYearStore.find()) as ServiceYear[]
 
-    return serviceYear.map((t) => parseServiceYear(t))
+    return serviceYear.map(t => parseServiceYear(t))
   }
 
   async create(data: ServiceYearModel): Promise<ServiceYearModel> {
-    const serviceYear = parseServiceYearModel(data)
+    const serviceYear    = parseServiceYearModel(data)
     const newServiceYear = (await serviceYearStore.create(serviceYear)) as ServiceYear
 
     return parseServiceYear(newServiceYear)

@@ -1,20 +1,20 @@
-import log from 'electron-log'
-import { TemplateModel } from 'src/types/models'
-import TEMPLATES from '../constants/templates.json'
+import log                    from 'electron-log'
+import type { TemplateModel } from 'src/types/models'
+import TEMPLATES              from '../constants/templates.json'
 
-export const isTemplateCorrect = async (code: string): Promise<boolean> => {
+export async function isTemplateCorrect(code: string): Promise<boolean> {
   let response = false
 
   await window.electron.ipcRenderer
-    .invoke('get-template', { code: code })
+    .invoke('get-template', { code })
     .then((template: TemplateModel) => {
       if (template) {
-        if (template.date === TEMPLATES[code]) {
+        if (template.date === TEMPLATES[code])
           response = true
-        } else {
+        else
           response = false
-        }
-      } else {
+      }
+      else {
         response = false
       }
     })

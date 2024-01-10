@@ -1,33 +1,34 @@
-import { ServiceGroupModel } from '../../types/models'
-import { ServiceGroupSchema, ServiceGroup } from '../databases/schemas'
-import ServiceGroupStore from '../databases/serviceGroupStore'
-import { ServiceGroupService as IServiceGroupService } from '../../types/type'
+import type { ServiceGroupModel }                           from '../../types/models'
+import type { ServiceGroup }                                from '../databases/schemas'
+import { ServiceGroupSchema }                               from '../databases/schemas'
+import ServiceGroupStore                                    from '../databases/serviceGroupStore'
+import type { ServiceGroupService as IServiceGroupService } from '../../types/type'
 
 const serviceGroupStore = new ServiceGroupStore('serviceGroups.db', ServiceGroupSchema)
 
-const parseServiceGroupModel = (data: ServiceGroupModel): ServiceGroup => {
+function parseServiceGroupModel(data: ServiceGroupModel): ServiceGroup {
   const serviceGroup: ServiceGroup = {
-    name: ''
+    name: '',
   }
 
-  serviceGroup.name = data.name
+  serviceGroup.name          = data.name
   serviceGroup.responsibleId = data.responsibleId
-  serviceGroup.assistantId = data.assistantId
+  serviceGroup.assistantId   = data.assistantId
 
   return serviceGroup
 }
 
-const parseServiceGroup = (data: ServiceGroup): ServiceGroupModel => {
+function parseServiceGroup(data: ServiceGroup): ServiceGroupModel {
   const serviceGroupModel: ServiceGroupModel = {
-    name: ''
+    name: '',
   }
 
-  serviceGroupModel._id = data._id
-  serviceGroupModel.name = data.name
+  serviceGroupModel._id           = data._id
+  serviceGroupModel.name          = data.name
   serviceGroupModel.responsibleId = data.responsibleId
-  serviceGroupModel.assistantId = data.assistantId
-  serviceGroupModel.createdAt = data.createdAt?.toLocaleString('sv-SE')
-  serviceGroupModel.updatedAt = data.updatedAt?.toLocaleString('sv-SE')
+  serviceGroupModel.assistantId   = data.assistantId
+  serviceGroupModel.createdAt     = data.createdAt?.toLocaleString('sv-SE')
+  serviceGroupModel.updatedAt     = data.updatedAt?.toLocaleString('sv-SE')
 
   return serviceGroupModel
 }
@@ -36,11 +37,11 @@ export default class ServiceGroupService implements IServiceGroupService {
   async find(): Promise<ServiceGroupModel[]> {
     const serviceGroups = (await serviceGroupStore.find()) as ServiceGroup[]
 
-    return serviceGroups.map((sg) => parseServiceGroup(sg))
+    return serviceGroups.map(sg => parseServiceGroup(sg))
   }
 
   async create(data: ServiceGroupModel): Promise<ServiceGroupModel> {
-    const serviceGroup = parseServiceGroupModel(data)
+    const serviceGroup    = parseServiceGroupModel(data)
     const newServiceGroup = (await serviceGroupStore.create(serviceGroup)) as ServiceGroup
     return parseServiceGroup(newServiceGroup)
   }

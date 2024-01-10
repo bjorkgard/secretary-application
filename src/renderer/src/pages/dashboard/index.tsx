@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
-import PublisherStats from './cards/publisherStats'
-import CommonExports from './cards/commonExports'
-import ActiveReport from './cards/activeReport'
-import MissingReports from './cards/missingReports'
-import Auxiliaries from './cards/auxiliaries'
-import TemplateWarning from './cards/templateWarning'
-import TEMPLATES from '../../constants/templates.json'
-import { TemplateModel } from 'src/types/models'
+import type { TemplateModel }  from 'src/types/models'
+import TEMPLATES               from '../../constants/templates.json'
+import PublisherStats          from './cards/publisherStats'
+import CommonExports           from './cards/commonExports'
+import ActiveReport            from './cards/activeReport'
+import MissingReports          from './cards/missingReports'
+import Auxiliaries             from './cards/auxiliaries'
+import TemplateWarning         from './cards/templateWarning'
 
 export default function Dashboard(): JSX.Element {
-  const [time, setTime] = useState<number>(new Date().getTime())
+  const [time, setTime]                         = useState<number>(new Date().getTime())
   const [correctTemplates, setCorrectTemplates] = useState<boolean>(true)
 
   useEffect(() => {
@@ -17,14 +17,15 @@ export default function Dashboard(): JSX.Element {
       if (!templates.length) {
         // No templates found
         setCorrectTemplates(false)
-      } else {
+      }
+      else {
         Object.keys(TEMPLATES).forEach((key) => {
-          if (!templates.find((template) => template.code === key)) {
+          if (!templates.find(template => template.code === key)) {
             setCorrectTemplates(false)
-          } else {
-            if (templates.find((template) => template.code === key)?.date !== TEMPLATES[key]) {
+          }
+          else {
+            if (templates.find(template => template.code === key)?.date !== TEMPLATES[key])
               setCorrectTemplates(false)
-            }
           }
         })
       }

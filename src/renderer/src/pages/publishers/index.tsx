@@ -1,30 +1,30 @@
 import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { PlusIcon } from '@heroicons/react/24/solid'
+import { useTranslation }      from 'react-i18next'
+import { useNavigate }         from 'react-router-dom'
+import { PlusIcon }            from '@heroicons/react/24/solid'
 import {
   DevicePhoneMobileIcon,
   DocumentArrowDownIcon,
   EllipsisHorizontalIcon,
   PencilIcon,
+  PlusIcon as PlusIconSmall,
   TrashIcon,
-  PlusIcon as PlusIconSmall
 } from '@heroicons/react/20/solid'
-import { formatPhoneNumber } from 'react-phone-number-input'
-import { PublisherModel, ServiceGroupModel } from 'src/types/models'
-import ROUTES from '../../constants/routes.json'
-import { isTemplateCorrect } from '@renderer/utils/isTemplateCorrect'
-import EventModal from './components/eventModal'
+import { formatPhoneNumber }                      from 'react-phone-number-input'
+import type { PublisherModel, ServiceGroupModel } from 'src/types/models'
+import { isTemplateCorrect }                      from '@renderer/utils/isTemplateCorrect'
+import ROUTES                                     from '../../constants/routes.json'
+import EventModal                                 from './components/eventModal'
 
 export default function Publishers(): JSX.Element {
-  const { t } = useTranslation()
+  const { t }    = useTranslation()
   const navigate = useNavigate()
 
-  const [publishers, setPublishers] = useState<PublisherModel[]>([])
-  const [publisher, setPublisher] = useState<PublisherModel>()
+  const [publishers, setPublishers]         = useState<PublisherModel[]>([])
+  const [publisher, setPublisher]           = useState<PublisherModel>()
   const [openEventModal, setOpenEventModal] = useState<boolean>(false)
-  const [serviceGroups, setServiceGroups] = useState<ServiceGroupModel[]>([])
-  const [hasS21, setHasS21] = useState<boolean>(false)
+  const [serviceGroups, setServiceGroups]   = useState<ServiceGroupModel[]>([])
+  const [hasS21, setHasS21]                 = useState<boolean>(false)
 
   const getPublishers = (sortField = 'lastname', queryString = ''): void => {
     window.electron.ipcRenderer
@@ -49,20 +49,18 @@ export default function Publishers(): JSX.Element {
   }, [])
 
   const editPublisher = (id: string | undefined): void => {
-    if (id) {
+    if (id)
       navigate(`${ROUTES.PUBLISHERS}/${id}/edit`)
-    }
   }
 
   const exportS21 = (id: string | undefined): void => {
-    if (id) {
+    if (id)
       window.electron.ipcRenderer.send('export-s21', id)
-    }
   }
 
   const addEvent = (id: string | undefined): void => {
     if (id) {
-      setPublisher(publishers.find((p) => p._id === id))
+      setPublisher(publishers.find(p => p._id === id))
       setOpenEventModal(true)
     }
   }
@@ -107,9 +105,9 @@ export default function Publishers(): JSX.Element {
             </thead>
             <tbody>
               {publishers.map((publisher) => {
-                const serviceGroup = serviceGroups.find((sg) => sg._id === publisher.serviceGroupId)
-                const appointments =
-                  publisher.appointments.map((a) => `badge.short.${a.type.toLowerCase()}`) || []
+                const serviceGroup = serviceGroups.find(sg => sg._id === publisher.serviceGroupId)
+                const appointments
+                  = publisher.appointments.map(a => `badge.short.${a.type.toLowerCase()}`) || []
                 return (
                   <tr key={publisher._id} className="hover">
                     <td>
@@ -146,10 +144,12 @@ export default function Publishers(): JSX.Element {
                           </div>
                           <ul
                             tabIndex={0}
-                            className="menu menu-sm dropdown-content rounded-box w-52 z-10 border border-gray-900/10 dark:border-slate-400/50 shadow-xl dark:bg-slate-800 bg-gray-50"
+                            className="menu dropdown-content menu-sm z-10 w-52 rounded-box border border-gray-900/10 bg-gray-50 shadow-xl dark:border-slate-400/50 dark:bg-slate-800"
                           >
-                            <li className="m-0 py-1 menu-title">
-                              {publisher.firstname} {publisher.lastname}
+                            <li className="menu-title m-0 py-1">
+                              {publisher.firstname}
+                              {' '}
+                              {publisher.lastname}
                             </li>
                             <li className="m-0 py-1">
                               <button
@@ -158,19 +158,19 @@ export default function Publishers(): JSX.Element {
                                   addEvent(publisher._id)
                                 }}
                               >
-                                <PlusIconSmall className="h-5 w-5 ml-2" />
+                                <PlusIconSmall className="ml-2 h-5 w-5" />
                                 {t('menu.event')}
                               </button>
                             </li>
                             <li className="m-0 py-1">
                               <button
-                                className="pl-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="pl-0 disabled:cursor-not-allowed disabled:opacity-50"
                                 onClick={(): void => {
                                   exportS21(publisher._id)
                                 }}
                                 disabled={!hasS21}
                               >
-                                <DocumentArrowDownIcon className="h-5 w-5 ml-2" />
+                                <DocumentArrowDownIcon className="ml-2 h-5 w-5" />
                                 {t('menu.s21')}
                               </button>
                             </li>
@@ -181,29 +181,31 @@ export default function Publishers(): JSX.Element {
                                   editPublisher(publisher._id)
                                 }}
                               >
-                                <PencilIcon className="h-5 w-5 ml-2" />
+                                <PencilIcon className="ml-2 h-5 w-5" />
                                 {t('menu.edit')}
                               </button>
                             </li>
-                            <li className="m-0 py-1 hidden">
+                            <li className="m-0 hidden py-1">
                               <button
                                 className="pl-0"
                                 onClick={(): void => {
+                                  // eslint-disable-next-line no-console
                                   console.log('send contact')
                                 }}
                               >
-                                <DevicePhoneMobileIcon className="h-5 w-5 ml-2" />
+                                <DevicePhoneMobileIcon className="ml-2 h-5 w-5" />
                                 {t('menu.sendContact')}
                               </button>
                             </li>
-                            <li className="m-0 py-1 hidden">
+                            <li className="m-0 hidden py-1">
                               <button
                                 className="pl-0"
                                 onClick={(): void => {
-                                  console.log('export s21')
+                                  // eslint-disable-next-line no-console
+                                  console.log('delete')
                                 }}
                               >
-                                <TrashIcon className="h-5 w-5 ml-2" />
+                                <TrashIcon className="ml-2 h-5 w-5" />
                                 {t('menu.delete')}
                               </button>
                             </li>

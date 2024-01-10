@@ -1,5 +1,5 @@
-import { Report } from 'src/types/models'
+import type { Report } from 'src/types/models'
 
-export const inPioneerService = (report: Report): boolean => {
+export function inPioneerService(report: Report): boolean {
   return report.hasBeenInService && report.type === 'PIONEER'
 }
