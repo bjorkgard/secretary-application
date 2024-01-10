@@ -54,7 +54,7 @@
     "nedb-promises": "^6.2.3",
     "pdf-lib": "^1.17.1",
     "react-chartjs-2": "^5.2.0",
-    "react-hook-form": "^7.49.2",
+    "react-hook-form": "^7.49.3",
     "react-i18next": "^13.5.0",
     "react-phone-number-input": "^3.3.8",
     "react-router-dom": "^6.21.1",
