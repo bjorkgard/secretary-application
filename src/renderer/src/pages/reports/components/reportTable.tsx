@@ -1,23 +1,23 @@
-import { ChangeEvent } from 'react'
-import { useForm, useFieldArray } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
-import { Report } from 'src/types/models'
+import type { ChangeEvent }       from 'react'
+import { useFieldArray, useForm } from 'react-hook-form'
+import { useTranslation }         from 'react-i18next'
+import type { Report }            from 'src/types/models'
 
 interface ComponentProps {
   reports: Report[]
-  month: string
+  month:   string
 }
 
-export const ReportsTable = ({ month, reports }: ComponentProps): JSX.Element => {
+export function ReportsTable({ month, reports }: ComponentProps): JSX.Element {
   const { t } = useTranslation()
 
   const { register, control, setValue, getValues, watch } = useForm({
-    defaultValues: { reports: reports }
+    defaultValues: { reports },
   })
 
-  const { fields } = useFieldArray({
+  const { fields }   = useFieldArray({
     control,
-    name: 'reports'
+    name: 'reports',
   })
   const watchReports = watch('reports')
 
@@ -26,9 +26,10 @@ export const ReportsTable = ({ month, reports }: ComponentProps): JSX.Element =>
 
     window.electron.ipcRenderer.invoke('save-report', report).then(() => {
       window.Notification.requestPermission().then(() => {
+        // eslint-disable-next-line no-new
         new window.Notification('SECRETARY', {
-          body: t('reports.saved'),
-          silent: true
+          body:   t('reports.saved'),
+          silent: true,
         })
       })
     })
@@ -40,7 +41,8 @@ export const ReportsTable = ({ month, reports }: ComponentProps): JSX.Element =>
     if (report.studies && report.studies > 0) {
       setValue(`reports.${index}.hasBeenInService`, true)
       setValue(`reports.${index}.hasNotBeenInService`, false)
-    } else {
+    }
+    else {
       setValue(`reports.${index}.hasBeenInService`, false)
       setValue(`reports.${index}.hasNotBeenInService`, false)
     }
@@ -54,7 +56,8 @@ export const ReportsTable = ({ month, reports }: ComponentProps): JSX.Element =>
       setValue(`reports.${index}.auxiliary`, false)
       setValue(`reports.${index}.hours`, undefined)
       saveReport(index)
-    } else {
+    }
+    else {
       setValue(`reports.${index}.auxiliary`, true)
     }
   }
@@ -65,7 +68,8 @@ export const ReportsTable = ({ month, reports }: ComponentProps): JSX.Element =>
     if (report.hours && report.hours > 0) {
       setValue(`reports.${index}.hasBeenInService`, true)
       setValue(`reports.${index}.hasNotBeenInService`, false)
-    } else {
+    }
+    else {
       setValue(`reports.${index}.hasBeenInService`, false)
       setValue(`reports.${index}.hasNotBeenInService`, true)
     }
@@ -83,13 +87,13 @@ export const ReportsTable = ({ month, reports }: ComponentProps): JSX.Element =>
     if (e.target.checked) {
       setValue(`reports.${index}.hasBeenInService`, true)
       setValue(`reports.${index}.hasNotBeenInService`, false)
-    } else {
+    }
+    else {
       setValue(`reports.${index}.hasBeenInService`, true)
     }
 
-    if (report.type === 'PUBLISHER' && !report.auxiliary) {
+    if (report.type === 'PUBLISHER' && !report.auxiliary)
       saveReport(index)
-    }
   }
 
   const handleHasNotBeenInService = (index: number, e: ChangeEvent<HTMLInputElement>): void => {
@@ -101,13 +105,13 @@ export const ReportsTable = ({ month, reports }: ComponentProps): JSX.Element =>
       setValue(`reports.${index}.studies`, undefined)
       setValue(`reports.${index}.hours`, undefined)
       setValue(`reports.${index}.auxiliary`, false)
-    } else {
+    }
+    else {
       setValue(`reports.${index}.hasNotBeenInService`, true)
     }
 
-    if (report.type === 'PUBLISHER' && !report.auxiliary) {
+    if (report.type === 'PUBLISHER' && !report.auxiliary)
       saveReport(index)
-    }
   }
 
   return (
@@ -129,12 +133,14 @@ export const ReportsTable = ({ month, reports }: ComponentProps): JSX.Element =>
               <tr key={report.identifier}>
                 <td>
                   {report.publisherName}
-                  {month !== report.name ? (
-                    <>
-                      <br />
-                      <span className="text-xs italic">{report.name}</span>
-                    </>
-                  ) : null}
+                  {month !== report.name
+                    ? (
+                      <>
+                        <br />
+                        <span className="text-xs italic">{report.name}</span>
+                      </>
+                      )
+                    : null}
                 </td>
                 <td>
                   <div className="form-control">
@@ -176,8 +182,8 @@ export const ReportsTable = ({ month, reports }: ComponentProps): JSX.Element =>
                     {...register(`reports.${index}.auxiliary`)}
                     onChange={(e): void => handleAuxiliary(index, e)}
                     disabled={
-                      fields[index].type !== 'PUBLISHER' ||
-                      fields[index].publisherStatus === 'INACTIVE'
+                      fields[index].type !== 'PUBLISHER'
+                      || fields[index].publisherStatus === 'INACTIVE'
                     }
                   />
                 </td>

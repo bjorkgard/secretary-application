@@ -1,25 +1,26 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useFieldArray, useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
+import { useEffect, useState }               from 'react'
+import { useNavigate }                       from 'react-router-dom'
+import { useFieldArray, useForm }            from 'react-hook-form'
+import { useTranslation }                    from 'react-i18next'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
-import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form'
-import { Country, isPossiblePhoneNumber } from 'react-phone-number-input'
-import { usePublisherState } from '@renderer/store/publisherStore'
-import { useSettingsState } from '@renderer/store/settingsStore'
-import { Field } from '@renderer/components/Field'
-import classNames from '@renderer/utils/classNames'
-import { PublisherModel } from 'src/types/models'
-import ROUTES from '../../constants/routes.json'
+import PhoneInputWithCountry                 from 'react-phone-number-input/react-hook-form'
+import type { Country }                      from 'react-phone-number-input'
+import { isPossiblePhoneNumber }             from 'react-phone-number-input'
+import { usePublisherState }                 from '@renderer/store/publisherStore'
+import { useSettingsState }                  from '@renderer/store/settingsStore'
+import { Field }                             from '@renderer/components/Field'
+import classNames                            from '@renderer/utils/classNames'
+import type { PublisherModel }               from 'src/types/models'
 import 'react-phone-number-input/style.css'
-import { TrashIcon } from '@heroicons/react/20/solid'
-import generateIdentifier from '@renderer/utils/generateIdentifier'
+import { TrashIcon }                         from '@heroicons/react/20/solid'
+import generateIdentifier                    from '@renderer/utils/generateIdentifier'
+import ROUTES                                from '../../constants/routes.json'
 
 export default function PublisherContactForm(): JSX.Element {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
+  const { t }          = useTranslation()
+  const navigate       = useNavigate()
   const publisherState = usePublisherState()
-  const settingsState = useSettingsState()
+  const settingsState  = useSettingsState()
 
   const [contacts, setContacts] = useState<PublisherModel[]>([])
 
@@ -29,12 +30,12 @@ export default function PublisherContactForm(): JSX.Element {
     control,
     watch,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm<PublisherModel>({ defaultValues: publisherState.publisher })
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'children' // unique name for your Field Array
+    name: 'children', // unique name for your Field Array
   })
 
   const setAddress = (contactId: string): void => {
@@ -59,15 +60,13 @@ export default function PublisherContactForm(): JSX.Element {
       .invoke('get-contacts', { sortField: 'lastname' })
       .then((result: PublisherModel[]) => {
         setContacts(result)
-        if (publisherState.publisher.familyId) {
+        if (publisherState.publisher.familyId)
           setValue('familyId', publisherState.publisher.familyId)
-        }
       })
   }, [])
 
-  if (publisherState.publisher.familyId && !contacts.length) {
+  if (publisherState.publisher.familyId && !contacts.length)
     return <div />
-  }
 
   return (
     <div>
@@ -99,18 +98,18 @@ export default function PublisherContactForm(): JSX.Element {
                 control={control}
                 className={classNames(
                   errors.phone ? 'input-error' : '',
-                  'input input-bordered w-full'
+                  'input input-bordered w-full',
                 )}
                 rules={{
                   validate: {
                     test: (v: string | null): string | null => {
                       let result = ''
-                      if (v) {
+                      if (v)
                         result = isPossiblePhoneNumber(v) ? '' : t('errors.phone.invalid')
-                      }
+
                       return result !== '' ? result : null
-                    }
-                  }
+                    },
+                  },
                 }}
               />
             </Field>
@@ -127,18 +126,18 @@ export default function PublisherContactForm(): JSX.Element {
                 control={control}
                 className={classNames(
                   errors.mobile ? 'input-error' : '',
-                  'input input-bordered w-full'
+                  'input input-bordered w-full',
                 )}
                 rules={{
                   validate: {
                     test: (v: string | null): string | null => {
                       let result = ''
-                      if (v) {
+                      if (v)
                         result = isPossiblePhoneNumber(v) ? '' : t('errors.mobile.invalid')
-                      }
+
                       return result !== '' ? result : null
-                    }
-                  }
+                    },
+                  },
                 }}
               />
             </Field>
@@ -153,7 +152,7 @@ export default function PublisherContactForm(): JSX.Element {
                 placeholder={t('label.email')}
                 className={classNames(
                   errors.email ? 'input-error' : '',
-                  'input input-bordered w-full'
+                  'input input-bordered w-full',
                 )}
                 {...register('email')}
               />
@@ -184,13 +183,13 @@ export default function PublisherContactForm(): JSX.Element {
               <select
                 className={classNames(
                   errors.familyId ? 'select-error' : '',
-                  'select select-bordered w-full'
+                  'select select-bordered w-full',
                 )}
                 {...register('familyId', {
                   required: {
-                    value: !watchContact,
-                    message: t('errors.familyId.required')
-                  }
+                    value:   !watchContact,
+                    message: t('errors.familyId.required'),
+                  },
                 })}
                 disabled={watchContact}
                 onChange={(e): void => {
@@ -201,7 +200,10 @@ export default function PublisherContactForm(): JSX.Element {
                 {contacts.map((contact) => {
                   return (
                     <option key={contact._id} value={contact._id}>
-                      {contact.lastname}, {contact.firstname}
+                      {contact.lastname}
+                      ,
+                      {' '}
+                      {contact.firstname}
                     </option>
                   )
                 })}
@@ -217,13 +219,13 @@ export default function PublisherContactForm(): JSX.Element {
                 placeholder={t('label.address')}
                 className={classNames(
                   errors.address ? 'input-error' : '',
-                  'input w-full input-bordered'
+                  'input w-full input-bordered',
                 )}
                 {...register('address', {
                   required: {
-                    value: watchContact,
-                    message: t('errors.address.required')
-                  }
+                    value:   watchContact,
+                    message: t('errors.address.required'),
+                  },
                 })}
                 readOnly={!watchContact}
               />
@@ -238,13 +240,13 @@ export default function PublisherContactForm(): JSX.Element {
                 placeholder={t('label.zip')}
                 className={classNames(
                   errors.zip ? 'input-error' : '',
-                  'input w-full input-bordered'
+                  'input w-full input-bordered',
                 )}
                 {...register('zip', {
                   required: {
-                    value: watchContact,
-                    message: t('errors.zip.required')
-                  }
+                    value:   watchContact,
+                    message: t('errors.zip.required'),
+                  },
                 })}
                 readOnly={!watchContact}
               />
@@ -259,13 +261,13 @@ export default function PublisherContactForm(): JSX.Element {
                 placeholder={t('label.city')}
                 className={classNames(
                   errors.city ? 'input-error' : '',
-                  'input w-full input-bordered'
+                  'input w-full input-bordered',
                 )}
                 {...register('city', {
                   required: {
-                    value: watchContact,
-                    message: t('errors.city.required')
-                  }
+                    value:   watchContact,
+                    message: t('errors.city.required'),
+                  },
                 })}
                 readOnly={!watchContact}
               />
@@ -290,7 +292,7 @@ export default function PublisherContactForm(): JSX.Element {
                             >
                               <input
                                 {...register(`children.${index}.name` as const, {
-                                  required: t('errors.children.name.required')
+                                  required: t('errors.children.name.required'),
                                 })}
                                 className="input input-bordered w-full"
                               />
@@ -326,8 +328,7 @@ export default function PublisherContactForm(): JSX.Element {
                 <button
                   className="btn btn-secondary btn-sm"
                   onClick={(): void =>
-                    append({ name: '', birthday: '', identifier: generateIdentifier() })
-                  }
+                    append({ name: '', birthday: '', identifier: generateIdentifier() })}
                   type="button"
                 >
                   {t('button.addChild')}
@@ -347,7 +348,7 @@ export default function PublisherContactForm(): JSX.Element {
                   placeholder={t('label.name')}
                   className={classNames(
                     errors.emergencyContact?.name ? 'input-error' : '',
-                    'input w-full input-bordered'
+                    'input w-full input-bordered',
                   )}
                   {...register('emergencyContact.name')}
                 />
@@ -362,7 +363,7 @@ export default function PublisherContactForm(): JSX.Element {
                   placeholder={t('label.email')}
                   className={classNames(
                     errors.emergencyContact?.email ? 'input-error' : '',
-                    'input w-full input-bordered'
+                    'input w-full input-bordered',
                   )}
                   {...register('emergencyContact.email')}
                 />
@@ -380,18 +381,18 @@ export default function PublisherContactForm(): JSX.Element {
                   control={control}
                   className={classNames(
                     errors.emergencyContact?.phone ? 'input-error' : '',
-                    'input input-bordered w-full'
+                    'input input-bordered w-full',
                   )}
                   rules={{
                     validate: {
                       test: (v: string | null): string | null => {
                         let result = ''
-                        if (v) {
+                        if (v)
                           result = isPossiblePhoneNumber(v) ? '' : t('errors.phone.invalid')
-                        }
+
                         return result !== '' ? result : null
-                      }
-                    }
+                      },
+                    },
                   }}
                 />
               </Field>

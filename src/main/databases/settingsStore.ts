@@ -1,5 +1,5 @@
-import BaseStore from './baseStore'
-import { Settings } from './schemas'
+import BaseStore         from './baseStore'
+import type { Settings } from './schemas'
 
 export default class SettingsStore extends BaseStore<Settings> {
   find(): Promise<Settings[]> {

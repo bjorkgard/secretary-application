@@ -1,22 +1,23 @@
 const { version } = require('./package.json')
 
-if (process.env.MAIN_VITE_APP_VERSION === undefined) {
+// eslint-disable-next-line node/prefer-global/process
+if (process.env.MAIN_VITE_APP_VERSION === undefined)
+  // eslint-disable-next-line node/prefer-global/process
   process.env.MAIN_VITE_APP_VERSION = version
-}
 
 /**
  * @type {import('electron-builder').Configuration}
  * @see https://www.electron.build/configuration/configuration
  */
 const config = {
-  appId: 'se.bjorkgard.secretary',
-  productName: 'Secretary',
-  artifactName: '${productName}-${version}.${ext}',
-  asar: true,
-  asarUnpack: ['resources/**'],
-  directories: {
-    output: 'dist',
-    buildResources: 'build'
+  appId:        'se.bjorkgard.secretary',
+  productName:  'Secretary',
+  artifactName: `${productName}-${version}.${ext}`,
+  asar:         true,
+  asarUnpack:   ['resources/**'],
+  directories:  {
+    output:         'dist',
+    buildResources: 'build',
   },
   files: [
     '**/*',
@@ -30,73 +31,74 @@ const config = {
     '!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}',
     '!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}',
     '!**/{appveyor.yml,.travis.yml,circle.yml}',
-    '!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}'
+    '!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}',
   ],
   includeSubNodeModules: true,
-  extraResources: [
+  extraResources:        [
     { from: 'src/localization/locales', to: 'locales', filter: ['**/*'] },
-    { from: 'resources/fonts', to: 'fonts', filter: ['**/*'] }
+    { from: 'resources/fonts', to: 'fonts', filter: ['**/*'] },
   ],
   extraMetadata: {
-    version: process.env.MAIN_VITE_APP_VERSION,
-    homepage: 'https://secretary.jwapp.info',
-    description: 'An open source application to help the secretary in the congregation.'
+    // eslint-disable-next-line node/prefer-global/process
+    version:     process.env.MAIN_VITE_APP_VERSION,
+    homepage:    'https://secretary.jwapp.info',
+    description: 'An open source application to help the secretary in the congregation.',
   },
   mac: {
-    icon: 'build/icons/mac/icon.icns',
-    hardenedRuntime: true,
-    gatekeeperAssess: false,
-    mergeASARs: false,
-    entitlements: 'build/entitlements.mac.plist',
+    icon:                'build/icons/mac/icon.icns',
+    hardenedRuntime:     true,
+    gatekeeperAssess:    false,
+    mergeASARs:          false,
+    entitlements:        'build/entitlements.mac.plist',
     entitlementsInherit: 'build/entitlements.mac.plist',
-    category: 'public.app-category.utilities',
-    target: [{ target: 'dmg', arch: ['universal'] }],
-    publish: 'github'
+    category:            'public.app-category.utilities',
+    target:              [{ target: 'dmg', arch: ['universal'] }],
+    publish:             'github',
   },
   linux: {
-    icon: 'build/icons/png/512x512.png',
+    icon:     'build/icons/png/512x512.png',
     category: 'Utility',
-    target: ['deb', 'AppImage'],
-    publish: 'github'
+    target:   ['deb', 'AppImage'],
+    publish:  'github',
   },
   win: {
-    icon: 'build/icons/win/icon.ico',
+    icon:   'build/icons/win/icon.ico',
     target: [
       {
         target: 'nsis',
-        arch: ['x64']
+        arch:   ['x64'],
       },
       {
         target: 'portable',
-        arch: ['x64']
-      }
+        arch:   ['x64'],
+      },
     ],
-    publish: 'github'
+    publish: 'github',
   },
   nsis: {
-    oneClick: false,
+    oneClick:                           false,
     allowToChangeInstallationDirectory: false,
-    differentialPackage: false
+    differentialPackage:                false,
   },
   portable: {
-    artifactName: '${productName}Portable.${ext}'
+    artifactName: `${productName}Portable.${ext}`,
   },
   dmg: {
     contents: [
       {
         x: 130,
-        y: 220
+        y: 220,
       },
       {
-        x: 410,
-        y: 220,
+        x:    410,
+        y:    220,
         type: 'link',
-        path: '/Applications'
-      }
+        path: '/Applications',
+      },
     ],
-    sign: false
+    sign: false,
   },
-  afterSign: './build/notarize.js'
+  afterSign: './build/notarize.js',
 }
 
 module.exports = config

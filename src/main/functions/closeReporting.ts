@@ -1,18 +1,18 @@
-import { PublisherModel } from '../../types/models'
-import {
+import type { BrowserWindow }  from 'electron'
+import type { PublisherModel } from '../../types/models'
+import type {
   AuxiliaryService,
   PublisherService,
   ServiceMonthService,
   ServiceYearService,
-  SettingsService
+  SettingsService,
 } from '../../types/type'
-import { Report, Stats } from '../databases/schemas'
-import i18n from '../../localization/i18next.config'
-import exportReportSummary from './exportReportSummary'
-import { BrowserWindow } from 'electron'
-import clearAuxiliaryTable from './clearAuxiliaryTable'
+import type { Report, Stats } from '../databases/schemas'
+import i18n                   from '../../localization/i18next.config'
+import exportReportSummary    from './exportReportSummary'
+import clearAuxiliaryTable    from './clearAuxiliaryTable'
 
-const cleanUpReport = (report: Report): Report => {
+function cleanUpReport(report: Report): Report {
   delete report.publisherId
   delete report.publisherName
   delete report.publisherEmail
@@ -23,38 +23,32 @@ const cleanUpReport = (report: Report): Report => {
   return report
 }
 
-const confirmPublisherStatus = (
-  publisher: PublisherModel,
-  report: Report,
-  serviceYearService: ServiceYearService
-): 'ACTIVE' | 'INACTIVE' | 'IRREGULAR' => {
+function confirmPublisherStatus(publisher: PublisherModel,  report: Report,  serviceYearService: ServiceYearService): 'ACTIVE' | 'INACTIVE' | 'IRREGULAR' {
   const lastReports = publisher.reports.slice(-5)
-  let status = 'ACTIVE'
+  let status        = 'ACTIVE'
 
-  if (publisher.status === 'INACTIVE' && report.hasNotBeenInService) {
+  if (publisher.status === 'INACTIVE' && report.hasNotBeenInService)
     status = 'INACTIVE'
-  }
 
   if (publisher.status === 'INACTIVE' && report.hasBeenInService) {
     status = 'IRREGULAR'
 
     serviceYearService.addHistory(report.serviceYear, {
-      type: 'ACTIVE',
-      date: new Date().toLocaleDateString('sv'),
+      type:        'ACTIVE',
+      date:        new Date().toLocaleDateString('sv'),
       information: i18n.t('history.active', {
-        name: `${publisher.firstname} ${publisher.lastname}`
-      })
+        name: `${publisher.firstname} ${publisher.lastname}`,
+      }),
     })
   }
 
-  if (publisher.status === 'ACTIVE' && report.hasNotBeenInService) {
+  if (publisher.status === 'ACTIVE' && report.hasNotBeenInService)
     status = 'IRREGULAR'
-  }
 
   if (publisher.status === 'IRREGULAR' && report.hasBeenInService) {
     // Get last reports and check if publisher are active again.
     // If any report hasNotBeenInService, publisher is still irregular
-    lastReports.find((report) => report.hasNotBeenInService)
+    lastReports.find(report => report.hasNotBeenInService)
       ? (status = 'IRREGULAR')
       : (status = 'ACTIVE')
   }
@@ -62,17 +56,17 @@ const confirmPublisherStatus = (
   if (publisher.status === 'IRREGULAR' && report.hasNotBeenInService) {
     // Get last reports and check if publisher are inactive
     // If any report hasBeenInService, publisher is still irregular
-    lastReports.find((report) => report.hasBeenInService)
+    lastReports.find(report => report.hasBeenInService)
       ? (status = 'IRREGULAR')
       : (status = 'INACTIVE')
 
     if (status === 'INACTIVE') {
       serviceYearService.addHistory(report.serviceYear, {
-        type: 'INACTIVE',
-        date: new Date().toLocaleDateString(),
+        type:        'INACTIVE',
+        date:        new Date().toLocaleDateString(),
         information: i18n.t('history.inactive', {
-          name: `${publisher.firstname} ${publisher.lastname}`
-        })
+          name: `${publisher.firstname} ${publisher.lastname}`,
+        }),
       })
     }
   }
@@ -80,33 +74,25 @@ const confirmPublisherStatus = (
   return status as 'ACTIVE' | 'INACTIVE' | 'IRREGULAR'
 }
 
-const closeReporting = async (
-  mainWindow: BrowserWindow | null,
-  serviceYearService: ServiceYearService,
-  serviceMonthService: ServiceMonthService,
-  publisherService: PublisherService,
-  settingsService: SettingsService,
-  auxiliaryService: AuxiliaryService
-): Promise<string> => {
+async function closeReporting(mainWindow: BrowserWindow | null,  serviceYearService: ServiceYearService,  serviceMonthService: ServiceMonthService,  publisherService: PublisherService,  settingsService: SettingsService,  auxiliaryService: AuxiliaryService): Promise<string> {
   const serviceMonth = await serviceMonthService.findActive()
 
-  if (!serviceMonth) {
+  if (!serviceMonth)
     return 'NO ACTIVE'
-  }
 
   const settings = await settingsService.find()
 
   // Remove groups and reports from server
   const options = {
-    method: 'POST',
+    method:  'POST',
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json;charset=UTF-8',
-      Authorization: 'Bearer ' + (await settingsService.token()) || import.meta.env.MAIN_VITE_TOKEN
+      'Accept':        'application/json',
+      'Content-Type':  'application/json;charset=UTF-8',
+      'Authorization': `Bearer ${await settingsService.token()}` || import.meta.env.MAIN_VITE_TOKEN,
     },
     body: JSON.stringify({
-      identifier: settings?.identifier
-    })
+      identifier: settings?.identifier,
+    }),
   }
   await fetch(`${import.meta.env.MAIN_VITE_API}/delete_report`, options)
 
@@ -141,13 +127,13 @@ const closeReporting = async (
   // Calculate stats
   const stats: Stats = {
     activePublishers:
-      publishers.filter((publisher) => publisher.status === 'ACTIVE').length +
-      publishers.filter((publisher) => publisher.status === 'IRREGULAR').length,
-    regularPublishers: publishers.filter((publisher) => publisher.status === 'ACTIVE').length,
-    irregularPublishers: publishers.filter((publisher) => publisher.status === 'IRREGULAR').length,
-    inactivePublishers: publishers.filter((publisher) => publisher.status === 'INACTIVE').length,
-    deaf: publishers.filter((publisher) => publisher.deaf).length,
-    blind: publishers.filter((publisher) => publisher.blind).length
+      publishers.filter(publisher => publisher.status === 'ACTIVE').length
+      + publishers.filter(publisher => publisher.status === 'IRREGULAR').length,
+    regularPublishers:   publishers.filter(publisher => publisher.status === 'ACTIVE').length,
+    irregularPublishers: publishers.filter(publisher => publisher.status === 'IRREGULAR').length,
+    inactivePublishers:  publishers.filter(publisher => publisher.status === 'INACTIVE').length,
+    deaf:                publishers.filter(publisher => publisher.deaf).length,
+    blind:               publishers.filter(publisher => publisher.blind).length,
   }
 
   // Generate a PDF-report
@@ -156,7 +142,7 @@ const closeReporting = async (
       mainWindow,
       serviceMonthService,
       settingsService,
-      serviceMonth.serviceMonth
+      serviceMonth.serviceMonth,
     )
   }
 
@@ -165,7 +151,7 @@ const closeReporting = async (
     await serviceMonthService.update(serviceMonth._id, {
       ...serviceMonth,
       status: 'DONE',
-      stats: stats
+      stats,
     })
   }
 

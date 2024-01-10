@@ -8,7 +8,7 @@ exemptLabels:
   - bug
   - enhancement
   - greenkeeper
-  - "help wanted"
+  - help wanted
   - meta
 staleLabel: stale
 markComment: >

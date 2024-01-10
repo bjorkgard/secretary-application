@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { BrowserWindow, MenuItem, MenuItemConstructorOptions } from 'electron'
+import type { BrowserWindow, MenuItem, MenuItemConstructorOptions } from 'electron'
 
-type WhitelistMap = {
+interface WhitelistMap {
   [key: string]: string
 }
 
 const whitelistMap: WhitelistMap = {
   en: 'English', // English
-  sv: 'Svenska' // Swedish
+  sv: 'Svenska', // Swedish
 }
 
 // const whitelistMap: WhitelistMap = {
@@ -61,7 +60,7 @@ const whitelistMap: WhitelistMap = {
 //  zh_CN: '简体中文', // Chinese
 // };
 
-const Whitelist = ((): { languages: string[]; buildSubmenu: any } => {
+const Whitelist = ((): { languages: string[], buildSubmenu: any } => {
   const clickFunction = (channel: string, lng: string, i18nextMainBackend: any): any => {
     return (_menuItem: MenuItem, browserWindow: BrowserWindow) => {
       // Solely within the top menu
@@ -69,16 +68,16 @@ const Whitelist = ((): { languages: string[]; buildSubmenu: any } => {
 
       // Between renderer > main process
       browserWindow.webContents.send(channel, {
-        lng
+        lng,
       })
     }
   }
 
   const buildSubmenu = (channel: string, i18nextMainBackend: any): MenuItemConstructorOptions[] => {
-    const langs = Object.keys(whitelistMap)
-    const submenu = langs.map((key) => ({
+    const langs   = Object.keys(whitelistMap)
+    const submenu = langs.map(key => ({
       label: whitelistMap[key],
-      click: clickFunction(channel, key, i18nextMainBackend)
+      click: clickFunction(channel, key, i18nextMainBackend),
     }))
 
     return submenu
@@ -86,7 +85,7 @@ const Whitelist = ((): { languages: string[]; buildSubmenu: any } => {
 
   return {
     languages: Object.keys(whitelistMap),
-    buildSubmenu
+    buildSubmenu,
   }
 })()
 

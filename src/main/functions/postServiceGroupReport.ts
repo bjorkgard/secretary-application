@@ -1,61 +1,51 @@
-import { PublisherModel, ServiceMonthModel } from '../../types/models'
-import { PublisherService, ServiceGroupService, SettingsService } from '../../types/type'
+import type { PublisherModel, ServiceMonthModel }                      from '../../types/models'
+import type { PublisherService, ServiceGroupService, SettingsService } from '../../types/type'
 
 interface SimplePublisher {
-  _id: string
+  _id:    string
   email?: string
 }
 
-const transformToSimplePublisher = (publisher: PublisherModel): SimplePublisher => {
+function transformToSimplePublisher(publisher: PublisherModel): SimplePublisher {
   return {
-    _id: publisher._id || '',
-    email: publisher.email
+    _id:   publisher._id || '',
+    email: publisher.email,
   }
 }
 
-export const postServiceGroupReport = async (
-  settingsService: SettingsService,
-  publisherService: PublisherService,
-  serviceGroupService: ServiceGroupService,
-  identifier: string,
-  locale: string,
-  serviceMonth: ServiceMonthModel,
-  sendMail: boolean
-): Promise<void> => {
-  const publisherId: string[] = []
+export async function postServiceGroupReport(settingsService: SettingsService,  publisherService: PublisherService,  serviceGroupService: ServiceGroupService,  identifier: string,  locale: string,  serviceMonth: ServiceMonthModel,  sendMail: boolean): Promise<void> {
+  const publisherId: string[]               = []
   const simplePublishers: SimplePublisher[] = []
-  const serviceGroups = await serviceGroupService.find()
+  const serviceGroups                       = await serviceGroupService.find()
 
   if (sendMail) {
     for (const sg of serviceGroups) {
-      if (sg.responsibleId) {
+      if (sg.responsibleId)
         publisherId.push(sg.responsibleId)
-      }
-      if (sg.assistantId) {
+
+      if (sg.assistantId)
         publisherId.push(sg.assistantId)
-      }
     }
 
     const publishers = await publisherService.findByIds(publisherId)
-    for (const p of publishers) {
+    for (const p of publishers)
       simplePublishers.push(transformToSimplePublisher(p))
-    }
   }
 
   const options = {
-    method: 'POST',
+    method:  'POST',
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json;charset=UTF-8',
-      Authorization: 'Bearer ' + (await settingsService.token()) || import.meta.env.MAIN_VITE_TOKEN
+      'Accept':        'application/json',
+      'Content-Type':  'application/json;charset=UTF-8',
+      'Authorization': `Bearer ${await settingsService.token()}` || import.meta.env.MAIN_VITE_TOKEN,
     },
     body: JSON.stringify({
-      identifier: identifier,
-      locale: locale,
+      identifier,
+      locale,
       publishers: simplePublishers,
-      serviceGroups: serviceGroups,
-      serviceMonth: serviceMonth
-    })
+      serviceGroups,
+      serviceMonth,
+    }),
   }
 
   await fetch(`${import.meta.env.MAIN_VITE_API}/report`, options)

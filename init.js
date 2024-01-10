@@ -1,2 +1,2 @@
-// eslint-disable-next-line no-undef
+// eslint-disable-next-line align-assignments/align-assignments
 window.global ||= window

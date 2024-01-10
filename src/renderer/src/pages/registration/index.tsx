@@ -1,28 +1,29 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { useForm, SubmitHandler } from 'react-hook-form'
-import { v4 as uuidv4 } from 'uuid'
-import { getCountries } from 'react-phone-number-input/input'
-import countryLabels from 'react-phone-number-input/locale/en.json'
-import classNames from '@renderer/utils/classNames'
-import { SettingsModel } from '../../../../types/models'
-import ROUTES from '../../constants/routes.json'
-import { useSettingsState } from '@renderer/store/settingsStore'
+import { useNavigate }         from 'react-router-dom'
+import { useTranslation }      from 'react-i18next'
+import type { SubmitHandler }  from 'react-hook-form'
+import { useForm }             from 'react-hook-form'
+import { v4 as uuidv4 }        from 'uuid'
+import { getCountries }        from 'react-phone-number-input/input'
+import countryLabels           from 'react-phone-number-input/locale/en.json'
+import classNames              from '@renderer/utils/classNames'
+import { useSettingsState }    from '@renderer/store/settingsStore'
+import type { SettingsModel }  from '../../../../types/models'
+import ROUTES                  from '../../constants/routes.json'
 
-const abortApplication = (): void => {
+function abortApplication(): void {
   window.electron.ipcRenderer.send('app-quit')
 }
 
 interface IFormInputs {
-  identifier: string
-  congregationName: string
-  congregationNumber: string
+  identifier:          string
+  congregationName:    string
+  congregationNumber:  string
   congregationCountry: string
-  congregationLocale: string
-  firstname: string
-  lastname: string
-  email: string
+  congregationLocale:  string
+  firstname:           string
+  lastname:            string
+  email:               string
 }
 
 interface Country {
@@ -31,14 +32,14 @@ interface Country {
 }
 
 function Registration(): JSX.Element {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
+  const { t }                     = useTranslation()
+  const navigate                  = useNavigate()
   const [countries, setCountries] = useState<Country[]>([])
-  const settingsState = useSettingsState()
+  const settingsState             = useSettingsState()
 
   useEffect(() => {
     const c: Country[] = []
-    getCountries().map((country) => {
+    getCountries().forEach((country) => {
       c.push({ code: country, name: countryLabels[country] })
     })
     c.sort((a, b) => (a.name > b.name ? 1 : -1))
@@ -48,24 +49,24 @@ function Registration(): JSX.Element {
   const {
     register,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
   } = useForm<IFormInputs>({
-    defaultValues: { congregationCountry: 'SE', congregationLocale: 'sv' }
+    defaultValues: { congregationCountry: 'SE', congregationLocale: 'sv' },
   })
 
   const onSubmit: SubmitHandler<IFormInputs> = (data): void => {
     const settings: SettingsModel = {
-      identifier: uuidv4(),
-      token: '',
+      identifier:   uuidv4(),
+      token:        '',
       congregation: {
-        name: data.congregationName,
-        number: data.congregationNumber,
-        country: data.congregationCountry,
-        locale: data.congregationLocale,
-        languageGroups: []
+        name:           data.congregationName,
+        number:         data.congregationNumber,
+        country:        data.congregationCountry,
+        locale:         data.congregationLocale,
+        languageGroups: [],
       },
-      user: { firstname: data.firstname, lastname: data.lastname, email: data.email },
-      online: { send_report_group: false, send_report_publisher: false, public: false }
+      user:   { firstname: data.firstname, lastname: data.lastname, email: data.email },
+      online: { send_report_group: false, send_report_publisher: false, public: false },
     }
 
     window.electron.ipcRenderer.invoke('registration', settings).then(() => {
@@ -91,7 +92,7 @@ function Registration(): JSX.Element {
         className="max-w-4xl space-y-6 justify-self-center pt-6"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="bg-white px-4 py-5 shadow dark:border dark:border-slate-500 dark:bg-slate-900 sm:rounded-lg sm:p-6">
+        <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6 dark:border dark:border-slate-500 dark:bg-slate-900">
           <div className="md:grid md:grid-cols-3 md:gap-6">
             <div className="md:col-span-1">
               <h3 className="text-lg font-medium leading-6 text-slate-900 dark:text-slate-400">
@@ -110,10 +111,10 @@ function Registration(): JSX.Element {
                       placeholder={t('label.congregationName')}
                       className={classNames(
                         errors.congregationName ? 'input-error' : '',
-                        'input w-full input-bordered'
+                        'input w-full input-bordered',
                       )}
                       {...register('congregationName', {
-                        required: t('errors.congregationName.required')
+                        required: t('errors.congregationName.required'),
                       })}
                       aria-invalid={errors.congregationName ? 'true' : 'false'}
                     />
@@ -135,10 +136,10 @@ function Registration(): JSX.Element {
                       placeholder={t('label.congregationNumber')}
                       className={classNames(
                         errors.congregationNumber ? 'input-error' : '',
-                        'input w-full input-bordered'
+                        'input w-full input-bordered',
                       )}
                       {...register('congregationNumber', {
-                        required: t('errors.congregationNumber.required')
+                        required: t('errors.congregationNumber.required'),
                       })}
                       aria-invalid={errors.congregationNumber ? 'true' : 'false'}
                     />
@@ -157,7 +158,7 @@ function Registration(): JSX.Element {
                     <select
                       className="select select-bordered w-full"
                       {...register('congregationCountry', {
-                        required: t('errors.congregationCountry.required')
+                        required: t('errors.congregationCountry.required'),
                       })}
                     >
                       {countries.map((country) => {
@@ -184,7 +185,7 @@ function Registration(): JSX.Element {
                     <select
                       className="select select-bordered w-full"
                       {...register('congregationLocale', {
-                        required: t('errors.congregationLocale.required')
+                        required: t('errors.congregationLocale.required'),
                       })}
                     >
                       <option value="en">English</option>
@@ -205,7 +206,7 @@ function Registration(): JSX.Element {
           </div>
         </div>
 
-        <div className="bg-white px-4 py-5 shadow dark:border dark:border-slate-500 dark:bg-slate-900 sm:rounded-lg sm:p-6">
+        <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6 dark:border dark:border-slate-500 dark:bg-slate-900">
           <div className="md:grid md:grid-cols-3 md:gap-6">
             <div className="md:col-span-1">
               <h3 className="text-lg font-medium leading-6 text-slate-900 dark:text-slate-400">
@@ -225,7 +226,7 @@ function Registration(): JSX.Element {
                       placeholder={t('label.firstname')}
                       className={classNames(
                         errors.firstname ? 'input-error' : '',
-                        'input w-full input-bordered'
+                        'input w-full input-bordered',
                       )}
                       {...register('firstname', { required: t('errors.firstname.required') })}
                       aria-invalid={errors.firstname ? 'true' : 'false'}
@@ -248,7 +249,7 @@ function Registration(): JSX.Element {
                       placeholder={t('label.lastname')}
                       className={classNames(
                         errors.lastname ? 'input-error' : '',
-                        'input w-full input-bordered'
+                        'input w-full input-bordered',
                       )}
                       {...register('lastname', { required: t('errors.lastname.required') })}
                       aria-invalid={errors.lastname ? 'true' : 'false'}
@@ -271,11 +272,11 @@ function Registration(): JSX.Element {
                       placeholder={t('label.email')}
                       className={classNames(
                         errors.email ? 'input-error' : '',
-                        'input w-full input-bordered'
+                        'input w-full input-bordered',
                       )}
                       {...register('email', {
                         required: t('errors.email.required'),
-                        validate: (value) => !value.includes('jwpub.org') || t('errors.email.jwpub')
+                        validate: value => !value.includes('jwpub.org') || t('errors.email.jwpub'),
                       })}
                       aria-invalid={errors.email ? 'true' : 'false'}
                     />

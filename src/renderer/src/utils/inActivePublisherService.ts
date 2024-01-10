@@ -1,10 +1,10 @@
-import { Report } from 'src/types/models'
+import type { Report } from 'src/types/models'
 
-export const inActivePublisherService = (report: Report): boolean => {
+export function inActivePublisherService(report: Report): boolean {
   return (
-    report.hasBeenInService &&
-    report.type === 'PUBLISHER' &&
-    report.publisherStatus !== 'INACTIVE' &&
-    !report.auxiliary
+    report.hasBeenInService
+    && report.type === 'PUBLISHER'
+    && report.publisherStatus !== 'INACTIVE'
+    && !report.auxiliary
   )
 }

@@ -1,111 +1,118 @@
-import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
-import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import { updateElectronApp } from 'update-electron-app'
-import windowStateKeeper from 'electron-window-state'
-import prompt from 'electron-prompt'
-import log from 'electron-log'
-import os from 'os'
-import { join } from 'path'
-import icon from '../../resources/icon.png?asset'
-import MenuBuilder from './menu'
-import i18n from '../localization/i18next.config'
-import {
+import os                                             from 'node:os'
+import { join }                                       from 'node:path'
+import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron'
+import { electronApp, is, optimizer }                 from '@electron-toolkit/utils'
+import { updateElectronApp }                          from 'update-electron-app'
+import windowStateKeeper                              from 'electron-window-state'
+import prompt                                         from 'electron-prompt'
+import log                                            from 'electron-log'
+import installExtension, { REACT_DEVELOPER_TOOLS }    from 'electron-devtools-installer'
+import icon                                           from '../../resources/icon.png?asset'
+import i18n                                           from '../localization/i18next.config'
+import type {
   CircuitOverseerModel,
   PublisherModel,
   ResponsibilityModel,
   ServiceGroupModel,
   SettingsModel,
-  TaskModel
+  TaskModel,
 } from '../types/models'
-import ServiceYearService from './services/serviceYearService'
-import ServiceMonthService from './services/serviceMonthService'
-import SettingsService from './services/settingsService'
-import PublisherService from './services/publisherService'
-import ServiceGroupService from './services/serviceGroupService'
-import ResponsibilityService from './services/responsibilityService'
-import ExportService from './services/exportService'
-import TaskService from './services/taskService'
+import MenuBuilder            from './menu'
+import ServiceYearService     from './services/serviceYearService'
+import ServiceMonthService    from './services/serviceMonthService'
+import SettingsService        from './services/settingsService'
+import PublisherService       from './services/publisherService'
+import ServiceGroupService    from './services/serviceGroupService'
+import ResponsibilityService  from './services/responsibilityService'
+import ExportService          from './services/exportService'
+import TaskService            from './services/taskService'
 import CircuitOverseerService from './services/circuitOverseerService'
-import AuxiliaryService from './services/auxiliaryService'
-import TemplateService from './services/templateService'
-import migrateDatabase from './migrateDatabase'
+import AuxiliaryService       from './services/auxiliaryService'
+import TemplateService        from './services/templateService'
+import migrateDatabase        from './migrateDatabase'
 import {
-  importJson,
-  getPublishersStats,
+  closeReporting,
   exportAddressList,
   exportPublisherS21,
-  getCommonExports,
-  startReporting,
-  generateXLSXReportForms,
-  importServiceReports,
-  updateSettings,
-  getReportUpdates,
-  closeReporting,
-  importTemplate,
   exportPublishersS21,
   exportS88,
-  storeEvent
+  generateXLSXReportForms,
+  getCommonExports,
+  getPublishersStats,
+  getReportUpdates,
+  importJson,
+  importServiceReports,
+  importTemplate,
+  startReporting,
+  storeEvent,
+  updateSettings,
 } from './functions'
 
-const isDebug =
-  import.meta.env.MAIN_VITE_NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true'
+// Initialize services
+const circuitOverseerService = new CircuitOverseerService()
+const exportService          = new ExportService()
+const publisherService       = new PublisherService()
+const responsibiltyService   = new ResponsibilityService()
+const serviceGroupService    = new ServiceGroupService()
+const serviceYearService     = new ServiceYearService()
+const serviceMonthService    = new ServiceMonthService()
+const settingsService        = new SettingsService()
+const taskService            = new TaskService()
+const auxiliaryService       = new AuxiliaryService()
+const templateService        = new TemplateService()
+
+const isDebug
+  // eslint-disable-next-line node/prefer-global/process
+  = import.meta.env.MAIN_VITE_NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true'
 
 let mainWindow: BrowserWindow | null = null
-let menuBuilder: MenuBuilder | null = null
-
-const installExtensions = async (): Promise<void> => {
-  const installer = require('electron-devtools-installer')
-  const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-  const extensions = ['REACT_DEVELOPER_TOOLS']
-
-  return installer
-    .default(
-      extensions.map((name) => installer[name]),
-      forceDownload
-    )
-    .catch(log.error)
-}
+let menuBuilder: MenuBuilder | null  = null
 
 async function createWindow(): Promise<void> {
   if (isDebug) {
     try {
-      await installExtensions()
-    } catch (error) {
+      installExtension(REACT_DEVELOPER_TOOLS)
+
+        .then(name => log.info(`Added Extension:  ${name}`))
+
+        .catch(err => log.info('An error occurred: ', err))
+    }
+    catch (error) {
       log.error('An error occurred: ', error)
     }
   }
 
   const mainWindowState = windowStateKeeper({
-    defaultWidth: 1200,
-    defaultHeight: 1024
+    defaultWidth:  1200,
+    defaultHeight: 1024,
   })
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    x: mainWindowState.x,
-    y: mainWindowState.y,
-    width: mainWindowState.width,
-    height: mainWindowState.height,
-    show: false,
-    title: 'SECRETARY',
+    x:               mainWindowState.x,
+    y:               mainWindowState.y,
+    width:           mainWindowState.width,
+    height:          mainWindowState.height,
+    show:            false,
+    title:           'SECRETARY',
     autoHideMenuBar: true,
+    // eslint-disable-next-line node/prefer-global/process
     ...(process.platform === 'linux' ? { icon } : {}),
-    webPreferences: {
+    webPreferences:  {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
-    }
+      sandbox: false,
+    },
   })
 
   menuBuilder = new MenuBuilder(mainWindow)
 
-  if (isDebug) {
+  if (isDebug)
     mainWindow.webContents.openDevTools()
-  }
 
   mainWindow.on('ready-to-show', () => {
-    if (!mainWindow) {
+    if (!mainWindow)
       throw new Error('"mainWindow" is not defined')
-    }
+
     migrateDatabase()
 
     mainWindow.show()
@@ -127,11 +134,13 @@ async function createWindow(): Promise<void> {
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-  } else {
+  // eslint-disable-next-line node/prefer-global/process
+  if (is.dev && process.env.ELECTRON_RENDERER_URL)
+    // eslint-disable-next-line node/prefer-global/process
+    mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL)
+
+  else
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
-  }
 }
 
 // This method will be called when Electron has finished
@@ -139,7 +148,7 @@ async function createWindow(): Promise<void> {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
-  //electronApp.setAppUserModelId('com.electron')
+  // electronApp.setAppUserModelId('com.electron')
   electronApp.setAppUserModelId('se.bjorkgard.secretary')
 
   // Default open or close DevTools by F12 in development
@@ -151,10 +160,11 @@ app.whenReady().then(() => {
 
   createWindow()
 
-  app.on('activate', function () {
+  app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    if (BrowserWindow.getAllWindows().length === 0)
+      createWindow()
   })
 })
 
@@ -171,9 +181,9 @@ app.on('ready', () => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  // eslint-disable-next-line node/prefer-global/process
+  if (process.platform !== 'darwin')
     app.quit()
-  }
 })
 
 // In this file you can include the rest of your app"s specific main process
@@ -199,18 +209,18 @@ i18n.on('languageChanged', (lang) => {
     menuBuilder?.buildMenu(i18n)
 
     mainWindow?.webContents.send('change-translation', {
-      language: lang,
+      language:  lang,
       namespace: 'translation',
-      resources: i18n.getResourceBundle(lang, 'translation')
+      resources: i18n.getResourceBundle(lang, 'translation'),
     })
   }
 })
 
 ipcMain.handle('get-initial-translations', () => {
   return {
-    language: 'sv',
+    language:  'sv',
     namespace: 'translation',
-    resources: i18n.getResourceBundle('sv', 'translation')
+    resources: i18n.getResourceBundle('sv', 'translation'),
   }
 })
 
@@ -218,21 +228,9 @@ ipcMain.on('app-quit', () => {
   app.quit()
 })
 
-// Initialize services
-const circuitOverseerService = new CircuitOverseerService()
-const exportService = new ExportService()
-const publisherService = new PublisherService()
-const responsibiltyService = new ResponsibilityService()
-const serviceGroupService = new ServiceGroupService()
-const serviceYearService = new ServiceYearService()
-const serviceMonthService = new ServiceMonthService()
-const settingsService = new SettingsService()
-const taskService = new TaskService()
-const auxiliaryService = new AuxiliaryService()
-const templateService = new TemplateService()
-
 ipcMain.on('import', () => {
-  if (!mainWindow) return
+  if (!mainWindow)
+    return
   importJson(
     mainWindow,
     serviceGroupService,
@@ -240,40 +238,40 @@ ipcMain.on('import', () => {
     serviceMonthService,
     serviceYearService,
     auxiliaryService,
-    settingsService
+    settingsService,
   )
 })
 
 ipcMain.handle('registration', async (_, param: SettingsModel) => {
   // register online
   const options = {
-    method: 'POST',
+    method:  'POST',
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json;charset=UTF-8',
-      Authorization: 'Bearer ' + import.meta.env.MAIN_VITE_TOKEN
+      'Accept':        'application/json',
+      'Content-Type':  'application/json;charset=UTF-8',
+      'Authorization': `Bearer ${import.meta.env.MAIN_VITE_TOKEN}`,
     },
     body: JSON.stringify({
-      name: param.user.firstname + ' ' + param.user.lastname,
-      email: param.user.email,
-      device_platform: os.platform()
-    })
+      name:            `${param.user.firstname} ${param.user.lastname}`,
+      email:           param.user.email,
+      device_platform: os.platform(),
+    }),
   }
 
   await fetch(`${import.meta.env.MAIN_VITE_API}/register`, options)
-    .then((response) => response.json())
+    .then(response => response.json())
     .then((data) => {
       param.token = data.token
     })
     .catch((error) => {
       log.error(error)
       const responseErrorOptions = {
-        type: 'error' as const,
-        buttons: ['OK'],
+        type:      'error' as const,
+        buttons:   ['OK'],
         defaultId: 0,
-        title: 'Okänt fel',
-        message: 'Okänt fel',
-        detail: 'Det gick inte att registrera dig. Var vänlig och förösk om en stund igen.'
+        title:     'Okänt fel',
+        message:   'Okänt fel',
+        detail:    'Det gick inte att registrera dig. Var vänlig och förösk om en stund igen.',
       }
 
       if (mainWindow) {
@@ -306,7 +304,7 @@ ipcMain.handle('get-contacts', async () => {
   return await publisherService.findContacts()
 })
 
-ipcMain.handle('get-publishers', async (_, args: { sortfield: string; queryString: string }) => {
+ipcMain.handle('get-publishers', async (_, args: { sortfield: string, queryString: string }) => {
   return await publisherService.find(args.sortfield, args.queryString)
 })
 
@@ -324,9 +322,9 @@ ipcMain.handle('create-publisher', async (_, param: PublisherModel) => {
 
 ipcMain.handle('update-publisher', async (_, param: PublisherModel) => {
   if (param._id) {
-    if (param.contact) {
+    if (param.contact)
       publisherService.updateAddressOnFamilyMembers(param)
-    }
+
     return await publisherService.update(param._id, param)
   }
 
@@ -347,9 +345,8 @@ ipcMain.handle('create-serviceGroup', async (_, param: ServiceGroupModel) => {
 })
 
 ipcMain.handle('update-serviceGroup', async (_, param: ServiceGroupModel) => {
-  if (param._id) {
+  if (param._id)
     return await serviceGroupService.update(param._id, param)
-  }
 
   return null
 })
@@ -375,9 +372,8 @@ ipcMain.handle('create-responsibility', async (_, param: ResponsibilityModel) =>
 })
 
 ipcMain.handle('update-responsibility', async (_, param: ResponsibilityModel) => {
-  if (param._id) {
+  if (param._id)
     return await responsibiltyService.update(param._id, param)
-  }
 
   return null
 })
@@ -400,9 +396,8 @@ ipcMain.handle('create-task', async (_, param: TaskModel) => {
 })
 
 ipcMain.handle('update-task', async (_, param: TaskModel) => {
-  if (param._id) {
+  if (param._id)
     return await taskService.update(param._id, param)
-  }
 
   return null
 })
@@ -411,7 +406,7 @@ ipcMain.handle('delete-task', async (_, id) => {
   return await taskService.delete(id)
 })
 
-//DASHBOARD
+// DASHBOARD
 ipcMain.handle('publishers-stats', async () => {
   return getPublishersStats(publisherService)
 })
@@ -422,7 +417,8 @@ ipcMain.handle('common-exports', async () => {
 
 // EXPORTS
 ipcMain.on('export-addresslist-alphabetically-xlsx', async () => {
-  if (!mainWindow) return
+  if (!mainWindow)
+    return
   mainWindow?.webContents.send('show-spinner', { status: true })
 
   exportService.upsert('ADDRESSLIST_ALPHA', 'XLSX', 'export-addresslist-alphabetically-xlsx')
@@ -430,7 +426,8 @@ ipcMain.on('export-addresslist-alphabetically-xlsx', async () => {
 })
 
 ipcMain.on('export-addresslist-alphabetically-pdf', async () => {
-  if (!mainWindow) return
+  if (!mainWindow)
+    return
   mainWindow?.webContents.send('show-spinner', { status: true })
 
   exportService.upsert('ADDRESSLIST_ALPHA', 'PDF', 'export-addresslist-alphabetically-pdf')
@@ -438,7 +435,8 @@ ipcMain.on('export-addresslist-alphabetically-pdf', async () => {
 })
 
 ipcMain.on('export-addresslist-group-xlsx', async () => {
-  if (!mainWindow) return
+  if (!mainWindow)
+    return
   mainWindow?.webContents.send('show-spinner', { status: true })
 
   exportService.upsert('ADDRESSLIST_GROUP', 'XLSX', 'export-addresslist-group-xlsx')
@@ -446,7 +444,8 @@ ipcMain.on('export-addresslist-group-xlsx', async () => {
 })
 
 ipcMain.on('export-addresslist-group-pdf', async () => {
-  if (!mainWindow) return
+  if (!mainWindow)
+    return
   mainWindow?.webContents.send('show-spinner', { status: true })
 
   exportService.upsert('ADDRESSLIST_GROUP', 'PDF', 'export-addresslist-group-pdf')
@@ -454,7 +453,8 @@ ipcMain.on('export-addresslist-group-pdf', async () => {
 })
 
 ipcMain.on('export-meeting-attendance', async (_event, args) => {
-  if (!mainWindow) return
+  if (!mainWindow)
+    return
   mainWindow?.webContents.send('show-spinner', { status: true })
 
   log.info('exporting S-88', args)
@@ -467,9 +467,8 @@ ipcMain.on('export-meeting-attendance', async (_event, args) => {
     })
   })
 
-  if (args.type === 'latest') {
+  if (args.type === 'latest')
     sy = sy.slice(0, 2)
-  }
 
   sy.sort()
 
@@ -477,10 +476,11 @@ ipcMain.on('export-meeting-attendance', async (_event, args) => {
 })
 
 ipcMain.on('export-register-card', async (_event, args) => {
-  if (!mainWindow) return
+  if (!mainWindow)
+    return
   mainWindow?.webContents.send('show-spinner', { status: true })
 
-  let sy: string[] = []
+  const sy: string[] = []
 
   serviceYearService.find().then((serviceYears) => {
     serviceYears.forEach((serviceYear) => {
@@ -491,20 +491,20 @@ ipcMain.on('export-register-card', async (_event, args) => {
   sy.sort().reverse()
 
   prompt({
-    title: i18n.t('dialog.selectServiceYear'),
-    label: i18n.t('dialog.selectServiceYearDescription'),
-    type: 'select',
+    title:         i18n.t('dialog.selectServiceYear'),
+    label:         i18n.t('dialog.selectServiceYearDescription'),
+    type:          'select',
     selectOptions: sy,
-    alwaysOnTop: true,
-    buttonLabels: { cancel: i18n.t('label.cancel'), ok: i18n.t('label.ok') },
-    resizable: true
+    alwaysOnTop:   true,
+    buttonLabels:  { cancel: i18n.t('label.cancel'), ok: i18n.t('label.ok') },
+    resizable:     true,
   })
     .then((r: number | null) => {
       if (r !== null) {
-        if (mainWindow) {
+        if (mainWindow)
           exportPublishersS21(mainWindow, +sy[r], args.type)
-        }
-      } else {
+      }
+      else {
         mainWindow?.webContents.send('show-spinner', { status: false })
       }
     })
@@ -526,7 +526,7 @@ ipcMain.handle('current-service-month', async () => {
   date.setDate(0)
 
   const serviceMonth = await serviceMonthService.findByServiceMonth(
-    `${date.getFullYear()}-${date.getMonth() + 1}`
+    `${date.getFullYear()}-${date.getMonth() + 1}`,
   )
 
   return serviceMonth
@@ -540,7 +540,7 @@ ipcMain.handle('start-reporting', async () => {
     publisherService,
     settingsService,
     serviceYearService,
-    auxiliaryService
+    auxiliaryService,
   )
 })
 
@@ -551,7 +551,7 @@ ipcMain.handle('close-reporting', async () => {
     serviceMonthService,
     publisherService,
     settingsService,
-    auxiliaryService
+    auxiliaryService,
   )
 })
 
@@ -562,22 +562,21 @@ ipcMain.handle('save-meetings', async (_, props) => {
 ipcMain.handle('auxiliaries', async () => {
   const auxiliaries = await auxiliaryService.find()
 
-  for await (const auxiliary of auxiliaries) {
+  for await (const auxiliary of auxiliaries)
     auxiliary.publishers = await publisherService.findByIds(auxiliary.publisherIds)
-  }
 
   return auxiliaries
 })
 
 ipcMain.handle('add-auxiliary', async (_, props) => {
-  const name = props.serviceMonth.split('-')
-  const date = new Date(parseInt(name[0]), parseInt(name[1]) - 1, 1)
+  const name      = props.serviceMonth.split('-')
+  const date      = new Date(Number.parseInt(name[0]), Number.parseInt(name[1]) - 1, 1)
   const auxiliary = await auxiliaryService.upsert({
     ...props,
-    name: date.toLocaleString('default', { month: 'long' }).toLowerCase()
+    name: date.toLocaleString('default', { month: 'long' }).toLowerCase(),
   })
 
-  if (auxiliary._id && auxiliary.publisherIds.indexOf(props.publisher) === -1) {
+  if (auxiliary._id && !auxiliary.publisherIds.includes(props.publisher)) {
     auxiliary.publisherIds.push(props.publisher)
     return await auxiliaryService.update(auxiliary._id, auxiliary)
   }
@@ -587,30 +586,30 @@ ipcMain.handle('add-auxiliary', async (_, props) => {
 
 ipcMain.handle('save-report', async (_, report) => {
   const settings = await settingsService.find()
-  let newReport = report
+  let newReport  = report
 
-  if (report.studies && report.studies !== '') {
-    newReport = { ...newReport, studies: parseInt(report.studies) }
-  } else {
+  if (report.studies && report.studies !== '')
+    newReport = { ...newReport, studies: Number.parseInt(report.studies) }
+
+  else
     newReport = { ...newReport, studies: undefined }
-  }
 
-  if (report.hours && report.hours !== '') {
-    newReport = { ...newReport, hours: parseInt(report.hours) }
-  } else {
+  if (report.hours && report.hours !== '')
+    newReport = { ...newReport, hours: Number.parseInt(report.hours) }
+
+  else
     newReport = { ...newReport, hours: undefined }
-  }
 
   if (settings?.online.send_report_group || settings?.online.send_report_publisher) {
     const options = {
-      method: 'PUT',
+      method:  'PUT',
       headers: {
-        Accept: 'application/json',
+        'Accept':       'application/json',
         'Content-Type': 'application/json;charset=UTF-8',
-        Authorization:
-          'Bearer ' + (await settingsService.token()) || import.meta.env.MAIN_VITE_TOKEN
+        'Authorization':
+          `Bearer ${await settingsService.token()}` || import.meta.env.MAIN_VITE_TOKEN,
       },
-      body: JSON.stringify(newReport)
+      body: JSON.stringify(newReport),
     }
     fetch(`${import.meta.env.MAIN_VITE_API}/reports/update`, options)
   }
@@ -619,19 +618,22 @@ ipcMain.handle('save-report', async (_, report) => {
 })
 
 ipcMain.handle('generate-excel-report-forms', async (_, serviceMonthId) => {
-  if (!mainWindow) return
+  if (!mainWindow)
+    return
 
   generateXLSXReportForms(mainWindow, serviceGroupService, serviceMonthService, serviceMonthId)
 })
 
 ipcMain.handle('import-service-reports', async () => {
-  if (!mainWindow) return
+  if (!mainWindow)
+    return
 
   importServiceReports(mainWindow, serviceMonthService)
 })
 
 ipcMain.on('export-s21', async (_, publisherId) => {
-  if (!mainWindow) return
+  if (!mainWindow)
+    return
 
   mainWindow?.webContents.send('show-spinner', { status: true })
 
@@ -651,13 +653,15 @@ ipcMain.handle('get-template', async (_, props) => {
 })
 
 ipcMain.handle('import-template', async (_, args) => {
-  if (!mainWindow) return
+  if (!mainWindow)
+    return
 
   importTemplate(mainWindow, templateService, args)
 })
 
 ipcMain.handle('store-event', async (_, args) => {
-  if (!mainWindow) return
+  if (!mainWindow)
+    return
 
   storeEvent(args.event)
 })

@@ -1,4 +1,4 @@
-import {
+import type {
   AuxiliaryModel,
   CircuitOverseerModel,
   ExportModel,
@@ -11,7 +11,7 @@ import {
   ServiceMonthModel,
   ServiceYearModel,
   SettingsModel,
-  TaskModel
+  TaskModel,
 } from './models'
 
 type Nullable<T> = T | null
@@ -57,9 +57,9 @@ export interface ServiceMonthService extends BaseService<ServiceMonthModel> {
   deleteReport(date: string, publisherId: string): Promise<void>
   saveReport(report: Report): Promise<number | undefined>
   saveMeetings(props: {
-    meetings: Meeting
+    meetings:       Meeting
     serviceMonthId: string
-    name?: string
+    name?:          string
   }): Promise<number | undefined>
 }
 

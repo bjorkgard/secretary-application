@@ -1,39 +1,40 @@
-import { Export, ExportSchema } from '../databases/schemas'
-import { ExportModel } from '../../types/models'
-import { ExportService as IExportService } from '../../types/type'
-import ExportStore from '../databases/exportStore'
+import type { Export }                          from '../databases/schemas'
+import { ExportSchema }                         from '../databases/schemas'
+import type { ExportModel }                     from '../../types/models'
+import type { ExportService as IExportService } from '../../types/type'
+import ExportStore                              from '../databases/exportStore'
 
 const exportStore = new ExportStore('exports.db', ExportSchema)
 
-const parseExportModel = (data: ExportModel): Export => {
+function parseExportModel(data: ExportModel): Export {
   const exp: Export = {
-    name: '',
+    name:   '',
     format: '',
     method: '',
-    count: 0
+    count:  0,
   }
 
-  exp.name = data.name
+  exp.name   = data.name
   exp.format = data.format
   exp.method = data.method
-  exp.count = data.count
+  exp.count  = data.count
 
   return exp
 }
 
-const parseExport = (data: Export): ExportModel => {
+function parseExport(data: Export): ExportModel {
   const exportModel: ExportModel = {
-    name: '',
+    name:   '',
     format: '',
     method: '',
-    count: 0
+    count:  0,
   }
 
-  exportModel._id = data._id
-  exportModel.name = data.name
-  exportModel.format = data.format
-  exportModel.method = data.method
-  exportModel.count = data.count
+  exportModel._id       = data._id
+  exportModel.name      = data.name
+  exportModel.format    = data.format
+  exportModel.method    = data.method
+  exportModel.count     = data.count
   exportModel.createdAt = data.createdAt?.toLocaleString('sv-SE')
   exportModel.updatedAt = data.updatedAt?.toLocaleString('sv-SE')
 
@@ -61,7 +62,7 @@ export default class ExportService implements IExportService {
   async find(): Promise<ExportModel[]> {
     const exports = (await exportStore.find()) as Export[]
 
-    return exports.map((e) => parseExport(e))
+    return exports.map(e => parseExport(e))
   }
 
   async upsert(name: string, format: string, method: string): Promise<number> {

@@ -1,16 +1,18 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form'
-import { Country, isPossiblePhoneNumber } from 'react-phone-number-input'
-import { CircuitOverseerModel } from 'src/types/models'
-import classNames from '@renderer/utils/classNames'
-import { Field } from '@renderer/components/Field'
-import { useSettingsState } from '@renderer/store/settingsStore'
+import { useEffect, useState }       from 'react'
+import { useTranslation }            from 'react-i18next'
+import type { SubmitHandler }        from 'react-hook-form'
+import { useForm }                   from 'react-hook-form'
+import PhoneInputWithCountry         from 'react-phone-number-input/react-hook-form'
+import type { Country }              from 'react-phone-number-input'
+import { isPossiblePhoneNumber }     from 'react-phone-number-input'
+import type { CircuitOverseerModel } from 'src/types/models'
+import classNames                    from '@renderer/utils/classNames'
+import { Field }                     from '@renderer/components/Field'
+import { useSettingsState }          from '@renderer/store/settingsStore'
 import 'react-phone-number-input/style.css'
 
 export default function CircuitOverseer(): JSX.Element {
-  const { t } = useTranslation()
+  const { t }         = useTranslation()
   const settingsState = useSettingsState()
 
   const [data, setData] = useState<CircuitOverseerModel>()
@@ -19,16 +21,17 @@ export default function CircuitOverseer(): JSX.Element {
     control,
     register,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
   } = useForm<CircuitOverseerModel>({
-    values: data
+    values: data,
   })
 
   const onSubmit: SubmitHandler<CircuitOverseerModel> = (data): void => {
     window.electron.ipcRenderer.invoke('update-circuitOverseer', data).then(() => {
       window.Notification.requestPermission().then(() => {
+        // eslint-disable-next-line no-new
         new window.Notification('SECRETARY', {
-          body: t('circuitOverseer.updated.body')
+          body: t('circuitOverseer.updated.body'),
         })
       })
     })
@@ -58,10 +61,10 @@ export default function CircuitOverseer(): JSX.Element {
                   placeholder={t('label.firstname')}
                   className={classNames(
                     errors.firstname ? 'input-error' : '',
-                    'input w-full input-bordered'
+                    'input w-full input-bordered',
                   )}
                   {...register('firstname', {
-                    required: t('errors.firstname.required')
+                    required: t('errors.firstname.required'),
                   })}
                 />
               </Field>
@@ -74,10 +77,10 @@ export default function CircuitOverseer(): JSX.Element {
                   placeholder={t('label.lastname')}
                   className={classNames(
                     errors.firstname ? 'input-error' : '',
-                    'input w-full input-bordered'
+                    'input w-full input-bordered',
                   )}
                   {...register('lastname', {
-                    required: t('errors.lastname.required')
+                    required: t('errors.lastname.required'),
                   })}
                 />
               </Field>
@@ -93,18 +96,18 @@ export default function CircuitOverseer(): JSX.Element {
                   control={control}
                   className={classNames(
                     errors.mobile ? 'input-error' : '',
-                    'input input-bordered w-full'
+                    'input input-bordered w-full',
                   )}
                   rules={{
                     validate: {
                       test: (v: string | null): string | null => {
                         let result = ''
-                        if (v) {
+                        if (v)
                           result = isPossiblePhoneNumber(v) ? '' : t('errors.mobile.invalid')
-                        }
+
                         return result !== '' ? result : null
-                      }
-                    }
+                      },
+                    },
                   }}
                 />
               </Field>
@@ -120,18 +123,18 @@ export default function CircuitOverseer(): JSX.Element {
                   control={control}
                   className={classNames(
                     errors.mobile ? 'input-error' : '',
-                    'input input-bordered w-full'
+                    'input input-bordered w-full',
                   )}
                   rules={{
                     validate: {
                       test: (v: string | null): string | null => {
                         let result = ''
-                        if (v) {
+                        if (v)
                           result = isPossiblePhoneNumber(v) ? '' : t('errors.phone.invalid')
-                        }
+
                         return result !== '' ? result : null
-                      }
-                    }
+                      },
+                    },
                   }}
                 />
               </Field>
@@ -146,7 +149,7 @@ export default function CircuitOverseer(): JSX.Element {
                   placeholder={t('label.email')}
                   className={classNames(
                     errors.email ? 'input-error' : '',
-                    'input input-bordered w-full'
+                    'input input-bordered w-full',
                   )}
                   {...register('email')}
                 />
@@ -161,10 +164,10 @@ export default function CircuitOverseer(): JSX.Element {
                   placeholder={t('label.address')}
                   className={classNames(
                     errors.email ? 'input-error' : '',
-                    'input input-bordered w-full'
+                    'input input-bordered w-full',
                   )}
                   {...register('address', {
-                    required: t('errors.address.required')
+                    required: t('errors.address.required'),
                   })}
                 />
               </Field>
@@ -178,10 +181,10 @@ export default function CircuitOverseer(): JSX.Element {
                   placeholder={t('label.zip')}
                   className={classNames(
                     errors.email ? 'input-error' : '',
-                    'input input-bordered w-full'
+                    'input input-bordered w-full',
                   )}
                   {...register('zip', {
-                    required: t('errors.zip.required')
+                    required: t('errors.zip.required'),
                   })}
                 />
               </Field>
@@ -195,10 +198,10 @@ export default function CircuitOverseer(): JSX.Element {
                   placeholder={t('label.city')}
                   className={classNames(
                     errors.email ? 'input-error' : '',
-                    'input input-bordered w-full'
+                    'input input-bordered w-full',
                   )}
                   {...register('city', {
-                    required: t('errors.city.required')
+                    required: t('errors.city.required'),
                   })}
                 />
               </Field>

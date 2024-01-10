@@ -1,10 +1,10 @@
-import Excel from 'exceljs'
+import type Excel from 'exceljs'
 
-const adjustColumnWidth = (worksheet: Excel.Worksheet): void => {
+function adjustColumnWidth(worksheet: Excel.Worksheet): void {
   worksheet.columns.forEach((column) => {
-    const lengths = column.values?.map((v) => v?.toString().length || 0) || []
-    const maxLength = Math.max(...lengths.filter((v) => typeof v === 'number'))
-    column.width = maxLength
+    const lengths   = column.values?.map(v => v?.toString().length || 0) || []
+    const maxLength = Math.max(...lengths.filter(v => typeof v === 'number'))
+    column.width    = maxLength
   })
 }
 

@@ -1,12 +1,12 @@
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import icon from '../../assets/256x256.png'
-import ROUTES from '../../constants/routes.json'
-import { SettingsModel } from 'src/types/models'
-import { useSettingsState } from '@renderer/store/settingsStore'
+import { useEffect }          from 'react'
+import { useNavigate }        from 'react-router-dom'
+import type { SettingsModel } from 'src/types/models'
+import { useSettingsState }   from '@renderer/store/settingsStore'
+import icon                   from '../../assets/256x256.png'
+import ROUTES                 from '../../constants/routes.json'
 
 function Loading(): JSX.Element {
-  const navigate = useNavigate()
+  const navigate      = useNavigate()
   const settingsState = useSettingsState()
 
   useEffect(() => {
@@ -16,7 +16,8 @@ function Loading(): JSX.Element {
         if (settings) {
           settingsState.setSettings(settings)
           navigate(ROUTES.DASHBOARD)
-        } else {
+        }
+        else {
           navigate(ROUTES.SETUP)
         }
       })

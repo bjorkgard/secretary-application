@@ -1,17 +1,18 @@
-import { Fragment, ReactElement } from 'react'
+import type { ReactElement }  from 'react'
+import { Fragment }           from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { useTranslation } from 'react-i18next'
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { useTranslation }     from 'react-i18next'
+import { XMarkIcon }          from '@heroicons/react/24/outline'
 
-type CardProps = {
-  children: ReactElement
-  title?: string
-  open: boolean
-  onClose: () => void
+interface CardProps {
+  children:   ReactElement
+  title?:     string
+  open:       boolean
+  onClose:    () => void
   onConfirm?: () => void
 }
 
-export const Modal = ({ children, title, open, onClose, onConfirm }: CardProps): JSX.Element => {
+export function Modal({ children, title, open, onClose, onConfirm }: CardProps): JSX.Element {
   const { t } = useTranslation()
 
   return (
@@ -26,7 +27,7 @@ export const Modal = ({ children, title, open, onClose, onConfirm }: CardProps):
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-gray-500/75 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -40,7 +41,7 @@ export const Modal = ({ children, title, open, onClose, onConfirm }: CardProps):
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-xl bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6 dark:bg-slate-900">
+              <Dialog.Panel className="relative overflow-hidden rounded-xl bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6 dark:bg-slate-900">
                 <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
                   <button
                     type="button"
@@ -51,8 +52,8 @@ export const Modal = ({ children, title, open, onClose, onConfirm }: CardProps):
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
                 </div>
-                <div className="sm:flex sm:items-start w-full">
-                  <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                <div className="w-full sm:flex sm:items-start">
+                  <div className="mt-3 w-full text-center sm:mt-0 sm:text-left">
                     <Dialog.Title
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900 dark:text-slate-300"
@@ -73,7 +74,7 @@ export const Modal = ({ children, title, open, onClose, onConfirm }: CardProps):
                     </button>
                     <button
                       type="button"
-                      className="mt-3 btn btn-accent inline-flex w-full sm:mt-0 sm:w-auto"
+                      className="btn btn-accent mt-3 inline-flex w-full sm:mt-0 sm:w-auto"
                       onClick={() => onClose()}
                     >
                       {t('label.cancel')}

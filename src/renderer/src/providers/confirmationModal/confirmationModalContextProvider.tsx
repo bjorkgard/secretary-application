@@ -1,15 +1,15 @@
 import React, { Fragment, createContext, useContext, useRef, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-import { useTranslation } from 'react-i18next'
+import { Dialog, Transition }                                           from '@headlessui/react'
+import { ExclamationTriangleIcon }                                      from '@heroicons/react/24/outline'
+import { useTranslation }                                               from 'react-i18next'
 
-type UseModalShowReturnType = {
-  show: boolean
+interface UseModalShowReturnType {
+  show:    boolean
   setShow: (value: boolean) => void
-  onHide: () => void
+  onHide:  () => void
 }
 
-const useModalShow = (): UseModalShowReturnType => {
+function useModalShow(): UseModalShowReturnType {
   const [show, setShow] = useState(false)
 
   const handleOnHide = (): void => {
@@ -19,42 +19,42 @@ const useModalShow = (): UseModalShowReturnType => {
   return {
     show,
     setShow,
-    onHide: handleOnHide
+    onHide: handleOnHide,
   }
 }
 
-type ModalContextType = {
+interface ModalContextType {
   showConfirmation: (title: string, message: string | JSX.Element) => Promise<boolean>
 }
 
-type ConfirmationModalContextProviderProps = {
+interface ConfirmationModalContextProviderProps {
   children: React.ReactNode
 }
 
 const ConfirmationModalContext = createContext<ModalContextType>({} as ModalContextType)
 
 const ConfirmationModalContextProvider: React.FC<ConfirmationModalContextProviderProps> = (
-  props
+  props,
 ) => {
-  const { t } = useTranslation()
+  const { t }                     = useTranslation()
   const { setShow, show, onHide } = useModalShow()
-  const [content, setContent] = useState<{ title: string; message: string | JSX.Element } | null>()
-  const resolver = useRef<(value: boolean) => void>()
-  const cancelButtonRef = useRef<HTMLButtonElement>(null)
+  const [content, setContent]     = useState<{ title: string, message: string | JSX.Element } | null>()
+  const resolver                  = useRef<(value: boolean) => void>()
+  const cancelButtonRef           = useRef<HTMLButtonElement>(null)
 
   const handleShow = (title: string, message: string | JSX.Element): Promise<boolean> => {
     setContent({
       title,
-      message
+      message,
     })
     setShow(true)
-    return new Promise<boolean>(function (resolve) {
+    return new Promise<boolean>((resolve) => {
       resolver.current = resolve
     })
   }
 
   const modalContext: ModalContextType = {
-    showConfirmation: handleShow
+    showConfirmation: handleShow,
   }
 
   const handleOk = (): void => {
@@ -102,9 +102,9 @@ const ConfirmationModalContextProvider: React.FC<ConfirmationModalContextProvide
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="relative overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-slate-900 sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                  <Dialog.Panel className="relative overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6 dark:bg-slate-900">
                     <div className="sm:flex sm:items-start">
-                      <div className="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 dark:bg-red-600 sm:mx-0 sm:h-10 sm:w-10">
+                      <div className="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10 dark:bg-red-600">
                         <ExclamationTriangleIcon
                           className="h-6 w-6 text-red-600 dark:text-red-200"
                           aria-hidden="true"

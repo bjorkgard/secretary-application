@@ -1,35 +1,35 @@
-import { useEffect } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
+import { useEffect }                              from 'react'
+import { useForm, useWatch }                      from 'react-hook-form'
+import { useTranslation }                         from 'react-i18next'
 import { TrashIcon, UserMinusIcon, UserPlusIcon } from '@heroicons/react/24/outline'
-import { PublisherModel } from 'src/types/models'
-import { Modal } from '@renderer/components/Modal'
-import { Field } from '@renderer/components/Field'
+import type { PublisherModel }                    from 'src/types/models'
+import { Modal }                                  from '@renderer/components/Modal'
+import { Field }                                  from '@renderer/components/Field'
 
-type EventModalProps = {
-  open: boolean
-  setOpen: (open: boolean) => void
+interface EventModalProps {
+  open:      boolean
+  setOpen:   (open: boolean) => void
   publisher: PublisherModel | undefined
-  refresh: () => void
+  refresh:   () => void
 }
 
 export type HeroIcon = React.ComponentType<
   React.PropsWithoutRef<React.ComponentProps<'svg'>> & {
-    title?: string | undefined
+    title?:   string | undefined
     titleId?: string | undefined
   }
 >
 
-type Event = {
-  name: string
+interface Event {
+  name:      string
   shortcut?: string
-  command: string
-  icon: HeroIcon
+  command:   string
+  icon:      HeroIcon
 }
 
-type EventForm = {
-  date: string
-  command: string
+interface EventForm {
+  date:        string
+  command:     string
   publisherId: string
 }
 
@@ -41,10 +41,10 @@ export default function EventModal(props: EventModalProps): JSX.Element {
     { name: t('event.reinstated'), icon: UserPlusIcon, command: 'REINSTATED' },
     { name: t('event.disassociation'), icon: UserMinusIcon, command: 'DISASSOCIATION' },
     { name: t('event.disfellowshipped'), icon: UserMinusIcon, command: 'DISFELLOWSHIPPED' },
-    { name: t('event.delete'), icon: TrashIcon, command: 'DELETE' }
+    { name: t('event.delete'), icon: TrashIcon, command: 'DELETE' },
   ]
 
-  const storeEvent = (event: EventForm) => {
+  const storeEvent = (event: EventForm): void => {
     window.electron.ipcRenderer.invoke('store-event', { event }).then(() => {
       props.refresh()
     })
@@ -55,13 +55,13 @@ export default function EventModal(props: EventModalProps): JSX.Element {
     register,
     setValue,
     formState: { errors },
-    control
+    control,
   } = useForm<EventForm>({
     defaultValues: {
-      date: '',
+      date:        '',
       publisherId: '',
-      command: ''
-    }
+      command:     '',
+    },
   })
   const command = useWatch({ control, name: 'command' })
 
@@ -72,9 +72,8 @@ export default function EventModal(props: EventModalProps): JSX.Element {
   }, [props.publisher])
 
   useEffect(() => {
-    if (command && command !== '') {
+    if (command && command !== '')
       handleSubmit(storeEvent)()
-    }
   }, [command])
 
   return (
@@ -98,14 +97,14 @@ export default function EventModal(props: EventModalProps): JSX.Element {
 
         <ul className="p-2 text-sm text-gray-700 dark:text-slate-400">
           <h2 className="sr-only">Quick actions</h2>
-          {events.map((event) => (
+          {events.map(event => (
             <li
               key={event.command}
               onClick={() => setValue('command', event.command)}
-              className="group flex cursor-default select-none items-center rounded-md px-3 py-2 -mx-3 hover:bg-gray-900 hover:bg-opacity-5 hover:text-gray-900 dark:hover:bg-slate-800 dark:hover:text-white"
+              className="group -mx-3 flex cursor-default select-none items-center rounded-md px-3 py-2 hover:bg-gray-900/5 hover:text-gray-900 dark:hover:bg-slate-800 dark:hover:text-white"
             >
               <event.icon
-                className="h-6 w-6 flex-none text-gray-900 text-opacity-40 dark:text-slate-500 dark:text-opacity-100 group-hover:text-opacity-100 dark:group-hover:!text-white"
+                className="h-6 w-6 flex-none text-gray-900 text-opacity-40 group-hover:text-opacity-100 dark:text-slate-500 dark:text-opacity-100 dark:group-hover:!text-white"
                 aria-hidden="true"
               />
               <span className="ml-3 flex-auto truncate">{event.name}</span>

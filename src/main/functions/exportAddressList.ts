@@ -1,28 +1,28 @@
-import { BrowserWindow, app, dialog } from 'electron'
-import Excel from 'exceljs'
-import { formatPhoneNumber } from 'react-phone-number-input'
-import { jsPDF } from 'jspdf'
-import 'jspdf-autotable'
-import { UserOptions } from 'jspdf-autotable'
-import fs from 'fs-extra'
-import log from 'electron-log'
-import { PublisherModel, ServiceGroupModel } from '../../types/models'
-import { PublisherService } from '../../types/type'
-import ServiceGroupService from '../services/serviceGroupService'
-import SettingsService from '../services/settingsService'
-import i18n from '../../localization/i18next.config'
-import adjustColumnWidth from '../utils/adjustColumnWidth'
-import CircuitOverseerService from '../services/circuitOverseerService'
+import type { BrowserWindow }                     from 'electron'
+import { app, dialog }                            from 'electron'
+import Excel                                      from 'exceljs'
+import { formatPhoneNumber }                      from 'react-phone-number-input'
+import { jsPDF }                                  from 'jspdf'
+import type { UserOptions }                       from 'jspdf-autotable'
+import fs                                         from 'fs-extra'
+import log                                        from 'electron-log'
+import type { PublisherModel, ServiceGroupModel } from '../../types/models'
+import type { PublisherService }                  from '../../types/type'
+import ServiceGroupService                        from '../services/serviceGroupService'
+import SettingsService                            from '../services/settingsService'
+import i18n                                       from '../../localization/i18next.config'
+import adjustColumnWidth                          from '../utils/adjustColumnWidth'
+import CircuitOverseerService                     from '../services/circuitOverseerService'
 
 interface jsPDFWithPlugin extends jsPDF {
   autoTable: (options: UserOptions) => jsPDF
 }
 
-const settingsService = new SettingsService()
-const serviceGroupService = new ServiceGroupService()
+const settingsService        = new SettingsService()
+const serviceGroupService    = new ServiceGroupService()
 const circuitOverseerService = new CircuitOverseerService()
 
-const getTableHeaders = (): string[] => {
+function getTableHeaders(): string[] {
   return [
     i18n.t('export.group'),
     i18n.t('export.name'),
@@ -30,45 +30,40 @@ const getTableHeaders = (): string[] => {
     i18n.t('export.phone'),
     i18n.t('export.mobile'),
     i18n.t('export.email'),
-    i18n.t('export.other')
+    i18n.t('export.other'),
   ]
 }
 
-const getPublisherRows = (
-  publishers: PublisherModel[],
-  serviceGroups: ServiceGroupModel[]
-): string[][] => {
+function getPublisherRows(publishers: PublisherModel[],  serviceGroups: ServiceGroupModel[]): string[][] {
   const rows: string[][] = []
 
   for (const publisher of publishers) {
-    const serviceGroupName =
-      serviceGroups.find((sg) => sg._id === publisher.serviceGroupId)?.name || '-'
+    const serviceGroupName
+      = serviceGroups.find(sg => sg._id === publisher.serviceGroupId)?.name || '-'
     let other = ''
 
-    if (publisher.status === 'INACTIVE') {
-      other += i18n.t('label.inactive') + '\n'
-    }
+    if (publisher.status === 'INACTIVE')
+      other += `${i18n.t('label.inactive')}\n`
 
     if (publisher.appointments.length) {
-      publisher.appointments.map((appointment) => {
-        other += i18n.t(`export.${appointment.type.toLowerCase()}`) + ', '
+      publisher.appointments.forEach((appointment) => {
+        other += `${i18n.t(`export.${appointment.type.toLowerCase()}`)}, `
       })
 
-      other = other.slice(0, -2) + '\n'
+      other = `${other.slice(0, -2)}\n`
     }
 
     if (publisher.children.length) {
-      //other += `${i18n.t('label.children')}: `
+      // other += `${i18n.t('label.children')}: `
       other += ''
-      publisher.children.map((child, index) => {
+      publisher.children.forEach((child, index) => {
         other += (index > 0 ? ', ' : '') + child.name
       })
       other += '\n'
     }
 
-    if (other != '') {
+    if (other !== '')
       other = other.slice(0, -1)
-    }
 
     const publisherRow = [
       serviceGroupName,
@@ -77,7 +72,7 @@ const getPublisherRows = (
       publisher.phone ? formatPhoneNumber(publisher.phone) : '',
       publisher.mobile ? formatPhoneNumber(publisher.mobile) : '',
       publisher.email || '',
-      other
+      other,
     ]
 
     rows.push(publisherRow)
@@ -86,20 +81,19 @@ const getPublisherRows = (
   return rows
 }
 
-const saveXlsxFile = (mainWindow: BrowserWindow, name: string, workbook: Excel.Workbook): void => {
+function saveXlsxFile(mainWindow: BrowserWindow, name: string, workbook: Excel.Workbook): void {
   const dialogOptions = {
-    title: i18n.t('export.saveAs'),
-    defaultPath: app.getPath('downloads') + '/' + name,
-    buttonLabel: i18n.t('export.save')
+    title:       i18n.t('export.saveAs'),
+    defaultPath: `${app.getPath('downloads')}/${name}`,
+    buttonLabel: i18n.t('export.save'),
   }
 
   dialog
     .showSaveDialog(mainWindow, dialogOptions)
     .then((response) => {
       if (!response.canceled && response.filePath) {
-        if (workbook) {
+        if (workbook)
           workbook.xlsx.writeFile(response.filePath)
-        }
       }
     })
     .catch((err) => {
@@ -109,20 +103,20 @@ const saveXlsxFile = (mainWindow: BrowserWindow, name: string, workbook: Excel.W
   mainWindow?.webContents.send('show-spinner', { status: false })
 }
 
-const savePdfFile = (mainWindow: BrowserWindow, name: string, data: ArrayBuffer): void => {
+function savePdfFile(mainWindow: BrowserWindow, name: string, data: ArrayBuffer): void {
   const dialogOptions = {
-    title: i18n.t('export.saveAs'),
-    defaultPath: app.getPath('downloads') + '/' + name,
-    buttonLabel: i18n.t('export.save')
+    title:       i18n.t('export.saveAs'),
+    defaultPath: `${app.getPath('downloads')}/${name}`,
+    buttonLabel: i18n.t('export.save'),
   }
 
   dialog
     .showSaveDialog(mainWindow, dialogOptions)
     .then((response) => {
       if (!response.canceled && response.filePath) {
-        if (data) {
+        if (data)
+          // eslint-disable-next-line node/prefer-global/buffer
           fs.writeFileSync(response.filePath, Buffer.from(data))
-        }
       }
     })
     .catch((err) => {
@@ -133,15 +127,10 @@ const savePdfFile = (mainWindow: BrowserWindow, name: string, data: ArrayBuffer)
   mainWindow?.webContents.send('show-spinner', { status: false })
 }
 
-const generate_PDF = async (
-  mainWindow: BrowserWindow,
-  publishers: PublisherModel[],
-  serviceGroups: ServiceGroupModel[],
-  name: string
-): Promise<void> => {
-  const settings = await settingsService.find()
+async function generate_PDF(mainWindow: BrowserWindow,  publishers: PublisherModel[],  serviceGroups: ServiceGroupModel[],  name: string): Promise<void> {
+  const settings        = await settingsService.find()
   const circuitOverseer = await circuitOverseerService.find()
-  const rows = getPublisherRows(publishers, serviceGroups)
+  const rows            = getPublisherRows(publishers, serviceGroups)
 
   if (circuitOverseer) {
     rows.push([])
@@ -152,15 +141,16 @@ const generate_PDF = async (
       `${circuitOverseer.address}\n${circuitOverseer.zip} ${circuitOverseer.city}`,
       circuitOverseer.phone ? formatPhoneNumber(circuitOverseer.phone) : '',
       circuitOverseer.mobile ? formatPhoneNumber(circuitOverseer.mobile) : '',
-      circuitOverseer.email || ''
+      circuitOverseer.email || '',
     ])
   }
 
+  // eslint-disable-next-line new-cap
   const pdfDoc = new jsPDF() as jsPDFWithPlugin
   pdfDoc.setProperties({
-    title: 'Address List',
-    creator: `${settings?.user.firstname} ${settings?.user.lastname}`,
-    keywords: 'address, list, publisher, congregation'
+    title:    'Address List',
+    creator:  `${settings?.user.firstname} ${settings?.user.lastname}`,
+    keywords: 'address, list, publisher, congregation',
   })
 
   const pageSize = pdfDoc.internal.pageSize
@@ -172,7 +162,7 @@ const generate_PDF = async (
     settings?.congregation.name || i18n.t('label.addresslist'),
     pageSize.getWidth() / 2,
     12,
-    { align: 'center' }
+    { align: 'center' },
   )
   pdfDoc.setFontSize(8)
   pdfDoc.setFont('helvetica', 'normal')
@@ -181,15 +171,15 @@ const generate_PDF = async (
   // Table
   const totalPagesExp = '{total_pages_count_string}'
   pdfDoc.autoTable({
-    head: [getTableHeaders()],
-    body: rows,
+    head:        [getTableHeaders()],
+    body:        rows,
     didDrawPage: (data) => {
       // Footer
-      let str = `${i18n.t('label.page')} ` + pdfDoc.getNumberOfPages()
+      let str = `${i18n.t('label.page')} ${pdfDoc.getNumberOfPages()}`
       // Total page number plugin only available in jspdf v1.0+
-      if (typeof pdfDoc.putTotalPages === 'function') {
-        str = str + ` ${i18n.t('label.of')} ` + totalPagesExp
-      }
+      if (typeof pdfDoc.putTotalPages === 'function')
+        str = `${str} ${i18n.t('label.of')} ${totalPagesExp}`
+
       pdfDoc.setFont('helvetica', 'normal')
       pdfDoc.setFontSize(8)
 
@@ -200,74 +190,68 @@ const generate_PDF = async (
         200,
         pageHeight - 10,
         {
-          align: 'right'
-        }
+          align: 'right',
+        },
       )
     },
-    margin: { top: 10, left: 6, right: 6, bottom: 15 },
+    margin:       { top: 10, left: 6, right: 6, bottom: 15 },
     columnStyles: {
       2: { cellWidth: 46 },
       3: { overflow: 'linebreak', cellWidth: 'auto' },
-      4: { overflow: 'linebreak', cellWidth: 'auto' }
+      4: { overflow: 'linebreak', cellWidth: 'auto' },
     },
     styles: {
       cellPadding: 1,
-      fontSize: 8,
-      overflow: 'linebreak',
-      valign: 'middle',
-      lineWidth: 0.1
+      fontSize:    8,
+      overflow:    'linebreak',
+      valign:      'middle',
+      lineWidth:   0.1,
     },
-    startY: 25,
+    startY:       25,
     rowPageBreak: 'avoid',
-    theme: 'plain'
+    theme:        'plain',
   })
-  if (typeof pdfDoc.putTotalPages === 'function') {
+  if (typeof pdfDoc.putTotalPages === 'function')
     pdfDoc.putTotalPages(totalPagesExp)
-  }
 
   savePdfFile(mainWindow, `${name}.pdf`, pdfDoc.output('arraybuffer'))
 }
 
-const generate_XLSX = async (
-  mainWindow: BrowserWindow,
-  publishers: PublisherModel[],
-  serviceGroups: ServiceGroupModel[],
-  name: string
-): Promise<void> => {
-  const settings = await settingsService.find()
+async function generate_XLSX(mainWindow: BrowserWindow,  publishers: PublisherModel[],  serviceGroups: ServiceGroupModel[],  name: string): Promise<void> {
+  const settings        = await settingsService.find()
   const circuitOverseer = await circuitOverseerService.find()
-  const rows = getPublisherRows(publishers, serviceGroups)
+  const rows            = getPublisherRows(publishers, serviceGroups)
 
-  const workbook = new Excel.Workbook()
+  const workbook   = new Excel.Workbook()
   workbook.creator = settings?.congregation.name || 'SECRETARY'
   workbook.created = new Date()
 
   const worksheet = workbook.addWorksheet('Sheet1', {
     pageSetup: {
-      fitToPage: true,
-      paperSize: 9,
+      fitToPage:        true,
+      paperSize:        9,
       verticalCentered: true,
-      showGridLines: false,
-      margins: {
-        left: 0.2,
-        right: 0.2,
-        top: 0.75,
+      showGridLines:    false,
+      margins:          {
+        left:   0.2,
+        right:  0.2,
+        top:    0.75,
         bottom: 0.75,
         header: 0.3,
-        footer: 0.1
-      }
+        footer: 0.1,
+      },
     },
     headerFooter: {
       differentFirst: true,
-      firstHeader: '&C&8' + i18n.t('export.disclaimer'),
-      firstFooter: `&L&8&K000000${new Date().toLocaleString('sv-SE', {
-        hour12: false
+      firstHeader:    `&C&8${i18n.t('export.disclaimer')}`,
+      firstFooter:    `&L&8&K000000${new Date().toLocaleString('sv-SE', {
+        hour12: false,
       })}&R&8&K000000${i18n.t('label.page')} &P ${i18n.t('label.of')} &N`,
       oddFooter: `&L&8&K000000${new Date().toLocaleString('sv-SE', {
-        hour12: false
-      })}&R&8&K000000${i18n.t('label.page')} &P ${i18n.t('label.of')} &N`
+        hour12: false,
+      })}&R&8&K000000${i18n.t('label.page')} &P ${i18n.t('label.of')} &N`,
     },
-    views: [{ state: 'frozen', xSplit: 0, ySplit: 2 }]
+    views: [{ state: 'frozen', xSplit: 0, ySplit: 2 }],
   })
 
   worksheet.columns = [
@@ -277,25 +261,24 @@ const generate_XLSX = async (
     { key: 'phone' },
     { key: 'cell' },
     { key: 'email' },
-    { key: 'other' }
+    { key: 'other' },
   ]
   worksheet.insertRow(1, [settings?.congregation.name])
   worksheet.mergeCells('A1:G1')
   worksheet.insertRow(2, getTableHeaders())
-  worksheet.getRow(1).font = { size: 24, bold: true }
+  worksheet.getRow(1).font      = { size: 24, bold: true }
   worksheet.getRow(1).alignment = { horizontal: 'center' }
-  worksheet.getRow(2).font = { bold: true }
-  worksheet.getRow(2).border = { bottom: { style: 'medium' } }
+  worksheet.getRow(2).font      = { bold: true }
+  worksheet.getRow(2).border    = { bottom: { style: 'medium' } }
 
   worksheet.addRows(rows)
 
   if (circuitOverseer) {
     worksheet.addRow([])
     worksheet.addRow(['', i18n.t('label.circuitOverseer')]).font = { bold: true }
-    const lastRow = worksheet.lastRow
-    if (lastRow) {
+    const lastRow                                                = worksheet.lastRow
+    if (lastRow)
       worksheet.mergeCells(`B${lastRow.number}:G${lastRow.number}`)
-    }
 
     worksheet.addRow([
       '',
@@ -303,7 +286,7 @@ const generate_XLSX = async (
       `${circuitOverseer.address}\n${circuitOverseer.zip} ${circuitOverseer.city}`,
       circuitOverseer.phone ? formatPhoneNumber(circuitOverseer.phone) : '',
       circuitOverseer.mobile ? formatPhoneNumber(circuitOverseer.mobile) : '',
-      circuitOverseer.email || ''
+      circuitOverseer.email || '',
     ])
   }
 
@@ -312,15 +295,15 @@ const generate_XLSX = async (
   worksheet.eachRow((row) => {
     row.alignment = { vertical: 'middle' }
     row.eachCell((cell) => {
-      if (cell.value && cell.value.toString().includes(i18n.t('label.inactive'))) {
+      if (cell.value && cell.value.toString().includes(i18n.t('label.inactive')))
         row.font = { color: { argb: '0000FF' }, italic: true }
-      }
     })
   })
 
   try {
     saveXlsxFile(mainWindow, `${name}.xlsx`, workbook)
-  } catch (err) {
+  }
+  catch (err) {
     log.error(err)
     mainWindow?.webContents.send('show-spinner', { status: false })
   }
@@ -330,32 +313,32 @@ export default async function ExportAddressList(
   mainWindow: BrowserWindow,
   publisherService: PublisherService,
   sortType: string,
-  type: string
+  type: string,
 ): Promise<void> {
   let publishers: PublisherModel[] = []
-  const serviceGroups = await serviceGroupService.find()
+  const serviceGroups              = await serviceGroupService.find()
 
   if (sortType === 'NAME') {
     publishers = await publisherService.find('LASTNAME')
-  } else {
+  }
+  else {
     const rawPublishers = await publisherService.find('LASTNAME')
-    serviceGroups.map((sg) => {
-      const filteredPublishers = rawPublishers.filter((p) => p.serviceGroupId === sg._id)
-      publishers = publishers.concat(filteredPublishers)
+    serviceGroups.forEach((sg) => {
+      const filteredPublishers = rawPublishers.filter(p => p.serviceGroupId === sg._id)
+      publishers               = publishers.concat(filteredPublishers)
     })
     // add publisher without service group
-    rawPublishers.map((p) => {
-      if (!publishers.includes(p)) {
+    rawPublishers.forEach((p) => {
+      if (!publishers.includes(p))
         publishers.push(p)
-      }
     })
   }
 
   const name = `AddressList_${sortType.toLowerCase()}_${new Date().toLocaleDateString('sv')}`
 
-  if (type === 'XLSX') {
+  if (type === 'XLSX')
     generate_XLSX(mainWindow, publishers, serviceGroups, name)
-  } else {
+
+  else
     generate_PDF(mainWindow, publishers, serviceGroups, name)
-  }
 }

@@ -1,31 +1,32 @@
-import { Responsibility, ResponsibilitySchema } from './../databases/schemas'
-import { ResponsibilityModel } from '../../types/models'
-import { ResponsibilityService as IResponsibilityService } from '../../types/type'
-import ResponsibilityStore from '../databases/responsibilityStore'
+import type { ResponsibilityModel }                             from '../../types/models'
+import type { ResponsibilityService as IResponsibilityService } from '../../types/type'
+import ResponsibilityStore                                      from '../databases/responsibilityStore'
+import { ResponsibilitySchema }                                 from './../databases/schemas'
+import type { Responsibility }                                  from './../databases/schemas'
 
 const responsibilityStore = new ResponsibilityStore('responsibilities.db', ResponsibilitySchema)
 
-const parseResponsibilityModel = (data: ResponsibilityModel): Responsibility => {
+function parseResponsibilityModel(data: ResponsibilityModel): Responsibility {
   const responsibility: Responsibility = {
-    name: '',
-    default: false
+    name:    '',
+    default: false,
   }
 
-  responsibility.name = data.name
+  responsibility.name    = data.name
   responsibility.default = data.default ? data.default : false
 
   return responsibility
 }
 
-const parseResponsibility = (data: Responsibility): ResponsibilityModel => {
+function parseResponsibility(data: Responsibility): ResponsibilityModel {
   const responsibilityModel: ResponsibilityModel = {
-    name: '',
-    default: false
+    name:    '',
+    default: false,
   }
 
-  responsibilityModel._id = data._id
-  responsibilityModel.name = data.name
-  responsibilityModel.default = data.default ? data.default : false
+  responsibilityModel._id       = data._id
+  responsibilityModel.name      = data.name
+  responsibilityModel.default   = data.default ? data.default : false
   responsibilityModel.createdAt = data.createdAt?.toLocaleString('sv-SE')
   responsibilityModel.updatedAt = data.updatedAt?.toLocaleString('sv-SE')
 
@@ -36,11 +37,11 @@ export default class ResponsibilityService implements IResponsibilityService {
   async find(): Promise<ResponsibilityModel[]> {
     const responsibilities = (await responsibilityStore.find()) as Responsibility[]
 
-    return responsibilities.map((sg) => parseResponsibility(sg))
+    return responsibilities.map(sg => parseResponsibility(sg))
   }
 
   async create(data: ResponsibilityModel): Promise<ResponsibilityModel> {
-    const responsibility = parseResponsibilityModel(data)
+    const responsibility    = parseResponsibilityModel(data)
     const newResponsibility = (await responsibilityStore.create(responsibility)) as Responsibility
 
     return parseResponsibility(newResponsibility)

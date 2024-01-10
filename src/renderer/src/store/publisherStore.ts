@@ -1,30 +1,30 @@
 import { hookstate, useHookstate } from '@hookstate/core'
-import { PublisherModel } from 'src/types/models'
+import type { PublisherModel }     from 'src/types/models'
 
 const initialState: PublisherModel = {
-  _id: '',
-  s290: false,
-  registerCard: false,
-  firstname: '',
-  lastname: '',
-  gender: 'MAN',
+  _id:              '',
+  s290:             false,
+  registerCard:     false,
+  firstname:        '',
+  lastname:         '',
+  gender:           'MAN',
   unknown_baptised: false,
-  hope: 'OTHER_SHEEP',
-  contact: false,
-  address: '',
-  zip: '',
-  city: '',
+  hope:             'OTHER_SHEEP',
+  contact:          false,
+  address:          '',
+  zip:              '',
+  city:             '',
   responsibilities: [],
-  tasks: [],
-  appointments: [],
+  tasks:            [],
+  appointments:     [],
   emergencyContact: {},
-  status: 'ACTIVE',
-  blind: false,
-  children: [],
-  deaf: false,
-  histories: [],
-  reports: [],
-  sendReports: false
+  status:           'ACTIVE',
+  blind:            false,
+  children:         [],
+  deaf:             false,
+  histories:        [],
+  reports:          [],
+  sendReports:      false,
 }
 
 const publisherState = hookstate<PublisherModel>(initialState)
@@ -52,6 +52,6 @@ export function usePublisherState(): {
     },
     get publisher(): PublisherModel {
       return JSON.parse(JSON.stringify(state.get()))
-    }
+    },
   }
 }

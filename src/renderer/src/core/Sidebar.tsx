@@ -1,34 +1,28 @@
-import { Disclosure } from '@headlessui/react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { BriefcaseIcon, Cog6ToothIcon, HomeIcon, UsersIcon } from '@heroicons/react/24/outline'
-import { ChevronRightIcon, DocumentTextIcon } from '@heroicons/react/20/solid'
-import ROUTES from '../constants/routes.json'
-import classNames from '../utils/classNames'
-import {
-  IdentificationIcon,
-  RectangleStackIcon,
-  UserGroupIcon,
-  UserIcon
-} from '@heroicons/react/20/solid'
+import { Disclosure }                                                                                              from '@headlessui/react'
+import { useLocation, useNavigate }                                                                                from 'react-router-dom'
+import { useTranslation }                                                                                          from 'react-i18next'
+import { BriefcaseIcon, Cog6ToothIcon, HomeIcon, UsersIcon }                                                       from '@heroicons/react/24/outline'
+import { ChevronRightIcon, DocumentTextIcon,  IdentificationIcon,  RectangleStackIcon,  UserGroupIcon,  UserIcon } from '@heroicons/react/20/solid'
+import ROUTES                                                                                                      from '../constants/routes.json'
+import classNames                                                                                                  from '../utils/classNames'
 
 const navigation = [
   { name: 'menu.dashboard', route: ROUTES.DASHBOARD, icon: HomeIcon },
   {
-    name: 'menu.publishers',
+    name:  'menu.publishers',
     route: ROUTES.PUBLISHERS,
-    icon: UsersIcon
+    icon:  UsersIcon,
   },
   {
-    name: 'menu.reporting',
-    route: ROUTES.REPORTS,
-    icon: BriefcaseIcon,
+    name:     'menu.reporting',
+    route:    ROUTES.REPORTS,
+    icon:     BriefcaseIcon,
     children: [
       { name: 'menu.monthlyReport', route: ROUTES.REPORTS_FORM },
       { name: 'menu.monthlyMeetings', route: ROUTES.REPORTS_MEETINGS },
-      { name: 'menu.monthlyCompletion', route: ROUTES.REPORTS_COMPLETION }
-    ]
-  }
+      { name: 'menu.monthlyCompletion', route: ROUTES.REPORTS_COMPLETION },
+    ],
+  },
 ]
 
 const administration = [
@@ -36,13 +30,93 @@ const administration = [
   { name: 'menu.circuitOverseer', route: ROUTES.CIRCUIT_OVERSEER, icon: UserIcon },
   { name: 'menu.responsibilities', route: ROUTES.RESPONSIBILITIES, icon: IdentificationIcon },
   { name: 'menu.tasks', route: ROUTES.TASKS, icon: RectangleStackIcon },
-  { name: 'menu.templates', route: ROUTES.TEMPLATES, icon: DocumentTextIcon }
+  { name: 'menu.templates', route: ROUTES.TEMPLATES, icon: DocumentTextIcon },
 ]
 
 export function SidebarSmall(): JSX.Element {
   const location = useLocation()
   const navigate = useNavigate()
-  const { t } = useTranslation()
+  const { t }    = useTranslation()
+
+  const SmallChildSingle = (item: any, index: number | undefined) => {
+    return (
+      <button
+        type="button"
+        onClick={(): void => navigate(item.route)}
+        onKeyDown={(): void => navigate(item.route)}
+        tabIndex={index}
+        className={classNames(
+          location.pathname.includes(item.route)
+            ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
+            : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
+          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full',
+        )}
+      >
+        <item.icon
+          className={classNames(
+            location.pathname.includes(item.route)
+              ? 'text-teal-600 dark:text-white'
+              : 'text-gray-400 group-hover:text-teal-600 dark:text-slate-400 dark:group-hover:text-white',
+            'h-6 w-6 shrink-0',
+          )}
+          aria-hidden="true"
+        />
+        {t(item.name)}
+      </button>
+    )
+  }
+
+  const SmallChildChildren = (item: any) => {
+    return (
+      <Disclosure
+        as="div"
+        defaultOpen={location.pathname.includes(item.route)}
+        key={location.pathname}
+      >
+        {({ open }): JSX.Element => (
+          <>
+            <Disclosure.Button
+              className={classNames(
+                location.pathname.includes(item.route)
+                  ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
+                  : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
+                'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full',
+              )}
+            >
+              <item.icon className="h-6 w-6 shrink-0 text-gray-400" aria-hidden="true" />
+              {t(item.name)}
+              <ChevronRightIcon
+                className={classNames(
+                  open ? 'rotate-90 text-gray-500' : 'text-gray-400',
+                  'ml-auto h-5 w-5 shrink-0',
+                )}
+                aria-hidden="true"
+              />
+            </Disclosure.Button>
+            <Disclosure.Panel as="ul" className="mt-1 px-2">
+              {item.children.map(subItem => (
+                <li key={subItem.name}>
+                  {/* 44px */}
+                  <Disclosure.Button
+                    as="a"
+                    onClick={(): void => navigate(subItem.route)}
+                    className={classNames(
+                      location.pathname.includes(subItem.route)
+                        ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
+                        : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
+                      'group flex gap-x-3 rounded-md py-2 pl-9 pr-2 text-sm leading-6 font-semibold w-full',
+                    )}
+                  >
+                    {t(subItem.name)}
+                  </Disclosure.Button>
+                </li>
+              ))}
+            </Disclosure.Panel>
+          </>
+        )}
+      </Disclosure>
+    )
+  }
 
   return (
     <ul className="flex flex-1 flex-col gap-y-7">
@@ -50,79 +124,14 @@ export function SidebarSmall(): JSX.Element {
         <ul className="-mx-2 space-y-1">
           {navigation.map((item, index) => (
             <li key={item.name}>
-              {!item.children ? (
-                <button
-                  type="button"
-                  onClick={(): void => navigate(item.route)}
-                  onKeyDown={(): void => navigate(item.route)}
-                  tabIndex={index}
-                  className={classNames(
-                    location.pathname.includes(item.route)
-                      ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
-                      : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
-                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full'
+              {!item.children
+                ? (
+                    SmallChildSingle(item, index)
+                  )
+                : (
+                    SmallChildChildren(item)
+
                   )}
-                >
-                  <item.icon
-                    className={classNames(
-                      location.pathname.includes(item.route)
-                        ? 'text-teal-600 dark:text-white'
-                        : 'text-gray-400 group-hover:text-teal-600 dark:text-slate-400 dark:group-hover:text-white',
-                      'h-6 w-6 shrink-0'
-                    )}
-                    aria-hidden="true"
-                  />
-                  {t(item.name)}
-                </button>
-              ) : (
-                <Disclosure
-                  as="div"
-                  defaultOpen={location.pathname.includes(item.route)}
-                  key={location.pathname}
-                >
-                  {({ open }): JSX.Element => (
-                    <>
-                      <Disclosure.Button
-                        className={classNames(
-                          location.pathname.includes(item.route)
-                            ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
-                            : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
-                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full'
-                        )}
-                      >
-                        <item.icon className="h-6 w-6 shrink-0 text-gray-400" aria-hidden="true" />
-                        {t(item.name)}
-                        <ChevronRightIcon
-                          className={classNames(
-                            open ? 'rotate-90 text-gray-500' : 'text-gray-400',
-                            'ml-auto h-5 w-5 shrink-0'
-                          )}
-                          aria-hidden="true"
-                        />
-                      </Disclosure.Button>
-                      <Disclosure.Panel as="ul" className="mt-1 px-2">
-                        {item.children.map((subItem) => (
-                          <li key={subItem.name}>
-                            {/* 44px */}
-                            <Disclosure.Button
-                              as="a"
-                              onClick={(): void => navigate(subItem.route)}
-                              className={classNames(
-                                location.pathname.includes(subItem.route)
-                                  ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
-                                  : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
-                                'group flex gap-x-3 rounded-md py-2 pl-9 pr-2 text-sm leading-6 font-semibold w-full'
-                              )}
-                            >
-                              {t(subItem.name)}
-                            </Disclosure.Button>
-                          </li>
-                        ))}
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
-              )}
             </li>
           ))}
         </ul>
@@ -143,7 +152,7 @@ export function SidebarSmall(): JSX.Element {
                   location.pathname.includes(item.route)
                     ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
                     : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
-                  'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full'
+                  'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full',
                 )}
               >
                 <item.icon
@@ -151,7 +160,7 @@ export function SidebarSmall(): JSX.Element {
                     location.pathname.includes(item.route)
                       ? 'text-teal-600 dark:text-white'
                       : 'text-gray-400 group-hover:text-teal-600 dark:text-slate-400 dark:group-hover:text-white',
-                    'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.625rem] font-medium'
+                    'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.625rem] font-medium',
                   )}
                   aria-hidden="true"
                 />
@@ -167,7 +176,7 @@ export function SidebarSmall(): JSX.Element {
           onClick={(): void => navigate(ROUTES.SETTINGS)}
           className={classNames(
             'group -mx-2 flex w-full gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-teal-600 ',
-            'dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white'
+            'dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white',
           )}
         >
           <Cog6ToothIcon
@@ -184,7 +193,86 @@ export function SidebarSmall(): JSX.Element {
 export function Sidebar(): JSX.Element {
   const location = useLocation()
   const navigate = useNavigate()
-  const { t } = useTranslation()
+  const { t }    = useTranslation()
+
+  const ChildSingle = (item: any, index: number | undefined) => {
+    return (
+      <button
+        type="button"
+        onClick={(): void => navigate(item.route)}
+        onKeyDown={(): void => navigate(item.route)}
+        tabIndex={index}
+        className={classNames(
+          location.pathname.includes(item.route)
+            ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
+            : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
+          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full',
+        )}
+      >
+        <item.icon
+          className={classNames(
+            location.pathname.includes(item.route)
+              ? 'text-teal-600 dark:text-white'
+              : 'text-gray-400 group-hover:text-teal-600 dark:text-slate-400 dark:group-hover:text-white',
+            'h-6 w-6 shrink-0',
+          )}
+          aria-hidden="true"
+        />
+        {t(item.name)}
+      </button>
+    )
+  }
+
+  const ChildChildren = (item: any) => {
+    return (
+      <Disclosure
+        as="div"
+        defaultOpen={location.pathname.includes(item.route)}
+        key={location.pathname}
+      >
+        {({ open }): JSX.Element => (
+          <>
+            <Disclosure.Button
+              className={classNames(
+                location.pathname.includes(item.route)
+                  ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
+                  : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
+                'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full',
+              )}
+            >
+              <item.icon className="h-6 w-6 shrink-0 text-gray-400" aria-hidden="true" />
+              {t(item.name)}
+              <ChevronRightIcon
+                className={classNames(
+                  open ? 'rotate-90 text-gray-500' : 'text-gray-400',
+                  'ml-auto h-5 w-5 shrink-0',
+                )}
+                aria-hidden="true"
+              />
+            </Disclosure.Button>
+            <Disclosure.Panel as="ul" className="mt-1 px-2">
+              {item.children.map(subItem => (
+                <li key={subItem.name}>
+                  {/* 44px */}
+                  <Disclosure.Button
+                    onClick={(): void => navigate(subItem.route)}
+                    className={classNames(
+                      location.pathname.includes(subItem.route)
+                        ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
+                        : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
+                      'group flex gap-x-3 rounded-md pl-9 pr-2 py-2 text-sm leading-6 font-semibold w-full',
+                    )}
+                  >
+                    {t(subItem.name)}
+                  </Disclosure.Button>
+                </li>
+              ))}
+            </Disclosure.Panel>
+          </>
+        )}
+      </Disclosure>
+    )
+  }
 
   return (
     <ul className="flex flex-1 flex-col gap-y-7">
@@ -192,78 +280,13 @@ export function Sidebar(): JSX.Element {
         <ul className="-mx-2 space-y-1">
           {navigation.map((item, index) => (
             <li key={item.name}>
-              {!item.children ? (
-                <button
-                  type="button"
-                  onClick={(): void => navigate(item.route)}
-                  onKeyDown={(): void => navigate(item.route)}
-                  tabIndex={index}
-                  className={classNames(
-                    location.pathname.includes(item.route)
-                      ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
-                      : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
-                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full'
+              {!item.children
+                ? (
+                    ChildSingle(item, index)
+                  )
+                : (
+                    ChildChildren(item)
                   )}
-                >
-                  <item.icon
-                    className={classNames(
-                      location.pathname.includes(item.route)
-                        ? 'text-teal-600 dark:text-white'
-                        : 'text-gray-400 group-hover:text-teal-600 dark:text-slate-400 dark:group-hover:text-white',
-                      'h-6 w-6 shrink-0'
-                    )}
-                    aria-hidden="true"
-                  />
-                  {t(item.name)}
-                </button>
-              ) : (
-                <Disclosure
-                  as="div"
-                  defaultOpen={location.pathname.includes(item.route)}
-                  key={location.pathname}
-                >
-                  {({ open }): JSX.Element => (
-                    <>
-                      <Disclosure.Button
-                        className={classNames(
-                          location.pathname.includes(item.route)
-                            ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
-                            : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
-                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full'
-                        )}
-                      >
-                        <item.icon className="h-6 w-6 shrink-0 text-gray-400" aria-hidden="true" />
-                        {t(item.name)}
-                        <ChevronRightIcon
-                          className={classNames(
-                            open ? 'rotate-90 text-gray-500' : 'text-gray-400',
-                            'ml-auto h-5 w-5 shrink-0'
-                          )}
-                          aria-hidden="true"
-                        />
-                      </Disclosure.Button>
-                      <Disclosure.Panel as="ul" className="mt-1 px-2">
-                        {item.children.map((subItem) => (
-                          <li key={subItem.name}>
-                            {/* 44px */}
-                            <Disclosure.Button
-                              onClick={(): void => navigate(subItem.route)}
-                              className={classNames(
-                                location.pathname.includes(subItem.route)
-                                  ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
-                                  : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
-                                'group flex gap-x-3 rounded-md pl-9 pr-2 py-2 text-sm leading-6 font-semibold w-full'
-                              )}
-                            >
-                              {t(subItem.name)}
-                            </Disclosure.Button>
-                          </li>
-                        ))}
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
-              )}
             </li>
           ))}
         </ul>
@@ -285,7 +308,7 @@ export function Sidebar(): JSX.Element {
                   location.pathname.includes(item.route)
                     ? 'bg-gray-50 text-teal-600 dark:bg-slate-800 dark:text-white'
                     : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800',
-                  'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full'
+                  'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full',
                 )}
               >
                 <item.icon
@@ -293,7 +316,7 @@ export function Sidebar(): JSX.Element {
                     location.pathname.includes(item.route)
                       ? 'text-teal-600 dark:text-white'
                       : 'text-gray-400 group-hover:text-teal-600 dark:text-slate-400 dark:group-hover:text-white',
-                    'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.625rem] font-medium'
+                    'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.625rem] font-medium',
                   )}
                   aria-hidden="true"
                 />
@@ -310,7 +333,7 @@ export function Sidebar(): JSX.Element {
           onClick={(): void => navigate(ROUTES.SETTINGS)}
           className={classNames(
             'group -mx-2 flex w-full gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700',
-            'hover:bg-gray-50 hover:text-teal-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white'
+            'hover:bg-gray-50 hover:text-teal-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white',
           )}
         >
           <Cog6ToothIcon

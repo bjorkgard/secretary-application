@@ -1,30 +1,30 @@
-import { hookstate, useHookstate } from '@hookstate/core'
-import { CongregationModel, OnlineModel, SettingsModel, UserModel } from 'src/types/models'
+import { hookstate, useHookstate }                                       from '@hookstate/core'
+import type { CongregationModel, OnlineModel, SettingsModel, UserModel } from 'src/types/models'
 
 const settingsState = hookstate<SettingsModel>({
-  identifier: '',
-  token: '',
+  identifier:   '',
+  token:        '',
   congregation: {
-    name: '',
-    number: '',
-    country: '',
-    locale: '',
-    languageGroups: [{ name: '' }]
+    name:           '',
+    number:         '',
+    country:        '',
+    locale:         '',
+    languageGroups: [{ name: '' }],
   },
-  user: { firstname: '', lastname: '', email: '' },
+  user:   { firstname: '', lastname: '', email: '' },
   online: {
-    send_report_group: false,
+    send_report_group:     false,
     send_report_publisher: false,
-    public: false
-  }
+    public:                false,
+  },
 })
 
 export function useSettingsState(): {
   setSettings(settings: SettingsModel): void
   congregation: CongregationModel
-  user: UserModel
-  online: OnlineModel
-  complete: SettingsModel
+  user:         UserModel
+  online:       OnlineModel
+  complete:     SettingsModel
 } {
   const state = useHookstate(settingsState)
 
@@ -50,6 +50,6 @@ export function useSettingsState(): {
     },
     get complete(): SettingsModel {
       return JSON.parse(JSON.stringify(state.get()))
-    }
+    },
   }
 }

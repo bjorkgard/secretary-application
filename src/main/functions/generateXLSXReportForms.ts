@@ -1,12 +1,13 @@
-import { BrowserWindow, app, dialog } from 'electron'
-import Excel from 'exceljs'
-import log from 'electron-log'
-import fs from 'fs'
-import { ServiceGroupService, ServiceMonthService } from '../../types/type'
-import { Report, ServiceGroupModel, ServiceMonthModel } from '../../types/models'
-import i18n from '../../localization/i18next.config'
-import adjustColumnWidth from '../utils/adjustColumnWidth'
-import JSZip from 'jszip'
+import fs                                                    from 'node:fs'
+import type { BrowserWindow }                                from 'electron'
+import { app, dialog }                                       from 'electron'
+import Excel                                                 from 'exceljs'
+import log                                                   from 'electron-log'
+import JSZip                                                 from 'jszip'
+import type { ServiceGroupService, ServiceMonthService }     from '../../types/type'
+import type { Report, ServiceGroupModel, ServiceMonthModel } from '../../types/models'
+import i18n                                                  from '../../localization/i18next.config'
+import adjustColumnWidth                                     from '../utils/adjustColumnWidth'
 
 const isDevelopment = import.meta.env.MAIN_VITE_NODE_ENV !== 'production'
 
@@ -15,7 +16,7 @@ const isDevelopment = import.meta.env.MAIN_VITE_NODE_ENV !== 'production'
  */
 interface ServiceGroupWithReports {
   serviceGroup: ServiceGroupModel
-  reports: Report[]
+  reports:      Report[]
 }
 
 /**
@@ -23,9 +24,7 @@ interface ServiceGroupWithReports {
  * @param serviceGroupService - The service group service to retrieve the service groups from.
  * @returns A promise that resolves to an array of service group models.
  */
-const getServiceGroups = async (
-  serviceGroupService: ServiceGroupService
-): Promise<ServiceGroupModel[]> => {
+async function getServiceGroups(serviceGroupService: ServiceGroupService): Promise<ServiceGroupModel[]> {
   return await serviceGroupService.find()
 }
 
@@ -35,10 +34,7 @@ const getServiceGroups = async (
  * @param {string} serviceMonthId - The ID of the service month model to retrieve.
  * @returns {Promise<ServiceMonthModel>} - A promise that resolves with the retrieved service month model.
  */
-const getServiceMonth = async (
-  serviceMonthService: ServiceMonthService,
-  serviceMonthId: string
-): Promise<ServiceMonthModel> => {
+async function getServiceMonth(serviceMonthService: ServiceMonthService,  serviceMonthId: string): Promise<ServiceMonthModel> {
   return await serviceMonthService.findOneById(serviceMonthId)
 }
 
@@ -47,19 +43,18 @@ const getServiceMonth = async (
  * @param serviceGroupWithReports - The service group with its reports.
  * @returns An object containing the filename and the file buffer of the generated Excel file.
  */
-const generateFile = async (
-  serviceGroupWithReports: ServiceGroupWithReports
-): Promise<{ filename: string; fileBuffer: Buffer }> => {
+// eslint-disable-next-line node/prefer-global/buffer
+async function generateFile(serviceGroupWithReports: ServiceGroupWithReports): Promise<{ filename: string, fileBuffer: Buffer }> {
   const filename = `ServiceGroup_${serviceGroupWithReports.serviceGroup.name}.xlsx`
 
-  const workbook = new Excel.Workbook()
+  const workbook  = new Excel.Workbook()
   const worksheet = workbook.addWorksheet(i18n.t('reports.reports'), {
     pageSetup: {
-      paperSize: 9,
+      paperSize:   9,
       orientation: 'portrait',
-      fitToPage: true
+      fitToPage:   true,
     },
-    views: [{ state: 'frozen', ySplit: 1, xSplit: 1, showGridLines: true }]
+    views: [{ state: 'frozen', ySplit: 1, xSplit: 1, showGridLines: true }],
   })
 
   const inactives: Report[] = []
@@ -73,125 +68,125 @@ const generateFile = async (
     { header: i18n.t('reports.remarks'), key: 'remarks' },
     { header: i18n.t('reports.doNotChange'), key: 'identifier' },
     { header: '', key: 'status' },
-    { header: '', key: 'type' }
+    { header: '', key: 'type' },
   ]
-  const row = worksheet.lastRow
-  if (row) {
+  const row         = worksheet.lastRow
+  if (row)
     row.height = 20
-  }
 
-  serviceGroupWithReports.reports.map((report) => {
+  serviceGroupWithReports.reports.forEach((report) => {
     if (report.publisherStatus === 'INACTIVE') {
       inactives.push(report)
-    } else {
+    }
+    else {
       worksheet.addRow(
         {
-          name: report.publisherName,
+          name:             report.publisherName,
           hasBeenInService: report.hasBeenInService
             ? i18n.t('label.yes')
             : report.hasNotBeenInService
               ? i18n.t('label.no')
               : i18n.t('label.noReport'),
-          studies: report.studies,
-          auxiliary: report.auxiliary ? i18n.t('label.yes') : i18n.t('label.no'),
-          hours: report.hours,
-          remarks: report.remarks,
+          studies:    report.studies,
+          auxiliary:  report.auxiliary ? i18n.t('label.yes') : i18n.t('label.no'),
+          hours:      report.hours,
+          remarks:    report.remarks,
           identifier: report.identifier,
-          status: report.publisherStatus,
-          type: report.type
+          status:     report.publisherStatus,
+          type:       report.type,
         },
-        'i'
+        'i',
       )
     }
   })
 
-  inactives.map((report) => {
+  inactives.forEach((report) => {
     worksheet.addRow(
       {
-        name: report.publisherName,
+        name:             report.publisherName,
         hasBeenInService: report.hasBeenInService
           ? i18n.t('label.yes')
           : report.hasNotBeenInService
             ? i18n.t('label.no')
             : i18n.t('label.noReport'),
-        studies: report.studies,
-        auxiliary: report.auxiliary ? i18n.t('label.yes') : i18n.t('label.no'),
-        hours: report.hours,
-        remarks: report.remarks,
+        studies:    report.studies,
+        auxiliary:  report.auxiliary ? i18n.t('label.yes') : i18n.t('label.no'),
+        hours:      report.hours,
+        remarks:    report.remarks,
         identifier: report.identifier,
-        status: report.publisherStatus,
-        type: report.type
+        status:     report.publisherStatus,
+        type:       report.type,
       },
-      'i'
+      'i',
     )
   })
 
-  worksheet.getRow(1).protection = { locked: true }
+  worksheet.getRow(1).protection    = { locked: true }
   worksheet.getColumn(1).protection = { locked: true }
   adjustColumnWidth(worksheet)
 
-  const header = worksheet.getRow(1)
-  header.font = { bold: true }
-  header.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D1C7C7' } }
+  const header      = worksheet.getRow(1)
+  header.font       = { bold: true }
+  header.fill       = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D1C7C7' } }
   header.protection = { locked: true }
 
-  const name = worksheet.getColumn(1)
-  name.font = { bold: true }
+  const name      = worksheet.getColumn(1)
+  name.font       = { bold: true }
   name.protection = { locked: true }
-  name.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D1C7C7' } }
+  name.fill       = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D1C7C7' } }
 
   const hasBeenInServiceCol = worksheet.getColumn(2)
   hasBeenInServiceCol.eachCell((cell) => {
     cell.dataValidation = {
-      type: 'list',
+      type:       'list',
       allowBlank: false,
-      operator: 'equal',
-      formulae: [`"${i18n.t('label.noReport')},${i18n.t('label.yes')},${i18n.t('label.no')}"`]
+      operator:   'equal',
+      formulae:   [`"${i18n.t('label.noReport')},${i18n.t('label.yes')},${i18n.t('label.no')}"`],
     }
   })
 
   const auxiliaryCol = worksheet.getColumn(4)
   auxiliaryCol.eachCell((cell) => {
     cell.dataValidation = {
-      type: 'list',
+      type:       'list',
       allowBlank: false,
-      operator: 'equal',
-      formulae: [`"${i18n.t('label.yes')},${i18n.t('label.no')}"`]
+      operator:   'equal',
+      formulae:   [`"${i18n.t('label.yes')},${i18n.t('label.no')}"`],
     }
   })
 
   worksheet.eachRow((row) => {
-    if (row.getCell('status').value === 'INACTIVE') {
+    if (row.getCell('status').value === 'INACTIVE')
       row.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '6BAFF4' } }
-    }
-    if (row.getCell('type').value !== 'PUBLISHER' && row.getCell('type').value !== '') {
+
+    if (row.getCell('type').value !== 'PUBLISHER' && row.getCell('type').value !== '')
       row.getCell('hours').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '96FFA1' } }
-    }
   })
 
-  worksheet.getRow(1).protection = { locked: true }
-  worksheet.getColumn('name').protection = { locked: true }
+  worksheet.getRow(1).protection               = { locked: true }
+  worksheet.getColumn('name').protection       = { locked: true }
   worksheet.getColumn('identifier').protection = { locked: true }
-  worksheet.getColumn('status').hidden = true
-  worksheet.getColumn('type').hidden = true
+  worksheet.getColumn('status').hidden         = true
+  worksheet.getColumn('type').hidden           = true
 
   await worksheet.protect('mt24:14', {
-    selectLockedCells: true,
+    selectLockedCells:   true,
     selectUnlockedCells: false,
-    formatCells: true,
-    formatColumns: true,
-    formatRows: true,
-    insertRows: true,
-    insertColumns: true,
-    insertHyperlinks: false,
-    deleteRows: true,
-    deleteColumns: true,
-    sort: false,
-    autoFilter: false,
-    pivotTables: false
+    formatCells:         true,
+    formatColumns:       true,
+    formatRows:          true,
+    insertRows:          true,
+    insertColumns:       true,
+    insertHyperlinks:    false,
+    deleteRows:          true,
+    deleteColumns:       true,
+    sort:                false,
+    autoFilter:          false,
+    pivotTables:         false,
   })
 
-  return { filename: filename, fileBuffer: (await workbook.xlsx.writeBuffer()) as Buffer }
+  // eslint-disable-next-line node/prefer-global/buffer
+  return { filename, fileBuffer: (await workbook.xlsx.writeBuffer()) as Buffer }
 }
 
 /**
@@ -206,23 +201,23 @@ export default async function GenerateXLSXReportForms(
   mainWindow: BrowserWindow,
   serviceGroupService: ServiceGroupService,
   serviceMonthService: ServiceMonthService,
-  serviceMonthId: string
+  serviceMonthId: string,
 ): Promise<void> {
   const serviceGroups = await getServiceGroups(serviceGroupService)
-  const serviceMonth = await getServiceMonth(serviceMonthService, serviceMonthId)
-  const zip = new JSZip()
+  const serviceMonth  = await getServiceMonth(serviceMonthService, serviceMonthId)
+  const zip           = new JSZip()
 
-  //const files: string[] = []
+  // const files: string[] = []
   const serviceGroupWithReports: ServiceGroupWithReports[] = []
-  const reportDirectory = isDevelopment ? './reports/' : app.getPath('userData') + '/reports/'
-  if (!fs.existsSync(reportDirectory)) {
+  const reportDirectory                                    = isDevelopment ? './reports/' : `${app.getPath('userData')}/reports/`
+  if (!fs.existsSync(reportDirectory))
     fs.mkdirSync(reportDirectory)
-  }
+
   // Sort reports in service groups
   if (serviceMonth) {
     for (const serviceGroup of serviceGroups) {
       const reports = serviceMonth.reports.filter(
-        (report) => report.publisherServiceGroupId === serviceGroup._id
+        report => report.publisherServiceGroupId === serviceGroup._id,
       )
 
       serviceGroupWithReports.push({ serviceGroup, reports })
@@ -238,10 +233,10 @@ export default async function GenerateXLSXReportForms(
 
   // Open dialog to save files
   const dialogOptions = {
-    title: i18n.t('export.saveAs'),
-    defaultPath: app.getPath('downloads') + '/reports.zip',
-    extensions: ['zip'],
-    buttonLabel: i18n.t('export.save')
+    title:       i18n.t('export.saveAs'),
+    defaultPath: `${app.getPath('downloads')}/reports.zip`,
+    extensions:  ['zip'],
+    buttonLabel: i18n.t('export.save'),
   }
 
   dialog
@@ -251,7 +246,7 @@ export default async function GenerateXLSXReportForms(
         zip
           .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
           .pipe(fs.createWriteStream(response.filePath))
-          .on('finish', function () {
+          .on('finish', () => {
             log.info('zip written.')
           })
       }

@@ -1,15 +1,15 @@
-import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from 'react-router-dom'
-import { ResponsibilityModel, ServiceGroupModel } from 'src/types/models'
-import ROUTES from '../../constants/routes.json'
-import { Field } from '@renderer/components/Field'
-import classNames from '@renderer/utils/classNames'
-import { useEffect, useState } from 'react'
+import { useForm }                                     from 'react-hook-form'
+import { useTranslation }                              from 'react-i18next'
+import { useNavigate, useParams }                      from 'react-router-dom'
+import type { ResponsibilityModel, ServiceGroupModel } from 'src/types/models'
+import { Field }                                       from '@renderer/components/Field'
+import classNames                                      from '@renderer/utils/classNames'
+import { useEffect, useState }                         from 'react'
+import ROUTES                                          from '../../constants/routes.json'
 
 export default function ResponsibilityForm(): JSX.Element {
-  const { t } = useTranslation()
-  const { id } = useParams()
+  const { t }    = useTranslation()
+  const { id }   = useParams()
   const navigate = useNavigate()
 
   const [responsibility, setResponsibility] = useState<ResponsibilityModel>()
@@ -18,7 +18,7 @@ export default function ResponsibilityForm(): JSX.Element {
     handleSubmit,
     register,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm<ResponsibilityModel>({ defaultValues: {}, mode: 'onSubmit' })
 
   const onSubmit = (data: ServiceGroupModel): void => {
@@ -26,7 +26,8 @@ export default function ResponsibilityForm(): JSX.Element {
       window.electron.ipcRenderer.invoke('update-responsibility', data).then(() => {
         navigate(ROUTES.RESPONSIBILITIES)
       })
-    } else {
+    }
+    else {
       window.electron.ipcRenderer.invoke('create-responsibility', data).then(() => {
         navigate(ROUTES.RESPONSIBILITIES)
       })
@@ -67,10 +68,10 @@ export default function ResponsibilityForm(): JSX.Element {
                 placeholder={t('label.name')}
                 className={classNames(
                   errors.name ? 'input-error' : '',
-                  'input w-full input-bordered'
+                  'input w-full input-bordered',
                 )}
                 {...register('name', {
-                  required: t('errors.name.required')
+                  required: t('errors.name.required'),
                 })}
               />
             </Field>

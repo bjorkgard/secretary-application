@@ -1,74 +1,73 @@
-import { app } from 'electron'
-import Ajv, { JSONSchemaType } from 'ajv'
-import addFormats from 'ajv-formats'
-import Datastore from 'nedb-promises'
-import {
+import { app }                 from 'electron'
+import type { JSONSchemaType } from 'ajv'
+import Ajv                     from 'ajv'
+import addFormats              from 'ajv-formats'
+import Datastore               from 'nedb-promises'
+import type {
   Auxiliary,
+  CircuitOverseer,
   Export,
   Publisher,
   Responsibility,
-  ServiceMonth,
   ServiceGroup,
-  Settings,
-  CircuitOverseer,
+  ServiceMonth,
   ServiceYear,
-  Template
+  Settings,
+  Template,
 } from './schemas'
-//import log from 'electron-log'
+
+// import log from 'electron-log'
 
 const isDevelopment = import.meta.env.MAIN_VITE_NODE_ENV !== 'production'
 
 export default class BaseStore<
   T extends
-    | Auxiliary
-    | CircuitOverseer
-    | Export
-    | Publisher
-    | Responsibility
-    | ServiceMonth
-    | ServiceGroup
-    | ServiceYear
-    | Settings
-    | Template
+  | Auxiliary
+  | CircuitOverseer
+  | Export
+  | Publisher
+  | Responsibility
+  | ServiceMonth
+  | ServiceGroup
+  | ServiceYear
+  | Settings
+  | Template,
 > {
-  filePath: string = ''
+  filePath:         string = ''
   databaseInstance: Datastore<T>
-  schema: JSONSchemaType<T>
+  schema:           JSONSchemaType<T>
 
   constructor(fileName: string, schema: JSONSchemaType<T>, index = '', autocompaction = false) {
-    const userDataPath = isDevelopment ? './db' : app.getPath('userData') + '/db'
-    this.filePath = `${userDataPath}/${fileName}`
+    const userDataPath = isDevelopment ? './db' : `${app.getPath('userData')}/db`
+    this.filePath      = `${userDataPath}/${fileName}`
 
     this.databaseInstance = Datastore.create({
-      filename: this.filePath,
+      filename:      this.filePath,
       timestampData: true,
-      autoload: true
+      autoload:      true,
     })
-    this.schema = schema
+    this.schema           = schema
 
-    if (autocompaction) {
+    if (autocompaction)
       this.databaseInstance.persistence.setAutocompactionInterval(900000) // 15 minutes
-    }
 
-    if (index !== '') {
+    if (index !== '')
       this.databaseInstance.ensureIndex({ fieldName: index })
-    }
   }
 
   validate(data: T): boolean {
     const ajv = new Ajv({
-      allErrors: true,
-      useDefaults: true
+      allErrors:   true,
+      useDefaults: true,
     })
 
     addFormats(ajv)
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ajv.addFormat('custom-date-time', (dateTimeString: any) => {
-      if (typeof dateTimeString === 'object') {
+      if (typeof dateTimeString === 'object')
         dateTimeString = dateTimeString.toISOString()
-      }
-      return !isNaN(Date.parse(dateTimeString))
+
+      return !Number.isNaN(Date.parse(dateTimeString))
     })
 
     const schemaValidator = ajv.compile(this.schema)
@@ -79,21 +78,21 @@ export default class BaseStore<
   create(data: T): Promise<T> | undefined {
     const isValid: boolean = this.validate(data)
 
-    if (isValid) {
+    if (isValid)
       return this.databaseInstance.insert(data)
-    } else {
+
+    else
       return undefined
-    }
   }
 
   async update(_id: string, data: T): Promise<number | undefined> {
     const isValid: boolean = this.validate(data)
 
-    if (isValid) {
+    if (isValid)
       return await this.databaseInstance.update({ _id }, data)
-    } else {
+
+    else
       return undefined
-    }
   }
 
   findOneById(_id: string): Promise<T | null> {

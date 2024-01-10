@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { useForm }        from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 interface ComponentProps {
@@ -6,27 +6,28 @@ interface ComponentProps {
     midweek: number[]
     weekend: number[]
   }
-  name: string
+  name:            string
   serviceMonthId?: string
 }
 
-export const MeetingsTable = ({ meetings, name, serviceMonthId }: ComponentProps): JSX.Element => {
+export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps): JSX.Element {
   const { t } = useTranslation()
 
   const useFormAttributes = useForm({
-    defaultValues: { meetings: meetings, name: name, serviceMonthId: serviceMonthId },
-    mode: 'onBlur'
+    defaultValues: { meetings, name, serviceMonthId },
+    mode:          'onBlur',
   })
 
   const handleBlur = (meetings: {
-    name: string
-    meetings: { midweek: number[]; weekend: number[] }
+    name:     string
+    meetings: { midweek: number[], weekend: number[] }
   }): void => {
     window.electron.ipcRenderer.invoke('save-meetings', meetings).then(() => {
       window.Notification.requestPermission().then(() => {
+        // eslint-disable-next-line no-new
         new window.Notification('SECRETARY', {
-          body: t('meetings.saved'),
-          silent: true
+          body:   t('meetings.saved'),
+          silent: true,
         })
       })
     })

@@ -1,33 +1,32 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { Doughnut } from 'react-chartjs-2'
-import colors from 'tailwindcss/colors'
-import { Card } from '@renderer/components/Card'
-import { ServiceMonthModel } from 'src/types/models'
-import { useConfirmationModalContext } from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import { useEffect, useState }                           from 'react'
+import { useTranslation }                                from 'react-i18next'
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js'
+import { Doughnut }                                      from 'react-chartjs-2'
+import colors                                            from 'tailwindcss/colors'
+import { Card }                                          from '@renderer/components/Card'
+import type { ServiceMonthModel }                        from 'src/types/models'
+import { useConfirmationModalContext }                   from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export default function ActiveReport(): JSX.Element | null {
-  const { t } = useTranslation()
+  const { t }          = useTranslation()
   const confirmContext = useConfirmationModalContext()
 
-  const [loading, setLoading] = useState<boolean>(true)
-  const [reload, setReload] = useState<boolean>(true)
+  const [loading, setLoading]           = useState<boolean>(true)
+  const [reload, setReload]             = useState<boolean>(true)
   const [serviceMonth, setServiceMonth] = useState<ServiceMonthModel>()
-  const [stats, setStats] = useState({ done: 0, waiting: 0 })
+  const [stats, setStats]               = useState({ done: 0, waiting: 0 })
 
   const startReporting = async (): Promise<void> => {
     const result = await confirmContext.showConfirmation(
       t('reporting.startConfirmation.headline'),
-      t('reporting.startConfirmation.body')
+      t('reporting.startConfirmation.body'),
     )
     if (result) {
       window.electron.ipcRenderer.invoke('start-reporting').then((response) => {
-        if (response === 'ACTIVATED') {
+        if (response === 'ACTIVATED')
           setReload(true)
-        }
       })
     }
   }
@@ -43,13 +42,12 @@ export default function ActiveReport(): JSX.Element | null {
   useEffect(() => {
     const reportStats = { done: 0, waiting: 0 }
 
-    serviceMonth?.reports.map((report) => {
+    serviceMonth?.reports.forEach((report) => {
       if (report.publisherStatus !== 'INACTIVE') {
-        if (report.hasBeenInService || report.hasNotBeenInService) {
+        if (report.hasBeenInService || report.hasNotBeenInService)
           reportStats.done++
-        } else {
+        else
           reportStats.waiting++
-        }
       }
     })
 
@@ -57,37 +55,36 @@ export default function ActiveReport(): JSX.Element | null {
   }, [serviceMonth])
 
   const data = {
-    labels: [t('label.reports.done'), t('label.reports.waiting')],
+    labels:   [t('label.reports.done'), t('label.reports.waiting')],
     datasets: [
       {
-        label: t('label.amount'),
-        data: [stats.done, stats.waiting],
+        label:           t('label.amount'),
+        data:            [stats.done, stats.waiting],
         backgroundColor: [colors.green[500], colors.red[500]],
-        borderColor: [colors.green[800], colors.red[800]],
-        borderWidth: 1
-      }
-    ]
+        borderColor:     [colors.green[800], colors.red[800]],
+        borderWidth:     1,
+      },
+    ],
   }
 
   const options = {
-    animation: { animateScale: false, animateRotate: true },
+    animation:   { animateScale: false, animateRotate: true },
     aspectRatio: 1,
-    plugins: {
+    plugins:     {
       legend: {
         position: 'bottom' as const,
-        align: 'center' as const,
-        display: false,
-        labels: {
-          color: colors.slate[400]
-        }
-      }
+        align:    'center' as const,
+        display:  false,
+        labels:   {
+          color: colors.slate[400],
+        },
+      },
     },
-    responsive: true
+    responsive: true,
   }
 
-  if (serviceMonth?.status === 'DONE') {
+  if (serviceMonth?.status === 'DONE')
     return null
-  }
 
   return (
     <Card
@@ -95,26 +92,30 @@ export default function ActiveReport(): JSX.Element | null {
       footer={
         serviceMonth
           ? t('label.reports.missing', {
-              missing: stats.waiting,
-              total: stats.done + stats.waiting
-            })
+            missing: stats.waiting,
+            total:   stats.done + stats.waiting,
+          })
           : ''
       }
       loading={loading}
     >
-      {loading ? (
-        <div className="mt-2 aspect-square w-full rounded-full bg-slate-200" />
-      ) : serviceMonth ? (
-        <Doughnut data={data} options={options} />
-      ) : (
-        <button
-          type="button"
-          onClick={startReporting}
-          className="btn btn-accent btn-lg m-12 leading-6"
-        >
-          {t('label.startReporting')}
-        </button>
-      )}
+      {loading
+        ? (
+          <div className="mt-2 aspect-square w-full rounded-full bg-slate-200" />
+          )
+        : serviceMonth
+          ? (
+            <Doughnut data={data} options={options} />
+            )
+          : (
+            <button
+              type="button"
+              onClick={startReporting}
+              className="btn btn-accent btn-lg m-12 leading-6"
+            >
+              {t('label.startReporting')}
+            </button>
+            )}
     </Card>
   )
 }

@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { PlusIcon } from '@heroicons/react/24/solid'
-import { PencilIcon, TrashIcon } from '@heroicons/react/20/solid'
-import { ResponsibilityModel } from 'src/types/models'
-import ROUTES from '../../constants/routes.json'
+import { useEffect, useState }         from 'react'
+import { useTranslation }              from 'react-i18next'
+import { useNavigate }                 from 'react-router-dom'
+import { PlusIcon }                    from '@heroicons/react/24/solid'
+import { PencilIcon, TrashIcon }       from '@heroicons/react/20/solid'
+import type { ResponsibilityModel }    from 'src/types/models'
 import { useConfirmationModalContext } from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import ROUTES                          from '../../constants/routes.json'
 
 export default function Responsibilities(): JSX.Element {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
+  const { t }          = useTranslation()
+  const navigate       = useNavigate()
   const confirmContext = useConfirmationModalContext()
 
   const [responsibilities, setResponsibilities] = useState<ResponsibilityModel[]>([])
@@ -23,7 +23,7 @@ export default function Responsibilities(): JSX.Element {
         })
 
         setResponsibilities(
-          parsedResult.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
+          parsedResult.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)),
         )
       })
   }
@@ -33,20 +33,19 @@ export default function Responsibilities(): JSX.Element {
   }, [])
 
   const editResponsibility = (id: string | undefined): void => {
-    if (id) {
+    if (id)
       navigate(`${ROUTES.RESPONSIBILITIES}/${id}/edit`)
-    }
   }
 
   const deleteResponsibility = async (id: string | undefined): Promise<void> => {
     if (id) {
       const result = await confirmContext.showConfirmation(
         t('responsibilities.deleteConfirmation.headline'),
-        t('responsibilities.deleteConfirmation.body')
+        t('responsibilities.deleteConfirmation.body'),
       )
       if (result) {
         window.electron.ipcRenderer.invoke('delete-responsibility', id).then(() => {
-          setResponsibilities(responsibilities.filter((resp) => resp._id !== id))
+          setResponsibilities(responsibilities.filter(resp => resp._id !== id))
         })
       }
     }

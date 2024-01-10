@@ -1,5 +1,5 @@
-import BaseStore from './baseStore'
-import { Responsibility } from './schemas'
+import BaseStore               from './baseStore'
+import type { Responsibility } from './schemas'
 
 export default class ResponsibilityStore extends BaseStore<Responsibility> {
   find(): Promise<Responsibility[]> {
@@ -19,10 +19,10 @@ export default class ResponsibilityStore extends BaseStore<Responsibility> {
   async upsert(data: Responsibility): Promise<number | undefined> {
     const isValid: boolean = this.validate(data)
 
-    if (isValid) {
+    if (isValid)
       return await this.databaseInstance.update({ name: data.name }, data, { upsert: true })
-    } else {
+
+    else
       return undefined
-    }
   }
 }

@@ -1,8 +1,8 @@
-const getServiceYear = (serviceMonthName: string): number => {
+function getServiceYear(serviceMonthName: string): number {
   const splitName = serviceMonthName.split('-')
-  const control = parseInt(splitName[1]) - 9
+  const control   = Number.parseInt(splitName[1]) - 9
 
-  return control >= 0 ? parseInt(splitName[0]) + 1 : parseInt(splitName[0])
+  return control >= 0 ? Number.parseInt(splitName[0]) + 1 : Number.parseInt(splitName[0])
 }
 
 export default getServiceYear
