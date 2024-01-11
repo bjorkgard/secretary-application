@@ -10,12 +10,11 @@ if (process.env.MAIN_VITE_APP_VERSION === undefined)
  * @see https://www.electron.build/configuration/configuration
  */
 const config = {
-  appId:        'se.bjorkgard.secretary',
-  productName:  'Secretary',
-  artifactName: `${productName}-${version}.${ext}`,
-  asar:         true,
-  asarUnpack:   ['resources/**'],
-  directories:  {
+  appId:       'se.bjorkgard.secretary',
+  productName: 'Secretary',
+  asar:        true,
+  asarUnpack:  ['resources/**'],
+  directories: {
     output:         'dist',
     buildResources: 'build',
   },
@@ -56,10 +55,11 @@ const config = {
     publish:             'github',
   },
   linux: {
-    icon:     'build/icons/png/512x512.png',
-    category: 'Utility',
-    target:   ['deb', 'AppImage'],
-    publish:  'github',
+    icon:         'build/icons/png/512x512.png',
+    category:     'Utility',
+    target:       ['deb', 'AppImage'],
+    publish:      'github',
+    artifactName: `${productName}-${version}.${ext}`,
   },
   win: {
     icon:   'build/icons/win/icon.ico',
@@ -79,6 +79,7 @@ const config = {
     oneClick:                           false,
     allowToChangeInstallationDirectory: false,
     differentialPackage:                false,
+    artifactName:                       `${productName}-${version}.${ext}`,
   },
   portable: {
     artifactName: `${productName}Portable.${ext}`,
@@ -96,7 +97,8 @@ const config = {
         path: '/Applications',
       },
     ],
-    sign: false,
+    sign:         false,
+    artifactName: `${productName}-${version}.${ext}`,
   },
   afterSign: './build/notarize.js',
 }
