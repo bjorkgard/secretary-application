@@ -89,6 +89,12 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -109,6 +115,9 @@ jobs:
         run: echo "Next Version is ${{ needs.draft.outputs.version }} (${{ github.ref_name }})"
 
       - name: Update and push version tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm run updateVersion
 
       - name: Write next version to meta.json
