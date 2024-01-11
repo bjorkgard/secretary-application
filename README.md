@@ -1,4 +1,5 @@
 [![Crowdin](https://badges.crowdin.net/secretary/localized.svg)](https://crowdin.com/project/secretary)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 # Secretary application
 
