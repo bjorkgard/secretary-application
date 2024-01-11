@@ -5,6 +5,7 @@ import i18n                                          from '../../localization/i1
 import type { Meeting, Report }                      from '../../types/models'
 import type { ServiceMonthService, SettingsService } from '../../types/type'
 import savePdfFile                                   from './savePDFFile'
+import 'jspdf-autotable'
 
 interface jsPDFWithPlugin extends jsPDF {
   autoTable: (options: UserOptions) => jsPDF

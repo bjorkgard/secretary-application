@@ -13,6 +13,7 @@ import SettingsService                            from '../services/settingsServ
 import i18n                                       from '../../localization/i18next.config'
 import adjustColumnWidth                          from '../utils/adjustColumnWidth'
 import CircuitOverseerService                     from '../services/circuitOverseerService'
+import 'jspdf-autotable'
 
 interface jsPDFWithPlugin extends jsPDF {
   autoTable: (options: UserOptions) => jsPDF
