@@ -29,7 +29,7 @@
     "release": "electron-builder --config .electron-builder.config.js --publish always",
     "release:dry": "semantic-release --dry-run",
     "updateVersion": "semantic-release",
-    "cm": "cz",
+    "commit": "cz",
     "validate": "npm run lint && npm run typecheck",
     "lint-staged": "lint-staged"
   },
