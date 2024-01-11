@@ -25,9 +25,9 @@ const INCLUDE_ABBREVIATED_COMMIT = getInput('include-abbreviated-commit') === 't
 
 /**
  * @typedef {object} ICommit
- * @property {string | undefined} abbreviated_commit
- * @property {string | undefined} subject
- * @property {string | undefined} body
+ * @property {string | undefined} abbreviated_commit Abbreviated commit hash
+ * @property {string | undefined} subject Commit message
+ * @property {string | undefined} body  Commit body
  */
 
 /**
@@ -92,7 +92,7 @@ const supportedTypes = [
 
 /**
  * @param {string} commitString
- * @returns {ICommit}
+ * @returns {ICommit} commit data
  */
 function parseCommit(commitString) {
   /** @type {ICommit} */
@@ -201,7 +201,7 @@ class CommitGroup {
 /**
  * Groups all commits by type and scopes
  * @param {ICommit[]} commits
- * @returns {Map<string, CommitGroup>}
+ * @returns {Map<string, CommitGroup>} Map<type, CommitGroup>
  */
 function getGroupedCommits(commits) {
   const parsedCommits = commits.map(setCommitTypeAndScope)
@@ -221,7 +221,7 @@ function getGroupedCommits(commits) {
  * Return markdown list with commits
  * @param {ICommitExtended[]} commits
  * @param {string} pad
- * @returns {string}
+ * @returns {string} markdown list
  */
 function getCommitsList(commits, pad = '') {
   let changelog = ''
