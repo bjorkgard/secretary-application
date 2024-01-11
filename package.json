@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.2",
-    "@electron-toolkit/eslint-config-prettier": "^1.0.1",
+    "@electron-toolkit/eslint-config-prettier": "^2.0.0",
     "@electron-toolkit/eslint-config-ts": "^1.0.1",
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@semantic-release/commit-analyzer": "^11.1.0",
