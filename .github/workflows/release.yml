@@ -61,7 +61,7 @@ jobs:
           include-abbreviated-commit: true
 
       - name: Delete outdated drafts
-        uses: hugo19941994/delete-draft-releases@v1.0.0
+        uses: hugo19941994/delete-draft-releases@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -102,7 +102,7 @@ jobs:
       - name: Prepare release notes
         env:
           RELEASE_NOTE: ${{ needs.draft.outputs.release-note }}
-        run: echo "$RELEASE_NOTE" >> ./buildResources/release-notes.md
+        run: echo "$RELEASE_NOTE" >> ./build/release-notes.md
 
       - name: Show version
         run: echo "Next Version is ${{ needs.draft.outputs.version }} (${{ github.ref_name }})"
@@ -111,7 +111,7 @@ jobs:
         run: npm run updateVersion
 
       - name: Write next version to meta.json
-        run: echo "{\"version\":\"${{ needs.draft.outputs.version }}\"}" >| ./buildResources/meta.json
+        run: echo "{\"version\":\"${{ needs.draft.outputs.version }}\"}" >| ./build/meta.json
 
       - name: Build the app
         env:
