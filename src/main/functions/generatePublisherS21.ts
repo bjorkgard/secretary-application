@@ -12,6 +12,7 @@ const templatesService = new TemplateService()
 export default async function generatePublisherS21(
   publisher: PublisherModel,
   serviceYear: number,
+  flatten = false,
 ): Promise<Uint8Array> {
   // eslint-disable-next-line node/prefer-global/buffer
   const fontBytes = await new Promise((resolve: (data: null | Buffer) => void) =>
@@ -335,6 +336,9 @@ export default async function generatePublisherS21(
     }
 
     sumHoursField.setText(sumHours > 0 ? sumHours.toString() : '')
+
+    if (flatten)
+      form.flatten()
 
     return await pdfDoc.save()
   }
