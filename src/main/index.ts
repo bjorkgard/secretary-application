@@ -6,6 +6,7 @@ import { updateElectronApp }                          from 'update-electron-app'
 import windowStateKeeper                              from 'electron-window-state'
 import prompt                                         from 'electron-prompt'
 import log                                            from 'electron-log'
+import Bugsnag                                        from '@bugsnag/electron'
 import installExtension, { REACT_DEVELOPER_TOOLS }    from 'electron-devtools-installer'
 import icon                                           from '../../resources/icon.png?asset'
 import i18n                                           from '../localization/i18next.config'
@@ -47,6 +48,12 @@ import {
   storeEvent,
   updateSettings,
 } from './functions'
+
+Bugsnag.start({
+  apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
+  appVersion:           import.meta.env.MAIN_VITE_APP_VERSION || 'dev',
+  enabledReleaseStages: ['production', 'staging'],
+})
 
 // Initialize services
 const circuitOverseerService = new CircuitOverseerService()
@@ -124,7 +131,7 @@ async function createWindow(): Promise<void> {
   })
 
   mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow?.setTitle(`Secretary (v${import.meta.env.MAIN_VITE_APP_VERSION})`)
+    mainWindow?.setTitle(`Secretary ${import.meta.env.MAIN_VITE_APP_VERSION || 'dev'}`)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {

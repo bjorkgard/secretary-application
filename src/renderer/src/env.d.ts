@@ -5,8 +5,10 @@ interface ImportMetaEnv {
   readonly MAIN_VITE_API:             string
   readonly MAIN_VITE_TOKEN:           string
   readonly MAIN_VITE_APP_VERSION:     string
+  readonly MAIN_VITE_BUGSNAG:         string
   readonly RENDERER_VITE_NODE_ENV:    string
   readonly RENDERER_VITE_APP_VERSION: string
+  readonly RENDERER_VITE_BUGSNAG:     string
   // more env variables...
 }
 
