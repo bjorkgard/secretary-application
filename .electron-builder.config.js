@@ -55,21 +55,16 @@ const config = {
     publish:             'github',
   },
   linux: {
-    icon:         'build/icons/png/512x512.png',
-    category:     'Utility',
-    target:       ['deb', 'AppImage'],
-    publish:      'github',
-    artifactName: `${productName}-${version}.${ext}`,
+    icon:     'build/icons/png/512x512.png',
+    category: 'Utility',
+    target:   ['deb', 'AppImage'],
+    publish:  'github',
   },
   win: {
     icon:   'build/icons/win/icon.ico',
     target: [
       {
         target: 'nsis',
-        arch:   ['x64'],
-      },
-      {
-        target: 'portable',
         arch:   ['x64'],
       },
     ],
@@ -79,10 +74,6 @@ const config = {
     oneClick:                           false,
     allowToChangeInstallationDirectory: false,
     differentialPackage:                false,
-    artifactName:                       `${productName}-${version}.${ext}`,
-  },
-  portable: {
-    artifactName: `${productName}Portable.${ext}`,
   },
   dmg: {
     contents: [
@@ -97,8 +88,7 @@ const config = {
         path: '/Applications',
       },
     ],
-    sign:         false,
-    artifactName: `${productName}-${version}.${ext}`,
+    sign: false,
   },
   afterSign: './build/notarize.js',
 }
