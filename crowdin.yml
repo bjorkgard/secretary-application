@@ -1,3 +1,0 @@
-files:
-  - source: /src/localization/locales/sv/translation.json
-    translation: /src/localization/locales/%two_letters_code%/%file_name%.json
