@@ -220,6 +220,12 @@ export default class MenuBuilder {
               },
             },
             {
+              label: i18n.t('mainMenu.exportServiceGroupRegisterCard'),
+              click: (): void => {
+                ipcMain.emit('export-register-card-servicegroup', null, { type: 'serviceGroup' })
+              },
+            },
+            {
               label: i18n.t('mainMenu.exportFullTimeRegisterCard'),
               click: (): void => {
                 ipcMain.emit('export-register-card', null, { type: 'fullTime' })
