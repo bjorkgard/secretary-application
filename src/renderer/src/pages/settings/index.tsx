@@ -38,7 +38,7 @@ export default function Settings(): JSX.Element {
   })
 
   const onSubmit: SubmitHandler<SettingsModel> = (data): void => {
-    umamiTrack('update-settings', window.location.pathname)
+    umamiTrack('update-settings', 'settings')
     window.electron.ipcRenderer.invoke('update-settings', data).then(() => {
       settingsState.setSettings(data)
 
