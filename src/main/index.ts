@@ -48,6 +48,7 @@ import {
   storeEvent,
   updateSettings,
 } from './functions'
+import getServiceYear from './utils/getServiceYear'
 
 Bugsnag.start({
   apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
@@ -510,6 +511,53 @@ ipcMain.on('export-register-card', async (_event, args) => {
       if (r !== null) {
         if (mainWindow)
           exportPublishersS21(mainWindow, +sy[r], args.type)
+      }
+      else {
+        mainWindow?.webContents.send('show-spinner', { status: false })
+      }
+    })
+    .catch((err: Error) => {
+      mainWindow?.webContents.send('show-spinner', { status: false })
+      log.error(err)
+    })
+})
+
+ipcMain.on('export-register-card-servicegroup', async (_event, args) => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  const sg: string[]   = []
+  const sgId: string[] = []
+  const splitDate      = new Date().toLocaleDateString('sv').split('-')
+
+  const serviceYear = await serviceYearService.findByServiceYear(getServiceYear(`${splitDate[0]}-${splitDate[1]}`))
+
+  if (!serviceYear)
+    return
+
+  serviceGroupService.find().then((serviceGroups) => {
+    serviceGroups.forEach((serviceGroup) => {
+      sg.push(serviceGroup.name)
+      sgId.push(serviceGroup._id || '')
+    })
+  })
+
+  sg.sort()
+
+  prompt({
+    title:         i18n.t('dialog.selectServiceGroup'),
+    label:         i18n.t('dialog.selectServiceGroupDescription'),
+    type:          'select',
+    selectOptions: sg,
+    alwaysOnTop:   true,
+    buttonLabels:  { cancel: i18n.t('label.cancel'), ok: i18n.t('label.ok') },
+    resizable:     true,
+  })
+    .then((r: number | null) => {
+      if (r !== null) {
+        if (mainWindow)
+          exportPublishersS21(mainWindow, serviceYear.name, args.type, sgId[r])
       }
       else {
         mainWindow?.webContents.send('show-spinner', { status: false })

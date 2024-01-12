@@ -14,6 +14,7 @@ export default async function exportPublishersS21(
   mainWindow: BrowserWindow,
   serviceYear: number,
   type: string,
+  serviceGroupId?: string,
 ): Promise<void> {
   const mergedPdf                        = await PDFDocument.create()
   let fileName                           = `S-21_${serviceYear}_${new Date().toLocaleDateString('sv')}.pdf`
@@ -84,6 +85,11 @@ export default async function exportPublishersS21(
     case 'inactive':
       fileName         = `S-21_${serviceYear}_Inactive_${new Date().toLocaleDateString('sv')}.pdf`
       sortedPublishers = inactive
+      break
+    case 'serviceGroup':
+      sortedPublishers = fullTime.concat(publishers, inactive)
+      sortedPublishers = sortedPublishers.filter(p => p.serviceGroupId === serviceGroupId)
+      fileName         = `S-21_ServiceGroup_${new Date().toLocaleDateString('sv')}.pdf`
       break
     default:
       sortedPublishers = publishers
