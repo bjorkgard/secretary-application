@@ -138,6 +138,8 @@ jobs:
           RENDERER_VITE_APP_VERSION: ${{ needs.draft.outputs.version }}
           MAIN_VITE_API: ${{secrets.MAIN_VITE_API}}
           MAIN_VITE_TOKEN: ${{secrets.MAIN_VITE_TOKEN}}
+          MAIN_VITE_BUGSNAG: ${{secrets.MAIN_VITE_BUGSNAG}}
+          RENDERER_VITE_BUGSNAG: ${{secrets.RENDERER_VITE_BUGSNAG}}
           MAIN_VITE_NODE_ENV: production
           RENDERER_VITE_NODE_ENV: production
         run: npm run release
