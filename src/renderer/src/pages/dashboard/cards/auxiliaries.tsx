@@ -15,18 +15,22 @@ interface AuxiliaryForm {
 }
 
 export default function Auxiliaries(): JSX.Element {
-  const { t }                               = useTranslation()
-  const umamiTrack                          = useUmamiEventTrack()
-  const [loading, setLoading]               = useState<boolean>(true)
-  const [reload, setReload]                 = useState<boolean>(true)
-  const [publishers, setPublishers]         = useState<PublisherModel[]>([])
-  const [showModal, setShowModal]           = useState<boolean>(false)
-  const [auxiliaryArray, setAuxiliaryArray] = useState<AuxiliaryModel[]>([])
+  const { t }                                       = useTranslation()
+  const umamiTrack                                  = useUmamiEventTrack()
+  const [loading, setLoading]                       = useState<boolean>(true)
+  const [reload, setReload]                         = useState<boolean>(false)
+  const [publishers, setPublishers]                 = useState<PublisherModel[]>([])
+  const [continuesAuxiliary, setContinuesAuxiliary] = useState<PublisherModel[]>([])
+  const [showModal, setShowModal]                   = useState<boolean>(false)
+  const [auxiliaryArray, setAuxiliaryArray]         = useState<AuxiliaryModel[]>([])
 
   useEffect(() => {
     window.electron.ipcRenderer
       .invoke('get-publishers', { sortField: 'lastname', queryString: '' })
       .then((result: PublisherModel[]) => {
+        // get publishers that are continues auxiliary
+        const auxiliaries = result.filter(p => p.appointments.some(a => a.type === 'AUXILIARY'))
+        setContinuesAuxiliary(auxiliaries)
         // filter out publishers that are not able to be auxiliary
         const publishers = result.filter(
           p =>
@@ -42,11 +46,25 @@ export default function Auxiliaries(): JSX.Element {
             ),
         )
         setPublishers(publishers)
+        setReload(true)
       })
   }, [])
 
   useEffect(() => {
     window.electron.ipcRenderer.invoke('auxiliaries').then((result) => {
+      for (let i = 0; i < result.length; i += 1) {
+        const auxiliary  = result[i]
+        const monthStart = Date.parse(`${auxiliary.serviceMonth}-01`)
+
+        for (let j = 0; j < continuesAuxiliary.length; j += 1) {
+          const auxiliaryAppointment = continuesAuxiliary[j].appointments.find(a => a.type === 'AUXILIARY')
+
+          if (auxiliaryAppointment && auxiliaryAppointment.date && Date.parse(auxiliaryAppointment.date) < monthStart)
+            auxiliary.publishers.push(continuesAuxiliary[j])
+        }
+
+        result[i] = auxiliary
+      }
       setAuxiliaryArray(result)
       setLoading(false)
       setReload(false)
@@ -76,16 +94,16 @@ export default function Auxiliaries(): JSX.Element {
         : (
           <>
             <div className="flex h-full w-full flex-col">
-              <div className="join join-vertical grow text-left">
+              <div className="join join-vertical w-full text-left">
                 {auxiliaryArray.map((auxiliary) => {
                   return (
                     <div className="collapse join-item collapse-arrow" key={auxiliary.serviceMonth}>
                       <input type="radio" name="my-accordion" />
-                      <div className="collapse-title  font-medium">
+                      <div className="collapse-title font-medium">
                         {auxiliary.name}
                         {' '}
                         (
-                        {auxiliary.publisherIds.length}
+                        {auxiliary.publishers?.length}
                         )
                       </div>
                       <div className="collapse-content text-sm">
