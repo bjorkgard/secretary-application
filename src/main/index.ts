@@ -11,6 +11,7 @@ import installExtension, { REACT_DEVELOPER_TOOLS }    from 'electron-devtools-in
 import icon                                           from '../../resources/icon.png?asset'
 import i18n                                           from '../localization/i18next.config'
 import type {
+  AuxiliaryModel,
   CircuitOverseerModel,
   PublisherModel,
   ResponsibilityModel,
@@ -32,6 +33,7 @@ import AuxiliaryService       from './services/auxiliaryService'
 import TemplateService        from './services/templateService'
 import migrateDatabase        from './migrateDatabase'
 import {
+  addMonths,
   closeReporting,
   exportAddressList,
   exportPublisherS21,
@@ -39,6 +41,7 @@ import {
   exportS88,
   generateXLSXReportForms,
   getCommonExports,
+  getMonthString,
   getPublishersStats,
   getReportUpdates,
   importJson,
@@ -615,7 +618,27 @@ ipcMain.handle('save-meetings', async (_, props) => {
 })
 
 ipcMain.handle('auxiliaries', async () => {
-  const auxiliaries = await auxiliaryService.find()
+  const start                         = new Date()
+  const auxiliaries: AuxiliaryModel[] = []
+
+  for (let index = 0; index < 6; index++) {
+    const copiedDate = new Date(start.getTime())
+    const date       = addMonths(copiedDate, index)
+
+    const tempAux = await auxiliaryService.findByServiceMonth(`${date.getFullYear()}-${getMonthString(date)}`)
+    if (tempAux) {
+      auxiliaries.push(tempAux)
+    }
+    else {
+      auxiliaries.push({
+        _id:          `${date.getFullYear()}-${getMonthString(date)}`,
+        name:         date.toLocaleString('default', { month: 'long' }).toLowerCase(),
+        serviceMonth: `${date.getFullYear()}-${getMonthString(date)}`,
+        publisherIds: [],
+        publishers:   [],
+      })
+    }
+  }
 
   for await (const auxiliary of auxiliaries)
     auxiliary.publishers = await publisherService.findByIds(auxiliary.publisherIds)
