@@ -51,24 +51,26 @@ export default function Auxiliaries(): JSX.Element {
   }, [])
 
   useEffect(() => {
-    window.electron.ipcRenderer.invoke('auxiliaries').then((result) => {
-      for (let i = 0; i < result.length; i += 1) {
-        const auxiliary  = result[i]
-        const monthStart = Date.parse(`${auxiliary.serviceMonth}-01`)
+    if (reload) {
+      window.electron.ipcRenderer.invoke('auxiliaries').then((result) => {
+        for (let i = 0; i < result.length; i += 1) {
+          const auxiliary  = result[i]
+          const monthStart = Date.parse(`${auxiliary.serviceMonth}-01`)
 
-        for (let j = 0; j < continuesAuxiliary.length; j += 1) {
-          const auxiliaryAppointment = continuesAuxiliary[j].appointments.find(a => a.type === 'AUXILIARY')
+          for (let j = 0; j < continuesAuxiliary.length; j += 1) {
+            const auxiliaryAppointment = continuesAuxiliary[j].appointments.find(a => a.type === 'AUXILIARY')
 
-          if (auxiliaryAppointment && auxiliaryAppointment.date && Date.parse(auxiliaryAppointment.date) < monthStart)
-            auxiliary.publishers.push(continuesAuxiliary[j])
+            if (auxiliaryAppointment && auxiliaryAppointment.date && Date.parse(auxiliaryAppointment.date) < monthStart)
+              auxiliary.publishers.push(continuesAuxiliary[j])
+          }
+
+          result[i] = auxiliary
         }
-
-        result[i] = auxiliary
-      }
-      setAuxiliaryArray(result)
-      setLoading(false)
-      setReload(false)
-    })
+        setAuxiliaryArray(result)
+        setLoading(false)
+        setReload(false)
+      })
+    }
   }, [reload])
 
   const {
@@ -97,14 +99,16 @@ export default function Auxiliaries(): JSX.Element {
               <div className="join join-vertical w-full text-left">
                 {auxiliaryArray.map((auxiliary) => {
                   return (
-                    <div className="collapse join-item collapse-arrow" key={auxiliary.serviceMonth}>
+                    <div className="collapse join-item" key={auxiliary.serviceMonth}>
                       <input type="radio" name="my-accordion" />
                       <div className="collapse-title font-medium">
-                        {auxiliary.name}
+                        {t(`month.${auxiliary.name}`)}
                         {' '}
-                        (
-                        {auxiliary.publishers?.length}
-                        )
+                        <span className="text-xs">
+                          (
+                          {auxiliary.publishers?.length}
+                          )
+                        </span>
                       </div>
                       <div className="collapse-content text-sm">
                         {auxiliary.publishers?.map((publisher) => {
