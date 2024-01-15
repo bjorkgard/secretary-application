@@ -49,9 +49,9 @@ export default function CircuitOverseer(): JSX.Element {
       <div className="space-y-12">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
           <div>
-            <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-slate-300">
+            <p className="text-sm text-gray-900 dark:text-slate-300">
               {t('circuitOverseer.contactInformation')}
-            </h2>
+            </p>
           </div>
           <div className="grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-6 md:col-span-2">
             <div className="sm:col-span-3">

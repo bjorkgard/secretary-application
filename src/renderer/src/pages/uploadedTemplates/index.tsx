@@ -57,20 +57,20 @@ export default function Templates(): JSX.Element {
       <div className="space-y-12">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
           <div>
-            <div className="text-base font-semibold leading-7 text-gray-900 dark:text-slate-300">
+            <p className="text-sm text-gray-900 dark:text-slate-300">
               {t('templates.description')}
-              <p>
-                {!templates || templates?.length < 1
-                  ? (
-                    <span className="font-bold uppercase text-red-500">
-                      {t('templates.someMissing')}
-                    </span>
-                    )
-                  : (
-                      ''
-                    )}
-              </p>
-            </div>
+            </p>
+            {!templates || templates?.length < 1
+              ? (
+                <p>
+                  <span className="font-bold uppercase text-red-500">
+                    {t('templates.someMissing')}
+                  </span>
+                </p>
+                )
+              : (
+                  ''
+                )}
           </div>
           <div className="grid max-w-2xl md:col-span-2">
             <table className="table table-zebra mt-0">
