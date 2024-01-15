@@ -135,7 +135,7 @@ async function createWindow(): Promise<void> {
   })
 
   mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow?.setTitle(`Secretary ${import.meta.env.MAIN_VITE_APP_VERSION || 'dev'}`)
+    mainWindow?.setTitle(`Secretary ${import.meta.env.MAIN_VITE_APP_VERSION || app.getVersion()}`)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
