@@ -77,7 +77,7 @@ export default function PublisherOtherForm(): JSX.Element {
                 rows={5}
                 className={classNames(
                   errors.firstname ? 'textarea-error' : '',
-                  'textarea w-full textarea-bordered',
+                  'textarea w-full textarea-bordered dark:placeholder:text-slate-500',
                 )}
                 {...register('other')}
               />

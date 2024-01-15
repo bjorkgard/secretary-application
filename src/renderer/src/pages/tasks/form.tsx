@@ -82,7 +82,7 @@ export default function TaskForm(): JSX.Element {
                 placeholder={t('label.name')}
                 className={classNames(
                   errors.name ? 'input-error' : '',
-                  'input w-full input-bordered',
+                  'input w-full input-bordered dark:placeholder:text-slate-500',
                 )}
                 {...register('name', {
                   required: t('errors.name.required'),

@@ -61,7 +61,7 @@ export default function CircuitOverseer(): JSX.Element {
                   placeholder={t('label.firstname')}
                   className={classNames(
                     errors.firstname ? 'input-error' : '',
-                    'input w-full input-bordered',
+                    'input w-full input-bordered dark:placeholder:text-slate-500',
                   )}
                   {...register('firstname', {
                     required: t('errors.firstname.required'),
@@ -77,7 +77,7 @@ export default function CircuitOverseer(): JSX.Element {
                   placeholder={t('label.lastname')}
                   className={classNames(
                     errors.firstname ? 'input-error' : '',
-                    'input w-full input-bordered',
+                    'input w-full input-bordered dark:placeholder:text-slate-500',
                   )}
                   {...register('lastname', {
                     required: t('errors.lastname.required'),
@@ -149,7 +149,7 @@ export default function CircuitOverseer(): JSX.Element {
                   placeholder={t('label.email')}
                   className={classNames(
                     errors.email ? 'input-error' : '',
-                    'input input-bordered w-full',
+                    'input input-bordered w-full dark:placeholder:text-slate-500',
                   )}
                   {...register('email')}
                 />
@@ -164,7 +164,7 @@ export default function CircuitOverseer(): JSX.Element {
                   placeholder={t('label.address')}
                   className={classNames(
                     errors.email ? 'input-error' : '',
-                    'input input-bordered w-full',
+                    'input input-bordered w-full dark:placeholder:text-slate-500',
                   )}
                   {...register('address', {
                     required: t('errors.address.required'),
@@ -181,7 +181,7 @@ export default function CircuitOverseer(): JSX.Element {
                   placeholder={t('label.zip')}
                   className={classNames(
                     errors.email ? 'input-error' : '',
-                    'input input-bordered w-full',
+                    'input input-bordered w-full dark:placeholder:text-slate-500',
                   )}
                   {...register('zip', {
                     required: t('errors.zip.required'),
@@ -198,7 +198,7 @@ export default function CircuitOverseer(): JSX.Element {
                   placeholder={t('label.city')}
                   className={classNames(
                     errors.email ? 'input-error' : '',
-                    'input input-bordered w-full',
+                    'input input-bordered w-full dark:placeholder:text-slate-500',
                   )}
                   {...register('city', {
                     required: t('errors.city.required'),

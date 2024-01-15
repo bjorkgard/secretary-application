@@ -19,7 +19,7 @@ p {
 }
 
 .PhoneInputInput {
-  @apply bg-transparent;
+  @apply bg-transparent dark:placeholder:text-slate-500;
 }
 
 .fieldset {

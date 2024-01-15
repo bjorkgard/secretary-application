@@ -152,7 +152,7 @@ export default function PublisherContactForm(): JSX.Element {
                 placeholder={t('label.email')}
                 className={classNames(
                   errors.email ? 'input-error' : '',
-                  'input input-bordered w-full',
+                  'input input-bordered w-full dark:placeholder:text-slate-500',
                 )}
                 {...register('email')}
               />
@@ -219,7 +219,7 @@ export default function PublisherContactForm(): JSX.Element {
                 placeholder={t('label.address')}
                 className={classNames(
                   errors.address ? 'input-error' : '',
-                  'input w-full input-bordered',
+                  'input w-full input-bordered dark:placeholder:text-slate-500',
                 )}
                 {...register('address', {
                   required: {
@@ -240,7 +240,7 @@ export default function PublisherContactForm(): JSX.Element {
                 placeholder={t('label.zip')}
                 className={classNames(
                   errors.zip ? 'input-error' : '',
-                  'input w-full input-bordered',
+                  'input w-full input-bordered dark:placeholder:text-slate-500',
                 )}
                 {...register('zip', {
                   required: {
@@ -261,7 +261,7 @@ export default function PublisherContactForm(): JSX.Element {
                 placeholder={t('label.city')}
                 className={classNames(
                   errors.city ? 'input-error' : '',
-                  'input w-full input-bordered',
+                  'input w-full input-bordered dark:placeholder:text-slate-500',
                 )}
                 {...register('city', {
                   required: {
@@ -294,7 +294,7 @@ export default function PublisherContactForm(): JSX.Element {
                                 {...register(`children.${index}.name` as const, {
                                   required: t('errors.children.name.required'),
                                 })}
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full dark:placeholder:text-slate-500"
                               />
                             </Field>
                           </div>
@@ -303,7 +303,7 @@ export default function PublisherContactForm(): JSX.Element {
                               <input
                                 {...register(`children.${index}.birthday` as const)}
                                 type="date"
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full dark:placeholder:text-slate-500"
                               />
                             </Field>
                           </div>
@@ -348,7 +348,7 @@ export default function PublisherContactForm(): JSX.Element {
                   placeholder={t('label.name')}
                   className={classNames(
                     errors.emergencyContact?.name ? 'input-error' : '',
-                    'input w-full input-bordered',
+                    'input w-full input-bordered dark:placeholder:text-slate-500',
                   )}
                   {...register('emergencyContact.name')}
                 />
@@ -363,7 +363,7 @@ export default function PublisherContactForm(): JSX.Element {
                   placeholder={t('label.email')}
                   className={classNames(
                     errors.emergencyContact?.email ? 'input-error' : '',
-                    'input w-full input-bordered',
+                    'input w-full input-bordered dark:placeholder:text-slate-500',
                   )}
                   {...register('emergencyContact.email')}
                 />
