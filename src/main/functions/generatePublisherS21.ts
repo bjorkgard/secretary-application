@@ -4,6 +4,7 @@ import { PDFDocument }                             from 'pdf-lib'
 import fontkit                                     from '@pdf-lib/fontkit'
 import fs                                          from 'fs-extra'
 import isDev                                       from 'electron-is-dev'
+import log                                         from 'electron-log'
 import TemplateService                             from '../services/templateService'
 import type { PublisherModel }                     from '../../types/models'
 
@@ -337,8 +338,9 @@ export default async function generatePublisherS21(
 
     sumHoursField.setText(sumHours > 0 ? sumHours.toString() : '')
 
-    if (flatten)
-      form.flatten()
+    log.info('flatten', flatten)
+    // if (flatten)
+    //  form.flatten({ updateFieldAppearances: false })
 
     return await pdfDoc.save()
   }
