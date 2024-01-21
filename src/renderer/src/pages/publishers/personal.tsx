@@ -327,7 +327,7 @@ export default function PublisherPersonalForm(): JSX.Element {
             </button>
             <button className="btn btn-primary" type="submit">
               {t('button.next')}
-              <ChevronRightIcon className="h-5 w-5" />
+              <ChevronRightIcon className="size-5" />
             </button>
           </div>
         </div>

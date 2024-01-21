@@ -66,7 +66,7 @@ export default function ServiceGroups(): JSX.Element {
             className="btn btn-circle btn-outline"
             onClick={(): void => navigate(`${ROUTES.SERVICE_GROUPS}/add`)}
           >
-            <PlusIcon className="h-6 w-6" />
+            <PlusIcon className="size-6" />
           </button>
         </div>
       </div>
@@ -117,7 +117,7 @@ export default function ServiceGroups(): JSX.Element {
                                 editServiceGroup(serviceGroup._id)
                               }}
                             >
-                              <PencilIcon className="h-4 w-4" />
+                              <PencilIcon className="size-4" />
                             </button>
                           </div>
                           <div
@@ -130,7 +130,7 @@ export default function ServiceGroups(): JSX.Element {
                                 deleteServiceGroup(serviceGroup._id)
                               }}
                             >
-                              <TrashIcon className="h-4 w-4" />
+                              <TrashIcon className="size-4" />
                             </button>
                           </div>
                         </div>

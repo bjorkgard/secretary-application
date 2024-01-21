@@ -107,7 +107,7 @@ export default function Templates(): JSX.Element {
                         className="btn btn-circle btn-outline btn-xs"
                         onClick={() => upload(key)}
                       >
-                        <ArrowUpTrayIcon className="h-4 w-4" />
+                        <ArrowUpTrayIcon className="size-4" />
                       </button>
                     </td>
                   </tr>

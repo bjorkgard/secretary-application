@@ -103,12 +103,12 @@ export default function ReportsForm(): JSX.Element {
             <div className="space-x-4">
               <div className="tooltip tooltip-left" data-tip={t('reports.uploadExcelFiles')}>
                 <button className="btn btn-circle btn-outline" onClick={importExcelFile}>
-                  <ArrowUpTrayIcon className="h-6 w-6" />
+                  <ArrowUpTrayIcon className="size-6" />
                 </button>
               </div>
               <div className="tooltip tooltip-left" data-tip={t('reports.downloadExcelFiles')}>
                 <button className="btn btn-circle btn-outline" onClick={generateExcelFiles}>
-                  <ArrowDownTrayIcon className="h-6 w-6" />
+                  <ArrowDownTrayIcon className="size-6" />
                 </button>
               </div>
             </div>

@@ -89,7 +89,7 @@ export default function PublisherOtherForm(): JSX.Element {
               className="btn btn-secondary"
               onClick={(): void => navigate(ROUTES.PUBLISHER_APPOINTMENTS_FORM)}
             >
-              <ChevronLeftIcon className="h-5 w-5" />
+              <ChevronLeftIcon className="size-5" />
               {t('button.back')}
             </button>
             <button className="btn btn-primary" type="submit">

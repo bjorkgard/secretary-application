@@ -67,7 +67,7 @@ export default function MissingReports(): JSX.Element | null {
                         {report.email
                           ? (
                             <a href={`mailto:${report.email}`}>
-                              <EnvelopeIcon className="h-5 w-5" />
+                              <EnvelopeIcon className="size-5" />
                             </a>
                             )
                           : null}
@@ -75,7 +75,7 @@ export default function MissingReports(): JSX.Element | null {
                         {report.mobile
                           ? (
                             <a href={`sms:${report.mobile}?body=${t('sms.missingReport')}`}>
-                              <DevicePhoneMobileIcon className="h-5 w-5" />
+                              <DevicePhoneMobileIcon className="size-5" />
                             </a>
                             )
                           : null}

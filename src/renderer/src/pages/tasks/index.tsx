@@ -71,7 +71,7 @@ export default function Tasks(): JSX.Element {
             className="btn btn-circle btn-outline"
             onClick={(): void => navigate(`${ROUTES.TASKS}/add`)}
           >
-            <PlusIcon className="h-6 w-6" />
+            <PlusIcon className="size-6" />
           </button>
         </div>
       </div>
@@ -110,7 +110,7 @@ export default function Tasks(): JSX.Element {
                               }}
                               disabled={task.default}
                             >
-                              <PencilIcon className="h-4 w-4" />
+                              <PencilIcon className="size-4" />
                             </button>
                           </div>
                           <div className="tooltip tooltip-left" data-tip={t('tooltip.deleteTask')}>
@@ -121,7 +121,7 @@ export default function Tasks(): JSX.Element {
                               }}
                               disabled={task.default}
                             >
-                              <TrashIcon className="h-4 w-4" />
+                              <TrashIcon className="size-4" />
                             </button>
                           </div>
                         </div>
