@@ -6,6 +6,7 @@ import {
   DevicePhoneMobileIcon,
   DocumentArrowDownIcon,
   EllipsisHorizontalIcon,
+  MagnifyingGlassIcon,
   PencilIcon,
   PlusIcon as PlusIconSmall,
   TrashIcon,
@@ -25,6 +26,11 @@ export default function Publishers(): JSX.Element {
   const [openEventModal, setOpenEventModal] = useState<boolean>(false)
   const [serviceGroups, setServiceGroups]   = useState<ServiceGroupModel[]>([])
   const [hasS21, setHasS21]                 = useState<boolean>(false)
+  const [queryString, setQueryString]       = useState<string>('')
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQueryString(e.target.value)
+  }
 
   const getPublishers = (sortField = 'lastname', queryString = ''): void => {
     window.electron.ipcRenderer
@@ -42,11 +48,11 @@ export default function Publishers(): JSX.Element {
 
   useEffect(() => {
     getServiceGroups()
-    getPublishers()
+    getPublishers('lastname', queryString)
     isTemplateCorrect('S-21').then((result) => {
       setHasS21(result)
     })
-  }, [])
+  }, [queryString])
 
   const editPublisher = (id: string | undefined): void => {
     if (id)
@@ -81,12 +87,16 @@ export default function Publishers(): JSX.Element {
       <div className="flex h-full flex-col">
         <div className="flex justify-between">
           <h1>{t('publishers.headline')}</h1>
+          <div className="relative mx-12 block h-12 w-full text-slate-500">
+            <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2" />
+            <input autoComplete="off" spellCheck="false" aria-autocomplete="list" name="publisher-filter" type="search" className="input input-bordered w-full pl-12 dark:placeholder:text-slate-500" placeholder={t('search')} onChange={onChange} />
+          </div>
           <div className="tooltip tooltip-left" data-tip={t('label.addPublisher')}>
             <button
               className="btn btn-circle btn-outline"
               onClick={(): void => navigate(ROUTES.PUBLISHER_PERSONAL_FORM)}
             >
-              <PlusIcon className="h-6 w-6" />
+              <PlusIcon className="size-6" />
             </button>
           </div>
         </div>
@@ -140,7 +150,7 @@ export default function Publishers(): JSX.Element {
                             role="button"
                             className="btn btn-circle btn-outline btn-xs"
                           >
-                            <EllipsisHorizontalIcon className="h-4 w-4" />
+                            <EllipsisHorizontalIcon className="size-4" />
                           </div>
                           <ul
                             tabIndex={0}
@@ -158,7 +168,7 @@ export default function Publishers(): JSX.Element {
                                   addEvent(publisher._id)
                                 }}
                               >
-                                <PlusIconSmall className="ml-2 h-5 w-5" />
+                                <PlusIconSmall className="ml-2 size-5" />
                                 {t('menu.event')}
                               </button>
                             </li>
@@ -170,7 +180,7 @@ export default function Publishers(): JSX.Element {
                                 }}
                                 disabled={!hasS21}
                               >
-                                <DocumentArrowDownIcon className="ml-2 h-5 w-5" />
+                                <DocumentArrowDownIcon className="ml-2 size-5" />
                                 {t('menu.s21')}
                               </button>
                             </li>
@@ -181,7 +191,7 @@ export default function Publishers(): JSX.Element {
                                   editPublisher(publisher._id)
                                 }}
                               >
-                                <PencilIcon className="ml-2 h-5 w-5" />
+                                <PencilIcon className="ml-2 size-5" />
                                 {t('menu.edit')}
                               </button>
                             </li>
@@ -193,7 +203,7 @@ export default function Publishers(): JSX.Element {
                                   console.log('send contact')
                                 }}
                               >
-                                <DevicePhoneMobileIcon className="ml-2 h-5 w-5" />
+                                <DevicePhoneMobileIcon className="ml-2 size-5" />
                                 {t('menu.sendContact')}
                               </button>
                             </li>
@@ -205,7 +215,7 @@ export default function Publishers(): JSX.Element {
                                   console.log('delete')
                                 }}
                               >
-                                <TrashIcon className="ml-2 h-5 w-5" />
+                                <TrashIcon className="ml-2 size-5" />
                                 {t('menu.delete')}
                               </button>
                             </li>

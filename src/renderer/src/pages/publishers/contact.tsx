@@ -315,7 +315,7 @@ export default function PublisherContactForm(): JSX.Element {
                                   remove(index)
                                 }}
                               >
-                                <TrashIcon className="h-4 w-4" />
+                                <TrashIcon className="size-4" />
                               </button>
                             </div>
                           </div>
@@ -404,12 +404,12 @@ export default function PublisherContactForm(): JSX.Element {
               className="btn btn-accent"
               onClick={(): void => navigate(ROUTES.PUBLISHER_PERSONAL_FORM)}
             >
-              <ChevronLeftIcon className="h-5 w-5" />
+              <ChevronLeftIcon className="size-5" />
               {t('button.back')}
             </button>
             <button className="btn btn-primary" type="submit">
               {t('button.next')}
-              <ChevronRightIcon className="h-5 w-5" />
+              <ChevronRightIcon className="size-5" />
             </button>
           </div>
         </div>

@@ -95,7 +95,7 @@ export default function Auxiliaries(): JSX.Element {
           )
         : (
           <>
-            <div className="flex h-full w-full flex-col">
+            <div className="flex size-full flex-col">
               <div className="join join-vertical w-full text-left">
                 {auxiliaryArray.map((auxiliary) => {
                   return (

@@ -60,7 +60,7 @@ export default function Responsibilities(): JSX.Element {
             className="btn btn-circle btn-outline"
             onClick={(): void => navigate(`${ROUTES.RESPONSIBILITIES}/add`)}
           >
-            <PlusIcon className="h-6 w-6" />
+            <PlusIcon className="size-6" />
           </button>
         </div>
       </div>
@@ -99,7 +99,7 @@ export default function Responsibilities(): JSX.Element {
                               }}
                               disabled={resp.default}
                             >
-                              <PencilIcon className="h-4 w-4" />
+                              <PencilIcon className="size-4" />
                             </button>
                           </div>
                           <div
@@ -113,7 +113,7 @@ export default function Responsibilities(): JSX.Element {
                               }}
                               disabled={resp.default}
                             >
-                              <TrashIcon className="h-4 w-4" />
+                              <TrashIcon className="size-4" />
                             </button>
                           </div>
                         </div>

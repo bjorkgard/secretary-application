@@ -28,12 +28,12 @@ export function OnlineIcon(): JSX.Element {
       {isOnline
         ? (
           <div className="tooltip tooltip-left" data-tip="online">
-            <SignalIcon className="h-6 w-6" aria-hidden="true" />
+            <SignalIcon className="size-6" aria-hidden="true" />
           </div>
           )
         : (
           <div className="tooltip tooltip-left" data-tip="offline">
-            <SignalSlashIcon className="h-6 w-6" aria-hidden="true" />
+            <SignalSlashIcon className="size-6" aria-hidden="true" />
           </div>
           )}
     </button>

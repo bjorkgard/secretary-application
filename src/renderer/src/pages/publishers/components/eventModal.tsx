@@ -104,7 +104,7 @@ export default function EventModal(props: EventModalProps): JSX.Element {
               className="group -mx-3 flex cursor-default select-none items-center rounded-md px-3 py-2 hover:bg-gray-900/5 hover:text-gray-900 dark:hover:bg-slate-800 dark:hover:text-white"
             >
               <event.icon
-                className="h-6 w-6 flex-none text-gray-900 text-opacity-40 group-hover:text-opacity-100 dark:text-slate-500 dark:text-opacity-100 dark:group-hover:!text-white"
+                className="size-6 flex-none text-gray-900 text-opacity-40 group-hover:text-opacity-100 dark:text-slate-500 dark:text-opacity-100 dark:group-hover:!text-white"
                 aria-hidden="true"
               />
               <span className="ml-3 flex-auto truncate">{event.name}</span>
