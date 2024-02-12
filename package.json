@@ -103,7 +103,7 @@
     "eslint-plugin-tailwindcss": "^3.14.1",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.2",
-    "postcss": "^8.4.33",
+    "postcss": "^8.4.35",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "semantic-release": "^22.0.12",
