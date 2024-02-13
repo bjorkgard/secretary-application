@@ -71,58 +71,68 @@ export default function Tasks(): JSX.Element {
             className="btn btn-circle btn-outline"
             onClick={(): void => navigate(`${ROUTES.TASKS}/add`)}
           >
-            <PlusIcon className="h-6 w-6" />
+            <PlusIcon className="size-6" />
           </button>
         </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="table table-zebra">
-          <thead>
-            <tr>
-              <th>{t('tasks.header.name')}</th>
-              <th>{t('tasks.header.responsibility')}</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.map((task) => {
-              const responsibility = responsibilities.find(r => r._id === task.responsibilityId)
 
-              return (
-                <tr key={task._id} className="hover">
-                  <td>{task.name}</td>
-                  <td>{responsibility?.name}</td>
-                  <td>
-                    <div className="flex justify-end space-x-4">
-                      <div className="tooltip tooltip-left" data-tip={t('tooltip.editTask')}>
-                        <button
-                          className="btn btn-circle btn-outline btn-xs"
-                          onClick={(): void => {
-                            editTask(task._id)
-                          }}
-                          disabled={task.default}
-                        >
-                          <PencilIcon className="h-4 w-4" />
-                        </button>
-                      </div>
-                      <div className="tooltip tooltip-left" data-tip={t('tooltip.deleteTask')}>
-                        <button
-                          className="btn btn-circle btn-outline btn-xs"
-                          onClick={(): void => {
-                            deleteTask(task._id)
-                          }}
-                          disabled={task.default}
-                        >
-                          <TrashIcon className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </td>
+      <div className="space-y-12">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-3">
+          <div>
+            <p className="text-sm text-gray-900 dark:text-slate-300">
+              {t('tasks.description')}
+            </p>
+          </div>
+          <div className="w-full md:col-span-2">
+            <table className="table table-zebra mt-0">
+              <thead>
+                <tr>
+                  <th>{t('tasks.header.name')}</th>
+                  <th>{t('tasks.header.responsibility')}</th>
+                  <th></th>
                 </tr>
-              )
-            })}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {tasks.map((task) => {
+                  const responsibility = responsibilities.find(r => r._id === task.responsibilityId)
+
+                  return (
+                    <tr key={task._id} className="hover">
+                      <td>{task.name}</td>
+                      <td>{responsibility?.name}</td>
+                      <td>
+                        <div className="flex justify-end space-x-4">
+                          <div className="tooltip tooltip-left" data-tip={t('tooltip.editTask')}>
+                            <button
+                              className="btn btn-circle btn-outline btn-xs"
+                              onClick={(): void => {
+                                editTask(task._id)
+                              }}
+                              disabled={task.default}
+                            >
+                              <PencilIcon className="size-4" />
+                            </button>
+                          </div>
+                          <div className="tooltip tooltip-left" data-tip={t('tooltip.deleteTask')}>
+                            <button
+                              className="btn btn-circle btn-outline btn-xs"
+                              onClick={(): void => {
+                                deleteTask(task._id)
+                              }}
+                              disabled={task.default}
+                            >
+                              <TrashIcon className="size-4" />
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   )

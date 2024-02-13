@@ -49,7 +49,7 @@ export function Modal({ children, title, open, onClose, onConfirm }: CardProps):
                     onClick={() => onClose()}
                   >
                     <span className="sr-only">Close</span>
-                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                    <XMarkIcon className="size-6" aria-hidden="true" />
                   </button>
                 </div>
                 <div className="w-full sm:flex sm:items-start">

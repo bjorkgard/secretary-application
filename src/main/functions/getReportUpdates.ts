@@ -82,9 +82,10 @@ async function getReportUpdates(mainWindow: BrowserWindow | null): Promise<void>
 
   const date = new Date()
   date.setDate(0)
+  const monthString = date.getMonth() + 1
 
   const serviceMonth = await serviceMonthService.findByServiceMonth(
-    `${date.getFullYear()}-${date.getMonth() + 1}`,
+    `${date.getFullYear()}-${monthString < 10 ? '0' : ''}${monthString}`,
   )
 
   // check if there is a service month and if it is not done

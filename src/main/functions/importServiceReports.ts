@@ -49,9 +49,10 @@ export default function importServiceReports(
 
           const date = new Date()
           date.setDate(0)
+          const monthString = date.getMonth() + 1
 
           const serviceMonth = await serviceMonthService.findByServiceMonth(
-            `${date.getFullYear()}-${date.getMonth() + 1}`,
+            `${date.getFullYear()}-${monthString < 10 ? '0' : ''}${monthString}`,
           )
 
           if (serviceMonth && serviceMonth._id) {

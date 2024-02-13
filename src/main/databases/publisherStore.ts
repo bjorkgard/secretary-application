@@ -37,6 +37,11 @@ export default class PublisherStore extends BaseStore<Publisher> {
           { firstname: new RegExp(queryString, 'i') },
           { lastname: new RegExp(queryString, 'i') },
           { email: new RegExp(queryString, 'i') },
+          { phone: new RegExp(queryString, 'i') },
+          { mobile: new RegExp(queryString, 'i') },
+          { address: new RegExp(queryString, 'i') },
+          { zip: new RegExp(queryString, 'i') },
+          { city: new RegExp(queryString, 'i') },
         ],
       }
     }

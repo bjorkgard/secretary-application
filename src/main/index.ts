@@ -6,10 +6,12 @@ import { updateElectronApp }                          from 'update-electron-app'
 import windowStateKeeper                              from 'electron-window-state'
 import prompt                                         from 'electron-prompt'
 import log                                            from 'electron-log'
+import Bugsnag                                        from '@bugsnag/electron'
 import installExtension, { REACT_DEVELOPER_TOOLS }    from 'electron-devtools-installer'
 import icon                                           from '../../resources/icon.png?asset'
 import i18n                                           from '../localization/i18next.config'
 import type {
+  AuxiliaryModel,
   CircuitOverseerModel,
   PublisherModel,
   ResponsibilityModel,
@@ -31,6 +33,7 @@ import AuxiliaryService       from './services/auxiliaryService'
 import TemplateService        from './services/templateService'
 import migrateDatabase        from './migrateDatabase'
 import {
+  addMonths,
   closeReporting,
   exportAddressList,
   exportPublisherS21,
@@ -38,6 +41,7 @@ import {
   exportS88,
   generateXLSXReportForms,
   getCommonExports,
+  getMonthString,
   getPublishersStats,
   getReportUpdates,
   importJson,
@@ -47,6 +51,13 @@ import {
   storeEvent,
   updateSettings,
 } from './functions'
+import getServiceYear from './utils/getServiceYear'
+
+Bugsnag.start({
+  apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
+  appVersion:           import.meta.env.MAIN_VITE_APP_VERSION || 'dev',
+  enabledReleaseStages: ['production', 'staging'],
+})
 
 // Initialize services
 const circuitOverseerService = new CircuitOverseerService()
@@ -124,7 +135,7 @@ async function createWindow(): Promise<void> {
   })
 
   mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow?.setTitle(`Secretary (v${import.meta.env.MAIN_VITE_APP_VERSION})`)
+    mainWindow?.setTitle(`Secretary ${import.meta.env.MAIN_VITE_APP_VERSION || app.getVersion()}`)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -514,6 +525,53 @@ ipcMain.on('export-register-card', async (_event, args) => {
     })
 })
 
+ipcMain.on('export-register-card-servicegroup', async (_event, args) => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  const sg: string[]   = []
+  const sgId: string[] = []
+  const splitDate      = new Date().toLocaleDateString('sv').split('-')
+
+  const serviceYear = await serviceYearService.findByServiceYear(getServiceYear(`${splitDate[0]}-${splitDate[1]}`))
+
+  if (!serviceYear)
+    return
+
+  serviceGroupService.find().then((serviceGroups) => {
+    serviceGroups.forEach((serviceGroup) => {
+      sg.push(serviceGroup.name)
+      sgId.push(serviceGroup._id || '')
+    })
+  })
+
+  sg.sort()
+
+  prompt({
+    title:         i18n.t('dialog.selectServiceGroup'),
+    label:         i18n.t('dialog.selectServiceGroupDescription'),
+    type:          'select',
+    selectOptions: sg,
+    alwaysOnTop:   true,
+    buttonLabels:  { cancel: i18n.t('label.cancel'), ok: i18n.t('label.ok') },
+    resizable:     true,
+  })
+    .then((r: number | null) => {
+      if (r !== null) {
+        if (mainWindow)
+          exportPublishersS21(mainWindow, serviceYear.name, args.type, sgId[r])
+      }
+      else {
+        mainWindow?.webContents.send('show-spinner', { status: false })
+      }
+    })
+    .catch((err: Error) => {
+      mainWindow?.webContents.send('show-spinner', { status: false })
+      log.error(err)
+    })
+})
+
 // REPORTS
 ipcMain.handle('active-service-month', async () => {
   const serviceMonth = await serviceMonthService.findActive()
@@ -524,9 +582,10 @@ ipcMain.handle('active-service-month', async () => {
 ipcMain.handle('current-service-month', async () => {
   const date = new Date()
   date.setDate(0)
+  const monthString = date.getMonth() + 1
 
   const serviceMonth = await serviceMonthService.findByServiceMonth(
-    `${date.getFullYear()}-${date.getMonth() + 1}`,
+    `${date.getFullYear()}-${monthString < 10 ? '0' : ''}${monthString}`,
   )
 
   return serviceMonth
@@ -560,7 +619,27 @@ ipcMain.handle('save-meetings', async (_, props) => {
 })
 
 ipcMain.handle('auxiliaries', async () => {
-  const auxiliaries = await auxiliaryService.find()
+  const start                         = new Date()
+  const auxiliaries: AuxiliaryModel[] = []
+
+  for (let index = 0; index < 6; index++) {
+    const copiedDate = new Date(start.getTime())
+    const date       = addMonths(copiedDate, index)
+
+    const tempAux = await auxiliaryService.findByServiceMonth(`${date.getFullYear()}-${getMonthString(date)}`)
+    if (tempAux) {
+      auxiliaries.push(tempAux)
+    }
+    else {
+      auxiliaries.push({
+        _id:          `${date.getFullYear()}-${getMonthString(date)}`,
+        name:         date.toLocaleString('default', { month: 'long' }).toLowerCase(),
+        serviceMonth: `${date.getFullYear()}-${getMonthString(date)}`,
+        publisherIds: [],
+        publishers:   [],
+      })
+    }
+  }
 
   for await (const auxiliary of auxiliaries)
     auxiliary.publishers = await publisherService.findByIds(auxiliary.publisherIds)

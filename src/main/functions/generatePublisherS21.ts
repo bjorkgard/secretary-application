@@ -4,6 +4,7 @@ import { PDFDocument }                             from 'pdf-lib'
 import fontkit                                     from '@pdf-lib/fontkit'
 import fs                                          from 'fs-extra'
 import isDev                                       from 'electron-is-dev'
+import log                                         from 'electron-log'
 import TemplateService                             from '../services/templateService'
 import type { PublisherModel }                     from '../../types/models'
 
@@ -12,6 +13,7 @@ const templatesService = new TemplateService()
 export default async function generatePublisherS21(
   publisher: PublisherModel,
   serviceYear: number,
+  flatten = false,
 ): Promise<Uint8Array> {
   // eslint-disable-next-line node/prefer-global/buffer
   const fontBytes = await new Promise((resolve: (data: null | Buffer) => void) =>
@@ -335,6 +337,10 @@ export default async function generatePublisherS21(
     }
 
     sumHoursField.setText(sumHours > 0 ? sumHours.toString() : '')
+
+    log.info('flatten', flatten)
+    // if (flatten)
+    //  form.flatten({ updateFieldAppearances: false })
 
     return await pdfDoc.save()
   }
