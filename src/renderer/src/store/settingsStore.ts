@@ -20,7 +20,7 @@ const settingsState = hookstate<SettingsModel>({
 })
 
 export function useSettingsState(): {
-  setSettings(settings: SettingsModel): void
+  setSettings:  (settings: SettingsModel) => void
   congregation: CongregationModel
   user:         UserModel
   online:       OnlineModel

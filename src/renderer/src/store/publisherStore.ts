@@ -30,9 +30,9 @@ const initialState: PublisherModel = {
 const publisherState = hookstate<PublisherModel>(initialState)
 
 export function usePublisherState(): {
-  setPublisher(publisher: PublisherModel): void
-  delete(): void
-  publisher: PublisherModel
+  setPublisher: (publisher: PublisherModel) => void
+  delete:       () => void
+  publisher:    PublisherModel
 } {
   const state = useHookstate(publisherState)
 
