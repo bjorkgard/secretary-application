@@ -19,7 +19,8 @@ import { postServiceGroupReport } from './postServiceGroupReport'
 async function getMissingReports(date: Date,  serviceMonthService: ServiceMonthService): Promise<Report[]> {
   const previousMonth = new Date()
   previousMonth.setMonth(date.getMonth() - 1)
-  const previousServiceMonthName = `${previousMonth.getFullYear()}-${previousMonth.getMonth() + 1}`
+  const monthString              = previousMonth.getMonth() + 1
+  const previousServiceMonthName = `${previousMonth.getFullYear()}-${monthString < 10 ? '0' : ''}${monthString}`
   const serviceMonth             = await serviceMonthService.findByServiceMonth(previousServiceMonthName)
 
   if (serviceMonth) {

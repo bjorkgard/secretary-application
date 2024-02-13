@@ -144,7 +144,7 @@ function parsePublisher(data: Publisher): PublisherModel {
 }
 
 export default class PublisherService implements IPublisherService {
-  async find(sortField: string, queryString: string): Promise<PublisherModel[]> {
+  async find(sortField: string, queryString?: string): Promise<PublisherModel[]> {
     const publishers = (await publisherStore.find(sortField, queryString)) as Publisher[]
 
     return publishers.map(publisher => parsePublisher(publisher))

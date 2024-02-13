@@ -582,9 +582,10 @@ ipcMain.handle('active-service-month', async () => {
 ipcMain.handle('current-service-month', async () => {
   const date = new Date()
   date.setDate(0)
+  const monthString = date.getMonth() + 1
 
   const serviceMonth = await serviceMonthService.findByServiceMonth(
-    `${date.getFullYear()}-${date.getMonth() + 1}`,
+    `${date.getFullYear()}-${monthString < 10 ? '0' : ''}${monthString}`,
   )
 
   return serviceMonth
