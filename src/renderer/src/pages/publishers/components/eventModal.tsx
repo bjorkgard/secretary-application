@@ -37,6 +37,12 @@ export default function EventModal(props: EventModalProps): JSX.Element {
   const { t } = useTranslation()
 
   const events: Event[] = [
+    { name: t('event.movedIn'), icon: UserPlusIcon, command: 'MOVED_IN' },
+    { name: t('event.movedOut'), icon: UserMinusIcon, command: 'MOVED_OUT' },
+    { name: t('event.auxiliaryStart'), icon: UserPlusIcon, command: 'AUXILIARY_START' },
+    { name: t('event.pioneerStart'), icon: UserPlusIcon, command: 'PIONEER_START' },
+    { name: t('event.auxiliaryStop'), icon: UserPlusIcon, command: 'AUXILIARY_STOP' },
+    { name: t('event.pioneerStop'), icon: UserPlusIcon, command: 'PIONEER_STOP' },
     { name: t('event.deceased'), icon: UserMinusIcon, command: 'DECEASED' },
     { name: t('event.reinstated'), icon: UserPlusIcon, command: 'REINSTATED' },
     { name: t('event.disassociation'), icon: UserMinusIcon, command: 'DISASSOCIATION' },
