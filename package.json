@@ -26,7 +26,7 @@
     "build:win": "npm run typecheck && npm run build && electron-builder --win --config .electron-builder.config.js",
     "build:mac": "npm run typecheck && npm run build && electron-builder --mac --config .electron-builder.config.js",
     "build:linux": "npm run typecheck && npm run build && electron-builder --linux --config .electron-builder.config.js",
-    "build:all": "npm run typecheck && npm run build && electron-builder --win --mac --linux --config",
+    "build:all": "npm run typecheck && npm run build && electron-builder --win --mac --linux --config .electron-builder.config.js",
     "release": "electron-builder --config .electron-builder.config.js --publish always",
     "release:dry": "semantic-release --dry-run",
     "updateVersion": "semantic-release",
