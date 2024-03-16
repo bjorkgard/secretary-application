@@ -1,4 +1,6 @@
 export { default as addMonths } from './addMonths'
+export { default as dbBackup } from './dbBackup'
+export { default as dbRestore } from './dbRestore'
 export { default as exportAddressList } from './exportAddressList'
 export { default as generateXLSXReportForms } from './generateXLSXReportForms'
 export { default as getCommonExports } from './getCommonExports'

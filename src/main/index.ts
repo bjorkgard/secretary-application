@@ -35,6 +35,8 @@ import migrateDatabase        from './migrateDatabase'
 import {
   addMonths,
   closeReporting,
+  dbBackup,
+  dbRestore,
   exportAddressList,
   exportPublisherS21,
   exportPublishersS21,
@@ -743,6 +745,20 @@ ipcMain.handle('store-event', async (_, args) => {
     return
 
   storeEvent(args.event)
+})
+
+ipcMain.on('generate-backup', async () => {
+  if (!mainWindow)
+    return
+
+  dbBackup(mainWindow, isDebug)
+})
+
+ipcMain.on('restore-backup', async () => {
+  if (!mainWindow)
+    return
+
+  dbRestore(mainWindow, isDebug)
 })
 
 updateElectronApp()
