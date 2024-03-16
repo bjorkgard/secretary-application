@@ -751,14 +751,14 @@ ipcMain.on('generate-backup', async () => {
   if (!mainWindow)
     return
 
-  dbBackup(mainWindow, isDebug)
+  dbBackup(mainWindow)
 })
 
 ipcMain.on('restore-backup', async () => {
   if (!mainWindow)
     return
 
-  dbRestore(mainWindow, isDebug)
+  dbRestore(mainWindow)
 })
 
 updateElectronApp()

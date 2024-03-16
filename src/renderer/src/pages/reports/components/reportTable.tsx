@@ -169,7 +169,7 @@ export function ReportsTable({ month, reports }: ComponentProps): JSX.Element {
                 <td>
                   <input
                     type="number"
-                    className="input input-bordered input-md w-full"
+                    className="input input-md input-bordered w-full"
                     {...register(`reports.${index}.studies`)}
                     min={0}
                     onBlur={(): void => handleBibleStudies(index)}
@@ -190,7 +190,7 @@ export function ReportsTable({ month, reports }: ComponentProps): JSX.Element {
                 <td>
                   <input
                     type="number"
-                    className="input input-bordered input-md w-full"
+                    className="input input-md input-bordered w-full"
                     {...register(`reports.${index}.hours`)}
                     disabled={fields[index].type === 'PUBLISHER' && !watchReports[index].auxiliary}
                     min={0}
@@ -200,7 +200,7 @@ export function ReportsTable({ month, reports }: ComponentProps): JSX.Element {
                 <td>
                   <input
                     type="text"
-                    className="input input-bordered input-md w-full"
+                    className="input input-md input-bordered w-full"
                     {...register(`reports.${index}.remarks`)}
                     onBlur={(): void => handleRemarks(index)}
                   />

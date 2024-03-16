@@ -2,6 +2,7 @@ import fs                                                           from 'fs-ext
 import type { BrowserWindow, MessageBoxOptions, OpenDialogOptions } from 'electron'
 import { app, dialog }                                              from 'electron'
 import log                                                          from 'electron-log'
+import isDev                                                        from 'electron-is-dev'
 import i18n                                                         from '../../localization/i18next.config'
 
 interface Backup {
@@ -10,10 +11,10 @@ interface Backup {
   backup: Array<{ [key: string]: string }>
 }
 
-export default async function dbRestore(mainWindow: BrowserWindow, isDevelopment: boolean): Promise<void> {
+export default async function dbRestore(mainWindow: BrowserWindow): Promise<void> {
   mainWindow?.webContents.send('show-spinner', { status: true })
 
-  const userDataPath  = isDevelopment ? './db' : `${app.getPath('userData')}/db`
+  const userDataPath  = isDev ? './db' : `${app.getPath('userData')}/db`
   let confirmedBackup = true
 
   const options: OpenDialogOptions = {
