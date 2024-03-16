@@ -71,6 +71,7 @@
   "event.auxiliaryStop": "Slutar som kontinuerlig hjälppionjär",
   "event.reinstated": "Återupptagen",
   "event.selectDate": "Välj datum",
+  "event.selectEvent": "Välj händelse",
   "export.address": "Adress",
   "export.altogether": "Sammanlagt",
   "export.AUXILIARY": "Hjälppionjär",
