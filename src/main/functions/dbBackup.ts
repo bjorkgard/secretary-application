@@ -2,6 +2,7 @@ import fs                     from 'fs-extra'
 import type { BrowserWindow } from 'electron'
 import { app, dialog }        from 'electron'
 import log                    from 'electron-log'
+import isDev                  from 'electron-is-dev'
 import i18n                   from '../../localization/i18next.config'
 
 interface Backup {
@@ -10,14 +11,14 @@ interface Backup {
   backup: Array<{ [key: string]: string }>
 }
 
-export default async function dbBackup(mainWindow: BrowserWindow, isDevelopment: boolean): Promise<void> {
+export default async function dbBackup(mainWindow: BrowserWindow): Promise<void> {
   log.info('Backup start', new Date())
 
   mainWindow?.webContents.send('show-spinner', { status: true })
 
   const date         = new Date()
   const dateString   = date.toLocaleDateString('sv')
-  const userDataPath = isDevelopment ? './db' : `${app.getPath('userData')}/db`
+  const userDataPath = isDev ? './db' : `${app.getPath('userData')}/db`
 
   // TODO: store date in database
 
