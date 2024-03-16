@@ -38,8 +38,6 @@ export function useUmamiEventTrack(): (
       if (commonFields === null)
         throw new Error('Not initialized')
 
-      // eslint-disable-next-line no-console
-      console.log(commonFields)
       /*
         EVENT
 
