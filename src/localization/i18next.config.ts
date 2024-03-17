@@ -1,8 +1,11 @@
 import path           from 'node:path'
 import i18n           from 'i18next'
 import i18nextBackend from 'i18next-fs-backend'
-import isDev          from 'electron-is-dev'
 import whitelist      from './whitelist'
+
+const isDev
+  // eslint-disable-next-line node/prefer-global/process
+  = import.meta.env.MAIN_VITE_NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true'
 
 const i18nextOptions = {
   debug:   false,
