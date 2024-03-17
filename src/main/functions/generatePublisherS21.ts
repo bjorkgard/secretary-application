@@ -3,10 +3,10 @@ import type { PDFCheckBox, PDFFont, PDFTextField } from 'pdf-lib'
 import { PDFDocument }                             from 'pdf-lib'
 import fontkit                                     from '@pdf-lib/fontkit'
 import fs                                          from 'fs-extra'
-import isDev                                       from 'electron-is-dev'
 import log                                         from 'electron-log'
 import TemplateService                             from '../services/templateService'
 import type { PublisherModel }                     from '../../types/models'
+import isDev                                       from './isDev'
 
 const templatesService = new TemplateService()
 
@@ -18,7 +18,7 @@ export default async function generatePublisherS21(
   // eslint-disable-next-line node/prefer-global/buffer
   const fontBytes = await new Promise((resolve: (data: null | Buffer) => void) =>
     fs.readFile(
-      isDev
+      isDev()
         ? './resources/fonts/NotoSans-Regular.ttf'
         // eslint-disable-next-line node/prefer-global/process
         : path.join(process.resourcesPath, 'fonts', 'NotoSans-Regular.ttf'),

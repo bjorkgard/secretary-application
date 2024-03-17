@@ -2,8 +2,8 @@ import fs                     from 'fs-extra'
 import type { BrowserWindow } from 'electron'
 import { app, dialog }        from 'electron'
 import log                    from 'electron-log'
-import isDev                  from 'electron-is-dev'
 import i18n                   from '../../localization/i18next.config'
+import isDev                  from './isDev'
 
 interface Backup {
   date:   Date
@@ -18,7 +18,7 @@ export default async function dbBackup(mainWindow: BrowserWindow): Promise<void>
 
   const date         = new Date()
   const dateString   = date.toLocaleDateString('sv')
-  const userDataPath = isDev ? './db' : `${app.getPath('userData')}/db`
+  const userDataPath = isDev() ? './db' : `${app.getPath('userData')}/db`
 
   // TODO: store date in database
 
