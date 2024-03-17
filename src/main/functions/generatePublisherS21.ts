@@ -3,7 +3,6 @@ import type { PDFCheckBox, PDFFont, PDFTextField } from 'pdf-lib'
 import { PDFDocument }                             from 'pdf-lib'
 import fontkit                                     from '@pdf-lib/fontkit'
 import fs                                          from 'fs-extra'
-import log                                         from 'electron-log'
 import TemplateService                             from '../services/templateService'
 import type { PublisherModel }                     from '../../types/models'
 import isDev                                       from './isDev'
@@ -75,33 +74,49 @@ export default async function generatePublisherS21(
     )
     serviceYearField.setText(serviceYear.toString())
 
-    if (publisher.gender === 'MAN')
+    if (publisher.gender === 'MAN') {
       manCheckbox.check()
-
-    else
+      manCheckbox.defaultUpdateAppearances()
+    }
+    else {
       womanCheckbox.check()
+      womanCheckbox.defaultUpdateAppearances()
+    }
 
-    if (publisher.hope === 'OTHER_SHEEP')
+    if (publisher.hope === 'OTHER_SHEEP') {
       otherSheepCheckbox.check()
-
-    else
+      otherSheepCheckbox.defaultUpdateAppearances()
+    }
+    else {
       anointedCheckbox.check()
+      anointedCheckbox.defaultUpdateAppearances()
+    }
 
     publisher.appointments.forEach((appointment) => {
-      if (appointment.type === 'ELDER')
+      if (appointment.type === 'ELDER') {
         elderCheckbox.check()
+        elderCheckbox.defaultUpdateAppearances()
+      }
 
-      if (appointment.type === 'MINISTERIAL_SERVANT')
+      if (appointment.type === 'MINISTERIAL_SERVANT') {
         ministerialServantCheckbox.check()
+        ministerialServantCheckbox.defaultUpdateAppearances()
+      }
 
-      if (appointment.type === 'PIONEER')
+      if (appointment.type === 'PIONEER') {
         pioneerCheckbox.check()
+        pioneerCheckbox.defaultUpdateAppearances()
+      }
 
-      if (appointment.type === 'SPECIAL_PIONEER')
+      if (appointment.type === 'SPECIAL_PIONEER') {
         specialPioneerCheckbox.check()
+        specialPioneerCheckbox.defaultUpdateAppearances()
+      }
 
-      if (appointment.type === 'MISSIONARY')
+      if (appointment.type === 'MISSIONARY') {
         missionaryCheckbox.check()
+        missionaryCheckbox.defaultUpdateAppearances()
+      }
     })
 
     let hasBeenInServiceCheckbox: PDFCheckBox,
@@ -121,12 +136,16 @@ export default async function generatePublisherS21(
           hoursField               = form.getTextField('904_20_S21_Value')
           remarksField             = form.getTextField('905_20_Text_SanSerif')
 
-          if (report.hasBeenInService)
+          if (report.hasBeenInService) {
             hasBeenInServiceCheckbox.check()
+            hasBeenInServiceCheckbox.defaultUpdateAppearances()
+          }
 
           studiesField.setText(report.studies?.toString() || '')
-          if (report.auxiliary)
+          if (report.auxiliary) {
             auxiliaryCheckbox.check()
+            auxiliaryCheckbox.defaultUpdateAppearances()
+          }
 
           hoursField.setText(report.hours?.toString() || '')
           remarksField.setText(report.remarks?.toString() || '')
@@ -139,12 +158,16 @@ export default async function generatePublisherS21(
           hoursField               = form.getTextField('904_21_S21_Value')
           remarksField             = form.getTextField('905_21_Text_SanSerif')
 
-          if (report.hasBeenInService)
+          if (report.hasBeenInService) {
             hasBeenInServiceCheckbox.check()
+            hasBeenInServiceCheckbox.defaultUpdateAppearances()
+          }
 
           studiesField.setText(report.studies?.toString() || '')
-          if (report.auxiliary)
+          if (report.auxiliary) {
             auxiliaryCheckbox.check()
+            auxiliaryCheckbox.defaultUpdateAppearances()
+          }
 
           hoursField.setText(report.hours?.toString() || '')
           remarksField.setText(report.remarks?.toString() || '')
@@ -157,12 +180,16 @@ export default async function generatePublisherS21(
           hoursField               = form.getTextField('904_22_S21_Value')
           remarksField             = form.getTextField('905_22_Text_SanSerif')
 
-          if (report.hasBeenInService)
+          if (report.hasBeenInService) {
             hasBeenInServiceCheckbox.check()
+            hasBeenInServiceCheckbox.defaultUpdateAppearances()
+          }
 
           studiesField.setText(report.studies?.toString() || '')
-          if (report.auxiliary)
+          if (report.auxiliary) {
             auxiliaryCheckbox.check()
+            auxiliaryCheckbox.defaultUpdateAppearances()
+          }
 
           hoursField.setText(report.hours?.toString() || '')
           remarksField.setText(report.remarks?.toString() || '')
@@ -175,12 +202,16 @@ export default async function generatePublisherS21(
           hoursField               = form.getTextField('904_23_S21_Value')
           remarksField             = form.getTextField('905_23_Text_SanSerif')
 
-          if (report.hasBeenInService)
+          if (report.hasBeenInService) {
             hasBeenInServiceCheckbox.check()
+            hasBeenInServiceCheckbox.defaultUpdateAppearances()
+          }
 
           studiesField.setText(report.studies?.toString() || '')
-          if (report.auxiliary)
+          if (report.auxiliary) {
             auxiliaryCheckbox.check()
+            auxiliaryCheckbox.defaultUpdateAppearances()
+          }
 
           hoursField.setText(report.hours?.toString() || '')
           remarksField.setText(report.remarks?.toString() || '')
@@ -193,12 +224,16 @@ export default async function generatePublisherS21(
           hoursField               = form.getTextField('904_24_S21_Value')
           remarksField             = form.getTextField('905_24_Text_SanSerif')
 
-          if (report.hasBeenInService)
+          if (report.hasBeenInService) {
             hasBeenInServiceCheckbox.check()
+            hasBeenInServiceCheckbox.defaultUpdateAppearances()
+          }
 
           studiesField.setText(report.studies?.toString() || '')
-          if (report.auxiliary)
+          if (report.auxiliary) {
             auxiliaryCheckbox.check()
+            auxiliaryCheckbox.defaultUpdateAppearances()
+          }
 
           hoursField.setText(report.hours?.toString() || '')
           remarksField.setText(report.remarks?.toString() || '')
@@ -211,12 +246,16 @@ export default async function generatePublisherS21(
           hoursField               = form.getTextField('904_25_S21_Value')
           remarksField             = form.getTextField('905_25_Text_SanSerif')
 
-          if (report.hasBeenInService)
+          if (report.hasBeenInService) {
             hasBeenInServiceCheckbox.check()
+            hasBeenInServiceCheckbox.defaultUpdateAppearances()
+          }
 
           studiesField.setText(report.studies?.toString() || '')
-          if (report.auxiliary)
+          if (report.auxiliary) {
             auxiliaryCheckbox.check()
+            auxiliaryCheckbox.defaultUpdateAppearances()
+          }
 
           hoursField.setText(report.hours?.toString() || '')
           remarksField.setText(report.remarks?.toString() || '')
@@ -229,12 +268,16 @@ export default async function generatePublisherS21(
           hoursField               = form.getTextField('904_26_S21_Value')
           remarksField             = form.getTextField('905_26_Text_SanSerif')
 
-          if (report.hasBeenInService)
+          if (report.hasBeenInService) {
             hasBeenInServiceCheckbox.check()
+            hasBeenInServiceCheckbox.defaultUpdateAppearances()
+          }
 
           studiesField.setText(report.studies?.toString() || '')
-          if (report.auxiliary)
+          if (report.auxiliary) {
             auxiliaryCheckbox.check()
+            auxiliaryCheckbox.defaultUpdateAppearances()
+          }
 
           hoursField.setText(report.hours?.toString() || '')
           remarksField.setText(report.remarks?.toString() || '')
@@ -247,12 +290,16 @@ export default async function generatePublisherS21(
           hoursField               = form.getTextField('904_27_S21_Value')
           remarksField             = form.getTextField('905_27_Text_SanSerif')
 
-          if (report.hasBeenInService)
+          if (report.hasBeenInService) {
             hasBeenInServiceCheckbox.check()
+            hasBeenInServiceCheckbox.defaultUpdateAppearances()
+          }
 
           studiesField.setText(report.studies?.toString() || '')
-          if (report.auxiliary)
+          if (report.auxiliary) {
             auxiliaryCheckbox.check()
+            auxiliaryCheckbox.defaultUpdateAppearances()
+          }
 
           hoursField.setText(report.hours?.toString() || '')
           remarksField.setText(report.remarks?.toString() || '')
@@ -265,12 +312,16 @@ export default async function generatePublisherS21(
           hoursField               = form.getTextField('904_28_S21_Value')
           remarksField             = form.getTextField('905_28_Text_SanSerif')
 
-          if (report.hasBeenInService)
+          if (report.hasBeenInService) {
             hasBeenInServiceCheckbox.check()
+            hasBeenInServiceCheckbox.defaultUpdateAppearances()
+          }
 
           studiesField.setText(report.studies?.toString() || '')
-          if (report.auxiliary)
+          if (report.auxiliary) {
             auxiliaryCheckbox.check()
+            auxiliaryCheckbox.defaultUpdateAppearances()
+          }
 
           hoursField.setText(report.hours?.toString() || '')
           remarksField.setText(report.remarks?.toString() || '')
@@ -283,12 +334,16 @@ export default async function generatePublisherS21(
           hoursField               = form.getTextField('904_29_S21_Value')
           remarksField             = form.getTextField('905_29_Text_SanSerif')
 
-          if (report.hasBeenInService)
+          if (report.hasBeenInService) {
             hasBeenInServiceCheckbox.check()
+            hasBeenInServiceCheckbox.defaultUpdateAppearances()
+          }
 
           studiesField.setText(report.studies?.toString() || '')
-          if (report.auxiliary)
+          if (report.auxiliary) {
             auxiliaryCheckbox.check()
+            auxiliaryCheckbox.defaultUpdateAppearances()
+          }
 
           hoursField.setText(report.hours?.toString() || '')
           remarksField.setText(report.remarks?.toString() || '')
@@ -301,12 +356,16 @@ export default async function generatePublisherS21(
           hoursField               = form.getTextField('904_30_S21_Value')
           remarksField             = form.getTextField('905_30_Text_SanSerif')
 
-          if (report.hasBeenInService)
+          if (report.hasBeenInService) {
             hasBeenInServiceCheckbox.check()
+            hasBeenInServiceCheckbox.defaultUpdateAppearances()
+          }
 
           studiesField.setText(report.studies?.toString() || '')
-          if (report.auxiliary)
+          if (report.auxiliary) {
             auxiliaryCheckbox.check()
+            auxiliaryCheckbox.defaultUpdateAppearances()
+          }
 
           hoursField.setText(report.hours?.toString() || '')
           remarksField.setText(report.remarks?.toString() || '')
@@ -319,12 +378,16 @@ export default async function generatePublisherS21(
           hoursField               = form.getTextField('904_31_S21_Value')
           remarksField             = form.getTextField('905_31_Text_SanSerif')
 
-          if (report.hasBeenInService)
+          if (report.hasBeenInService) {
             hasBeenInServiceCheckbox.check()
+            hasBeenInServiceCheckbox.defaultUpdateAppearances()
+          }
 
           studiesField.setText(report.studies?.toString() || '')
-          if (report.auxiliary)
+          if (report.auxiliary) {
             auxiliaryCheckbox.check()
+            auxiliaryCheckbox.defaultUpdateAppearances()
+          }
 
           hoursField.setText(report.hours?.toString() || '')
           remarksField.setText(report.remarks?.toString() || '')
@@ -338,9 +401,8 @@ export default async function generatePublisherS21(
 
     sumHoursField.setText(sumHours > 0 ? sumHours.toString() : '')
 
-    log.info('flatten', flatten)
-    // if (flatten)
-    //  form.flatten({ updateFieldAppearances: false })
+    if (flatten)
+      form.flatten({ updateFieldAppearances: true })
 
     return await pdfDoc.save()
   }
