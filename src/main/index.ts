@@ -53,7 +53,8 @@ import {
   storeEvent,
   updateSettings,
 } from './functions'
-import getServiceYear from './utils/getServiceYear'
+import getServiceYear       from './utils/getServiceYear'
+import ImportantDateService from './services/importantDateService'
 
 Bugsnag.start({
   apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
@@ -73,6 +74,7 @@ const settingsService        = new SettingsService()
 const taskService            = new TaskService()
 const auxiliaryService       = new AuxiliaryService()
 const templateService        = new TemplateService()
+const importantDateService   = new ImportantDateService()
 
 const isDebug
   // eslint-disable-next-line node/prefer-global/process
@@ -751,6 +753,7 @@ ipcMain.on('generate-backup', async () => {
   if (!mainWindow)
     return
 
+  importantDateService.upsert({ type: 'BACKUP' })
   dbBackup(mainWindow)
 })
 
@@ -759,6 +762,15 @@ ipcMain.on('restore-backup', async () => {
     return
 
   dbRestore(mainWindow)
+})
+
+ipcMain.handle('get-latest-backup', async () => {
+  if (!mainWindow)
+    return
+
+  const date = await importantDateService.findByType('BACKUP')
+
+  return date
 })
 
 updateElectronApp()
