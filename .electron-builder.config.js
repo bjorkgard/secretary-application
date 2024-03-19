@@ -44,7 +44,7 @@ const config = {
     description: 'An open source application to help the secretary in the congregation.',
   },
   mac: {
-    icon:                'build/icons/mac/icon.icns',
+    icon:                './build/icons/mac/icon.icns',
     hardenedRuntime:     true,
     gatekeeperAssess:    false,
     mergeASARs:          false,
@@ -55,13 +55,13 @@ const config = {
     publish:             'github',
   },
   linux: {
-    icon:     'build/icons/png/512x512.png',
+    icon:     './build/icons/linux/1024x1024.png',
     category: 'Utility',
     target:   ['deb', 'AppImage'],
     publish:  'github',
   },
   win: {
-    icon:   'build/icons/win/icon.ico',
+    icon:   './build/icons/win/icon.ico',
     target: [
       {
         target: 'nsis',

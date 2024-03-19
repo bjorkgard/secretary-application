@@ -1,10 +1,10 @@
-import { useEffect }                              from 'react'
-import { useForm, useWatch }                      from 'react-hook-form'
-import { useTranslation }                         from 'react-i18next'
-import { TrashIcon, UserMinusIcon, UserPlusIcon } from '@heroicons/react/24/outline'
-import type { PublisherModel }                    from 'src/types/models'
-import { Modal }                                  from '@renderer/components/Modal'
-import { Field }                                  from '@renderer/components/Field'
+import { useEffect }           from 'react'
+import { useForm }             from 'react-hook-form'
+import { useTranslation }      from 'react-i18next'
+import type { PublisherModel } from 'src/types/models'
+import { Modal }               from '@renderer/components/Modal'
+import { Field }               from '@renderer/components/Field'
+import classNames              from '@renderer/utils/classNames'
 
 interface EventModalProps {
   open:      boolean
@@ -21,10 +21,8 @@ export type HeroIcon = React.ComponentType<
 >
 
 interface Event {
-  name:      string
-  shortcut?: string
-  command:   string
-  icon:      HeroIcon
+  name:    string
+  command: string
 }
 
 interface EventForm {
@@ -37,11 +35,17 @@ export default function EventModal(props: EventModalProps): JSX.Element {
   const { t } = useTranslation()
 
   const events: Event[] = [
-    { name: t('event.deceased'), icon: UserMinusIcon, command: 'DECEASED' },
-    { name: t('event.reinstated'), icon: UserPlusIcon, command: 'REINSTATED' },
-    { name: t('event.disassociation'), icon: UserMinusIcon, command: 'DISASSOCIATION' },
-    { name: t('event.disfellowshipped'), icon: UserMinusIcon, command: 'DISFELLOWSHIPPED' },
-    { name: t('event.delete'), icon: TrashIcon, command: 'DELETE' },
+    { name: t('event.movedIn'), command: 'MOVED_IN' },
+    { name: t('event.movedOut'), command: 'MOVED_OUT' },
+    { name: t('event.auxiliaryStart'), command: 'AUXILIARY_START' },
+    { name: t('event.pioneerStart'), command: 'PIONEER_START' },
+    { name: t('event.auxiliaryStop'), command: 'AUXILIARY_STOP' },
+    { name: t('event.pioneerStop'), command: 'PIONEER_STOP' },
+    { name: t('event.deceased'), command: 'DECEASED' },
+    { name: t('event.reinstated'), command: 'REINSTATED' },
+    { name: t('event.disassociation'), command: 'DISASSOCIATION' },
+    { name: t('event.disfellowshipped'), command: 'DISFELLOWSHIPPED' },
+    { name: t('event.delete'), command: 'DELETE' },
   ]
 
   const storeEvent = (event: EventForm): void => {
@@ -55,7 +59,6 @@ export default function EventModal(props: EventModalProps): JSX.Element {
     register,
     setValue,
     formState: { errors },
-    control,
   } = useForm<EventForm>({
     defaultValues: {
       date:        '',
@@ -63,18 +66,13 @@ export default function EventModal(props: EventModalProps): JSX.Element {
       command:     '',
     },
   })
-  const command = useWatch({ control, name: 'command' })
+  // const command = useWatch({ control, name: 'command' })
 
   useEffect(() => {
     setValue('date', new Date().toISOString().slice(0, 10))
     setValue('publisherId', props.publisher?._id || '')
-    setValue('command', '')
+    // setValue('command', selectedEvent?.command || '')
   }, [props.publisher])
-
-  useEffect(() => {
-    if (command && command !== '')
-      handleSubmit(storeEvent)()
-  }, [command])
 
   return (
     <Modal
@@ -82,7 +80,7 @@ export default function EventModal(props: EventModalProps): JSX.Element {
       onClose={() => props.setOpen(false)}
       title={`${props.publisher?.firstname} ${props.publisher?.lastname}`}
     >
-      <div className="relative">
+      <form className="relative" onSubmit={handleSubmit(storeEvent)}>
         <p className="text-sm">{t('event.description')}</p>
 
         <input type="hidden" {...register('publisherId')} />
@@ -95,29 +93,24 @@ export default function EventModal(props: EventModalProps): JSX.Element {
           />
         </Field>
 
-        <ul className="p-2 text-sm text-gray-700 dark:text-slate-400">
-          <h2 className="sr-only">Quick actions</h2>
-          {events.map(event => (
-            <li
-              key={event.command}
-              onClick={() => setValue('command', event.command)}
-              className="group -mx-3 flex cursor-default select-none items-center rounded-md px-3 py-2 hover:bg-gray-900/5 hover:text-gray-900 dark:hover:bg-slate-800 dark:hover:text-white"
-            >
-              <event.icon
-                className="h-6 w-6 flex-none text-gray-900 text-opacity-40 group-hover:text-opacity-100 dark:text-slate-500 dark:text-opacity-100 dark:group-hover:!text-white"
-                aria-hidden="true"
-              />
-              <span className="ml-3 flex-auto truncate">{event.name}</span>
-              {event.shortcut && (
-                <span className="ml-3 flex-none text-xs font-semibold text-gray-500 dark:text-slate-400">
-                  <kbd className="kbd mr-1">⌘</kbd>
-                  <kbd className="kbd">{event.shortcut}</kbd>
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+        <Field label={t('event.selectEvent')} error={errors.command?.message}>
+          <select
+            className={classNames(
+              errors.command ? 'select-error' : '',
+              'select select-bordered w-full',
+            )}
+            {...register('command')}
+          >
+            {events.map(event => (
+              <option key={event.command} value={event.command}>{event.name}</option>
+            ))}
+          </select>
+        </Field>
+
+        <button type="submit" className="btn btn-primary mt-4 justify-items-end">
+          {t('button.save')}
+        </button>
+      </form>
     </Modal>
   )
 }

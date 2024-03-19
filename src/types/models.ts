@@ -157,6 +157,10 @@ export interface TaskModel extends Base {
   responsibilityId: string
 }
 
+export interface ImportantDateModel extends Base {
+  type: string
+}
+
 export interface ExportModel extends Base {
   name:   string
   format: string

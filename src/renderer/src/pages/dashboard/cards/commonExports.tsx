@@ -61,7 +61,7 @@ export default function CommonExports(): JSX.Element | null {
                               setReload(true)
                             }}
                           >
-                            <ArrowDownTrayIcon className="h-4 w-4" />
+                            <ArrowDownTrayIcon className="size-4" />
                           </button>
                         </div>
                       </td>

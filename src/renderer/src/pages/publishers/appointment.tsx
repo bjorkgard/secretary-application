@@ -277,12 +277,12 @@ export default function PublisherAppointmentForm(): JSX.Element {
               className="btn btn-accent"
               onClick={(): void => navigate(ROUTES.PUBLISHER_CONTACT_FORM)}
             >
-              <ChevronLeftIcon className="h-5 w-5" />
+              <ChevronLeftIcon className="size-5" />
               {t('button.back')}
             </button>
             <button className="btn btn-primary" type="submit">
               {t('button.next')}
-              <ChevronRightIcon className="h-5 w-5" />
+              <ChevronRightIcon className="size-5" />
             </button>
           </div>
         </div>

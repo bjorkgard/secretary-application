@@ -15,7 +15,7 @@ const serviceMonthService = new ServiceMonthService()
 const serviceYearService  = new ServiceYearService()
 
 async function storeEvent(event: EventProps): Promise<void> {
-  const publisher             = await publisherService.findOneById(event.publisherId)
+  let publisher               = await publisherService.findOneById(event.publisherId)
   const splitDate             = event.date.split('-')
   let information             = ''
   let addEventToServiceYear   = true
@@ -23,6 +23,49 @@ async function storeEvent(event: EventProps): Promise<void> {
   let removeFromActiveReports = false
 
   switch (event.command) {
+    case 'AUXILIARY_START':
+      if (!publisher.appointments.find(appointment => appointment.type === 'PIONEER' || appointment.type === 'AUXILIARY')) {
+        information = `${publisher?.firstname} ${publisher?.lastname}`
+        publisher   = { ...publisher, appointments: publisher.appointments.concat({ type: 'AUXILIARY', date: event.date }) }
+        publisherService.update(event.publisherId, publisher)
+      }
+      else {
+        addEventToServiceYear = false
+        addEventToPublisher   = false
+      }
+      break
+    case 'AUXILIARY_STOP':
+      information = `${publisher?.firstname} ${publisher?.lastname}`
+      publisher   = { ...publisher, appointments: publisher?.appointments.filter(appointment => appointment.type !== 'AUXILIARY') }
+      publisherService.update(event.publisherId, publisher)
+      break
+    case 'PIONEER_START':
+      if (!publisher.appointments.find(appointment => appointment.type === 'PIONEER')) {
+        information = `${publisher?.firstname} ${publisher?.lastname}`
+        // remove auxiliary appointments
+        const appointments = publisher.appointments.filter(appointment => appointment.type !== 'AUXILIARY')
+        publisher          = { ...publisher, appointments: appointments.concat({ type: 'PIONEER', date: event.date }) }
+        publisherService.update(event.publisherId, publisher)
+      }
+      else {
+        addEventToServiceYear = false
+        addEventToPublisher   = false
+      }
+      break
+    case 'PIONEER_STOP':
+      information = `${publisher?.firstname} ${publisher?.lastname}`
+      publisher   = { ...publisher, appointments: publisher?.appointments.filter(appointment => appointment.type !== 'PIONEER') }
+      publisherService.update(event.publisherId, publisher)
+      break
+    case 'MOVED_IN':
+      information = `${publisher?.firstname} ${publisher?.lastname}`
+      break
+    case 'MOVED_OUT':
+      information = `${publisher?.firstname} ${publisher?.lastname}`
+      publisherService.delete(event.publisherId)
+      addEventToPublisher     = false
+      removeFromActiveReports = true
+      break
     case 'DECEASED':
       information = `${publisher?.firstname} ${publisher?.lastname}`
       publisherService.delete(event.publisherId)

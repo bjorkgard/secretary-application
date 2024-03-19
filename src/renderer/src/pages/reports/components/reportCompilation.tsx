@@ -158,7 +158,7 @@ export default function ReportsComplilation({
                     className="tooltip ml-2"
                     data-tip={t('label.missingReports', { count: missingReports })}
                   >
-                    <ExclamationTriangleIcon className="h-5 w-5 text-red-500" />
+                    <ExclamationTriangleIcon className="size-5 text-red-500" />
                   </div>
                   )
                 : null}

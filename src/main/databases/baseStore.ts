@@ -7,6 +7,7 @@ import type {
   Auxiliary,
   CircuitOverseer,
   Export,
+  ImportantDate,
   Publisher,
   Responsibility,
   ServiceGroup,
@@ -24,6 +25,7 @@ export default class BaseStore<
   T extends
   | Auxiliary
   | CircuitOverseer
+  | ImportantDate
   | Export
   | Publisher
   | Responsibility

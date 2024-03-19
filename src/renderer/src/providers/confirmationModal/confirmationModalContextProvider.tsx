@@ -104,9 +104,9 @@ const ConfirmationModalContextProvider: React.FC<ConfirmationModalContextProvide
                 >
                   <Dialog.Panel className="relative overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6 dark:bg-slate-900">
                     <div className="sm:flex sm:items-start">
-                      <div className="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10 dark:bg-red-600">
+                      <div className="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10 dark:bg-red-600">
                         <ExclamationTriangleIcon
-                          className="h-6 w-6 text-red-600 dark:text-red-200"
+                          className="size-6 text-red-600 dark:text-red-200"
                           aria-hidden="true"
                         />
                       </div>

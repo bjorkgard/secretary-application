@@ -57,7 +57,7 @@ export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps
               <input
                 {...useFormAttributes.register('meetings.midweek.0')}
                 type="number"
-                className="input input-bordered input-md w-full"
+                className="input input-md input-bordered w-full"
                 min={0}
               />
             </td>
@@ -65,7 +65,7 @@ export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps
               <input
                 {...useFormAttributes.register('meetings.midweek.1')}
                 type="number"
-                className="input input-bordered input-md w-full"
+                className="input input-md input-bordered w-full"
                 min={0}
               />
             </td>
@@ -73,7 +73,7 @@ export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps
               <input
                 {...useFormAttributes.register('meetings.midweek.2')}
                 type="number"
-                className="input input-bordered input-md w-full"
+                className="input input-md input-bordered w-full"
                 min={0}
               />
             </td>
@@ -81,7 +81,7 @@ export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps
               <input
                 {...useFormAttributes.register('meetings.midweek.3')}
                 type="number"
-                className="input input-bordered input-md w-full"
+                className="input input-md input-bordered w-full"
                 min={0}
               />
             </td>
@@ -89,7 +89,7 @@ export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps
               <input
                 {...useFormAttributes.register('meetings.midweek.4')}
                 type="number"
-                className="input input-bordered input-md w-full"
+                className="input input-md input-bordered w-full"
                 min={0}
               />
             </td>
@@ -100,7 +100,7 @@ export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps
               <input
                 {...useFormAttributes.register('meetings.weekend.0')}
                 type="number"
-                className="input input-bordered input-md w-full"
+                className="input input-md input-bordered w-full"
                 min={0}
               />
             </td>
@@ -108,7 +108,7 @@ export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps
               <input
                 {...useFormAttributes.register('meetings.weekend.1')}
                 type="number"
-                className="input input-bordered input-md w-full"
+                className="input input-md input-bordered w-full"
                 min={0}
               />
             </td>
@@ -116,7 +116,7 @@ export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps
               <input
                 {...useFormAttributes.register('meetings.weekend.2')}
                 type="number"
-                className="input input-bordered input-md w-full"
+                className="input input-md input-bordered w-full"
                 min={0}
               />
             </td>
@@ -124,7 +124,7 @@ export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps
               <input
                 {...useFormAttributes.register('meetings.weekend.3')}
                 type="number"
-                className="input input-bordered input-md w-full"
+                className="input input-md input-bordered w-full"
                 min={0}
               />
             </td>
@@ -132,7 +132,7 @@ export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps
               <input
                 {...useFormAttributes.register('meetings.weekend.4')}
                 type="number"
-                className="input input-bordered input-md w-full"
+                className="input input-md input-bordered w-full"
                 min={0}
               />
             </td>
