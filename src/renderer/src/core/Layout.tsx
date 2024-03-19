@@ -1,10 +1,11 @@
-import { Fragment, useState }             from 'react'
-import { Outlet }                         from 'react-router-dom'
-import { Dialog, Transition }             from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import classNames                         from '@renderer/utils/classNames'
-import { OnlineIcon }                     from '@renderer/components/OnlineIcon'
-import { Sidebar, SidebarSmall }          from './Sidebar'
+import { Fragment, useState }    from 'react'
+import { Outlet }                from 'react-router-dom'
+import { Dialog, Transition }    from '@headlessui/react'
+import { Bars3Icon, XMarkIcon }  from '@heroicons/react/24/outline'
+import classNames                from '@renderer/utils/classNames'
+import { OnlineIcon }            from '@renderer/components/OnlineIcon'
+import { WarningIcon }           from '@renderer/components/WarningIcon'
+import { Sidebar, SidebarSmall } from './Sidebar'
 
 export default function Layout(): JSX.Element {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -99,13 +100,7 @@ export default function Layout(): JSX.Element {
           <div className="flex flex-1 justify-end gap-x-4 lg:gap-x-6">
 
             <div className="flex items-center gap-x-4 lg:gap-x-6">
-              <button
-                type="button"
-                className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500 dark:text-slate-400 dark:hover:text-slate-500"
-              >
-                <span className="sr-only">View notifications</span>
-                <BellIcon className="size-6" aria-hidden="true" />
-              </button>
+              <WarningIcon />
               <OnlineIcon />
             </div>
           </div>

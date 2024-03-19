@@ -3,6 +3,7 @@ import type {
   CircuitOverseerModel,
   ExportModel,
   History,
+  ImportantDateModel,
   Meeting,
   PublisherModel,
   Report,
@@ -73,6 +74,13 @@ export interface TaskService extends BaseService<TaskModel> {
   find:   () => Promise<TaskModel[]>
   upsert: (data: TaskModel) => Promise<number>
   remove: (data: TaskModel) => Promise<number>
+}
+
+export interface ImportantDateService extends BaseService<ImportantDateModel> {
+  find:       () => Promise<ImportantDateModel[]>
+  findByType: (type: string) => Promise<ImportantDateModel | null>
+  upsert:     (data: ImportantDateModel) => Promise<number>
+  remove:     (data: ImportantDateModel) => Promise<number>
 }
 
 export interface TemplateService extends BaseService<TemplateModel> {

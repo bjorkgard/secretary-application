@@ -147,6 +147,10 @@ export interface Task extends Base {
   default:          boolean
 }
 
+export interface ImportantDate extends Base {
+  type: string
+}
+
 export interface Export extends Base {
   name:   string
   format: string
@@ -493,6 +497,18 @@ export const TaskSchema: JSONSchemaType<Task> = {
     updatedAt:        { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },
   required:             ['name', 'responsibilityId', 'default'],
+  additionalProperties: false,
+}
+
+export const ImportantDateSchema: JSONSchemaType<ImportantDate> = {
+  type:       'object',
+  properties: {
+    _id:       { type: 'string', nullable: true },
+    type:      { type: 'string' },
+    createdAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
+    updatedAt: { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
+  },
+  required:             ['type'],
   additionalProperties: false,
 }
 
