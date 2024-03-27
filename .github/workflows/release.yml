@@ -142,6 +142,8 @@ jobs:
           RENDERER_VITE_BUGSNAG: ${{secrets.RENDERER_VITE_BUGSNAG}}
           MAIN_VITE_NODE_ENV: production
           RENDERER_VITE_NODE_ENV: production
+          APPLEID: ${{secrets.APPLEID}}
+          APPLEIDPASS: ${{secrets.APPLEIDPASS}}
         run: npm run release
 
       - name: Delete tag for failed release
