@@ -38,7 +38,7 @@ export default function Settings(): JSX.Element {
   })
 
   const onSubmit: SubmitHandler<SettingsModel> = (data): void => {
-    umamiTrack('update-settings', window.location.pathname)
+    umamiTrack('update-settings', 'settings')
     window.electron.ipcRenderer.invoke('update-settings', data).then(() => {
       settingsState.setSettings(data)
 
@@ -206,7 +206,7 @@ export default function Settings(): JSX.Element {
                             remove(index)
                           }}
                         >
-                          <TrashIcon className="h-4 w-4" />
+                          <TrashIcon className="size-4" />
                         </button>
                       </div>
                     </div>

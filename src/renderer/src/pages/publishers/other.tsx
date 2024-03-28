@@ -77,7 +77,7 @@ export default function PublisherOtherForm(): JSX.Element {
                 rows={5}
                 className={classNames(
                   errors.firstname ? 'textarea-error' : '',
-                  'textarea w-full textarea-bordered',
+                  'textarea w-full textarea-bordered dark:placeholder:text-slate-500',
                 )}
                 {...register('other')}
               />
@@ -89,7 +89,7 @@ export default function PublisherOtherForm(): JSX.Element {
               className="btn btn-secondary"
               onClick={(): void => navigate(ROUTES.PUBLISHER_APPOINTMENTS_FORM)}
             >
-              <ChevronLeftIcon className="h-5 w-5" />
+              <ChevronLeftIcon className="size-5" />
               {t('button.back')}
             </button>
             <button className="btn btn-primary" type="submit">

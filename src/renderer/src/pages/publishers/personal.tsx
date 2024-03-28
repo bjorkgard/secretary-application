@@ -82,7 +82,7 @@ export default function PublisherPersonalForm(): JSX.Element {
                 placeholder={t('label.firstname')}
                 className={classNames(
                   errors.firstname ? 'input-error' : '',
-                  'input w-full input-bordered',
+                  'input w-full input-bordered dark:placeholder:text-slate-500',
                 )}
                 {...register('firstname', {
                   required: t('errors.firstname.required'),
@@ -99,7 +99,7 @@ export default function PublisherPersonalForm(): JSX.Element {
                 placeholder={t('label.lastname')}
                 className={classNames(
                   errors.lastname ? 'input-error' : '',
-                  'input w-full input-bordered',
+                  'input w-full input-bordered dark:placeholder:text-slate-500',
                 )}
                 {...register('lastname', {
                   required: t('errors.lastname.required'),
@@ -117,7 +117,7 @@ export default function PublisherPersonalForm(): JSX.Element {
                 placeholder={t('label.birthday')}
                 className={classNames(
                   errors.birthday ? 'input-error' : '',
-                  'input w-full input-bordered',
+                  'input w-full input-bordered dark:placeholder:text-slate-500',
                 )}
                 {...register('birthday', { required: false })}
               />
@@ -167,7 +167,7 @@ export default function PublisherPersonalForm(): JSX.Element {
                 placeholder={t('label.baptised')}
                 className={classNames(
                   errors.baptised ? 'input-error' : '',
-                  'input w-full input-bordered',
+                  'input w-full input-bordered dark:placeholder:text-slate-500',
                 )}
               />
             </Field>
@@ -327,7 +327,7 @@ export default function PublisherPersonalForm(): JSX.Element {
             </button>
             <button className="btn btn-primary" type="submit">
               {t('button.next')}
-              <ChevronRightIcon className="h-5 w-5" />
+              <ChevronRightIcon className="size-5" />
             </button>
           </div>
         </div>

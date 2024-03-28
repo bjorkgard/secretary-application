@@ -152,7 +152,7 @@ export default function PublisherContactForm(): JSX.Element {
                 placeholder={t('label.email')}
                 className={classNames(
                   errors.email ? 'input-error' : '',
-                  'input input-bordered w-full',
+                  'input input-bordered w-full dark:placeholder:text-slate-500',
                 )}
                 {...register('email')}
               />
@@ -219,7 +219,7 @@ export default function PublisherContactForm(): JSX.Element {
                 placeholder={t('label.address')}
                 className={classNames(
                   errors.address ? 'input-error' : '',
-                  'input w-full input-bordered',
+                  'input w-full input-bordered dark:placeholder:text-slate-500',
                 )}
                 {...register('address', {
                   required: {
@@ -240,7 +240,7 @@ export default function PublisherContactForm(): JSX.Element {
                 placeholder={t('label.zip')}
                 className={classNames(
                   errors.zip ? 'input-error' : '',
-                  'input w-full input-bordered',
+                  'input w-full input-bordered dark:placeholder:text-slate-500',
                 )}
                 {...register('zip', {
                   required: {
@@ -261,7 +261,7 @@ export default function PublisherContactForm(): JSX.Element {
                 placeholder={t('label.city')}
                 className={classNames(
                   errors.city ? 'input-error' : '',
-                  'input w-full input-bordered',
+                  'input w-full input-bordered dark:placeholder:text-slate-500',
                 )}
                 {...register('city', {
                   required: {
@@ -294,7 +294,7 @@ export default function PublisherContactForm(): JSX.Element {
                                 {...register(`children.${index}.name` as const, {
                                   required: t('errors.children.name.required'),
                                 })}
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full dark:placeholder:text-slate-500"
                               />
                             </Field>
                           </div>
@@ -303,7 +303,7 @@ export default function PublisherContactForm(): JSX.Element {
                               <input
                                 {...register(`children.${index}.birthday` as const)}
                                 type="date"
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full dark:placeholder:text-slate-500"
                               />
                             </Field>
                           </div>
@@ -315,7 +315,7 @@ export default function PublisherContactForm(): JSX.Element {
                                   remove(index)
                                 }}
                               >
-                                <TrashIcon className="h-4 w-4" />
+                                <TrashIcon className="size-4" />
                               </button>
                             </div>
                           </div>
@@ -348,7 +348,7 @@ export default function PublisherContactForm(): JSX.Element {
                   placeholder={t('label.name')}
                   className={classNames(
                     errors.emergencyContact?.name ? 'input-error' : '',
-                    'input w-full input-bordered',
+                    'input w-full input-bordered dark:placeholder:text-slate-500',
                   )}
                   {...register('emergencyContact.name')}
                 />
@@ -363,7 +363,7 @@ export default function PublisherContactForm(): JSX.Element {
                   placeholder={t('label.email')}
                   className={classNames(
                     errors.emergencyContact?.email ? 'input-error' : '',
-                    'input w-full input-bordered',
+                    'input w-full input-bordered dark:placeholder:text-slate-500',
                   )}
                   {...register('emergencyContact.email')}
                 />
@@ -404,12 +404,12 @@ export default function PublisherContactForm(): JSX.Element {
               className="btn btn-accent"
               onClick={(): void => navigate(ROUTES.PUBLISHER_PERSONAL_FORM)}
             >
-              <ChevronLeftIcon className="h-5 w-5" />
+              <ChevronLeftIcon className="size-5" />
               {t('button.back')}
             </button>
             <button className="btn btn-primary" type="submit">
               {t('button.next')}
-              <ChevronRightIcon className="h-5 w-5" />
+              <ChevronRightIcon className="size-5" />
             </button>
           </div>
         </div>

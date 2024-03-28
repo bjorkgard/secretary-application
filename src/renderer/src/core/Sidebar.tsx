@@ -1,10 +1,22 @@
-import { Disclosure }                                                                                              from '@headlessui/react'
-import { useLocation, useNavigate }                                                                                from 'react-router-dom'
-import { useTranslation }                                                                                          from 'react-i18next'
-import { BriefcaseIcon, Cog6ToothIcon, HomeIcon, UsersIcon }                                                       from '@heroicons/react/24/outline'
-import { ChevronRightIcon, DocumentTextIcon,  IdentificationIcon,  RectangleStackIcon,  UserGroupIcon,  UserIcon } from '@heroicons/react/20/solid'
-import ROUTES                                                                                                      from '../constants/routes.json'
-import classNames                                                                                                  from '../utils/classNames'
+import { Disclosure }               from '@headlessui/react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useTranslation }           from 'react-i18next'
+import {
+  BriefcaseIcon,
+  Cog6ToothIcon,
+  HomeIcon,
+  UsersIcon,
+} from '@heroicons/react/24/outline'
+import {
+  ChevronRightIcon,
+  DocumentTextIcon,
+  IdentificationIcon,
+  RectangleStackIcon,
+  UserGroupIcon,
+  UserIcon,
+} from '@heroicons/react/20/solid'
+import ROUTES     from '../constants/routes.json'
+import classNames from '../utils/classNames'
 
 const navigation = [
   { name: 'menu.dashboard', route: ROUTES.DASHBOARD, icon: HomeIcon },
@@ -83,7 +95,7 @@ export function SidebarSmall(): JSX.Element {
                 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full',
               )}
             >
-              <item.icon className="h-6 w-6 shrink-0 text-gray-400" aria-hidden="true" />
+              <item.icon className="size-6 shrink-0 text-gray-400" aria-hidden="true" />
               {t(item.name)}
               <ChevronRightIcon
                 className={classNames(
@@ -180,7 +192,7 @@ export function SidebarSmall(): JSX.Element {
           )}
         >
           <Cog6ToothIcon
-            className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-teal-600 dark:text-slate-400 dark:group-hover:text-white"
+            className="size-6 shrink-0 text-gray-400 group-hover:text-teal-600 dark:text-slate-400 dark:group-hover:text-white"
             aria-hidden="true"
           />
           {t('menu.settings')}
@@ -240,7 +252,7 @@ export function Sidebar(): JSX.Element {
                 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full',
               )}
             >
-              <item.icon className="h-6 w-6 shrink-0 text-gray-400" aria-hidden="true" />
+              <item.icon className="size-6 shrink-0 text-gray-400" aria-hidden="true" />
               {t(item.name)}
               <ChevronRightIcon
                 className={classNames(
@@ -337,7 +349,7 @@ export function Sidebar(): JSX.Element {
           )}
         >
           <Cog6ToothIcon
-            className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-teal-600 dark:text-slate-400 dark:group-hover:text-white"
+            className="size-6 shrink-0 text-gray-400 group-hover:text-teal-600 dark:text-slate-400 dark:group-hover:text-white"
             aria-hidden="true"
           />
           {t('menu.settings')}

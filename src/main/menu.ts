@@ -220,6 +220,12 @@ export default class MenuBuilder {
               },
             },
             {
+              label: i18n.t('mainMenu.exportServiceGroupRegisterCard'),
+              click: (): void => {
+                ipcMain.emit('export-register-card-servicegroup', null, { type: 'serviceGroup' })
+              },
+            },
+            {
               label: i18n.t('mainMenu.exportFullTimeRegisterCard'),
               click: (): void => {
                 ipcMain.emit('export-register-card', null, { type: 'fullTime' })
@@ -271,15 +277,13 @@ export default class MenuBuilder {
         {
           label: i18n.t('mainMenu.backup'),
           click: (): void => {
-            // eslint-disable-next-line no-alert
-            alert('Generate backup')
+            ipcMain.emit('generate-backup')
           },
         },
         {
           label: i18n.t('mainMenu.restore'),
           click: (): void => {
-            // eslint-disable-next-line no-alert
-            alert('Restore backup')
+            ipcMain.emit('restore-backup')
           },
         },
         { type: 'separator' },
@@ -453,15 +457,13 @@ export default class MenuBuilder {
           {
             label: i18n.t('mainMenu.backup'),
             click: (): void => {
-              // eslint-disable-next-line no-alert
-              alert('Generate backup')
+              ipcMain.emit('generate-backup')
             },
           },
           {
             label: i18n.t('mainMenu.restore'),
             click: (): void => {
-              // eslint-disable-next-line no-alert
-              alert('Restore backup')
+              ipcMain.emit('restore-backup')
             },
           },
           { type: 'separator' },
