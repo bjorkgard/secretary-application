@@ -110,7 +110,7 @@
     "semantic-release-export-data": "^1.0.1",
     "tailwindcss": "^3.4.3",
     "tailwindcss-debug-screens": "^2.2.1",
-    "typescript": "^5.4.3",
+    "typescript": "^5.4.4",
     "vite": "^5.2.8"
   },
   "config": {
