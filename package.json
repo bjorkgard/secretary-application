@@ -38,7 +38,7 @@
   "dependencies": {
     "@bugsnag/electron": "^7.22.3",
     "@bugsnag/plugin-react": "^7.19.0",
-    "@electron-toolkit/preload": "^3.0.0",
+    "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.3",
