@@ -36,7 +36,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@bugsnag/electron": "^7.22.3",
+    "@bugsnag/electron": "^7.22.7",
     "@bugsnag/plugin-react": "^7.19.0",
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
