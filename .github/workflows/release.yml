@@ -144,6 +144,8 @@ jobs:
           RENDERER_VITE_NODE_ENV: production
           APPLEID: ${{secrets.APPLEID}}
           APPLEIDPASS: ${{secrets.APPLEIDPASS}}
+          CSC_KEY_PASSWORD: ${{secrets.CERTIFICATE_PASSWORD}}
+          CSC_LINK: ${{secrets.CERTIFICATE_OSX_APPLICATION}}
         run: npm run release
 
       - name: Delete tag for failed release
