@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - beta
     paths-ignore:
       - '**.md'
       - .editorconfig
@@ -25,7 +24,7 @@ jobs:
   typechecking:
     uses: ./.github/workflows/typechecking.yml
   draft_release:
-    if: github.event_name == 'push' && (github.ref_name == 'beta' || github.ref_name == 'main')
+    if: github.event_name == 'push' && (github.ref_name == 'main')
     needs: [typechecking]
     uses: ./.github/workflows/release.yml
     secrets: inherit # <- THIS IS WHAT I AM TALKING ABOUT
