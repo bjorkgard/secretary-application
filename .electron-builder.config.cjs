@@ -91,7 +91,7 @@ const config = {
     ],
     sign: false,
   },
-  afterSign: './build/notarize.js',
+  afterSign: './build/notarize.cjs',
 }
 
 module.exports = config
