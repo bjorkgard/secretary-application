@@ -57,3 +57,4 @@ jobs:
           # notarizing MacOS builds
           apple_id: ${{ secrets.APPLEID }}
           apple_id_password: ${{ secrets.APPLEIDPASS }}
+          apple_id_team: ${{ secrets.APPLEIDTEAM }}

@@ -9,20 +9,23 @@ exports.default = async function notarizing(context) {
   if (electronPlatformName !== 'darwin')
     return
 
-  if (!process.env.APPLEID || !process.env.APPLEIDPASS || !process.env.TEAMID)
+  if (!process.env.APPLE_ID || !process.env.APPLE_ID_PASSWORD || !process.env.APPLE_ID_TEAM) {
+    console.error('Notarization failed: Environment variables not set.')
+    console.error('APPLE_ID', process.env.APPLE_ID)
+    console.error('APPLE_ID_PASSWORD', process.env.APPLE_ID_PASSWORD)
+    console.error('APPLE_ID_TEAM', process.env.APPLE_ID_TEAM)
     return
+  }
 
   const appId   = 'se.bjorkgard.secretary'
   const appName = context.packager.appInfo.productFilename
 
-  // eslint-disable-next-line no-console
-  console.log(`Notarizing ${appId} for ${appOutDir}/${appName}.app`)
-
   return await notarize({
+    tool:            'notarytool',
     appBundleId:     appId,
     appPath:         `${appOutDir}/${appName}.app`,
-    appleId:         process.env.APPLEID,
-    appleIdPassword: process.env.APPLEIDPASS,
-    teamId:          process.env.TEAMID,
+    appleId:         process.env.APPLE_ID,
+    appleIdPassword: process.env.APPLE_ID_PASSWORD,
+    teamId:          process.env.APPLE_ID_TEAM,
   })
 }

@@ -69,7 +69,6 @@ const config = {
         arch:   ['x64'],
       },
     ],
-    sign:    './build/sign.js',
     publish: 'github',
   },
   nsis: {
