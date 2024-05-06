@@ -1,5 +1,6 @@
 module.exports = {
-  branches: ['main', { name: 'beta', prerelease: true }, { name: 'alpha', prerelease: true }],
+  branches: ['main', { name: 'beta', prerelease: true }, { name: 'develop', prerelease: true }],
+  extends:  '@jedmao/semantic-release-npm-github-config',
   plugins:  [
     '@semantic-release/commit-analyzer',
     'semantic-release-export-data',

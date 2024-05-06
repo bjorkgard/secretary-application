@@ -48,6 +48,7 @@ const config = {
     hardenedRuntime:     true,
     gatekeeperAssess:    false,
     mergeASARs:          false,
+    darkModeSupport:     true,
     entitlements:        'build/entitlements.mac.plist',
     entitlementsInherit: 'build/entitlements.mac.plist',
     category:            'public.app-category.utilities',
