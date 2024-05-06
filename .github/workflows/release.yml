@@ -1,153 +1,59 @@
-name: Release a New version
+name: Build/release
+
 on: [workflow_call, workflow_dispatch]
 
-concurrency:
-  group: release-${{ github.ref }}
-  cancel-in-progress: true
-
-defaults:
-  run:
-    shell: bash
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
 jobs:
-  get-next-version:
-    runs-on: ubuntu-latest
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Install node, npm and yarn
+        uses: actions/setup-node@v3
         with:
           node-version: 20
-      - run: npm ci
-        env:
-          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
-      - run: npx semantic-release --dry-run
-        id: get-next-version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-    outputs:
-      new-release-published: ${{ steps.get-next-version.outputs.new-release-published }}
-      new-release-version: ${{ steps.get-next-version.outputs.new-release-version }}
-
-  draft:
-    needs: [get-next-version]
-    runs-on: ubuntu-latest
-    if: needs.get-next-version.outputs.new-release-published == 'true'
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-
-      - name: Show version
-        run: echo "Next Version is ${{ needs.get-next-version.outputs.new-release-version }} (${{ github.ref_name }})"
 
       - name: Get last git tag
         id: tag
         run: echo "last-tag=$(git describe --tags --abbrev=0 || git rev-list --max-parents=0 ${{github.ref}})" >> $GITHUB_OUTPUT
-
-      - name: Generate release notes
-        uses: ./.github/actions/release-notes
-        id: release-note
-        with:
-          from: ${{ steps.tag.outputs.last-tag }}
-          to: ${{ github.ref }}
-          include-commit-body: true
-          include-abbreviated-commit: true
 
       - name: Delete outdated drafts
         uses: hugo19941994/delete-draft-releases@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create Release Draft
-        uses: softprops/action-gh-release@v1
+      - name: Compile Electron App
+        uses: x6Pnda/action-electron-compiler@v1.0.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          prerelease: true
-          draft: true
-          tag_name: v${{ needs.get-next-version.outputs.new-release-version }}
-          name: v${{ needs.get-next-version.outputs.new-release-version }}
-          body: ${{ steps.release-note.outputs.release-note }}
-    outputs:
-      release-note: ${{ steps.release-note.outputs.release-note }}
-      version: ${{ needs.get-next-version.outputs.new-release-version }}
-
-  upload_artifacts:
-    needs: [draft]
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-
-    runs-on: ${{ matrix.os }}
-
-    permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          persist-credentials: false # <--- this
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          cache: npm
-
-      - run: npm ci
-        env:
-          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
-
-      - name: Prepare release notes
-        env:
-          RELEASE_NOTE: ${{ needs.draft.outputs.release-note }}
-        run: echo "$RELEASE_NOTE" >> ./build/release-notes.md
-
-      - name: Show version
-        run: echo "Next Version is ${{ needs.draft.outputs.version }} (${{ github.ref_name }})"
-
-      - name: Update and push version tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm run updateVersion
-
-      - name: Write next version to meta.json
-        run: echo "{\"version\":\"${{ needs.draft.outputs.version }}\"}" >| ./build/meta.json
-
-      - name: Build the app
-        env:
-          MODE: production
-        run: npm run build
-
-      - name: Compile & release Electron app
-        id: release-to-github
-        env:
-          MAIN_VITE_APP_VERSION: ${{ needs.draft.outputs.version }}
-          RENDERER_VITE_APP_VERSION: ${{ needs.draft.outputs.version }}
+          MAIN_VITE_APP_VERSION: ${{ steps.tag.outputs.last-tag }}
+          RENDERER_VITE_APP_VERSION: ${{ steps.tag.outputs.last-tag }}
           MAIN_VITE_API: ${{secrets.MAIN_VITE_API}}
           MAIN_VITE_TOKEN: ${{secrets.MAIN_VITE_TOKEN}}
           MAIN_VITE_BUGSNAG: ${{secrets.MAIN_VITE_BUGSNAG}}
           RENDERER_VITE_BUGSNAG: ${{secrets.RENDERER_VITE_BUGSNAG}}
           MAIN_VITE_NODE_ENV: production
           RENDERER_VITE_NODE_ENV: production
-          APPLEID: ${{secrets.APPLEID}}
-          APPLEIDPASS: ${{secrets.APPLEIDPASS}}
-          CSC_KEY_PASSWORD: ${{secrets.CERTIFICATE_PASSWORD}}
-          CSC_LINK: ${{secrets.CERTIFICATE_OSX_APPLICATION}}
-        run: npm run release
+        with:
+          # GitHub token, automatically provided to the action
+          github_token: ${{ secrets.github_token }}
 
-      - name: Delete tag for failed release
-        if: steps.release-to-github.outcome == 'failure'
-        run: git push --delete origin v${{ needs.draft.outputs.version }}```
+          # If the commit is tagged with a version (e.g. "v1.0.0"),
+          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+
+          # signing certificate for Windows
+          # windows_certs: {{ secrets.CERTIFICATE_WINDOWS_APPLICATION }}
+          # windows_certs_password: {{ secrets.CERTIFICATE_WINDOWS_PASSWORD }}
+
+          # signing certificate for macOS
+          mac_certs: ${{ secrets.CERTIFICATE_OSX_APPLICATION }}
+          mac_certs_password: ${{ secrets.CERTIFICATE_PASSWORD }}
+
+          # notarizing MacOS builds
+          apple_id: ${{ secrets.APPLEID }}
+          apple_id_password: ${{ secrets.APPLEIDPASS }}
