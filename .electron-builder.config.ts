@@ -1,9 +1,7 @@
-const { version } = require('./package.json')
-
 // eslint-disable-next-line node/prefer-global/process
 if (process.env.MAIN_VITE_APP_VERSION === undefined)
   // eslint-disable-next-line node/prefer-global/process
-  process.env.MAIN_VITE_APP_VERSION = version
+  process.env.MAIN_VITE_APP_VERSION = 'unknown'
 
 /**
  * @type {import('electron-builder').Configuration}
@@ -91,7 +89,7 @@ const config = {
     ],
     sign: false,
   },
-  afterSign: './build/notarize.cjs',
+  afterSign: './build/notarize.ts',
 }
 
 module.exports = config

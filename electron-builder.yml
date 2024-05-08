@@ -1,0 +1,88 @@
+appId: se.bjorkgard.secretary
+productName: Secretary
+artifactName: ${name}-${version}-${os}-${arch}.${ext}
+publish: {provider: github, releaseType: draft, vPrefixedTagName: true}
+asar: true
+asarUnpack:
+  - 'resources/**'
+directories:
+  output: dist
+  buildResources: build
+afterSign: ./build/notarize.js
+files:
+  - '**/*'
+  - '!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}'
+  - '!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}'
+  - '!**/node_modules/*.d.ts'
+  - '!**/node_modules/.bin'
+  - '!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}'
+  - '!.editorconfig'
+  - '!**/._*'
+  - '!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}'
+  - '!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}'
+  - '!**/{appveyor.yml,.travis.yml,circle.yml}'
+  - '!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}'
+includeSubNodeModules: true
+extraResources:
+  - from: src/localization/locales
+    to: locales
+    filter:
+      - '**/*'
+  - from: resources/fonts
+    to: fonts
+    filter:
+      - '**/*'
+extraMetadata:
+  homepage: https://secretary.jwapp.info
+  description: An open source application to help the secretary in the congregation.
+nsis:
+  oneClick: false
+  perMachine: false
+  differentialPackage: false
+  allowToChangeInstallationDirectory: true
+dmg:
+  writeUpdateInfo: false
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  signingHashAlgorithms:
+    - sha256
+  signAndEditExecutable: true
+  verifyUpdateCodeSignature: true
+  publisherName: jwapp
+  icon: ./build/icons/win/icon.ico
+linux:
+  category: Utility
+  artifactName: '${name}-x64-v${version}.${ext}'
+  icon: ./build/icons/linux/1024x1024.png
+  target:
+    - target: deb
+      arch:
+        - x64
+    - target: AppImage
+      arch:
+        - x64
+mac:
+  artifactName: '${name}-v${version}.${ext}'
+  category: public.app-category.utilities
+  target:
+    - target: dmg
+      arch:
+        - universal
+  darkModeSupport: true
+  hardenedRuntime: true
+  gatekeeperAssess: true
+  mergeASARs: false
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  icon: ./build/icons/mac/icon.icns
+  notarize: true
