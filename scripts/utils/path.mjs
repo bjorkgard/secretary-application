@@ -1,4 +1,3 @@
-import { get }                from 'node:http'
 import { dirname, normalize } from 'node:path'
 
 function getDevFolder(path) {
