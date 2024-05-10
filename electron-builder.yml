@@ -8,7 +8,7 @@ asarUnpack:
 directories:
   output: dist
   buildResources: build
-afterSign: ./build/notarize.js
+afterSign: ./build/notarize.cjs
 files:
   - '**/*'
   - '!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}'
