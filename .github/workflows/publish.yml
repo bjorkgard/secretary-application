@@ -26,9 +26,18 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json')}}
 
+      - name: Get last git tag
+        id: tag
+        run: echo "last-tag=$(git describe --tags --abbrev=0 || git rev-list --max-parents=0 ${{github.ref}})" >> $GITHUB_OUTPUT
+
       - name: Get tag
         uses: olegtarasov/get-tag@v2.1.3
         id: tagName
+
+      - name: Delete outdated drafts
+        uses: hugo19941994/delete-draft-releases@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Electron App
         uses: heliomarpm/action-electron-builder@2.0.0
