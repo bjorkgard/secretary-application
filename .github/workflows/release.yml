@@ -57,5 +57,5 @@ jobs:
           # windows_certs_password: {{ secrets.CERTIFICATE_WINDOWS_PASSWORD }}
 
           # signing certificate for macOS
-          mac_certs: ${{ secrets.CERTIFICATE_OSX_APPLICATION }}
-          mac_certs_password: ${{ secrets.CERTIFICATE_PASSWORD }}
+          #mac_certs: ${{ secrets.CERTIFICATE_OSX_APPLICATION }}
+          #mac_certs_password: ${{ secrets.CERTIFICATE_OSX_PASSWORD }}
