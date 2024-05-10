@@ -38,7 +38,7 @@ async function makeRelease() {
 
     exec(
       [
-        `git commit -am v${newVersion}`,
+        `HUSKY=0 git commit -am v${newVersion}`,
         `git tag v${newVersion}`,
         `git push`,
         `git push --tags`,

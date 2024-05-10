@@ -33,8 +33,8 @@ jobs:
       - name: Build Electron App
         uses: heliomarpm/action-electron-builder@2.0.0
         env:
-          MAIN_VITE_APP_VERSION: $GIT_TAG_NAME
-          RENDERER_VITE_APP_VERSION: $GIT_TAG_NAME
+          MAIN_VITE_APP_VERSION: ${{ steps.tagName.outputs.tag }}
+          RENDERER_VITE_APP_VERSION: ${{ steps.tagName.outputs.tag }}
           MAIN_VITE_API: ${{secrets.MAIN_VITE_API}}
           MAIN_VITE_TOKEN: ${{secrets.MAIN_VITE_TOKEN}}
           MAIN_VITE_BUGSNAG: ${{secrets.MAIN_VITE_BUGSNAG}}
@@ -44,7 +44,16 @@ jobs:
           APPLE_ID: ${{ secrets.APPLEID }}
           APPLE_ID_PASSWORD: ${{ secrets.APPLEIDPASS }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLEIDPASS }}
+          TEAM_ID: ${{ secrets.APPLEIDTEAM }}
         with:
           max_attempts: 3
           github_token: ${{ secrets.github_token }}
           release: true
+
+          # signing certificate for Windows
+          # windows_certs: {{ secrets.CERTIFICATE_WINDOWS_APPLICATION }}
+          # windows_certs_password: {{ secrets.CERTIFICATE_WINDOWS_PASSWORD }}
+
+          # signing certificate for macOS
+          mac_certs: ${{ secrets.CERTIFICATE_OSX_APPLICATION }}
+          mac_certs_password: ${{ secrets.CERTIFICATE_OSX_PASSWORD }}
