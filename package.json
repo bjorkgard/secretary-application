@@ -31,7 +31,8 @@
     "commit": "cz",
     "validate": "npm run lint && npm run typecheck",
     "lint-staged": "lint-staged",
-    "prepare": "husky"
+    "prepare": "husky",
+    "make:release": "node ./scripts/modules/release/index.mjs"
   },
   "dependencies": {
     "@bugsnag/electron": "^7.22.7",
@@ -56,6 +57,7 @@
     "jspdf-autotable": "^3.8.2",
     "jszip": "^3.10.1",
     "nedb-promises": "^6.2.3",
+    "open": "^10.1.0",
     "pdf-lib": "^1.17.1",
     "react-chartjs-2": "^5.2.0",
     "react-hook-form": "^7.51.4",
