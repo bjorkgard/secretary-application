@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compile Electron App
-        uses: x6Pnda/action-electron-compiler@v1.0.1
+        uses: Yan-Jobs/action-electron-builder@v1.7.0
         env:
           MAIN_VITE_APP_VERSION: ${{ steps.tag.outputs.last-tag }}
           RENDERER_VITE_APP_VERSION: ${{ steps.tag.outputs.last-tag }}
@@ -43,6 +43,8 @@ jobs:
           RENDERER_VITE_BUGSNAG: ${{secrets.RENDERER_VITE_BUGSNAG}}
           MAIN_VITE_NODE_ENV: production
           RENDERER_VITE_NODE_ENV: production
+          APPLE_ID: ${{ secrets.APPLEID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLEIDPASS }}
         with:
           # GitHub token, automatically provided to the action
           github_token: ${{ secrets.github_token }}
@@ -57,7 +59,3 @@ jobs:
           # signing certificate for macOS
           mac_certs: ${{ secrets.CERTIFICATE_OSX_APPLICATION }}
           mac_certs_password: ${{ secrets.CERTIFICATE_PASSWORD }}
-
-          # notarizing MacOS builds
-          apple_id: ${{ secrets.APPLEID }}
-          apple_id_password: ${{ secrets.APPLEIDPASS }}
