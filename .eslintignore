@@ -4,3 +4,4 @@ out
 .gitignore
 .github/*
 **/*.yml
+package.json
