@@ -307,13 +307,25 @@ export default class MenuBuilder {
         {
           label: i18n.t('Dokumentation'),
           click: (): void => {
-            shell.openExternal('https://github.com/electron/electron/tree/main/docs#readme')
+            shell.openExternal('https://github.com/bjorkgard/secretary-application/wiki')
           },
         },
         {
           label: i18n.t('Rapportera problem'),
           click: (): void => {
-            shell.openExternal('https://github.com/bjorkgard/secretaryApp2/issues')
+            shell.openExternal('https://github.com/bjorkgard/secretary-application/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml')
+          },
+        },
+        {
+          label: i18n.t('Saknad funktion'),
+          click: (): void => {
+            shell.openExternal('https://github.com/bjorkgard/secretary-application/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.yml')
+          },
+        },
+        {
+          label: i18n.t('Textfel/Översättning'),
+          click: (): void => {
+            shell.openExternal('https://github.com/bjorkgard/secretary-application/issues/new?assignees=&labels=&projects=&template=typo.yml')
           },
         },
       ],
@@ -485,13 +497,25 @@ export default class MenuBuilder {
           {
             label: i18n.t('Dokumentation'),
             click: (): void => {
-              shell.openExternal('https://github.com/bjorkgard/secretaryApp2/tree/main/docs#readme')
+              shell.openExternal('https://github.com/bjorkgard/secretary-application/wiki')
             },
           },
           {
             label: i18n.t('Rapportera problem'),
             click: (): void => {
-              shell.openExternal('https://github.com/bjorkgard/secretaryApp2/issues')
+              shell.openExternal('https://github.com/bjorkgard/secretary-application/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml')
+            },
+          },
+          {
+            label: i18n.t('Saknad funktion'),
+            click: (): void => {
+              shell.openExternal('https://github.com/bjorkgard/secretary-application/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.yml')
+            },
+          },
+          {
+            label: i18n.t('Textfel/Översättning'),
+            click: (): void => {
+              shell.openExternal('https://github.com/bjorkgard/secretary-application/issues/new?assignees=&labels=&projects=&template=typo.yml')
             },
           },
         ],
