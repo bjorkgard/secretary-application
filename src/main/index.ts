@@ -2,7 +2,7 @@ import os                                             from 'node:os'
 import { join }                                       from 'node:path'
 import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron'
 import { electronApp, is, optimizer }                 from '@electron-toolkit/utils'
-import { updateElectronApp }                          from 'update-electron-app'
+import { UpdateSourceType, updateElectronApp }        from 'update-electron-app'
 import windowStateKeeper                              from 'electron-window-state'
 import prompt                                         from 'electron-prompt'
 import log                                            from 'electron-log'
@@ -773,4 +773,11 @@ ipcMain.handle('get-latest-backup', async () => {
   return date
 })
 
-updateElectronApp()
+updateElectronApp({
+  updateSource: {
+    type: UpdateSourceType.ElectronPublicUpdateService,
+    repo: 'bjorkgard/secretary-application',
+  },
+  updateInterval: '1 hour',
+  logger:         log,
+})
