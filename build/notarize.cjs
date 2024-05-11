@@ -14,6 +14,9 @@ exports.default = async function notarizing(context) {
     return
   }
 
+  // eslint-disable-next-line no-console
+  console.log('Notarization started...')
+
   const appId   = 'se.bjorkgard.secretary'
   const appName = context.packager.appInfo.productFilename
 

@@ -31,7 +31,7 @@ jobs:
         id: tagName
 
       - name: Show version
-        run: echo "Next Version is ${{ steps.tagName.outputs.tag }} (${{ github.ref_name }} - ${{ github.ref }})"
+        run: echo "Next Version is ${{ steps.tagName.outputs.tag }} (ref_name ${{ github.ref_name }}; ref ${{ github.ref }})"
 
       - name: Delete outdated drafts
         uses: hugo19941994/delete-draft-releases@v1.0.1
@@ -39,10 +39,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Electron App
-        uses: heliomarpm/action-electron-builder@2.0.0
+        uses: Yan-Jobs/action-electron-builder@v1.7.0
+        id: build-and-release
         env:
-          MAIN_VITE_APP_VERSION: ${{github.ref}}
-          RENDERER_VITE_APP_VERSION: ${{github.ref}}
+          MAIN_VITE_APP_VERSION: ${{steps.tagName.outputs.tag}}
+          RENDERER_VITE_APP_VERSION: ${{steps.tagName.outputs.tag}}
           MAIN_VITE_API: ${{secrets.MAIN_VITE_API}}
           MAIN_VITE_TOKEN: ${{secrets.MAIN_VITE_TOKEN}}
           MAIN_VITE_BUGSNAG: ${{secrets.MAIN_VITE_BUGSNAG}}
@@ -65,3 +66,7 @@ jobs:
           # signing certificate for macOS
           mac_certs: ${{ secrets.CERTIFICATE_OSX_APPLICATION }}
           mac_certs_password: ${{ secrets.CERTIFICATE_OSX_PASSWORD }}
+
+      - name: Delete tag for failed release
+        if: steps.build-and-release.outcome == 'failure'
+        run: git push --delete origin v${{ steps.tagName.outputs.tag }}```

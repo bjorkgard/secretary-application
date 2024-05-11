@@ -8,7 +8,6 @@ asarUnpack:
 directories:
   output: dist
   buildResources: build
-afterSign: ./build/notarize.cjs
 files:
   - '**/*'
   - '!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}'
@@ -85,4 +84,5 @@ mac:
   entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
   icon: ./build/icons/mac/icon.icns
-  notarize: true
+  notarize:
+    teamId: MEJH86ZHEW
