@@ -2,14 +2,14 @@ import os                                             from 'node:os'
 import { join }                                       from 'node:path'
 import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron'
 import { electronApp, is, optimizer }                 from '@electron-toolkit/utils'
-import { UpdateSourceType, updateElectronApp }        from 'update-electron-app'
+import { updateElectronApp }                          from 'update-electron-app'
 import windowStateKeeper                              from 'electron-window-state'
 import prompt                                         from 'electron-prompt'
 import log                                            from 'electron-log'
-import Bugsnag                                        from '@bugsnag/electron'
-import installExtension, { REACT_DEVELOPER_TOOLS }    from 'electron-devtools-installer'
-import icon                                           from '../../resources/icon.png?asset'
-import i18n                                           from '../localization/i18next.config'
+// import Bugsnag                                        from '@bugsnag/electron'
+import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer'
+import icon                                        from '../../resources/icon.png?asset'
+import i18n                                        from '../localization/i18next.config'
 import type {
   AuxiliaryModel,
   CircuitOverseerModel,
@@ -56,11 +56,11 @@ import {
 import getServiceYear       from './utils/getServiceYear'
 import ImportantDateService from './services/importantDateService'
 
-Bugsnag.start({
-  apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
-  appVersion:           import.meta.env.MAIN_VITE_APP_VERSION || 'dev',
-  enabledReleaseStages: ['production', 'staging'],
-})
+// Bugsnag.start({
+//  apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
+//  appVersion:           import.meta.env.MAIN_VITE_APP_VERSION || 'dev',
+//  enabledReleaseStages: ['production', 'staging'],
+// })
 
 // Initialize services
 const circuitOverseerService = new CircuitOverseerService()
@@ -774,10 +774,5 @@ ipcMain.handle('get-latest-backup', async () => {
 })
 
 updateElectronApp({
-  updateSource: {
-    type: UpdateSourceType.ElectronPublicUpdateService,
-    repo: 'bjorkgard/secretary-application',
-  },
-  updateInterval: '1 hour',
-  logger:         log,
+  logger: log,
 })
