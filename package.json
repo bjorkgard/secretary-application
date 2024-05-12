@@ -35,8 +35,6 @@
     "make:release": "node ./scripts/modules/release/index.mjs"
   },
   "dependencies": {
-    "@bugsnag/electron": "^7.23.0",
-    "@bugsnag/plugin-react": "^7.22.7",
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
     "@headlessui/react": "^1.7.19",
