@@ -77,9 +77,6 @@ mac:
     - target: dmg
       arch:
         - universal
-    - target: zip
-      arch:
-        - universal
   darkModeSupport: true
   hardenedRuntime: true
   gatekeeperAssess: true
