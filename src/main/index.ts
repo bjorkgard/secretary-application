@@ -2,7 +2,7 @@ import os                                             from 'node:os'
 import { join }                                       from 'node:path'
 import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron'
 import { electronApp, is, optimizer }                 from '@electron-toolkit/utils'
-import { updateElectronApp }                          from 'update-electron-app'
+import { autoUpdater }                                from 'electron-updater'
 import windowStateKeeper                              from 'electron-window-state'
 import prompt                                         from 'electron-prompt'
 import log                                            from 'electron-log'
@@ -82,6 +82,8 @@ const isDebug
 
 let mainWindow: BrowserWindow | null = null
 let menuBuilder: MenuBuilder | null  = null
+
+autoUpdater.checkForUpdatesAndNotify()
 
 async function createWindow(): Promise<void> {
   if (isDebug) {
@@ -771,8 +773,4 @@ ipcMain.handle('get-latest-backup', async () => {
   const date = await importantDateService.findByType('BACKUP')
 
   return date
-})
-
-updateElectronApp({
-  logger: log,
 })
