@@ -61,7 +61,7 @@ win:
   icon: ./build/icons/win/icon.ico
 linux:
   category: Utility
-  artifactName: '${name}-x64-v${version}.${ext}'
+  # artifactName: '${name}-x64-v${version}.${ext}'
   icon: ./build/icons/linux/1024x1024.png
   target:
     - target: deb
@@ -71,7 +71,7 @@ linux:
       arch:
         - x64
 mac:
-  artifactName: '${name}-v${version}.${ext}'
+  # artifactName: '${name}-v${version}.${ext}'
   category: public.app-category.utilities
   target:
     - target: dmg
