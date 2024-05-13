@@ -4,7 +4,7 @@ import type { SettingsService } from '../../types/type'
 
 async function updateSettings(settingsService: SettingsService,  settings: SettingsModel): Promise<number | null> {
   if (settings._id) {
-    if (settings.online.public) {
+    if (settings.online.public || settings.online.send_report_group || settings.online.send_report_publisher) {
       const options = {
         method:  'POST',
         headers: {
@@ -20,6 +20,7 @@ async function updateSettings(settingsService: SettingsService,  settings: Setti
           contact_firstname:          settings.user.firstname,
           contact_lastname:           settings.user.lastname,
           contact_email:              settings.user.email,
+          public:                     settings.online.public,
           send_service_group_reports: settings.online.send_report_group,
           send_publisher_reports:     settings.online.send_report_publisher,
         }),
