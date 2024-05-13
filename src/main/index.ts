@@ -288,7 +288,7 @@ ipcMain.handle('registration', async (_, param: SettingsModel) => {
         defaultId: 0,
         title:     'Okänt fel',
         message:   'Okänt fel',
-        detail:    'Det gick inte att registrera dig. Var vänlig och förösk om en stund igen.',
+        detail:    `Det gick inte att registrera dig. Var vänlig och försök om en stund igen. ${error.message}`,
       }
 
       if (mainWindow) {
@@ -296,6 +296,8 @@ ipcMain.handle('registration', async (_, param: SettingsModel) => {
           app.quit()
         })
       }
+
+      return null
     })
 
   return await settingsService.create(param)
