@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## [v1.2.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.0) - 2024-05-13 09:56:53
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.2.0 -->
+
+## What's Changed
+### Other Changes
+* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/399
+* feat(public congregation): save congfregation online if public is sel… by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/400
+
+## New Contributors
+* @github-actions made their first contribution in https://github.com/bjorkgard/secretary-application/pull/399
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.1.17...v1.2.0
+
+### Feature
+
+- public congregation:
+  - save congfregation online if public is selected ([ad02c38](https://github.com/bjorkgard/secretary-application/commit/ad02c38c4ca0e5eb9f2d7ff4b078e7eda204b9ee)) ([#400](https://github.com/bjorkgard/secretary-application/pull/400))
+
 ## [v1.1.17](https://github.com/bjorkgard/secretary-application/releases/tag/v1.1.17) - 2024-05-12 18:18:55
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.1.17 -->
