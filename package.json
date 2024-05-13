@@ -61,7 +61,7 @@
     "react-hook-form": "^7.51.4",
     "react-i18next": "^14.1.1",
     "react-phone-number-input": "^3.4.1",
-    "react-router-dom": "^6.23.0",
+    "react-router-dom": "^6.23.1",
     "tailwind-scrollbar-hide": "^1.1.7",
     "uuid": "^9.0.1"
   },
