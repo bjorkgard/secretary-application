@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## [v1.2.2](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.2) - 2024-05-13 14:26:24
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.2.2 -->
+
+## What's Changed
+### Other Changes
+* fix(registration): update error message if registration fails by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/402
+* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/401
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.0...v1.2.2
+
+### Bug Fixes
+
+- registration:
+  - update error message if registration fails ([db916c1](https://github.com/bjorkgard/secretary-application/commit/db916c1c3405af452c3ac7b00ec9556563ca67db)) ([#402](https://github.com/bjorkgard/secretary-application/pull/402))
+
 ## [v1.2.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.0) - 2024-05-13 09:56:53
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.2.0 -->
