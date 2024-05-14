@@ -435,7 +435,7 @@
   "templates.code": "Beteckning",
   "templates.date": "Datummärkning",
   "templates.description": "Följande blanketter behöver laddas ner från jw.org och laddas upp här. Kontrollera att du laddar upp blanketter med rätt datummärkning.",
-  "templates.description2": "Om du får problem att ladda upp en blankett trots att den har korrekt datummärkning, kan du pröva att öppna PDF-filen i t.ex. Acrobat Reader och spara om filen innan diú laddar upp den.",
+  "templates.description2": "Om du får problem att ladda upp en blankett trots att den har korrekt datummärkning, kan du pröva att öppna PDF-filen i t.ex. Acrobat Reader och spara om filen innan du laddar upp den.",
   "templates.errorImported": "Fel vid import",
   "templates.errorImportedMessage": "Det gick inte att importera blanketten.",
   "templates.errorWrongFile": "Det verkar som att du har laddat upp fel fil. Kontrollera att du laddar upp en blankett med rätt datummärkning och typ. Om du ändå får problem kontakta utvecklarna under Hjälp i mynraden.",
