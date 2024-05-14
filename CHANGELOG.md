@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## [v1.2.3](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.3) - 2024-05-14 07:04:10
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.2.3 -->
+
+## What's Changed
+### Other Changes
+* chore(deps-dev): bump @types/react from 18.3.1 to 18.3.2 by @dependabot in https://github.com/bjorkgard/secretary-application/pull/404
+* fix(deps): bump react-router-dom from 6.23.0 to 6.23.1 by @dependabot in https://github.com/bjorkgard/secretary-application/pull/406
+* 409 import av s21 by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/410
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.2...v1.2.3
+
+### Bug Fixes
+
+- template:
+  - typo ([9c9ee1d](https://github.com/bjorkgard/secretary-application/commit/9c9ee1de2bb4fada1997df2b2a1d1cf7444e47b4)) ([#410](https://github.com/bjorkgard/secretary-application/pull/410))
+  - a new description if upload fails ([7c0bb87](https://github.com/bjorkgard/secretary-application/commit/7c0bb8742ed44400ec6986f06f014457e5a63a32)) ([#410](https://github.com/bjorkgard/secretary-application/pull/410))
+
+- deps:
+  - bump react-router-dom from 6.23.0 to 6.23.1 (#406) ([3395e56](https://github.com/bjorkgard/secretary-application/commit/3395e5686283da8e60c625ac591d9d3a9e21a5ad)) ([#406](https://github.com/bjorkgard/secretary-application/pull/406))
+
 ## [v1.2.2](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.2) - 2024-05-13 14:26:24
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.2.2 -->
