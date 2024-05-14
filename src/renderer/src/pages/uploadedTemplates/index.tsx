@@ -60,6 +60,9 @@ export default function Templates(): JSX.Element {
             <p className="text-sm text-gray-900 dark:text-slate-300">
               {t('templates.description')}
             </p>
+            <p className="text-sm text-gray-900 dark:text-slate-300">
+              {t('templates.description2')}
+            </p>
             {!templates || templates?.length < 1
               ? (
                 <p>

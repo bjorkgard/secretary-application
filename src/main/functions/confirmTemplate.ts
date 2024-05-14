@@ -20,9 +20,15 @@ export default async function confirmTemplete(code: string, path: string): Promi
 }
 
 async function confirmS21(form: PDFForm): Promise<boolean> {
-  const fields = form.getFields()
+  try {
+    const fields = form.getFields()
 
-  return fields.length === 75
+    return fields.length === 75
+  }
+  catch (error) {
+    log.error(error)
+    return false
+  }
 }
 
 async function confirmS88(form: PDFForm): Promise<boolean> {
