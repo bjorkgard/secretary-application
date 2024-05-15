@@ -38,6 +38,7 @@ export default function EventModal(props: EventModalProps): JSX.Element {
     { name: t('event.movedIn'), command: 'MOVED_IN' },
     { name: t('event.movedOut'), command: 'MOVED_OUT' },
     { name: t('event.publisher'), command: 'PUBLISHER' },
+    { name: t('event.baptised'), command: 'BAPTISED' },
     { name: t('event.auxiliaryStart'), command: 'AUXILIARY_START' },
     { name: t('event.pioneerStart'), command: 'PIONEER_START' },
     { name: t('event.auxiliaryStop'), command: 'AUXILIARY_STOP' },
