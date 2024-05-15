@@ -106,16 +106,15 @@ async function createWindow(): Promise<void> {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    x:               mainWindowState.x,
-    y:               mainWindowState.y,
-    width:           mainWindowState.width,
-    height:          mainWindowState.height,
-    show:            false,
-    title:           'SECRETARY',
-    autoHideMenuBar: true,
+    x:              mainWindowState.x,
+    y:              mainWindowState.y,
+    width:          mainWindowState.width,
+    height:         mainWindowState.height,
+    show:           false,
+    title:          'SECRETARY',
     // eslint-disable-next-line node/prefer-global/process
     ...(process.platform === 'linux' ? { icon } : {}),
-    webPreferences:  {
+    webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
     },
