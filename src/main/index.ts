@@ -775,3 +775,25 @@ ipcMain.handle('get-latest-backup', async () => {
 
   return date
 })
+
+ipcMain.handle('get-latest-version', async () => {
+  if (!mainWindow)
+    return
+
+  let version: string | undefined
+  const url = 'https://api.github.com/repos/bjorkgard/secretary-application/tags'
+
+  try {
+    const tags = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${import.meta.env.MAIN_VITE_PAT}`,
+      },
+    }).then(_ => _.json())
+    version    = tags[0].name
+  }
+  catch (error) {
+    log.error(error)
+  }
+
+  return version
+})

@@ -5,6 +5,7 @@ import { Bars3Icon, XMarkIcon }  from '@heroicons/react/24/outline'
 import classNames                from '@renderer/utils/classNames'
 import { OnlineIcon }            from '@renderer/components/OnlineIcon'
 import { WarningIcon }           from '@renderer/components/WarningIcon'
+import { Updates }               from '@renderer/components/Updates'
 import { Sidebar, SidebarSmall } from './Sidebar'
 
 export default function Layout(): JSX.Element {
@@ -100,6 +101,7 @@ export default function Layout(): JSX.Element {
           <div className="flex flex-1 justify-end gap-x-4 lg:gap-x-6">
 
             <div className="flex items-center gap-x-4 lg:gap-x-6">
+              <Updates />
               <WarningIcon />
               <OnlineIcon />
             </div>
