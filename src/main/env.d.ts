@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly MAIN_VITE_NODE_ENV:    string
   readonly MAIN_VITE_BUGSNAG:     string
   readonly MAIN_VITE_APP_VERSION: string
+  readonly MAIN_VITE_PAT:         string
   // more env variables...
 }
 
