@@ -23,6 +23,9 @@ async function storeEvent(event: EventProps): Promise<void> {
   let removeFromActiveReports = false
 
   switch (event.command) {
+    case 'PUBLISHER':
+      information = `${publisher?.firstname} ${publisher?.lastname}`
+      break
     case 'AUXILIARY_START':
       if (!publisher.appointments.find(appointment => appointment.type === 'PIONEER' || appointment.type === 'AUXILIARY')) {
         information = `${publisher?.firstname} ${publisher?.lastname}`

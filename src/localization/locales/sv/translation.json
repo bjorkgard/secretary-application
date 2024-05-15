@@ -475,5 +475,6 @@
   "Växla &Utvecklarverktyg": "Växla &Utvecklarverktyg",
   "Växla utvecklarverktyg": "Växla Utvecklarverktyg",
   "Ångra": "Ångra",
-  "updates.newVersion": "Det finns en ny version, {{tag}}!"
+  "updates.newVersion": "Det finns en ny version, {{tag}}!",
+  "event.publisher": "Blivit odöpt förkunnare"
 }
