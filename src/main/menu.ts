@@ -18,9 +18,8 @@ export default class MenuBuilder {
   }
 
   buildMenu(i18n: typeof i18next): Menu {
-    // if (import.meta.env.MAIN_VITE_NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-    this.setupDevelopmentEnvironment()
-    // }
+    if (import.meta.env.MAIN_VITE_NODE_ENV === 'development')
+      this.setupDevelopmentEnvironment()
 
     // eslint-disable-next-line node/prefer-global/process
     const template = process.platform === 'darwin'
