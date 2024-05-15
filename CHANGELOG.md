@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## [v1.2.5](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.5) - 2024-05-15 12:42:57
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.2.5 -->
+
+## What's Changed
+### Other Changes
+* fix(loading): remove debug text by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/417
+* fix(menu): show the application menu by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/418
+* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/416
+* fix(new version): show info when a new version has been released by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/420
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.4...v1.2.5
+
+### Bug Fixes
+
+- new version:
+  - show info when a new version has been released ([d7f97b4](https://github.com/bjorkgard/secretary-application/commit/d7f97b4b68133ab96d9e728123621ae3bb1c1896)) ([#420](https://github.com/bjorkgard/secretary-application/pull/420))
+
+- menu:
+  - show the application menu ([5aed27c](https://github.com/bjorkgard/secretary-application/commit/5aed27c82544dae6b560cce64dcc18544d856c21)) ([#418](https://github.com/bjorkgard/secretary-application/pull/418))
+
+- loading:
+  - remove debug text ([98603b7](https://github.com/bjorkgard/secretary-application/commit/98603b76934ba3c2e50b91954da91fceca9ef6c5)) ([#417](https://github.com/bjorkgard/secretary-application/pull/417))
+
 ## [v1.2.4](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.4) - 2024-05-15 07:38:00
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.2.4 -->
