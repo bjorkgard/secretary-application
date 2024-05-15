@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## [v1.2.4](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.4) - 2024-05-15 07:38:00
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.2.4 -->
+
+## What's Changed
+### Other Changes
+* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/403
+* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/411
+* chore(deps-dev): bump electron from 28.2.2 to 30.0.3 by @dependabot in https://github.com/bjorkgard/secretary-application/pull/361
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.3...v1.2.4
+
+### Performance Improvements
+
+- electron:
+  - update to latest version of Electron ([f354326](https://github.com/bjorkgard/secretary-application/commit/f354326669ef95da3853d3827dd857ed2c26d516)) ([#361](https://github.com/bjorkgard/secretary-application/pull/361))
+
 ## [v1.2.3](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.3) - 2024-05-14 07:04:10
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.2.3 -->
@@ -135,6 +153,17 @@
 
 **Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.1.11...v1.1.12
 
+### Feature
+
+- general:
+  - export S-21 for a Service group ([f988ab6](https://github.com/bjorkgard/secretary-application/commit/f988ab6235964132d78bc45b5e29220037135da4)) ([#127](https://github.com/bjorkgard/secretary-application/pull/127))
+  - Confirm template type after upload ([2dcc3a5](https://github.com/bjorkgard/secretary-application/commit/2dcc3a55a86665cd2af4ece3600257593e0f64d1)) ([#67](https://github.com/bjorkgard/secretary-application/pull/67))
+  - Show only available publishers on add auxiliary ([3d69802](https://github.com/bjorkgard/secretary-application/commit/3d698029ccb52d5a9bdc7036f446fc9fcad4fa0f)) ([#66](https://github.com/bjorkgard/secretary-application/pull/66))
+  - Import emergency contacts ([d728d6f](https://github.com/bjorkgard/secretary-application/commit/d728d6f17c34b4f35cbe26a406865a0325d0eea5)) ([#63](https://github.com/bjorkgard/secretary-application/pull/63))
+
+- bugsnag:
+  - better error handling ([3fb16e6](https://github.com/bjorkgard/secretary-application/commit/3fb16e6c4364ca4e8e11c182c150b9e4455197f0)) ([#124](https://github.com/bjorkgard/secretary-application/pull/124))
+
 ### Bug Fixes
 
 - help menu:
@@ -142,12 +171,6 @@
 
 - auto updater:
   - setup auto update script ([64f69a5](https://github.com/bjorkgard/secretary-application/commit/64f69a5e13d7643ce17f950928f9dd1749d62f65)) ([#385](https://github.com/bjorkgard/secretary-application/pull/385))
-
-## [v1.1.11](https://github.com/bjorkgard/secretary-application/releases/tag/v1.1.11) - 2024-05-11 08:03:39
-
-### First stable build
-
-### Bug Fixes
 
 - deps:
   - bump i18next from 23.11.3 to 23.11.4 (#380) ([787948b](https://github.com/bjorkgard/secretary-application/commit/787948b5773b58f955412240e7c95740dc981776)) ([#380](https://github.com/bjorkgard/secretary-application/pull/380))
@@ -169,39 +192,6 @@
   - bump react-phone-number-input from 3.3.10 to 3.3.12 (#295) ([cb555a7](https://github.com/bjorkgard/secretary-application/commit/cb555a7b991965d9f113f7220d1704c5b2e87e3f)) ([#295](https://github.com/bjorkgard/secretary-application/pull/295))
   - bump react-phone-number-input from 3.3.9 to 3.3.10 (#287) ([d11dde7](https://github.com/bjorkgard/secretary-application/commit/d11dde7f76ca9046a7d8e7b60cc9d075741d5b71)) ([#287](https://github.com/bjorkgard/secretary-application/pull/287))
   - bump react-hook-form from 7.51.1 to 7.51.2 (#280) ([e94e425](https://github.com/bjorkgard/secretary-application/commit/e94e4257442d94de34d220892ab89b85fa89b5f2)) ([#280](https://github.com/bjorkgard/secretary-application/pull/280))
-
-- notarize:
-  - fix build script ([a103bf5](https://github.com/bjorkgard/secretary-application/commit/a103bf5659f87cce89f9a2a2127a6e334f41f2b5)) ([#344](https://github.com/bjorkgard/secretary-application/pull/344))
-  - fix build script ([1507f7b](https://github.com/bjorkgard/secretary-application/commit/1507f7b0e7ad3518c14561cb6f7f9074926592f1)) ([#342](https://github.com/bjorkgard/secretary-application/pull/342))
-
-- release version:
-  - update new version info ([20650a1](https://github.com/bjorkgard/secretary-application/commit/20650a1e6b7267e1c5093f4a7f82dac416038df5)) ([#324](https://github.com/bjorkgard/secretary-application/pull/324))
-
-## [v1.1.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.1.0) - 2024-03-28 15:26:52
-
-### Refactors
-- #### notarize
-  - notarize mac application. (296f4ff)
-
-
-### Build System
-- #### notarizing
-  - notarizing application with Apple. (c22fcb3)
-
-### Feature
-
-- general:
-  - export S-21 for a Service group ([f988ab6](https://github.com/bjorkgard/secretary-application/commit/f988ab6235964132d78bc45b5e29220037135da4)) ([#127](https://github.com/bjorkgard/secretary-application/pull/127))
-  - Confirm template type after upload ([2dcc3a5](https://github.com/bjorkgard/secretary-application/commit/2dcc3a55a86665cd2af4ece3600257593e0f64d1)) ([#67](https://github.com/bjorkgard/secretary-application/pull/67))
-  - Show only available publishers on add auxiliary ([3d69802](https://github.com/bjorkgard/secretary-application/commit/3d698029ccb52d5a9bdc7036f446fc9fcad4fa0f)) ([#66](https://github.com/bjorkgard/secretary-application/pull/66))
-  - Import emergency contacts ([d728d6f](https://github.com/bjorkgard/secretary-application/commit/d728d6f17c34b4f35cbe26a406865a0325d0eea5)) ([#63](https://github.com/bjorkgard/secretary-application/pull/63))
-
-- bugsnag:
-  - better error handling ([3fb16e6](https://github.com/bjorkgard/secretary-application/commit/3fb16e6c4364ca4e8e11c182c150b9e4455197f0)) ([#124](https://github.com/bjorkgard/secretary-application/pull/124))
-
-### Bug Fixes
-
-- deps:
   - bump @heroicons/react from 2.1.1 to 2.1.3 (#267) ([12ca877](https://github.com/bjorkgard/secretary-application/commit/12ca877792359089b2deb0e89c42f56436f9cc70)) ([#267](https://github.com/bjorkgard/secretary-application/pull/267))
   - bump react-i18next from 14.0.5 to 14.1.0 (#247) ([60c7aa6](https://github.com/bjorkgard/secretary-application/commit/60c7aa62d8af8e61e7047fc67604f8edfca3181f)) ([#247](https://github.com/bjorkgard/secretary-application/pull/247))
   - bump react-hook-form from 7.51.0 to 7.51.1 (#242) ([43ce0ad](https://github.com/bjorkgard/secretary-application/commit/43ce0ad7c75893be853a4c18e394c6f700de1fbb)) ([#242](https://github.com/bjorkgard/secretary-application/pull/242))
@@ -226,6 +216,13 @@
   - bump react-i18next from 14.0.0 to 14.0.1 (#152) ([99336e5](https://github.com/bjorkgard/secretary-application/commit/99336e5801979b346979df6a544ec390389d5b23)) ([#152](https://github.com/bjorkgard/secretary-application/pull/152))
   - bump i18next from 23.7.16 to 23.7.18 (#146) ([50a5831](https://github.com/bjorkgard/secretary-application/commit/50a58314a39ea6c01188bb5dca1e35d1ba65b29b)) ([#146](https://github.com/bjorkgard/secretary-application/pull/146))
   - bump react-router-dom from 6.21.1 to 6.21.2 (#119) ([ddad4b2](https://github.com/bjorkgard/secretary-application/commit/ddad4b23f0fa87509bb59430b9c659d8c569e29e)) ([#119](https://github.com/bjorkgard/secretary-application/pull/119))
+
+- notarize:
+  - fix build script ([a103bf5](https://github.com/bjorkgard/secretary-application/commit/a103bf5659f87cce89f9a2a2127a6e334f41f2b5)) ([#344](https://github.com/bjorkgard/secretary-application/pull/344))
+  - fix build script ([1507f7b](https://github.com/bjorkgard/secretary-application/commit/1507f7b0e7ad3518c14561cb6f7f9074926592f1)) ([#342](https://github.com/bjorkgard/secretary-application/pull/342))
+
+- release version:
+  - update new version info ([20650a1](https://github.com/bjorkgard/secretary-application/commit/20650a1e6b7267e1c5093f4a7f82dac416038df5)) ([#324](https://github.com/bjorkgard/secretary-application/pull/324))
 
 - publisher events:
   - add some missing events ([cf8e715](https://github.com/bjorkgard/secretary-application/commit/cf8e71556c1f4952ebaac17409d599a47dfb1c38)) ([#193](https://github.com/bjorkgard/secretary-application/pull/193))
