@@ -134,6 +134,7 @@ export interface Publisher extends Base {
   sendReports:       boolean
   children:          Child[]
   reports:           Report[]
+  old?:              string
 }
 
 export interface Responsibility extends Base {
@@ -430,6 +431,7 @@ export const PublisherSchema: JSONSchemaType<Publisher> = {
     deaf:             { type: 'boolean' },
     blind:            { type: 'boolean' },
     sendReports:      { type: 'boolean' },
+    old:              { type: 'string', nullable: true },
     children:         { type: 'array', items: ChildSchema },
     histories:        { type: 'array', items: HistorySchema },
     reports:          { type: 'array', items: ReportSchema },

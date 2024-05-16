@@ -144,6 +144,7 @@ export interface PublisherModel extends Base {
   tasks:            string[]
   unknown_baptised: boolean
   zip:              string
+  old?:             string
 }
 
 export interface ResponsibilityModel extends Base {
