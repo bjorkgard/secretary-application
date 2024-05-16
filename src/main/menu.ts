@@ -213,6 +213,12 @@ export default class MenuBuilder {
           label:   i18n.t('mainMenu.registerCard'),
           submenu: [
             {
+              label: i18n.t('mainMenu.exportCongregationRegisterCard'),
+              click: (): void => {
+                ipcMain.emit('export-register-card-congregation', null, { type: 'complete' })
+              },
+            },
+            {
               label: i18n.t('mainMenu.exportCompleteRegisterCard'),
               click: (): void => {
                 ipcMain.emit('export-register-card', null, { type: 'complete' })

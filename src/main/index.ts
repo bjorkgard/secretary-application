@@ -493,6 +493,46 @@ ipcMain.on('export-meeting-attendance', async (_event, args) => {
   exportS88(mainWindow, sy)
 })
 
+ipcMain.on('export-register-card-congregation', async (_event, args) => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  const sy: string[] = []
+
+  serviceYearService.find().then((serviceYears) => {
+    serviceYears.forEach((serviceYear) => {
+      sy.push(serviceYear.name.toString())
+    })
+  })
+
+  sy.sort()
+
+  prompt({
+    title:         i18n.t('dialog.selectServiceYear'),
+    label:         i18n.t('dialog.selectServiceYearDescription'),
+    type:          'select',
+    selectOptions: sy,
+    alwaysOnTop:   true,
+    buttonLabels:  { cancel: i18n.t('label.cancel'), ok: i18n.t('label.ok') },
+    resizable:     true,
+  })
+    .then((r: number | null) => {
+      if (r !== null) {
+        if (mainWindow)
+          exportPublishersS21(mainWindow, +sy[r], args.type)
+      }
+      else {
+        mainWindow?.webContents.send('show-spinner', { status: false })
+      }
+    })
+    .catch((err: Error) => {
+      mainWindow?.webContents.send('show-spinner', { status: false })
+      log.error(err)
+    })
+})
+
 ipcMain.on('export-register-card', async (_event, args) => {
   if (!mainWindow)
     return
