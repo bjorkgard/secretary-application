@@ -90,6 +90,9 @@ export default function ServiceGroups(): JSX.Element {
               </thead>
               <tbody>
                 {serviceGroups.map((serviceGroup) => {
+                  if (serviceGroup.name === 'TEMPORARY')
+                    return null
+
                   const responsible = responibles.find(r => r._id === serviceGroup.responsibleId)
                   const assistant   = responibles.find(r => r._id === serviceGroup.assistantId)
                   return (

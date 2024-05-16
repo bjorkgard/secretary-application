@@ -60,6 +60,11 @@ export default class ServiceGroupService implements IServiceGroupService {
     return parseServiceGroup(serviceGroup)
   }
 
+  async findOneByName(name: string): Promise<ServiceGroupModel> {
+    const serviceGroup = (await serviceGroupStore.findOneByName(name)) as ServiceGroup
+    return parseServiceGroup(serviceGroup)
+  }
+
   async drop(): Promise<void> {
     serviceGroupStore.drop()
   }
