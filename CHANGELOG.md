@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## [v1.2.7](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.7) - 2024-05-16 18:02:22
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.2.7 -->
+
+## What's Changed
+### Other Changes
+* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/430
+* fix(menu): add missing export option for windows by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/431
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.6...v1.2.7
+
+### Bug Fixes
+
+- menu:
+  - add missing export option for windows ([92b0678](https://github.com/bjorkgard/secretary-application/commit/92b067804653c8bdfaa2539eac6a46a8226b463b)) ([#431](https://github.com/bjorkgard/secretary-application/pull/431))
+
 ## [v1.2.6](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.6) - 2024-05-16 13:22:15
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.2.6 -->
