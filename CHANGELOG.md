@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## [v1.2.6](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.6) - 2024-05-16 13:22:15
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.2.6 -->
+
+## What's Changed
+### Other Changes
+* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/421
+* Fix import issues by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/428
+* fix(service group): do not parse model if no service group is found by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/429
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.5...v1.2.6
+
+### Bug Fixes
+
+- service group:
+  - do not parse model if no service group is found ([6bc63e4](https://github.com/bjorkgard/secretary-application/commit/6bc63e4b399633f8e992a5cdb0f4a663a7bb44e5)) ([#429](https://github.com/bjorkgard/secretary-application/pull/429))
+
+- import:
+  - fix issues with import ([e976b25](https://github.com/bjorkgard/secretary-application/commit/e976b2548545f6573a04e9d95cbadd062e62a92f)) ([#428](https://github.com/bjorkgard/secretary-application/pull/428))
+
+- export s-21:
+  - mark ministerial servant when exporting S-21 ([e2d3cbf](https://github.com/bjorkgard/secretary-application/commit/e2d3cbf59a4eb05aff42b4d89b67ae3a30d775b6)) ([#428](https://github.com/bjorkgard/secretary-application/pull/428))
+
 ## [v1.2.5](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.5) - 2024-05-15 12:42:57
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.2.5 -->
