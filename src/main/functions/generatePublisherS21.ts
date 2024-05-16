@@ -98,7 +98,7 @@ export default async function generatePublisherS21(
         elderCheckbox.defaultUpdateAppearances()
       }
 
-      if (appointment.type === 'MINISTERIAL_SERVANT') {
+      if (appointment.type === 'MINISTERIALSERVANT') {
         ministerialServantCheckbox.check()
         ministerialServantCheckbox.defaultUpdateAppearances()
       }
