@@ -38,6 +38,7 @@ import {
   dbBackup,
   dbRestore,
   exportAddressList,
+  exportCongregationS21,
   exportPublisherS21,
   exportPublishersS21,
   exportS88,
@@ -493,7 +494,7 @@ ipcMain.on('export-meeting-attendance', async (_event, args) => {
   exportS88(mainWindow, sy)
 })
 
-ipcMain.on('export-register-card-congregation', async (_event, args) => {
+ipcMain.on('export-register-card-congregation', async (_event) => {
   if (!mainWindow)
     return
 
@@ -507,7 +508,7 @@ ipcMain.on('export-register-card-congregation', async (_event, args) => {
     })
   })
 
-  sy.sort()
+  sy.sort((a, b) => (a > b ? -1 : 1))
 
   prompt({
     title:         i18n.t('dialog.selectServiceYear'),
@@ -521,7 +522,7 @@ ipcMain.on('export-register-card-congregation', async (_event, args) => {
     .then((r: number | null) => {
       if (r !== null) {
         if (mainWindow)
-          exportPublishersS21(mainWindow, +sy[r], args.type)
+          exportCongregationS21(mainWindow, +sy[r])
       }
       else {
         mainWindow?.webContents.send('show-spinner', { status: false })

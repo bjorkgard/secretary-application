@@ -1,1 +1,10 @@
-{}
+{
+  "export": {
+    "SPECIAL_PIONEER": "export.SPECIAL_PIONEER",
+    "countReports_one": "export.countReports",
+    "countReports_other": "export.countReports",
+    "MISSIONARY": "export.MISSIONARY",
+    "PUBLISHER": "export.PUBLISHER",
+    "TOTAL": "export.TOTAL"
+  }
+}
