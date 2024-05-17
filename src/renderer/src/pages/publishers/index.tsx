@@ -117,16 +117,26 @@ export default function Publishers(): JSX.Element {
               {publishers.map((publisher) => {
                 const serviceGroup = serviceGroups.find(sg => sg._id === publisher.serviceGroupId)
                 const appointments
-                  = publisher.appointments.map(a => `badge.short.${a.type.toLowerCase()}`) || []
+                  = publisher.appointments.map((a) => {
+                    if (a.type)
+                      return `badge.short.${a.type.toLowerCase()}`
+
+                    return null
+                  }) || []
                 return (
                   <tr key={publisher._id} className="hover">
                     <td>
                       {appointments.map((appointment) => {
-                        return (
-                          <div className="badge badge-primary badge-sm mr-1" key={appointment}>
-                            {t(appointment)}
-                          </div>
-                        )
+                        if (appointment) {
+                          return (
+                            <div className="badge badge-primary badge-sm mr-1" key={appointment}>
+                              {t(appointment)}
+                            </div>
+                          )
+                        }
+                        else {
+                          return null
+                        }
                       })}
                     </td>
                     <td>{serviceGroup?.name || '-'}</td>
