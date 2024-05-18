@@ -476,7 +476,6 @@
   "tooltip.editTask": "Redigera uppgift",
   "tooltip.export": "Exportera",
   "tooltip.latestExport": "Senaste exporten: {{date}}",
-  "updates.newVersion": "Det finns en ny version, {{tag}}!",
   "Upprepa": "Upprepa",
   "Utvecklarverktyg": "Utvecklarverktyg",
   "Visa": "Visa",
@@ -484,5 +483,7 @@
   "Växla &Helskärmsläge": "Växla &Helskärmsläge",
   "Växla &Utvecklarverktyg": "Växla &Utvecklarverktyg",
   "Växla utvecklarverktyg": "Växla Utvecklarverktyg",
-  "Ångra": "Ångra"
+  "Ångra": "Ångra",
+  "updates.newVersion": "Det finns en ny version, {{tag}}!",
+  "label.withoutServiceGroup": "Förkunnare utan tjänstegrupp"
 }

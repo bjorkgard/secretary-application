@@ -35,6 +35,7 @@ function parsePublisherModel(data: PublisherModel): Publisher {
     children:         [],
     histories:        [],
     reports:          [],
+    old:              '',
   }
 
   publisher.s290                   = data.s290
@@ -69,6 +70,7 @@ function parsePublisherModel(data: PublisherModel): Publisher {
   publisher.children               = data.children
   publisher.histories              = data.histories
   publisher.reports                = data.reports
+  publisher.old                    = data.old
 
   return publisher
 }
@@ -102,6 +104,7 @@ function parsePublisher(data: Publisher): PublisherModel {
     children:         [],
     histories:        [],
     reports:          [],
+    old:              '',
   }
 
   publisherModel._id                    = data._id
@@ -137,6 +140,7 @@ function parsePublisher(data: Publisher): PublisherModel {
   publisherModel.children               = data.children
   publisherModel.histories              = data.histories
   publisherModel.reports                = data.reports
+  publisherModel.old                    = data.old
   publisherModel.createdAt              = data.createdAt?.toLocaleString('sv-SE')
   publisherModel.updatedAt              = data.updatedAt?.toLocaleString('sv-SE')
 
@@ -144,6 +148,11 @@ function parsePublisher(data: Publisher): PublisherModel {
 }
 
 export default class PublisherService implements IPublisherService {
+  async findByIdentifier(identifier: string): Promise<PublisherModel | null> {
+    const publisher = (await publisherStore.findByIdentifier(identifier)) as Publisher
+    return publisher ? parsePublisher(publisher) : null
+  }
+
   async find(sortField: string, queryString?: string): Promise<PublisherModel[]> {
     const publishers = (await publisherStore.find(sortField, queryString)) as Publisher[]
 

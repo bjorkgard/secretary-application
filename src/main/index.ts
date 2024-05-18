@@ -46,6 +46,7 @@ import {
   getCommonExports,
   getMonthString,
   getPublishersStats,
+  getPublishersWithoutServiceGroup,
   getReportUpdates,
   importJson,
   importServiceReports,
@@ -432,6 +433,10 @@ ipcMain.handle('publishers-stats', async () => {
 
 ipcMain.handle('common-exports', async () => {
   return getCommonExports(exportService)
+})
+
+ipcMain.handle('temporary-servicegroup', async () => {
+  return getPublishersWithoutServiceGroup(serviceGroupService, publisherService)
 })
 
 // EXPORTS

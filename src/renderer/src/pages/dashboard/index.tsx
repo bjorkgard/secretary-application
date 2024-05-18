@@ -7,6 +7,7 @@ import ActiveReport            from './cards/activeReport'
 import MissingReports          from './cards/missingReports'
 import Auxiliaries             from './cards/auxiliaries'
 import TemplateWarning         from './cards/templateWarning'
+import WithoutServiceGroup     from './cards/withoutServiceGroup'
 
 export default function Dashboard(): JSX.Element {
   const [time, setTime]                         = useState<number>(new Date().getTime())
@@ -43,6 +44,7 @@ export default function Dashboard(): JSX.Element {
       <ActiveReport key={time + 1} />
       <MissingReports key={time + 2} />
       <Auxiliaries />
+      <WithoutServiceGroup />
       <CommonExports />
     </div>
   )
