@@ -39,6 +39,7 @@ import {
   dbRestore,
   exportAddressList,
   exportCongregationS21,
+  exportMembersDocument,
   exportPublisherS21,
   exportPublishersS21,
   exportS88,
@@ -474,6 +475,24 @@ ipcMain.on('export-addresslist-group-pdf', async () => {
 
   exportService.upsert('ADDRESSLIST_GROUP', 'PDF', 'export-addresslist-group-pdf')
   exportAddressList(mainWindow, publisherService, 'GROUP', 'PDF')
+})
+
+ipcMain.on('export-regular-participants', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('REGULAR_PARTICIPANTS', 'DOCX', 'export-regular-participants')
+  // exportAddressList(mainWindow, publisherService, 'GROUP', 'PDF')
+})
+
+ipcMain.on('export-members', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('MEMBERS', 'DOCX', 'export-members')
+  exportMembersDocument(mainWindow, publisherService)
 })
 
 ipcMain.on('export-meeting-attendance', async (_event, args) => {

@@ -273,6 +273,23 @@ export default class MenuBuilder {
             },
           ],
         },
+        {
+          label:   i18n.t('mainMenu.publishers'),
+          submenu: [
+            {
+              label: i18n.t('mainMenu.regularParticipants'),
+              click: (): void => {
+                ipcMain.emit('export-regular-participants', null, {})
+              },
+            },
+            {
+              label: i18n.t('mainMenu.exportMembers'),
+              click: (): void => {
+                ipcMain.emit('export-members', null, {})
+              },
+            },
+          ],
+        },
       ],
     }
 
@@ -485,6 +502,23 @@ export default class MenuBuilder {
                 label: i18n.t('mainMenu.exportCompleteMeetingAttendance'),
                 click: (): void => {
                   ipcMain.emit('export-meeting-attendance', null, { type: 'complete' })
+                },
+              },
+            ],
+          },
+          {
+            label:   i18n.t('mainMenu.publishers'),
+            submenu: [
+              {
+                label: i18n.t('mainMenu.regularParticipants'),
+                click: (): void => {
+                  ipcMain.emit('export-regular-participants', null, {})
+                },
+              },
+              {
+                label: i18n.t('mainMenu.exportMembers'),
+                click: (): void => {
+                  ipcMain.emit('export-members', null, {})
                 },
               },
             ],

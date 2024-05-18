@@ -485,5 +485,15 @@
   "Växla utvecklarverktyg": "Växla Utvecklarverktyg",
   "Ångra": "Ångra",
   "updates.newVersion": "Det finns en ny version, {{tag}}!",
-  "label.withoutServiceGroup": "Förkunnare utan tjänstegrupp"
+  "label.withoutServiceGroup": "Förkunnare utan tjänstegrupp",
+  "mainMenu.regularParticipants": "Regelbundna deltagare",
+  "mainMenu.exportMembers": "Medlemmar",
+  "label.regular_participants": "Regelbundna deltagare",
+  "label.members": "Medlemmar",
+  "export.membersList": "REGISTER ÖVER MEDLEMMAR I {{name}}",
+  "export.membersCount": "Aktuellt antal medlemmar: {{count}}",
+  "export.membersName": "Namn",
+  "export.membersAddress": "Adress",
+  "export.membersBirthday": "Födelsedatum",
+  "export.membersBaptised": "Registreringsdatum"
 }
