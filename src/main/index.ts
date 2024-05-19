@@ -38,6 +38,7 @@ import {
   dbBackup,
   dbRestore,
   exportAddressList,
+  exportCompletionList,
   exportCongregationS21,
   exportMembersDocument,
   exportPublisherS21,
@@ -494,6 +495,15 @@ ipcMain.on('export-members', async () => {
 
   exportService.upsert('MEMBERS', 'DOCX', 'export-members')
   exportMembersDocument(mainWindow, publisherService)
+})
+
+ipcMain.on('export-needs-completions', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('COMPLETIONS', 'PDF', 'export-needs-completions')
+  exportCompletionList(mainWindow, publisherService)
 })
 
 ipcMain.on('export-meeting-attendance', async (_event, args) => {
