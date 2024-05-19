@@ -69,16 +69,6 @@ async function generate_DOCX(mainWindow: BrowserWindow,  publishers: PublisherMo
             verticalAlign: VerticalAlign.CENTER,
             width:         { size: 6000, type: WidthType.DXA },
           }),
-          new TableCell({
-            children:      [new Paragraph({ children: [new TextRun({ text: i18n.t('export.membersBirthday'), font: 'Arial', bold: true, size: 22 })] })],
-            verticalAlign: VerticalAlign.CENTER,
-            width:         { size: 2000, type: WidthType.DXA },
-          }),
-          new TableCell({
-            children:      [new Paragraph({ children: [new TextRun({ text: i18n.t('export.membersBaptised'), font: 'Arial', bold: true, size: 22 })] })],
-            verticalAlign: VerticalAlign.CENTER,
-            width:         { size: 2750, type: WidthType.DXA },
-          }),
         ],
       }),
     ],
@@ -100,14 +90,6 @@ async function generate_DOCX(mainWindow: BrowserWindow,  publishers: PublisherMo
           children:      [new Paragraph({ children: [new TextRun({ text: `${publisher.address}, ${publisher.zip} ${publisher.city}`, font: 'Arial', size: 22 })] })],
           verticalAlign: VerticalAlign.CENTER,
         }),
-        new TableCell({
-          children:      [new Paragraph({ children: [new TextRun({ text: publisher.birthday, font: 'Arial', size: 22 })] })],
-          verticalAlign: VerticalAlign.CENTER,
-        }),
-        new TableCell({
-          children:      [new Paragraph({ children: [new TextRun({ text: publisher.baptised, font: 'Arial', size: 22 })] })],
-          verticalAlign: VerticalAlign.CENTER,
-        }),
       ],
     })
 
@@ -115,28 +97,28 @@ async function generate_DOCX(mainWindow: BrowserWindow,  publishers: PublisherMo
   }
 
   const docPath = isDev()
-    ? './resources/documents/members.docx'
+    ? './resources/documents/regularParticipants.docx'
   // eslint-disable-next-line node/prefer-global/process
-    : path.join(process.resourcesPath, 'documents', 'members.docx')
+    : path.join(process.resourcesPath, 'documents', 'regularParticipants.docx')
 
   patchDocument(fs.readFileSync(docPath), {
     patches: {
-      members_headline: {
+      participants_headline: {
         type:     PatchType.PARAGRAPH,
         children: [
           new TextRun({
-            text:    i18n.t('export.membersList', { name: settings?.congregation.name.toUpperCase() }),
+            text:    i18n.t('export.participantsList', { name: settings?.congregation.name.toUpperCase() }),
             bold:    true,
             size:    28,
             allCaps: true,
           }),
         ],
       },
-      members_count: {
+      participants_count: {
         type:     PatchType.PARAGRAPH,
         children: [
           new TextRun({
-            text: i18n.t('export.membersCount', { count: publishers.length }),
+            text: i18n.t('export.participantsCount', { count: publishers.length }),
             bold: true,
             size: 28,
           }),
@@ -152,13 +134,13 @@ async function generate_DOCX(mainWindow: BrowserWindow,  publishers: PublisherMo
   })
 }
 
-export default async function ExportMembersDocument(
+export default async function ExportRegularParticipantDocument(
   mainWindow: BrowserWindow,
   publisherService: PublisherService,
 ): Promise<void> {
-  const fileName      = `Members_${new Date().toLocaleDateString('sv')}`
+  const fileName      = `RegularParticipants_${new Date().toLocaleDateString('sv')}`
   const allPublishers = await publisherService.find('LASTNAME')
-  const members       = allPublishers.filter(p => p.registerCard && (p.baptised || p.unknown_baptised))
+  const members       = allPublishers.filter(p => p.registerCard && (p.baptised === null && !p.unknown_baptised && p.status !== 'INACTIVE'))
 
   generate_DOCX(mainWindow, members, fileName)
 }

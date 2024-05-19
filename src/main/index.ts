@@ -42,6 +42,7 @@ import {
   exportMembersDocument,
   exportPublisherS21,
   exportPublishersS21,
+  exportRegularParticipantDocument,
   exportS88,
   generateXLSXReportForms,
   getCommonExports,
@@ -483,7 +484,7 @@ ipcMain.on('export-regular-participants', async () => {
   mainWindow?.webContents.send('show-spinner', { status: true })
 
   exportService.upsert('REGULAR_PARTICIPANTS', 'DOCX', 'export-regular-participants')
-  // exportAddressList(mainWindow, publisherService, 'GROUP', 'PDF')
+  exportRegularParticipantDocument(mainWindow, publisherService)
 })
 
 ipcMain.on('export-members', async () => {
@@ -499,8 +500,6 @@ ipcMain.on('export-meeting-attendance', async (_event, args) => {
   if (!mainWindow)
     return
   mainWindow?.webContents.send('show-spinner', { status: true })
-
-  log.info('exporting S-88', args)
 
   let sy: number[] = []
 
