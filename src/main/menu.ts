@@ -277,15 +277,21 @@ export default class MenuBuilder {
           label:   i18n.t('mainMenu.publishers'),
           submenu: [
             {
-              label: i18n.t('mainMenu.regularParticipants'),
+              label: i18n.t('mainMenu.needsCompletions'),
               click: (): void => {
-                ipcMain.emit('export-regular-participants', null, {})
+                ipcMain.emit('export-needs-completions', null, {})
               },
             },
             {
               label: i18n.t('mainMenu.exportMembers'),
               click: (): void => {
                 ipcMain.emit('export-members', null, {})
+              },
+            },
+            {
+              label: i18n.t('mainMenu.regularParticipants'),
+              click: (): void => {
+                ipcMain.emit('export-regular-participants', null, {})
               },
             },
           ],
@@ -510,15 +516,21 @@ export default class MenuBuilder {
             label:   i18n.t('mainMenu.publishers'),
             submenu: [
               {
-                label: i18n.t('mainMenu.regularParticipants'),
+                label: i18n.t('mainMenu.needsCompletions'),
                 click: (): void => {
-                  ipcMain.emit('export-regular-participants', null, {})
+                  ipcMain.emit('export-needs-completions', null, {})
                 },
               },
               {
                 label: i18n.t('mainMenu.exportMembers'),
                 click: (): void => {
                   ipcMain.emit('export-members', null, {})
+                },
+              },
+              {
+                label: i18n.t('mainMenu.regularParticipants'),
+                click: (): void => {
+                  ipcMain.emit('export-regular-participants', null, {})
                 },
               },
             ],
