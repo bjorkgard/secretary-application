@@ -101,6 +101,10 @@ export default class BaseStore<
     return this.databaseInstance.findOne({ _id })
   }
 
+  findByIdentifier(identifier: string): Promise<T | null> {
+    return this.databaseInstance.findOne({ old: identifier })
+  }
+
   drop(): void {
     this.databaseInstance.remove({}, { multi: true })
   }

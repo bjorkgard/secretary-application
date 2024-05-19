@@ -2,6 +2,7 @@ import type { BrowserWindow }   from 'electron'
 import { app, dialog }          from 'electron'
 import fs                       from 'fs-extra'
 import { parsePhoneNumber }     from 'react-phone-number-input'
+import log                      from 'electron-log'
 import type ServiceGroupService from '../services/serviceGroupService'
 import type PublisherService    from '../services/publisherService'
 import type ServiceMonthService from '../services/serviceMonthService'
@@ -203,10 +204,12 @@ function parsePublisher(publisher: any, serviceGroupId = '', familyId = ''): Pub
     deaf:        publisher.deaf,
     blind:       publisher.blind,
     sendReports: publisher.send_reports,
+    old:         publisher.identifier || '',
     children,
     histories,
     reports,
   }
+
   return parsedPublisher
 }
 
@@ -261,7 +264,7 @@ export default function ImportJson(
             })
           }
 
-          importData.groups.map(async (group: { name: string, publishers: any[] }) => {
+          for (const group of importData.groups) {
             if (group.name !== 'Ingen grupp') {
               await serviceGroupService.create({ name: group.name }).then(async (sg) => {
                 for await (const oldPublisher of group.publishers) {
@@ -283,195 +286,215 @@ export default function ImportJson(
                 }
               })
             }
-          })
+          }
+
+          // import all publisher not imported in previous function
+          const leftPublishers: any[] = []
+          for (const group of importData.groups) {
+            for await (const oldPublisher of group.publishers) {
+              publisherService.findByIdentifier(oldPublisher.identifier).then((publisher) => {
+                if (!publisher) {
+                  log.info('Missing', `${oldPublisher.firstname} ${oldPublisher.lastname}`)
+                  leftPublishers.push(oldPublisher)
+                }
+              })
+            }
+          }
+
+          if (leftPublishers.length > 0) {
+            await serviceGroupService.create({ name: 'TEMPORARY' }).then(async (sg) => {
+              for await (const oldPublisher of leftPublishers) {
+                log.info('Creating', oldPublisher.firstname, oldPublisher.lastname)
+                await publisherService.create(parsePublisher(oldPublisher, sg._id))
+              }
+            })
+          }
 
           // IMPORT ServiceYears and ServbiceMonths
-          importData.service_years.map(
-            async (serviceYear: { name: string, service_months: any[] }) => {
-              await serviceYearService
-                .create({ name: Number.parseInt(serviceYear.name), serviceMonths: [], history: [] })
-                .then(async (sy) => {
-                  for await (const serviceMonth of serviceYear.service_months) {
-                    if (serviceMonth.status === 'done') {
-                      const name             = serviceMonth.name.split('-')
-                      const date             = new Date(Number.parseInt(name[0]), Number.parseInt(name[1]) - 1, 1)
-                      const serviceMonthName = `${name[0]}-${name[1] < 10 ? '0' : ''}${name[1]}`
+          for (const serviceYear of importData.service_years) {
+            await serviceYearService
+              .create({ name: Number.parseInt(serviceYear.name), serviceMonths: [], history: [] })
+              .then(async (sy) => {
+                for await (const serviceMonth of serviceYear.service_months) {
+                  if (serviceMonth.status === 'done') {
+                    const name             = serviceMonth.name.split('-')
+                    const date             = new Date(Number.parseInt(name[0]), Number.parseInt(name[1]) - 1, 1)
+                    const serviceMonthName = `${name[0]}-${name[1] < 10 ? '0' : ''}${name[1]}`
 
-                      let midweekMeetings: number[]     = []
-                      let weekendMeetings: number[]     = []
-                      let midweekMeetingsLang: number[] = []
-                      let weekendMeetingsLang: number[] = []
-                      let meetings: {
-                        identifier: string
-                        name?:      string
-                        midweek:    number[]
-                        weekend:    number[]
-                      }[] = []
+                    let midweekMeetings: number[]     = []
+                    let weekendMeetings: number[]     = []
+                    let midweekMeetingsLang: number[] = []
+                    let weekendMeetingsLang: number[] = []
+                    let meetings: {
+                      identifier: string
+                      name?:      string
+                      midweek:    number[]
+                      weekend:    number[]
+                    }[] = []
 
-                      if (importData.languageGroup && importData.languageGroup !== '') {
-                        // eslint-disable-next-line unicorn/no-new-array
-                        midweekMeetings = new Array(serviceMonth.mid_no_meeting).fill(
-                          Math.round(
-                            (serviceMonth.mid_sum - serviceMonth.mid_sum_lg)
-                            / serviceMonth.mid_no_meeting,
-                          ),
-                        )
-                        // eslint-disable-next-line unicorn/no-new-array
-                        weekendMeetings = new Array(serviceMonth.week_no_meeting).fill(
-                          Math.round(
-                            (serviceMonth.week_sum - serviceMonth.week_sum_lg)
-                            / serviceMonth.week_no_meeting,
-                          ),
-                        )
-                        // eslint-disable-next-line unicorn/no-new-array
-                        midweekMeetingsLang = new Array(serviceMonth.mid_no_meeting_lg).fill(
-                          Math.round(serviceMonth.mid_sum_lg / serviceMonth.mid_no_meeting_lg),
-                        )
-                        // eslint-disable-next-line unicorn/no-new-array
-                        weekendMeetingsLang = new Array(serviceMonth.week_no_meeting_lg).fill(
-                          Math.round(serviceMonth.week_sum_lg / serviceMonth.week_no_meeting_lg),
-                        )
+                    if (importData.languageGroup && importData.languageGroup !== '') {
+                      // eslint-disable-next-line unicorn/no-new-array
+                      midweekMeetings = new Array(serviceMonth.mid_no_meeting).fill(
+                        Math.round(
+                          (serviceMonth.mid_sum - serviceMonth.mid_sum_lg)
+                          / serviceMonth.mid_no_meeting,
+                        ),
+                      )
+                      // eslint-disable-next-line unicorn/no-new-array
+                      weekendMeetings = new Array(serviceMonth.week_no_meeting).fill(
+                        Math.round(
+                          (serviceMonth.week_sum - serviceMonth.week_sum_lg)
+                          / serviceMonth.week_no_meeting,
+                        ),
+                      )
+                      // eslint-disable-next-line unicorn/no-new-array
+                      midweekMeetingsLang = new Array(serviceMonth.mid_no_meeting_lg).fill(
+                        Math.round(serviceMonth.mid_sum_lg / serviceMonth.mid_no_meeting_lg),
+                      )
+                      // eslint-disable-next-line unicorn/no-new-array
+                      weekendMeetingsLang = new Array(serviceMonth.week_no_meeting_lg).fill(
+                        Math.round(serviceMonth.week_sum_lg / serviceMonth.week_no_meeting_lg),
+                      )
 
-                        meetings = [
-                          {
-                            identifier: generateIdentifier(),
-                            midweek:    midweekMeetings,
-                            weekend:    weekendMeetings,
-                          },
-                          {
-                            identifier: generateIdentifier(),
-                            name:       importData.languageGroup,
-                            midweek:    midweekMeetingsLang,
-                            weekend:    weekendMeetingsLang,
-                          },
-                        ]
-                      }
-                      else {
-                        // eslint-disable-next-line unicorn/no-new-array
-                        midweekMeetings = new Array(serviceMonth.mid_no_meeting).fill(
-                          Math.round(serviceMonth.mid_sum / serviceMonth.mid_no_meeting),
-                        )
-                        // eslint-disable-next-line unicorn/no-new-array
-                        weekendMeetings = new Array(serviceMonth.week_no_meeting).fill(
-                          Math.round(serviceMonth.week_sum / serviceMonth.week_no_meeting),
-                        )
-
-                        meetings = [
-                          {
-                            identifier: generateIdentifier(),
-                            midweek:    midweekMeetings,
-                            weekend:    weekendMeetings,
-                          },
-                        ]
-                      }
-
-                      const reports: Report[] = []
-
-                      for (let index = 0; index < serviceMonth.pub_quantity; index++) {
-                        reports.push({
-                          hasBeenInService:    true,
-                          hasNotBeenInService: false,
-                          identifier:          generateIdentifier(),
-                          type:                'PUBLISHER',
-                          serviceMonth:        serviceMonthName,
-                          serviceYear:         sy.name,
-                          sortOrder:           serviceMonth.sort_order,
-                          name:                date.toLocaleString('default', { month: 'long' }).toLowerCase(),
-                          auxiliary:           false,
-                          studies:             serviceMonth.pub_studies / serviceMonth.pub_quantity,
-                        })
-                      }
-                      for (let index = 0; index < serviceMonth.p_quantity; index++) {
-                        reports.push({
-                          hasBeenInService:    true,
-                          hasNotBeenInService: false,
-                          identifier:          generateIdentifier(),
-                          type:                'PIONEER',
-                          serviceMonth:        serviceMonth.name,
-                          serviceYear:         sy.name,
-                          sortOrder:           serviceMonth.sort_order,
-                          name:                date.toLocaleString('default', { month: 'long' }).toLowerCase(),
-                          auxiliary:           false,
-                          studies:             serviceMonth.p_studies / serviceMonth.p_quantity,
-                          hours:               serviceMonth.p_hours / serviceMonth.p_quantity,
-                        })
-                      }
-                      for (let index = 0; index < serviceMonth.aux_quantity; index++) {
-                        reports.push({
-                          hasBeenInService:    true,
-                          hasNotBeenInService: false,
-                          identifier:          generateIdentifier(),
-                          type:                'AUXILIARY',
-                          serviceMonth:        serviceMonth.name,
-                          serviceYear:         sy.name,
-                          sortOrder:           serviceMonth.sort_order,
-                          name:                date.toLocaleString('default', { month: 'long' }).toLowerCase(),
-                          auxiliary:           true,
-                          studies:             serviceMonth.aux_studies / serviceMonth.aux_quantity,
-                          hours:               serviceMonth.aux_hours / serviceMonth.aux_quantity,
-                        })
-                      }
-                      for (let index = 0; index < serviceMonth.sp_quantity; index++) {
-                        reports.push({
-                          hasBeenInService:    true,
-                          hasNotBeenInService: false,
-                          identifier:          generateIdentifier(),
-                          type:                'SPECIALPIONEER',
-                          serviceMonth:        serviceMonth.name,
-                          serviceYear:         sy.name,
-                          sortOrder:           serviceMonth.sort_order,
-                          name:                date.toLocaleString('default', { month: 'long' }).toLowerCase(),
-                          auxiliary:           false,
-                          studies:             serviceMonth.sp_studies / serviceMonth.sp_quantity,
-                          hours:               serviceMonth.sp_hours / serviceMonth.sp_quantity,
-                        })
-                      }
-                      for (let index = 0; index < serviceMonth.co_quantity; index++) {
-                        reports.push({
-                          hasBeenInService:    true,
-                          hasNotBeenInService: false,
-                          identifier:          generateIdentifier(),
-                          type:                'CIRCUITOVERSEER',
-                          serviceMonth:        serviceMonth.name,
-                          serviceYear:         sy.name,
-                          sortOrder:           serviceMonth.sort_order,
-                          name:                date.toLocaleString('default', { month: 'long' }).toLowerCase(),
-                          auxiliary:           false,
-                          studies:             serviceMonth.co_studies / serviceMonth.co_quantity,
-                          hours:               serviceMonth.co_hours / serviceMonth.co_quantity,
-                        })
-                      }
-
-                      const rawMonth: ServiceMonthModel = {
-                        status:       'DONE',
-                        serviceYear:  getServiceYear(serviceMonth.name),
-                        name:         date.toLocaleString('default', { month: 'long' }).toLowerCase(),
-                        serviceMonth: serviceMonth.name,
-                        sortOrder:    serviceMonth.sort_order,
-                        reports,
-                        meetings,
-                        stats:        {
-                          activePublishers:  serviceMonth.active_publisher,
-                          regularPublishers: serviceMonth.regular_publisher,
-                          irregularPublishers:
-                            serviceMonth.active_publisher - serviceMonth.regular_publisher,
-                          inactivePublishers: 0,
-                          deaf:               serviceMonth.deaf,
-                          blind:              serviceMonth.blind,
+                      meetings = [
+                        {
+                          identifier: generateIdentifier(),
+                          midweek:    midweekMeetings,
+                          weekend:    weekendMeetings,
                         },
-                      }
-
-                      const newMonth = await serviceMonthService.create(rawMonth)
-
-                      if (newMonth._id)
-                        sy.serviceMonths.push(newMonth._id)
+                        {
+                          identifier: generateIdentifier(),
+                          name:       importData.languageGroup,
+                          midweek:    midweekMeetingsLang,
+                          weekend:    weekendMeetingsLang,
+                        },
+                      ]
                     }
+                    else {
+                      // eslint-disable-next-line unicorn/no-new-array
+                      midweekMeetings = new Array(serviceMonth.mid_no_meeting).fill(
+                        Math.round(serviceMonth.mid_sum / serviceMonth.mid_no_meeting),
+                      )
+                      // eslint-disable-next-line unicorn/no-new-array
+                      weekendMeetings = new Array(serviceMonth.week_no_meeting).fill(
+                        Math.round(serviceMonth.week_sum / serviceMonth.week_no_meeting),
+                      )
+
+                      meetings = [
+                        {
+                          identifier: generateIdentifier(),
+                          midweek:    midweekMeetings,
+                          weekend:    weekendMeetings,
+                        },
+                      ]
+                    }
+
+                    const reports: Report[] = []
+
+                    for (let index = 0; index < serviceMonth.pub_quantity; index++) {
+                      reports.push({
+                        hasBeenInService:    true,
+                        hasNotBeenInService: false,
+                        identifier:          generateIdentifier(),
+                        type:                'PUBLISHER',
+                        serviceMonth:        serviceMonthName,
+                        serviceYear:         sy.name,
+                        sortOrder:           serviceMonth.sort_order,
+                        name:                date.toLocaleString('default', { month: 'long' }).toLowerCase(),
+                        auxiliary:           false,
+                        studies:             serviceMonth.pub_studies / serviceMonth.pub_quantity,
+                      })
+                    }
+                    for (let index = 0; index < serviceMonth.p_quantity; index++) {
+                      reports.push({
+                        hasBeenInService:    true,
+                        hasNotBeenInService: false,
+                        identifier:          generateIdentifier(),
+                        type:                'PIONEER',
+                        serviceMonth:        serviceMonth.name,
+                        serviceYear:         sy.name,
+                        sortOrder:           serviceMonth.sort_order,
+                        name:                date.toLocaleString('default', { month: 'long' }).toLowerCase(),
+                        auxiliary:           false,
+                        studies:             serviceMonth.p_studies / serviceMonth.p_quantity,
+                        hours:               serviceMonth.p_hours / serviceMonth.p_quantity,
+                      })
+                    }
+                    for (let index = 0; index < serviceMonth.aux_quantity; index++) {
+                      reports.push({
+                        hasBeenInService:    true,
+                        hasNotBeenInService: false,
+                        identifier:          generateIdentifier(),
+                        type:                'AUXILIARY',
+                        serviceMonth:        serviceMonth.name,
+                        serviceYear:         sy.name,
+                        sortOrder:           serviceMonth.sort_order,
+                        name:                date.toLocaleString('default', { month: 'long' }).toLowerCase(),
+                        auxiliary:           true,
+                        studies:             serviceMonth.aux_studies / serviceMonth.aux_quantity,
+                        hours:               serviceMonth.aux_hours / serviceMonth.aux_quantity,
+                      })
+                    }
+                    for (let index = 0; index < serviceMonth.sp_quantity; index++) {
+                      reports.push({
+                        hasBeenInService:    true,
+                        hasNotBeenInService: false,
+                        identifier:          generateIdentifier(),
+                        type:                'SPECIALPIONEER',
+                        serviceMonth:        serviceMonth.name,
+                        serviceYear:         sy.name,
+                        sortOrder:           serviceMonth.sort_order,
+                        name:                date.toLocaleString('default', { month: 'long' }).toLowerCase(),
+                        auxiliary:           false,
+                        studies:             serviceMonth.sp_studies / serviceMonth.sp_quantity,
+                        hours:               serviceMonth.sp_hours / serviceMonth.sp_quantity,
+                      })
+                    }
+                    for (let index = 0; index < serviceMonth.co_quantity; index++) {
+                      reports.push({
+                        hasBeenInService:    true,
+                        hasNotBeenInService: false,
+                        identifier:          generateIdentifier(),
+                        type:                'CIRCUITOVERSEER',
+                        serviceMonth:        serviceMonth.name,
+                        serviceYear:         sy.name,
+                        sortOrder:           serviceMonth.sort_order,
+                        name:                date.toLocaleString('default', { month: 'long' }).toLowerCase(),
+                        auxiliary:           false,
+                        studies:             serviceMonth.co_studies / serviceMonth.co_quantity,
+                        hours:               serviceMonth.co_hours / serviceMonth.co_quantity,
+                      })
+                    }
+
+                    const rawMonth: ServiceMonthModel = {
+                      status:       'DONE',
+                      serviceYear:  getServiceYear(serviceMonth.name),
+                      name:         date.toLocaleString('default', { month: 'long' }).toLowerCase(),
+                      serviceMonth: serviceMonth.name,
+                      sortOrder:    serviceMonth.sort_order,
+                      reports,
+                      meetings,
+                      stats:        {
+                        activePublishers:  serviceMonth.active_publisher,
+                        regularPublishers: serviceMonth.regular_publisher,
+                        irregularPublishers:
+                            serviceMonth.active_publisher - serviceMonth.regular_publisher,
+                        inactivePublishers: 0,
+                        deaf:               serviceMonth.deaf,
+                        blind:              serviceMonth.blind,
+                      },
+                    }
+
+                    const newMonth = await serviceMonthService.create(rawMonth)
+
+                    if (newMonth._id)
+                      sy.serviceMonths.push(newMonth._id)
                   }
-                  if (sy._id)
-                    serviceYearService.update(sy._id, sy)
-                })
-            },
-          )
+                }
+                if (sy._id)
+                  serviceYearService.update(sy._id, sy)
+              })
+          }
 
           if (mainWindow) {
             dialog.showMessageBox(mainWindow, responseOptions).then(() => {

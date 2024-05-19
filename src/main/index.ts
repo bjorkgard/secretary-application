@@ -39,13 +39,16 @@ import {
   dbRestore,
   exportAddressList,
   exportCongregationS21,
+  exportMembersDocument,
   exportPublisherS21,
   exportPublishersS21,
+  exportRegularParticipantDocument,
   exportS88,
   generateXLSXReportForms,
   getCommonExports,
   getMonthString,
   getPublishersStats,
+  getPublishersWithoutServiceGroup,
   getReportUpdates,
   importJson,
   importServiceReports,
@@ -434,6 +437,10 @@ ipcMain.handle('common-exports', async () => {
   return getCommonExports(exportService)
 })
 
+ipcMain.handle('temporary-servicegroup', async () => {
+  return getPublishersWithoutServiceGroup(serviceGroupService, publisherService)
+})
+
 // EXPORTS
 ipcMain.on('export-addresslist-alphabetically-xlsx', async () => {
   if (!mainWindow)
@@ -471,12 +478,28 @@ ipcMain.on('export-addresslist-group-pdf', async () => {
   exportAddressList(mainWindow, publisherService, 'GROUP', 'PDF')
 })
 
-ipcMain.on('export-meeting-attendance', async (_event, args) => {
+ipcMain.on('export-regular-participants', async () => {
   if (!mainWindow)
     return
   mainWindow?.webContents.send('show-spinner', { status: true })
 
-  log.info('exporting S-88', args)
+  exportService.upsert('REGULAR_PARTICIPANTS', 'DOCX', 'export-regular-participants')
+  exportRegularParticipantDocument(mainWindow, publisherService)
+})
+
+ipcMain.on('export-members', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('MEMBERS', 'DOCX', 'export-members')
+  exportMembersDocument(mainWindow, publisherService)
+})
+
+ipcMain.on('export-meeting-attendance', async (_event, args) => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
 
   let sy: number[] = []
 

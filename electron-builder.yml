@@ -31,6 +31,10 @@ extraResources:
     to: fonts
     filter:
       - '**/*'
+  - from: resources/documents
+    to: documents
+    filter:
+      - '**/*'
 extraMetadata:
   homepage: https://secretary.jwapp.info
   description: An open source application to help the secretary in the congregation.
