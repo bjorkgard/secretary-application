@@ -1,5 +1,42 @@
 # CHANGELOG
 
+## [v1.3.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.0) - 2024-05-19 19:27:03
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.3.0 -->
+
+## What's Changed
+### Other Changes
+* feat(unbaptised publisher): add an event for new ubaptised publisher by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/422
+* feat(baptised): add an event Baptised for a publisher by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/424
+* feat(congregation s21): s21 för hela församlingen församlingens registerkort by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/433
+* feat(stadsbidrag) registerkort för statsbidrag by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/441
+* feat(completion list): export a list with publishers in needs for com… by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/442
+* 1.3.0 by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/423
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.8...v1.3.0
+
+### Feature
+
+- completion list:
+  - export a list with publishers in needs for completions ([5f8675a](https://github.com/bjorkgard/secretary-application/commit/5f8675a2010ac01ca229ea873d0725ebfafc8f3b)) ([#442](https://github.com/bjorkgard/secretary-application/pull/442))
+
+- export regular participant:
+  - export a list of regular participants ([61ac31a](https://github.com/bjorkgard/secretary-application/commit/61ac31ae3f44071d91affb78bea1b5d42f4d3fed)) ([#441](https://github.com/bjorkgard/secretary-application/pull/441))
+
+- export members:
+  - export docx-file with a members list ([deb922e](https://github.com/bjorkgard/secretary-application/commit/deb922e816b2a038177c78d9828a5743a0a06886)) ([#441](https://github.com/bjorkgard/secretary-application/pull/441))
+
+### Bug Fixes
+
+- menu:
+  - add missing option for windows ([17d15a7](https://github.com/bjorkgard/secretary-application/commit/17d15a7f58f4855d8175663b2d5c991e005fb776)) ([#441](https://github.com/bjorkgard/secretary-application/pull/441))
+
+### Documentation
+
+- documentation:
+  - update som texts ([8d00715](https://github.com/bjorkgard/secretary-application/commit/8d007152e902ae86e9b3ea936e346898bcd29c0f)) ([#441](https://github.com/bjorkgard/secretary-application/pull/441))
+
 ## [v1.2.8](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.8) - 2024-05-17 16:05:43
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.2.8 -->
@@ -11,6 +48,11 @@
 
 
 **Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.7...v1.2.8
+
+### Feature
+
+- congregation s21:
+  - export congregation S-21 ([8b32983](https://github.com/bjorkgard/secretary-application/commit/8b32983e4dec9e8cc3a99c6cfdc8f041987a1b8c)) ([#433](https://github.com/bjorkgard/secretary-application/pull/433))
 
 ### Bug Fixes
 
@@ -46,6 +88,17 @@
 
 
 **Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.5...v1.2.6
+
+### Feature
+
+- menu:
+  - a new menu option to export congregation S-21 ([6c27d64](https://github.com/bjorkgard/secretary-application/commit/6c27d64fd73f02b53083b33ad10cd05d6fd7ea7d)) ([#433](https://github.com/bjorkgard/secretary-application/pull/433))
+
+- baptised:
+  - add an event Baptised for a publisher ([0998f0b](https://github.com/bjorkgard/secretary-application/commit/0998f0bd5f6ad75dcf869d5e5289b8b078894efd)) ([#424](https://github.com/bjorkgard/secretary-application/pull/424))
+
+- unbaptised publisher:
+  - add an event for new ubaptised publisher ([e1a4645](https://github.com/bjorkgard/secretary-application/commit/e1a4645efb1170cc532e87c01d274b3dc9093675)) ([#422](https://github.com/bjorkgard/secretary-application/pull/422))
 
 ### Bug Fixes
 
