@@ -38,8 +38,12 @@ import {
   dbBackup,
   dbRestore,
   exportAddressList,
+  exportCompletionList,
+  exportCongregationS21,
+  exportMembersDocument,
   exportPublisherS21,
   exportPublishersS21,
+  exportRegularParticipantDocument,
   exportS88,
   generateXLSXReportForms,
   getCommonExports,
@@ -475,12 +479,37 @@ ipcMain.on('export-addresslist-group-pdf', async () => {
   exportAddressList(mainWindow, publisherService, 'GROUP', 'PDF')
 })
 
-ipcMain.on('export-meeting-attendance', async (_event, args) => {
+ipcMain.on('export-regular-participants', async () => {
   if (!mainWindow)
     return
   mainWindow?.webContents.send('show-spinner', { status: true })
 
-  log.info('exporting S-88', args)
+  exportService.upsert('REGULAR_PARTICIPANTS', 'DOCX', 'export-regular-participants')
+  exportRegularParticipantDocument(mainWindow, publisherService)
+})
+
+ipcMain.on('export-members', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('MEMBERS', 'DOCX', 'export-members')
+  exportMembersDocument(mainWindow, publisherService)
+})
+
+ipcMain.on('export-needs-completions', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('COMPLETIONS', 'PDF', 'export-needs-completions')
+  exportCompletionList(mainWindow, publisherService)
+})
+
+ipcMain.on('export-meeting-attendance', async (_event, args) => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
 
   let sy: number[] = []
 
@@ -496,6 +525,46 @@ ipcMain.on('export-meeting-attendance', async (_event, args) => {
   sy.sort()
 
   exportS88(mainWindow, sy)
+})
+
+ipcMain.on('export-register-card-congregation', async (_event) => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  const sy: string[] = []
+
+  serviceYearService.find().then((serviceYears) => {
+    serviceYears.forEach((serviceYear) => {
+      sy.push(serviceYear.name.toString())
+    })
+  })
+
+  sy.sort((a, b) => (a > b ? -1 : 1))
+
+  prompt({
+    title:         i18n.t('dialog.selectServiceYear'),
+    label:         i18n.t('dialog.selectServiceYearDescription'),
+    type:          'select',
+    selectOptions: sy,
+    alwaysOnTop:   true,
+    buttonLabels:  { cancel: i18n.t('label.cancel'), ok: i18n.t('label.ok') },
+    resizable:     true,
+  })
+    .then((r: number | null) => {
+      if (r !== null) {
+        if (mainWindow)
+          exportCongregationS21(mainWindow, +sy[r])
+      }
+      else {
+        mainWindow?.webContents.send('show-spinner', { status: false })
+      }
+    })
+    .catch((err: Error) => {
+      mainWindow?.webContents.send('show-spinner', { status: false })
+      log.error(err)
+    })
 })
 
 ipcMain.on('export-register-card', async (_event, args) => {
