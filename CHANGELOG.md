@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## [v1.3.1](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.1) - 2024-05-20 15:08:39
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.3.1 -->
+
+## What's Changed
+### Other Changes
+* fix(report excel): fix a problem where the forms were protected by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/448
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.0...v1.3.1
+
+### Bug Fixes
+
+- report excel:
+  - fix a problem where the forms were protected ([6fa8731](https://github.com/bjorkgard/secretary-application/commit/6fa87310ba1002e17d1a4a6a606b91152317b686)) ([#448](https://github.com/bjorkgard/secretary-application/pull/448))
+
+### Documentation
+
+- crowdin:
+  - update badge and link ([26fe948](https://github.com/bjorkgard/secretary-application/commit/26fe948ebcddcdaa149b6e0535a6a4cef51785c5)) ([#445](https://github.com/bjorkgard/secretary-application/pull/445))
+
 ## [v1.3.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.0) - 2024-05-19 19:27:03
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.3.0 -->
