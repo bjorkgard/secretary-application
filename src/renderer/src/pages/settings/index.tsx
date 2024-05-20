@@ -399,6 +399,45 @@ export default function Settings(): JSX.Element {
             </fieldset>
           </div>
         </div>
+
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3 dark:border-slate-400/50">
+          <div>
+            <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-slate-300">
+              {t('settings.experimental.headline')}
+            </h2>
+            <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-slate-300">
+              {t('settings.experimental.information')}
+            </p>
+          </div>
+
+          <div className="max-w-2xl space-y-10 md:col-span-2">
+            <fieldset>
+              <div className="mt-2 space-y-4">
+                <div className="relative flex gap-x-3">
+                  <div className="flex h-6 items-center">
+                    <input
+                      id="mergePdf"
+                      type="checkbox"
+                      {...register('mergePdf')}
+                      className="checkbox-primary checkbox"
+                    />
+                  </div>
+                  <div className="text-sm leading-6">
+                    <label
+                      htmlFor="mergePdf"
+                      className="cursor-pointer font-medium text-gray-900 dark:text-slate-300"
+                    >
+                      {t('label.mergePdf')}
+                    </label>
+                    <p className="text-gray-500 dark:text-slate-400">
+                      {t('settings.mergePdf')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">

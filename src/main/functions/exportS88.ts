@@ -1,8 +1,9 @@
 import type { BrowserWindow }     from 'electron'
 import { app, dialog }            from 'electron'
-import { PDFDocument }            from 'pdf-lib'
-import fs                         from 'fs-extra'
 import log                        from 'electron-log'
+import fs                         from 'fs-extra'
+import JSZip                      from 'jszip'
+import { PDFDocument }            from 'pdf-lib'
 import i18n                       from '../../localization/i18next.config'
 import SettingsService            from '../services/settingsService'
 import ServiceYearService         from '../services/serviceYearService'
@@ -34,7 +35,8 @@ export default async function exportS88(
   serviceYears: number[],
 ): Promise<void> {
   const mergedPdf                                          = await PDFDocument.create()
-  const fileName                                           = `S-88_${firstAndLast(serviceYears)}_${new Date().toLocaleDateString('sv')}.pdf`
+  const zip                                                = new JSZip()
+  const fileName                                           = `S-88_${firstAndLast(serviceYears)}_${new Date().toLocaleDateString('sv')}`
   const meetingAttendanceExport: MeetingAttendanceExport[] = []
 
   const settings       = await settingsService.find()
@@ -58,9 +60,14 @@ export default async function exportS88(
         meetingAttendanceExport[index],
         meetingAttendanceExport[index + 1],
       ).then(async (pdfBytes) => {
-        const page        = await PDFDocument.load(pdfBytes)
-        const copiedPages = await mergedPdf.copyPages(page, page.getPageIndices())
-        copiedPages.forEach(page => mergedPdf.addPage(page))
+        if (settings?.mergePdf) {
+          const page        = await PDFDocument.load(pdfBytes)
+          const copiedPages = await mergedPdf.copyPages(page, page.getPageIndices())
+          copiedPages.forEach(page => mergedPdf.addPage(page))
+        }
+        else {
+          zip.file(`S-88_${new Date().toLocaleDateString('sv')}.pdf`, pdfBytes)
+        }
       })
 
       if (languageGroups && languageGroups.length > 0) {
@@ -70,9 +77,14 @@ export default async function exportS88(
             meetingAttendanceExport[index],
             meetingAttendanceExport[index + 1],
           ).then(async (pdfBytes) => {
-            const page        = await PDFDocument.load(pdfBytes)
-            const copiedPages = await mergedPdf.copyPages(page, page.getPageIndices())
-            copiedPages.forEach(page => mergedPdf.addPage(page))
+            if (settings?.mergePdf) {
+              const page        = await PDFDocument.load(pdfBytes)
+              const copiedPages = await mergedPdf.copyPages(page, page.getPageIndices())
+              copiedPages.forEach(page => mergedPdf.addPage(page))
+            }
+            else {
+              zip.file(`S-88_${languageGroup.name}_${new Date().toLocaleDateString('sv')}.pdf`, pdfBytes)
+            }
           })
         }
         // combind languageGroups and mother congregation
@@ -81,15 +93,25 @@ export default async function exportS88(
           meetingAttendanceExport[index],
           meetingAttendanceExport[index + 1],
         ).then(async (pdfBytes) => {
-          const page        = await PDFDocument.load(pdfBytes)
-          const copiedPages = await mergedPdf.copyPages(page, page.getPageIndices())
-          copiedPages.forEach(page => mergedPdf.addPage(page))
+          if (settings?.mergePdf) {
+            const page        = await PDFDocument.load(pdfBytes)
+            const copiedPages = await mergedPdf.copyPages(page, page.getPageIndices())
+            copiedPages.forEach(page => mergedPdf.addPage(page))
+          }
+          else {
+            zip.file(`S-88_TOTAL_${new Date().toLocaleDateString('sv')}.pdf`, pdfBytes)
+          }
         })
       }
     }
-    const mergedPdfBytes = await mergedPdf.save()
 
-    savePdfFile(mainWindow, mergedPdfBytes, fileName)
+    if (settings?.mergePdf) {
+      const mergedPdfBytes = await mergedPdf.save()
+      savePdfFile(mainWindow, mergedPdfBytes, `${fileName}.pdf`)
+    }
+    else {
+      saveZipFile(mainWindow, zip, `${fileName}.zip`)
+    }
   }
   catch (err) {
     log.error(err)
@@ -124,6 +146,33 @@ function savePdfFile(mainWindow: BrowserWindow, data: Uint8Array, name: string) 
         if (data)
           // eslint-disable-next-line node/prefer-global/buffer
           fs.writeFileSync(response.filePath, Buffer.from(data))
+      }
+    })
+    .catch((err) => {
+      log.error(err)
+    })
+
+  mainWindow?.webContents.send('show-spinner', { status: false })
+}
+
+function saveZipFile(mainWindow: BrowserWindow, zip: JSZip, name: string) {
+  const dialogOptions = {
+    title:       i18n.t('export.saveAs'),
+    defaultPath: `${app.getPath('downloads')}/${name}`,
+    extensions:  ['zip'],
+    buttonLabel: i18n.t('export.save'),
+  }
+
+  dialog
+    .showSaveDialog(mainWindow, dialogOptions)
+    .then((response) => {
+      if (!response.canceled && response.filePath) {
+        zip
+          .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
+          .pipe(fs.createWriteStream(response.filePath))
+          .on('finish', () => {
+            log.info('zip written.')
+          })
       }
     })
     .catch((err) => {

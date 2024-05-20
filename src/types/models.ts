@@ -41,6 +41,7 @@ export interface SettingsModel extends Base {
   token:        string
   online:       OnlineModel
   user:         UserModel
+  mergePdf:     boolean
 }
 
 export interface ServiceGroupModel extends Base {

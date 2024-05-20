@@ -17,6 +17,7 @@ const settingsState = hookstate<SettingsModel>({
     send_report_publisher: false,
     public:                false,
   },
+  mergePdf: false,
 })
 
 export function useSettingsState(): {

@@ -452,6 +452,23 @@ export default class MenuBuilder {
                   },
                 ],
               },
+              {
+                label:   i18n.t('mainMenu.addressListGroup'),
+                submenu: [
+                  {
+                    label: i18n.t('mainMenu.pdf'),
+                    click: (): void => {
+                      ipcMain.emit('export-addresslist-group-pdf')
+                    },
+                  },
+                  {
+                    label: i18n.t('mainMenu.xlsx'),
+                    click: (): void => {
+                      ipcMain.emit('export-addresslist-group-xlsx')
+                    },
+                  },
+                ],
+              },
             ],
           },
           {

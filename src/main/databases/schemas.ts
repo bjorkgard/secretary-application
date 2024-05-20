@@ -49,6 +49,7 @@ export interface Settings extends Base {
   congregation: Congregation
   user:         User
   online:       Online
+  mergePdf:     boolean
 }
 
 export interface ServiceGroup extends Base {
@@ -291,6 +292,7 @@ export const SettingsSchema: JSONSchemaType<Settings> = {
     congregation: CongregationSchema,
     user:         UserSchema,
     online:       OnlineSchema,
+    mergePdf:     { type: 'boolean' },
     createdAt:    { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
     updatedAt:    { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },
