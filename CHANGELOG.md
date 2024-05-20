@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## [v1.3.2](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.2) - 2024-05-20 20:33:57
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.3.2 -->
+
+## What's Changed
+### Other Changes
+* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/450
+* fix(export): export of forms with multiple pages by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/457
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.1...v1.3.2
+
+### Bug Fixes
+
+- export pdf forms:
+  - do not merge pdf-files as default ([69cbdd3](https://github.com/bjorkgard/secretary-application/commit/69cbdd38ec0e5faf0a839638934953e558e5c71e)) ([#457](https://github.com/bjorkgard/secretary-application/pull/457))
+
+- menu:
+  - add missing menu options ([fcff7f5](https://github.com/bjorkgard/secretary-application/commit/fcff7f57a45f59b335ed570f365d892e108d35aa)) ([#457](https://github.com/bjorkgard/secretary-application/pull/457))
+
+- deps:
+  - bump chart.js from 4.4.2 to 4.4.3 (#456) ([40b5c84](https://github.com/bjorkgard/secretary-application/commit/40b5c842e28b2112ca6a0a402275de3c2d0e91c0)) ([#456](https://github.com/bjorkgard/secretary-application/pull/456))
+
 ## [v1.3.1](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.1) - 2024-05-20 15:08:39
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.3.1 -->
