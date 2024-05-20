@@ -504,5 +504,9 @@
   "Växla &Helskärmsläge": "Växla &Helskärmsläge",
   "Växla &Utvecklarverktyg": "Växla &Utvecklarverktyg",
   "Växla utvecklarverktyg": "Växla Utvecklarverktyg",
-  "Ångra": "Ångra"
+  "Ångra": "Ångra",
+  "settings.experimental.headline": "Experimentella funktioner",
+  "settings.experimental.information": "De här inställningarna kanske inte fungerar på alla enheter. Får du problem med någon av dem så slå av dem här.",
+  "label.mergePdf": "Slå samman PDF-filer",
+  "settings.mergePdf": "Med denna funktion slås alla PDF-filer som skapas i applikationen samman till en fil, t.ex. registerkort och mötesnärvaro."
 }
