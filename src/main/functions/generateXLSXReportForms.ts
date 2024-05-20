@@ -20,6 +20,8 @@ interface ServiceGroupWithReports {
 }
 
 /**
+ *
+ *
  * Retrieves all service groups from the service group service.
  * @param serviceGroupService - The service group service to retrieve the service groups from.
  * @returns A promise that resolves to an array of service group models.
@@ -169,6 +171,7 @@ async function generateFile(serviceGroupWithReports: ServiceGroupWithReports): P
   worksheet.getColumn('status').hidden         = true
   worksheet.getColumn('type').hidden           = true
 
+  /*
   await worksheet.protect('mt24:14', {
     selectLockedCells:   true,
     selectUnlockedCells: false,
@@ -184,6 +187,7 @@ async function generateFile(serviceGroupWithReports: ServiceGroupWithReports): P
     autoFilter:          false,
     pivotTables:         false,
   })
+  */
 
   // eslint-disable-next-line node/prefer-global/buffer
   return { filename, fileBuffer: (await workbook.xlsx.writeBuffer()) as Buffer }
