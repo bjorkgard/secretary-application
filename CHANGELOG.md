@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## [v1.3.3](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.3) - 2024-05-22 14:37:14
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.3.3 -->
+
+## What's Changed
+### Other Changes
+* fix(translations): add missing translations by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/462
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.2...v1.3.3
+
+### Bug Fixes
+
+- translations:
+  - add missing translations ([d8a2632](https://github.com/bjorkgard/secretary-application/commit/d8a2632a2018a159302f127e2fe46809f6ed6ddb)) ([#462](https://github.com/bjorkgard/secretary-application/pull/462))
+
 ## [v1.3.2](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.2) - 2024-05-20 20:33:57
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.3.2 -->
@@ -71,69 +87,8 @@
 - export members:
   - export docx-file with a members list ([deb922e](https://github.com/bjorkgard/secretary-application/commit/deb922e816b2a038177c78d9828a5743a0a06886)) ([#441](https://github.com/bjorkgard/secretary-application/pull/441))
 
-### Bug Fixes
-
-- menu:
-  - add missing option for windows ([17d15a7](https://github.com/bjorkgard/secretary-application/commit/17d15a7f58f4855d8175663b2d5c991e005fb776)) ([#441](https://github.com/bjorkgard/secretary-application/pull/441))
-
-### Documentation
-
-- documentation:
-  - update som texts ([8d00715](https://github.com/bjorkgard/secretary-application/commit/8d007152e902ae86e9b3ea936e346898bcd29c0f)) ([#441](https://github.com/bjorkgard/secretary-application/pull/441))
-
-## [v1.2.8](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.8) - 2024-05-17 16:05:43
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.2.8 -->
-
-## What's Changed
-### Other Changes
-* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/432
-* fix(publisher): fix an error message in publisher list by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/434
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.7...v1.2.8
-
-### Feature
-
 - congregation s21:
   - export congregation S-21 ([8b32983](https://github.com/bjorkgard/secretary-application/commit/8b32983e4dec9e8cc3a99c6cfdc8f041987a1b8c)) ([#433](https://github.com/bjorkgard/secretary-application/pull/433))
-
-### Bug Fixes
-
-- publisher:
-  - fix an error message in publisher list ([094cb91](https://github.com/bjorkgard/secretary-application/commit/094cb91a49bf4685102bba2e00af856f958acd6b)) ([#434](https://github.com/bjorkgard/secretary-application/pull/434))
-
-## [v1.2.7](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.7) - 2024-05-16 18:02:22
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.2.7 -->
-
-## What's Changed
-### Other Changes
-* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/430
-* fix(menu): add missing export option for windows by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/431
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.6...v1.2.7
-
-### Bug Fixes
-
-- menu:
-  - add missing export option for windows ([92b0678](https://github.com/bjorkgard/secretary-application/commit/92b067804653c8bdfaa2539eac6a46a8226b463b)) ([#431](https://github.com/bjorkgard/secretary-application/pull/431))
-
-## [v1.2.6](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.6) - 2024-05-16 13:22:15
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.2.6 -->
-
-## What's Changed
-### Other Changes
-* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/421
-* Fix import issues by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/428
-* fix(service group): do not parse model if no service group is found by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/429
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.5...v1.2.6
-
-### Feature
 
 - menu:
   - a new menu option to export congregation S-21 ([6c27d64](https://github.com/bjorkgard/secretary-application/commit/6c27d64fd73f02b53083b33ad10cd05d6fd7ea7d)) ([#433](https://github.com/bjorkgard/secretary-application/pull/433))
@@ -143,115 +98,6 @@
 
 - unbaptised publisher:
   - add an event for new ubaptised publisher ([e1a4645](https://github.com/bjorkgard/secretary-application/commit/e1a4645efb1170cc532e87c01d274b3dc9093675)) ([#422](https://github.com/bjorkgard/secretary-application/pull/422))
-
-### Bug Fixes
-
-- service group:
-  - do not parse model if no service group is found ([6bc63e4](https://github.com/bjorkgard/secretary-application/commit/6bc63e4b399633f8e992a5cdb0f4a663a7bb44e5)) ([#429](https://github.com/bjorkgard/secretary-application/pull/429))
-
-- import:
-  - fix issues with import ([e976b25](https://github.com/bjorkgard/secretary-application/commit/e976b2548545f6573a04e9d95cbadd062e62a92f)) ([#428](https://github.com/bjorkgard/secretary-application/pull/428))
-
-- export s-21:
-  - mark ministerial servant when exporting S-21 ([e2d3cbf](https://github.com/bjorkgard/secretary-application/commit/e2d3cbf59a4eb05aff42b4d89b67ae3a30d775b6)) ([#428](https://github.com/bjorkgard/secretary-application/pull/428))
-
-## [v1.2.5](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.5) - 2024-05-15 12:42:57
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.2.5 -->
-
-## What's Changed
-### Other Changes
-* fix(loading): remove debug text by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/417
-* fix(menu): show the application menu by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/418
-* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/416
-* fix(new version): show info when a new version has been released by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/420
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.4...v1.2.5
-
-### Bug Fixes
-
-- new version:
-  - show info when a new version has been released ([d7f97b4](https://github.com/bjorkgard/secretary-application/commit/d7f97b4b68133ab96d9e728123621ae3bb1c1896)) ([#420](https://github.com/bjorkgard/secretary-application/pull/420))
-
-- menu:
-  - show the application menu ([5aed27c](https://github.com/bjorkgard/secretary-application/commit/5aed27c82544dae6b560cce64dcc18544d856c21)) ([#418](https://github.com/bjorkgard/secretary-application/pull/418))
-
-- loading:
-  - remove debug text ([98603b7](https://github.com/bjorkgard/secretary-application/commit/98603b76934ba3c2e50b91954da91fceca9ef6c5)) ([#417](https://github.com/bjorkgard/secretary-application/pull/417))
-
-## [v1.2.4](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.4) - 2024-05-15 07:38:00
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.2.4 -->
-
-## What's Changed
-### Other Changes
-* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/403
-* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/411
-* chore(deps-dev): bump electron from 28.2.2 to 30.0.3 by @dependabot in https://github.com/bjorkgard/secretary-application/pull/361
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.3...v1.2.4
-
-### Performance Improvements
-
-- electron:
-  - update to latest version of Electron ([f354326](https://github.com/bjorkgard/secretary-application/commit/f354326669ef95da3853d3827dd857ed2c26d516)) ([#361](https://github.com/bjorkgard/secretary-application/pull/361))
-
-## [v1.2.3](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.3) - 2024-05-14 07:04:10
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.2.3 -->
-
-## What's Changed
-### Other Changes
-* chore(deps-dev): bump @types/react from 18.3.1 to 18.3.2 by @dependabot in https://github.com/bjorkgard/secretary-application/pull/404
-* fix(deps): bump react-router-dom from 6.23.0 to 6.23.1 by @dependabot in https://github.com/bjorkgard/secretary-application/pull/406
-* 409 import av s21 by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/410
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.2...v1.2.3
-
-### Bug Fixes
-
-- template:
-  - typo ([9c9ee1d](https://github.com/bjorkgard/secretary-application/commit/9c9ee1de2bb4fada1997df2b2a1d1cf7444e47b4)) ([#410](https://github.com/bjorkgard/secretary-application/pull/410))
-  - a new description if upload fails ([7c0bb87](https://github.com/bjorkgard/secretary-application/commit/7c0bb8742ed44400ec6986f06f014457e5a63a32)) ([#410](https://github.com/bjorkgard/secretary-application/pull/410))
-
-- deps:
-  - bump react-router-dom from 6.23.0 to 6.23.1 (#406) ([3395e56](https://github.com/bjorkgard/secretary-application/commit/3395e5686283da8e60c625ac591d9d3a9e21a5ad)) ([#406](https://github.com/bjorkgard/secretary-application/pull/406))
-
-## [v1.2.2](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.2) - 2024-05-13 14:26:24
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.2.2 -->
-
-## What's Changed
-### Other Changes
-* fix(registration): update error message if registration fails by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/402
-* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/401
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.2.0...v1.2.2
-
-### Bug Fixes
-
-- registration:
-  - update error message if registration fails ([db916c1](https://github.com/bjorkgard/secretary-application/commit/db916c1c3405af452c3ac7b00ec9556563ca67db)) ([#402](https://github.com/bjorkgard/secretary-application/pull/402))
-
-## [v1.2.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.2.0) - 2024-05-13 09:56:53
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.2.0 -->
-
-## What's Changed
-### Other Changes
-* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/399
-* feat(public congregation): save congfregation online if public is sel… by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/400
-
-## New Contributors
-* @github-actions made their first contribution in https://github.com/bjorkgard/secretary-application/pull/399
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.1.17...v1.2.0
-
-### Feature
 
 - public congregation:
   - save congfregation online if public is selected ([ad02c38](https://github.com/bjorkgard/secretary-application/commit/ad02c38c4ca0e5eb9f2d7ff4b078e7eda204b9ee)) ([#400](https://github.com/bjorkgard/secretary-application/pull/400))
@@ -267,19 +113,35 @@
 
 ### Bug Fixes
 
-- auto update:
-  - set up auto update ([c79e6c6](https://github.com/bjorkgard/secretary-application/commit/c79e6c613de6845741da066391db5aa26c3041d1)) ([#393](https://github.com/bjorkgard/secretary-application/pull/393))
+- menu:
+  - add missing option for windows ([17d15a7](https://github.com/bjorkgard/secretary-application/commit/17d15a7f58f4855d8175663b2d5c991e005fb776)) ([#441](https://github.com/bjorkgard/secretary-application/pull/441))
+  - add missing export option for windows ([92b0678](https://github.com/bjorkgard/secretary-application/commit/92b067804653c8bdfaa2539eac6a46a8226b463b)) ([#431](https://github.com/bjorkgard/secretary-application/pull/431))
+  - show the application menu ([5aed27c](https://github.com/bjorkgard/secretary-application/commit/5aed27c82544dae6b560cce64dcc18544d856c21)) ([#418](https://github.com/bjorkgard/secretary-application/pull/418))
 
-- changelog:
-  - create a PR to commit updates ([18fc64a](https://github.com/bjorkgard/secretary-application/commit/18fc64ae8d263aa327d6c429f77cb75872629945)) ([#390](https://github.com/bjorkgard/secretary-application/pull/390))
+- publisher:
+  - fix an error message in publisher list ([094cb91](https://github.com/bjorkgard/secretary-application/commit/094cb91a49bf4685102bba2e00af856f958acd6b)) ([#434](https://github.com/bjorkgard/secretary-application/pull/434))
 
-- help menu:
-  - add correct links to the options ([60c8ac6](https://github.com/bjorkgard/secretary-application/commit/60c8ac6b17271778aab7dc1240b2bdde96a6c979)) ([#386](https://github.com/bjorkgard/secretary-application/pull/386))
+- service group:
+  - do not parse model if no service group is found ([6bc63e4](https://github.com/bjorkgard/secretary-application/commit/6bc63e4b399633f8e992a5cdb0f4a663a7bb44e5)) ([#429](https://github.com/bjorkgard/secretary-application/pull/429))
 
-- auto updater:
-  - setup auto update script ([64f69a5](https://github.com/bjorkgard/secretary-application/commit/64f69a5e13d7643ce17f950928f9dd1749d62f65)) ([#385](https://github.com/bjorkgard/secretary-application/pull/385))
+- import:
+  - fix issues with import ([e976b25](https://github.com/bjorkgard/secretary-application/commit/e976b2548545f6573a04e9d95cbadd062e62a92f)) ([#428](https://github.com/bjorkgard/secretary-application/pull/428))
+
+- export s-21:
+  - mark ministerial servant when exporting S-21 ([e2d3cbf](https://github.com/bjorkgard/secretary-application/commit/e2d3cbf59a4eb05aff42b4d89b67ae3a30d775b6)) ([#428](https://github.com/bjorkgard/secretary-application/pull/428))
+
+- new version:
+  - show info when a new version has been released ([d7f97b4](https://github.com/bjorkgard/secretary-application/commit/d7f97b4b68133ab96d9e728123621ae3bb1c1896)) ([#420](https://github.com/bjorkgard/secretary-application/pull/420))
+
+- loading:
+  - remove debug text ([98603b7](https://github.com/bjorkgard/secretary-application/commit/98603b76934ba3c2e50b91954da91fceca9ef6c5)) ([#417](https://github.com/bjorkgard/secretary-application/pull/417))
+
+- template:
+  - typo ([9c9ee1d](https://github.com/bjorkgard/secretary-application/commit/9c9ee1de2bb4fada1997df2b2a1d1cf7444e47b4)) ([#410](https://github.com/bjorkgard/secretary-application/pull/410))
+  - a new description if upload fails ([7c0bb87](https://github.com/bjorkgard/secretary-application/commit/7c0bb8742ed44400ec6986f06f014457e5a63a32)) ([#410](https://github.com/bjorkgard/secretary-application/pull/410))
 
 - deps:
+  - bump react-router-dom from 6.23.0 to 6.23.1 (#406) ([3395e56](https://github.com/bjorkgard/secretary-application/commit/3395e5686283da8e60c625ac591d9d3a9e21a5ad)) ([#406](https://github.com/bjorkgard/secretary-application/pull/406))
   - bump i18next from 23.11.3 to 23.11.4 (#380) ([787948b](https://github.com/bjorkgard/secretary-application/commit/787948b5773b58f955412240e7c95740dc981776)) ([#380](https://github.com/bjorkgard/secretary-application/pull/380))
   - bump @bugsnag/electron from 7.22.7 to 7.23.0 (#376) ([175d5d9](https://github.com/bjorkgard/secretary-application/commit/175d5d9f55f73b7c5b8b973d1ac79a18fbfa15fb)) ([#376](https://github.com/bjorkgard/secretary-application/pull/376))
   - bump ajv from 8.12.0 to 8.13.0 (#350) ([0286d01](https://github.com/bjorkgard/secretary-application/commit/0286d01d5f1b8290e50b46f13779211e01b08864)) ([#350](https://github.com/bjorkgard/secretary-application/pull/350))
@@ -324,6 +186,21 @@
   - bump i18next from 23.7.16 to 23.7.18 (#146) ([50a5831](https://github.com/bjorkgard/secretary-application/commit/50a58314a39ea6c01188bb5dca1e35d1ba65b29b)) ([#146](https://github.com/bjorkgard/secretary-application/pull/146))
   - bump react-router-dom from 6.21.1 to 6.21.2 (#119) ([ddad4b2](https://github.com/bjorkgard/secretary-application/commit/ddad4b23f0fa87509bb59430b9c659d8c569e29e)) ([#119](https://github.com/bjorkgard/secretary-application/pull/119))
 
+- registration:
+  - update error message if registration fails ([db916c1](https://github.com/bjorkgard/secretary-application/commit/db916c1c3405af452c3ac7b00ec9556563ca67db)) ([#402](https://github.com/bjorkgard/secretary-application/pull/402))
+
+- auto update:
+  - set up auto update ([c79e6c6](https://github.com/bjorkgard/secretary-application/commit/c79e6c613de6845741da066391db5aa26c3041d1)) ([#393](https://github.com/bjorkgard/secretary-application/pull/393))
+
+- changelog:
+  - create a PR to commit updates ([18fc64a](https://github.com/bjorkgard/secretary-application/commit/18fc64ae8d263aa327d6c429f77cb75872629945)) ([#390](https://github.com/bjorkgard/secretary-application/pull/390))
+
+- help menu:
+  - add correct links to the options ([60c8ac6](https://github.com/bjorkgard/secretary-application/commit/60c8ac6b17271778aab7dc1240b2bdde96a6c979)) ([#386](https://github.com/bjorkgard/secretary-application/pull/386))
+
+- auto updater:
+  - setup auto update script ([64f69a5](https://github.com/bjorkgard/secretary-application/commit/64f69a5e13d7643ce17f950928f9dd1749d62f65)) ([#385](https://github.com/bjorkgard/secretary-application/pull/385))
+
 - notarize:
   - fix build script ([a103bf5](https://github.com/bjorkgard/secretary-application/commit/a103bf5659f87cce89f9a2a2127a6e334f41f2b5)) ([#344](https://github.com/bjorkgard/secretary-application/pull/344))
   - fix build script ([1507f7b](https://github.com/bjorkgard/secretary-application/commit/1507f7b0e7ad3518c14561cb6f7f9074926592f1)) ([#342](https://github.com/bjorkgard/secretary-application/pull/342))
@@ -364,6 +241,11 @@
   - Missing translations ([9654a36](https://github.com/bjorkgard/secretary-application/commit/9654a36d1923ec86a96319cb38d6bc67215ce941)) ([#63](https://github.com/bjorkgard/secretary-application/pull/63))
   - TS errors ([182c2c8](https://github.com/bjorkgard/secretary-application/commit/182c2c875c1b54a603ba083568e4c175d2725fca)) ([#62](https://github.com/bjorkgard/secretary-application/pull/62))
 
+### Documentation
+
+- documentation:
+  - update som texts ([8d00715](https://github.com/bjorkgard/secretary-application/commit/8d007152e902ae86e9b3ea936e346898bcd29c0f)) ([#441](https://github.com/bjorkgard/secretary-application/pull/441))
+
 ### Refactor
 
 - bugsnag:
@@ -397,6 +279,9 @@
   - remove old config-file ([d8a233a](https://github.com/bjorkgard/secretary-application/commit/d8a233ae0a48379a782824d20a290c7ab9611b10)) ([#108](https://github.com/bjorkgard/secretary-application/pull/108))
 
 ### Performance Improvements
+
+- electron:
+  - update to latest version of Electron ([f354326](https://github.com/bjorkgard/secretary-application/commit/f354326669ef95da3853d3827dd857ed2c26d516)) ([#361](https://github.com/bjorkgard/secretary-application/pull/361))
 
 - husky:
   - install latest version of husky ([e4fca39](https://github.com/bjorkgard/secretary-application/commit/e4fca391fb875ba6901ebb30671142807f45e3ee)) ([#235](https://github.com/bjorkgard/secretary-application/pull/235))
