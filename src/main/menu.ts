@@ -207,6 +207,23 @@ export default class MenuBuilder {
                 },
               ],
             },
+            {
+              label:   i18n.t('mainMenu.addressListGroupEmergencyContacts'),
+              submenu: [
+                {
+                  label: i18n.t('mainMenu.pdf'),
+                  click: (): void => {
+                    ipcMain.emit('export-addresslist-group-emergency-pdf')
+                  },
+                },
+                {
+                  label: i18n.t('mainMenu.xlsx'),
+                  click: (): void => {
+                    ipcMain.emit('export-addresslist-group-emergency-xlsx')
+                  },
+                },
+              ],
+            },
           ],
         },
         {
@@ -465,6 +482,23 @@ export default class MenuBuilder {
                     label: i18n.t('mainMenu.xlsx'),
                     click: (): void => {
                       ipcMain.emit('export-addresslist-group-xlsx')
+                    },
+                  },
+                ],
+              },
+              {
+                label:   i18n.t('mainMenu.addressListGroupEmergencyContacts'),
+                submenu: [
+                  {
+                    label: i18n.t('mainMenu.pdf'),
+                    click: (): void => {
+                      ipcMain.emit('export-addresslist-group-emergency-pdf')
+                    },
+                  },
+                  {
+                    label: i18n.t('mainMenu.xlsx'),
+                    click: (): void => {
+                      ipcMain.emit('export-addresslist-group-emergency-xlsx')
                     },
                   },
                 ],

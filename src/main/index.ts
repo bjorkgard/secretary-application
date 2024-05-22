@@ -38,6 +38,7 @@ import {
   dbBackup,
   dbRestore,
   exportAddressList,
+  exportAddressListEmergency,
   exportCompletionList,
   exportCongregationS21,
   exportMembersDocument,
@@ -477,6 +478,24 @@ ipcMain.on('export-addresslist-group-pdf', async () => {
 
   exportService.upsert('ADDRESSLIST_GROUP', 'PDF', 'export-addresslist-group-pdf')
   exportAddressList(mainWindow, publisherService, 'GROUP', 'PDF')
+})
+
+ipcMain.on('export-addresslist-group-emergency-pdf', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('ADDRESSLIST_GROUP_EMERGENCY', 'PDF', 'export-addresslist-group-emergency-pdf')
+  exportAddressListEmergency(mainWindow, publisherService, 'GROUP', 'PDF')
+})
+
+ipcMain.on('export-addresslist-group-emergency-xlsx', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('ADDRESSLIST_GROUP_EMERGENCY', 'XLSX', 'export-addresslist-group-emergency-xlsx')
+  exportAddressListEmergency(mainWindow, publisherService, 'GROUP', 'XLSX')
 })
 
 ipcMain.on('export-regular-participants', async () => {
