@@ -917,15 +917,23 @@ ipcMain.handle('get-latest-version', async () => {
     return
 
   let version: string | undefined
-  const url = 'https://api.github.com/repos/bjorkgard/secretary-application/tags'
+  const url = 'https://api.github.com/repos/bjorkgard/secretary-application/releases'
 
   try {
-    const tags = await fetch(url, {
+    const releases = await fetch(url, {
       headers: {
         Authorization: `Bearer ${import.meta.env.MAIN_VITE_PAT}`,
       },
     }).then(_ => _.json())
-    version    = tags[0].name
+
+    for (const release of releases) {
+      if (!release.draft) {
+        version = releases.name
+        break
+      }
+
+      continue
+    }
   }
   catch (error) {
     log.error(error)
