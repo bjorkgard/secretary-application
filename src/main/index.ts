@@ -46,6 +46,7 @@ import {
   exportPublishersS21,
   exportRegularParticipantDocument,
   exportS88,
+  exportServiceGroupList,
   generateXLSXReportForms,
   getCommonExports,
   getMonthString,
@@ -59,8 +60,9 @@ import {
   storeEvent,
   updateSettings,
 } from './functions'
-import getServiceYear       from './utils/getServiceYear'
-import ImportantDateService from './services/importantDateService'
+import getServiceYear                 from './utils/getServiceYear'
+import ImportantDateService           from './services/importantDateService'
+import ExportServiceGroupInternalList from './functions/exportServiceGroupInternalList'
 
 // Bugsnag.start({
 //  apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
@@ -584,6 +586,47 @@ ipcMain.on('export-register-card-congregation', async (_event) => {
       mainWindow?.webContents.send('show-spinner', { status: false })
       log.error(err)
     })
+})
+
+ipcMain.on('export-serviceGroups-internal-list', async (_event) => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('SERVICEGROUP_INTERNAL_LIST', 'PDF', 'export-serviceGroups-internal-list')
+  ExportServiceGroupInternalList(mainWindow, settingsService, serviceGroupService, publisherService)
+})
+
+ipcMain.on('export-serviceGroups-list', async (_event) => {
+  // This function is used to get all inactive publishers and send to the renderer
+  // to be able to select which publishers to include in the export
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  const inactivePublishers = (await publisherService.findByStatus(['INACTIVE'])).map((pub) => {
+    return (
+      {
+        id:   pub._id,
+        name: `${pub.firstname} ${pub.lastname}`,
+      }
+    )
+  })
+
+  mainWindow?.webContents.send('show-inactive-for-servicegroups', { inactives: inactivePublishers })
+})
+
+ipcMain.on('export-service-groups', async (_event, args) => {
+  // This function is used to export the service groups list with the selected inactive publishers from args
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('SERVICEGROUP_LIST', 'PDF', 'export-serviceGroups-list')
+  exportServiceGroupList(mainWindow, settingsService, serviceGroupService, publisherService, args.inactives)
 })
 
 ipcMain.on('export-register-card', async (_event, args) => {

@@ -518,5 +518,14 @@
   "settings.experimental.headline": "Experimentella funktioner",
   "settings.experimental.information": "De här inställningarna kanske inte fungerar på alla enheter. Får du problem med någon av dem så slå av dem här.",
   "label.mergePdf": "Slå samman PDF-filer",
-  "settings.mergePdf": "Med denna funktion slås alla PDF-filer som skapas i applikationen samman till en fil, t.ex. registerkort och mötesnärvaro."
+  "settings.mergePdf": "Med denna funktion slås alla PDF-filer som skapas i applikationen samman till en fil, t.ex. registerkort och mötesnärvaro.",
+  "mainMenu.serviceGroups": "Tjänstegrupper",
+  "mainMenu.serviceGroupsList": "Tjänstegruppslista",
+  "label.servicegroup_list": "Tjänstegruppslista",
+  "label.export": "Exportera",
+  "serviceGroups.inactivePublishers": "Overksamma förkunnare",
+  "serviceGroups.selectInactivePublishers": "Välj de overksamma förkunnare som skall synas på Tjänstegruppslistan.",
+  "label.serviceGroups": "Tjänstegrupper",
+  "mainMenu.serviceGroupsInternalList": "Intern tjänstegruppslista",
+  "export.serviceGroupInternalInformation": "Den här listan är konfidentiell och innehåller alla förkunnare (inkl. de som inte har fyllt i S-290 eller är overksamma)"
 }
