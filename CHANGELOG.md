@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## [v1.3.4](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.4) - 2024-05-23 20:18:15
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.3.4 -->
+
+## What's Changed
+### Fixes
+* fix(address list): force linebreaks in excel by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/468
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.3...v1.3.4
+
+### Bug Fixes
+
+- address list:
+  - force linebreaks in excel ([0bdf1dd](https://github.com/bjorkgard/secretary-application/commit/0bdf1ddfb25ce7380fa448ec20c1aaddea54a7b1)) ([#468](https://github.com/bjorkgard/secretary-application/pull/468))
+
 ## [v1.3.3](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.3) - 2024-05-22 14:37:14
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.3.3 -->
