@@ -44,14 +44,14 @@ function getPublisherRows(publishers: PublisherModel[],  serviceGroups: ServiceG
     let other = ''
 
     if (publisher.status === 'INACTIVE')
-      other += `${i18n.t('label.inactive')}\n`
+      other += `${i18n.t('label.inactive')} \r\n`
 
     if (publisher.appointments.length) {
       publisher.appointments.forEach((appointment) => {
         other += `${i18n.t(`export.${appointment.type.toLowerCase()}`)}, `
       })
 
-      other = `${other.slice(0, -2)}\n`
+      other = `${other.slice(0, -2)} \r\n`
     }
 
     if (publisher.children.length) {
@@ -60,7 +60,7 @@ function getPublisherRows(publishers: PublisherModel[],  serviceGroups: ServiceG
       publisher.children.forEach((child, index) => {
         other += (index > 0 ? ', ' : '') + child.name
       })
-      other += '\n'
+      other += ' \r\n'
     }
 
     if (other !== '')
@@ -69,7 +69,7 @@ function getPublisherRows(publishers: PublisherModel[],  serviceGroups: ServiceG
     const publisherRow = [
       serviceGroupName,
       `${publisher.lastname}, ${publisher.firstname}`,
-      `${publisher.address}\n${publisher.zip} ${publisher.city}`,
+      `${publisher.address} \r\n${publisher.zip} ${publisher.city}`,
       publisher.phone ? formatPhoneNumber(publisher.phone) : '',
       publisher.mobile ? formatPhoneNumber(publisher.mobile) : '',
       publisher.email || '',
@@ -139,7 +139,7 @@ async function generate_PDF(mainWindow: BrowserWindow,  publishers: PublisherMod
     rows.push([
       '',
       `${circuitOverseer.lastname}, ${circuitOverseer.firstname}`,
-      `${circuitOverseer.address}\n${circuitOverseer.zip} ${circuitOverseer.city}`,
+      `${circuitOverseer.address} \r\n${circuitOverseer.zip} ${circuitOverseer.city}`,
       circuitOverseer.phone ? formatPhoneNumber(circuitOverseer.phone) : '',
       circuitOverseer.mobile ? formatPhoneNumber(circuitOverseer.mobile) : '',
       circuitOverseer.email || '',
@@ -284,7 +284,7 @@ async function generate_XLSX(mainWindow: BrowserWindow,  publishers: PublisherMo
     worksheet.addRow([
       '',
       `${circuitOverseer.lastname}, ${circuitOverseer.firstname}`,
-      `${circuitOverseer.address}\n${circuitOverseer.zip} ${circuitOverseer.city}`,
+      `${circuitOverseer.address} \r\n${circuitOverseer.zip} ${circuitOverseer.city}`,
       circuitOverseer.phone ? formatPhoneNumber(circuitOverseer.phone) : '',
       circuitOverseer.mobile ? formatPhoneNumber(circuitOverseer.mobile) : '',
       circuitOverseer.email || '',
@@ -295,9 +295,15 @@ async function generate_XLSX(mainWindow: BrowserWindow,  publishers: PublisherMo
 
   worksheet.eachRow((row) => {
     row.alignment = { vertical: 'middle' }
+    row.height    = 30
     row.eachCell((cell) => {
       if (cell.value && cell.value.toString().includes(i18n.t('label.inactive')))
         row.font = { color: { argb: '0000FF' }, italic: true }
+    })
+  })
+  worksheet.eachColumnKey((col) => {
+    col.eachCell((cell) => {
+      cell.alignment = { wrapText: true }
     })
   })
 
