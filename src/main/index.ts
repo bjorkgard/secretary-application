@@ -13,6 +13,7 @@ import i18n                                        from '../localization/i18next
 import type {
   AuxiliaryModel,
   CircuitOverseerModel,
+  PublicCongregationModel,
   PublisherModel,
   ResponsibilityModel,
   ServiceGroupModel,
@@ -49,6 +50,7 @@ import {
   exportServiceGroupList,
   generateXLSXReportForms,
   getCommonExports,
+  getCommunications,
   getMonthString,
   getPublishersStats,
   getPublishersWithoutServiceGroup,
@@ -97,9 +99,7 @@ async function createWindow(): Promise<void> {
   if (isDebug) {
     try {
       installExtension(REACT_DEVELOPER_TOOLS)
-
         .then(name => log.info(`Added Extension:  ${name}`))
-
         .catch(err => log.info('An error occurred: ', err))
     }
     catch (error) {
@@ -194,9 +194,9 @@ app.whenReady().then(() => {
 
 app.on('ready', () => {
   getReportUpdates(mainWindow)
+  getCommunications()
 
   setInterval(() => {
-    log.info('getReportUpdates')
     getReportUpdates(mainWindow)
   }, 600000) // every 10 minute
 })
@@ -885,7 +885,11 @@ ipcMain.handle('store-event', async (_, args) => {
   if (!mainWindow)
     return
 
-  storeEvent(args.event)
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  await storeEvent(mainWindow, args.event)
+
+  mainWindow?.webContents.send('show-spinner', { status: false })
 })
 
 ipcMain.on('generate-backup', async () => {
@@ -910,6 +914,35 @@ ipcMain.handle('get-latest-backup', async () => {
   const date = await importantDateService.findByType('BACKUP')
 
   return date
+})
+
+ipcMain.handle('get-public-congregations', async () => {
+  if (!mainWindow)
+    return
+
+  const options = {
+    method:  'GET',
+    headers: {
+      'Accept':       'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization':
+        `Bearer ${await settingsService.token()}` || import.meta.env.MAIN_VITE_TOKEN,
+    },
+  }
+
+  const congregations = await fetch(`${import.meta.env.MAIN_VITE_API}/congregations/public`, options)
+    .then(response => response.json())
+    .then((response: { data: PublicCongregationModel[] }) => {
+      return response.data
+    })
+    .catch((error) => {
+      log.error(error)
+    })
+    .finally(() => {
+      return []
+    })
+
+  return congregations
 })
 
 ipcMain.handle('get-latest-version', async () => {

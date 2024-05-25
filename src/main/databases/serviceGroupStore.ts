@@ -14,4 +14,14 @@ export default class ServiceGroupStore extends BaseStore<ServiceGroup> {
     // options set to {} since the default for multi is false
     return this.databaseInstance.remove({ _id: id }, {})
   }
+
+  async upsert(data: ServiceGroup): Promise<number | undefined> {
+    const isValid: boolean = this.validate(data)
+
+    if (isValid)
+      return await this.databaseInstance.update({ name: data.name }, data, { upsert: true })
+
+    else
+      return undefined
+  }
 }

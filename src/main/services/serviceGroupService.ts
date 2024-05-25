@@ -51,6 +51,11 @@ export default class ServiceGroupService implements IServiceGroupService {
     return (await serviceGroupStore.update(id, serviceGroup)) as number
   }
 
+  async upsert(data: ServiceGroupModel): Promise<number> {
+    const serviceGroup = parseServiceGroupModel(data)
+    return (await serviceGroupStore.upsert(serviceGroup)) as number
+  }
+
   async delete(id: string): Promise<number> {
     return (await serviceGroupStore.delete(id)) as number
   }

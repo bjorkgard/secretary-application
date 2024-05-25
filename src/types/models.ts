@@ -23,6 +23,12 @@ export interface CongregationModel {
   languageGroups: LanguageGroupModel[]
 }
 
+export interface PublicCongregationModel {
+  identifier:          string
+  congregation:        string
+  congregation_number: string
+}
+
 export interface UserModel {
   email:     string
   firstname: string
