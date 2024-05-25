@@ -1,16 +1,17 @@
-import { useEffect }           from 'react'
-import { useForm }             from 'react-hook-form'
-import { useTranslation }      from 'react-i18next'
-import type { PublisherModel } from 'src/types/models'
-import { Modal }               from '@renderer/components/Modal'
-import { Field }               from '@renderer/components/Field'
-import classNames              from '@renderer/utils/classNames'
+import { useEffect, useState }                          from 'react'
+import { useForm }                                      from 'react-hook-form'
+import { useTranslation }                               from 'react-i18next'
+import type { PublicCongregationModel, PublisherModel } from 'src/types/models'
+import { Modal }                                        from '@renderer/components/Modal'
+import { Field }                                        from '@renderer/components/Field'
+import classNames                                       from '@renderer/utils/classNames'
 
 interface EventModalProps {
-  open:      boolean
-  setOpen:   (open: boolean) => void
-  publisher: PublisherModel | undefined
-  refresh:   () => void
+  open:                boolean
+  setOpen:             (open: boolean) => void
+  publisher:           PublisherModel | undefined
+  publicCongregations: PublicCongregationModel[]
+  refresh:             () => void
 }
 
 export type HeroIcon = React.ComponentType<
@@ -26,13 +27,16 @@ interface Event {
 }
 
 interface EventForm {
-  date:        string
-  command:     string
-  publisherId: string
+  date:            string
+  command:         string
+  publisherId:     string
+  newCongregation: string | null
 }
 
 export default function EventModal(props: EventModalProps): JSX.Element {
   const { t } = useTranslation()
+
+  const [showCongregationSelector, setShowCongregationSelector] = useState<boolean>(false)
 
   const events: Event[] = [
     { name: t('event.movedIn'), command: 'MOVED_IN' },
@@ -50,6 +54,18 @@ export default function EventModal(props: EventModalProps): JSX.Element {
     { name: t('event.delete'), command: 'DELETE' },
   ]
 
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    switch (event.target.value) {
+      case 'MOVED_OUT':
+        setShowCongregationSelector(true)
+        break
+
+      default:
+        setShowCongregationSelector(false)
+        break
+    }
+  }
+
   const storeEvent = (event: EventForm): void => {
     window.electron.ipcRenderer.invoke('store-event', { event }).then(() => {
       props.refresh()
@@ -63,17 +79,16 @@ export default function EventModal(props: EventModalProps): JSX.Element {
     formState: { errors },
   } = useForm<EventForm>({
     defaultValues: {
-      date:        '',
-      publisherId: '',
-      command:     '',
+      date:            '',
+      publisherId:     '',
+      command:         '',
+      newCongregation: null,
     },
   })
-  // const command = useWatch({ control, name: 'command' })
 
   useEffect(() => {
     setValue('date', new Date().toISOString().slice(0, 10))
     setValue('publisherId', props.publisher?._id || '')
-    // setValue('command', selectedEvent?.command || '')
   }, [props.publisher])
 
   return (
@@ -101,13 +116,36 @@ export default function EventModal(props: EventModalProps): JSX.Element {
               errors.command ? 'select-error' : '',
               'select select-bordered w-full',
             )}
-            {...register('command')}
+            {...register('command', {
+              onChange: (e) => { handleChange(e) },
+            })}
           >
             {events.map(event => (
               <option key={event.command} value={event.command}>{event.name}</option>
             ))}
           </select>
         </Field>
+
+        {showCongregationSelector && (
+          <Field label={t('event.transferToNewCongregation')} info={t('event.selectCongregation')} error={errors.newCongregation?.message}>
+            <select
+              className={classNames(
+                errors.command ? 'select-error' : '',
+                'select select-bordered w-full',
+              )}
+              {...register('newCongregation')}
+            >
+              <option value="">
+                {t('event.doNotTransfer')}
+              </option>
+              {props.publicCongregations.map(congregation => (
+                <option key={congregation.identifier} value={congregation.identifier}>
+                  {congregation.congregation}
+                </option>
+              ))}
+            </select>
+          </Field>
+        )}
 
         <button type="submit" className="btn btn-primary mt-4 justify-items-end">
           {t('button.save')}

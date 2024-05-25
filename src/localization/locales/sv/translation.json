@@ -527,5 +527,14 @@
   "serviceGroups.selectInactivePublishers": "Välj de overksamma förkunnare som skall synas på Tjänstegruppslistan.",
   "label.serviceGroups": "Tjänstegrupper",
   "mainMenu.serviceGroupsInternalList": "Intern tjänstegruppslista",
-  "export.serviceGroupInternalInformation": "Den här listan är konfidentiell och innehåller alla förkunnare (inkl. de som inte har fyllt i S-290 eller är overksamma)"
+  "export.serviceGroupInternalInformation": "Den här listan är konfidentiell och innehåller alla förkunnare (inkl. de som inte har fyllt i S-290 eller är overksamma)",
+  "event.transferToNewCongregation": "Överför till ny församling",
+  "event.selectCongregation": "Om församlingen förkunnaren har flyttat till inte syns så välj Ingen överföring.",
+  "event.doNotTransfer": "Ingen överföring",
+  "transfer.error": "Överföringen misslyckades",
+  "transfer.errorInformation": "Det gick inte att göra en överföring av förkunnaren.",
+  "transfer.success": "Överföringen är klar",
+  "transfer.transferPublisherDone": "Förkunnaren är nu överförd till den nya församlingen. Glöm inte att skicka ett introduktionsbrev till den nya församlingen.",
+  "communications.body_one": "Du har fått {{count}} meddelande från servern",
+  "communications.body_other": "Du har fått {{count}} meddelanden från servern"
 }

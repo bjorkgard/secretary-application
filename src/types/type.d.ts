@@ -62,7 +62,8 @@ export interface ServiceMonthService extends BaseService<ServiceMonthModel> {
 }
 
 export interface ServiceGroupService extends BaseService<ServiceGroupModel> {
-  find: () => Promise<ServiceGroupModel[]>
+  find:   () => Promise<ServiceGroupModel[]>
+  upsert: (data: ServiceGroupModel) => Promise<number>
 }
 
 export interface ResponsibilityService extends BaseService<ResponsibilityModel> {

@@ -11,22 +11,23 @@ import {
   PlusIcon as PlusIconSmall,
   TrashIcon,
 } from '@heroicons/react/20/solid'
-import { formatPhoneNumber }                      from 'react-phone-number-input'
-import type { PublisherModel, ServiceGroupModel } from 'src/types/models'
-import { isTemplateCorrect }                      from '@renderer/utils/isTemplateCorrect'
-import ROUTES                                     from '../../constants/routes.json'
-import EventModal                                 from './components/eventModal'
+import { formatPhoneNumber }                                               from 'react-phone-number-input'
+import type { PublicCongregationModel, PublisherModel, ServiceGroupModel } from 'src/types/models'
+import { isTemplateCorrect }                                               from '@renderer/utils/isTemplateCorrect'
+import ROUTES                                                              from '../../constants/routes.json'
+import EventModal                                                          from './components/eventModal'
 
 export default function Publishers(): JSX.Element {
   const { t }    = useTranslation()
   const navigate = useNavigate()
 
-  const [publishers, setPublishers]         = useState<PublisherModel[]>([])
-  const [publisher, setPublisher]           = useState<PublisherModel>()
-  const [openEventModal, setOpenEventModal] = useState<boolean>(false)
-  const [serviceGroups, setServiceGroups]   = useState<ServiceGroupModel[]>([])
-  const [hasS21, setHasS21]                 = useState<boolean>(false)
-  const [queryString, setQueryString]       = useState<string>('')
+  const [publishers, setPublishers]                   = useState<PublisherModel[]>([])
+  const [publisher, setPublisher]                     = useState<PublisherModel>()
+  const [openEventModal, setOpenEventModal]           = useState<boolean>(false)
+  const [serviceGroups, setServiceGroups]             = useState<ServiceGroupModel[]>([])
+  const [hasS21, setHasS21]                           = useState<boolean>(false)
+  const [queryString, setQueryString]                 = useState<string>('')
+  const [publicCongregations, setPublicCongregations] = useState<PublicCongregationModel[]>([])
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQueryString(e.target.value)
@@ -45,6 +46,12 @@ export default function Publishers(): JSX.Element {
       setServiceGroups(result)
     })
   }
+
+  useEffect(() => {
+    window.electron.ipcRenderer.invoke('get-public-congregations').then((result: PublicCongregationModel[]) => {
+      setPublicCongregations(result)
+    })
+  }, [])
 
   useEffect(() => {
     getServiceGroups()
@@ -79,6 +86,7 @@ export default function Publishers(): JSX.Element {
           setOpenEventModal(open)
         }}
         publisher={publisher}
+        publicCongregations={publicCongregations}
         refresh={function (): void {
           getPublishers()
           setOpenEventModal(false)
