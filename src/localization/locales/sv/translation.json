@@ -475,7 +475,7 @@
   "templates.description2": "Om du får problem att ladda upp en blankett trots att den har korrekt datummärkning, kan du pröva att öppna PDF-filen i t.ex. Acrobat Reader och spara om filen innan du laddar upp den.",
   "templates.errorImported": "Fel vid import",
   "templates.errorImportedMessage": "Det gick inte att importera blanketten.",
-  "templates.errorWrongFile": "Det verkar som att du har laddat upp fel fil. Kontrollera att du laddar upp en blankett med rätt datummärkning och typ. Om du ändå får problem kontakta utvecklarna under Hjälp i mynraden.",
+  "templates.errorWrongFile": "Det verkar som att du har laddat upp fel fil. Kontrollera att du laddar upp en blankett med rätt datummärkning och typ. Om du ändå får problem kontakta utvecklarna under Hjälp i menyraden.",
   "templates.headline": "Blanketter",
   "templates.imported": "Importen är klar",
   "templates.importedMessage": "Blanketten är importerad",
