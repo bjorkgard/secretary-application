@@ -34,6 +34,7 @@ export interface PublisherService extends BaseService<PublisherModel> {
   find:                         (sortField: string, queryString?: string) => Promise<PublisherModel[]>
   findByIds:                    (ids: string[]) => Promise<PublisherModel[]>
   findContacts:                 () => Promise<PublisherModel[]>
+  findFamily:                   (familyId: string) => Promise<PublisherModel[]>
   resetServiceGroup:            (serviceGroupId: string) => Promise<void>
   updateAddressOnFamilyMembers: (publisher: PublisherModel) => Promise<void>
   findByIdentifier:             (identifier: string) => Promise<PublisherModel | null>

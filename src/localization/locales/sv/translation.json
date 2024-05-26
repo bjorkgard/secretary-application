@@ -536,5 +536,13 @@
   "transfer.success": "Överföringen är klar",
   "transfer.transferPublisherDone": "Förkunnaren är nu överförd till den nya församlingen. Glöm inte att skicka ett introduktionsbrev till den nya församlingen.",
   "communications.body_one": "Du har fått {{count}} meddelande från servern",
-  "communications.body_other": "Du har fått {{count}} meddelanden från servern"
+  "communications.body_other": "Du har fått {{count}} meddelanden från servern",
+  "mainMenu.extendedRegisterCard": "Utökade registerkort",
+  "menu.extendedRegisterCard": "Utökat registerkort",
+  "label.memberInformation": "Medlemsinformation",
+  "label.contactInformation": "Kontaktinformation",
+  "label.spiritual": "Andlig information",
+  "label.privileges": "Privilegier",
+  "label.reports12Month": "Rapporter (seanste 12 månader)",
+  "responsibility.wtstudy": "Vakttornstudieledare"
 }

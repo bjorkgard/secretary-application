@@ -274,6 +274,23 @@ export default class MenuBuilder {
           ],
         },
         {
+          label:   i18n.t('mainMenu.extendedRegisterCard'),
+          submenu: [
+            {
+              label: i18n.t('mainMenu.exportCompleteRegisterCard'),
+              click: (): void => {
+                ipcMain.emit('export-extended-register-cards')
+              },
+            },
+            {
+              label: i18n.t('mainMenu.exportServiceGroupRegisterCard'),
+              click: (): void => {
+                ipcMain.emit('export-extended-register-cards-servicegroup')
+              },
+            },
+          ],
+        },
+        {
           label:   i18n.t('mainMenu.meetingAttendance'),
           submenu: [
             {
@@ -559,6 +576,23 @@ export default class MenuBuilder {
                 label: i18n.t('mainMenu.exportInactiveRegisterCard'),
                 click: (): void => {
                   ipcMain.emit('export-register-card', null, { type: 'inactive' })
+                },
+              },
+            ],
+          },
+          {
+            label:   i18n.t('mainMenu.extendedRegisterCard'),
+            submenu: [
+              {
+                label: i18n.t('mainMenu.exportCompleteRegisterCard'),
+                click: (): void => {
+                  ipcMain.emit('export-extended-register-cards')
+                },
+              },
+              {
+                label: i18n.t('mainMenu.exportServiceGroupRegisterCard'),
+                click: (): void => {
+                  ipcMain.emit('export-extended-register-cards-servicegroup')
                 },
               },
             ],

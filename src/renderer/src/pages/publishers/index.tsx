@@ -71,6 +71,11 @@ export default function Publishers(): JSX.Element {
       window.electron.ipcRenderer.send('export-s21', id)
   }
 
+  const exportExtendedRegisterCard = (id: string | undefined): void => {
+    if (id)
+      window.electron.ipcRenderer.send('export-extended-register-card', id)
+  }
+
   const addEvent = (id: string | undefined): void => {
     if (id) {
       setPublisher(publishers.find(p => p._id === id))
@@ -200,6 +205,17 @@ export default function Publishers(): JSX.Element {
                               >
                                 <DocumentArrowDownIcon className="ml-2 size-5" />
                                 {t('menu.s21')}
+                              </button>
+                            </li>
+                            <li className="m-0 py-1">
+                              <button
+                                className="pl-0 disabled:cursor-not-allowed disabled:opacity-50"
+                                onClick={(): void => {
+                                  exportExtendedRegisterCard(publisher._id)
+                                }}
+                              >
+                                <DocumentArrowDownIcon className="ml-2 size-5" />
+                                {t('menu.extendedRegisterCard')}
                               </button>
                             </li>
                             <li className="m-0 py-1">
