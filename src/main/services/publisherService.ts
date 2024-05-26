@@ -165,6 +165,12 @@ export default class PublisherService implements IPublisherService {
     return publishers.map(publisher => parsePublisher(publisher))
   }
 
+  async findFamily(familyId: string): Promise<PublisherModel[]> {
+    const publishers = (await publisherStore.findFamily(familyId)) as Publisher[]
+
+    return publishers.map(publisher => parsePublisher(publisher))
+  }
+
   async findByIds(ids: string[]): Promise<PublisherModel[]> {
     const publishers = (await publisherStore.findByIds(ids)) as Publisher[]
 

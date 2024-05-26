@@ -50,6 +50,12 @@ export default class PublisherStore extends BaseStore<Publisher> {
     return this.databaseInstance.find(query).sort(sort)
   }
 
+  findFamily(familyId: string): Promise<Publisher[]> {
+    return this.databaseInstance
+      .find({ $or: [{ _id: familyId }, { familyId }] })
+      .sort({ birthday: 1 })
+  }
+
   findContacts(): Promise<Publisher[]> {
     return this.databaseInstance.find({ contact: true }).sort({ lastname: 1, firstname: 1 })
   }
