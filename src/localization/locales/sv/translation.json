@@ -544,5 +544,10 @@
   "label.spiritual": "Andlig information",
   "label.privileges": "Privilegier",
   "label.reports12Month": "Rapporter (seanste 12 månader)",
-  "responsibility.wtstudy": "Vakttornstudieledare"
+  "responsibility.wtstudy": "Vakttornstudieledare",
+  "menu.history": "Historik",
+  "menu.historyPublishers": "Förkunnare",
+  "menu.historyCongregation": "Församling",
+  "label.selectServiceMonth": "Välj månad",
+  "history.congregation": "Församlingshistorik"
 }

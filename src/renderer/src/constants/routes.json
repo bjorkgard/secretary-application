@@ -19,5 +19,8 @@
   "TASK_FORM": "/tasks/add",
   "TASKS": "/tasks",
   "CIRCUIT_OVERSEER": "/circuitOverseer",
-  "TEMPLATES": "/templates"
+  "TEMPLATES": "/templates",
+  "HISTORY": "/history",
+  "HISTORY_PUBLISHERS": "/history/history-publishers",
+  "HISTORY_CONGREGATION": "/history/history-congregation"
 }

@@ -48,6 +48,7 @@ import {
   exportPublisherS21,
   exportPublishersS21,
   exportRegularParticipantDocument,
+  exportReportSummary,
   exportS88,
   exportServiceGroupList,
   generateXLSXReportForms,
@@ -318,6 +319,10 @@ ipcMain.handle('get-settings', async () => {
 
 ipcMain.handle('update-settings', async (_, data: SettingsModel) => {
   return updateSettings(settingsService, data)
+})
+
+ipcMain.handle('get-serviceMonths', async () => {
+  return await serviceMonthService.find()
 })
 
 ipcMain.handle('get-circuitOverseer', async () => {
@@ -912,6 +917,18 @@ ipcMain.handle('generate-excel-report-forms', async (_, serviceMonthId) => {
     return
 
   generateXLSXReportForms(mainWindow, serviceGroupService, serviceMonthService, serviceMonthId)
+})
+
+ipcMain.handle('export-report-summary', async (_, args) => {
+  if (!mainWindow)
+    return
+
+  await exportReportSummary(
+    mainWindow,
+    serviceMonthService,
+    settingsService,
+    args.serviceMonth,
+  )
 })
 
 ipcMain.handle('import-service-reports', async () => {
