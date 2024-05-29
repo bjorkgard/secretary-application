@@ -39,15 +39,15 @@ export default async function exportCongregationS21(
       const mergedPdf = await PDFDocument.create()
       const zip       = new JSZip()
 
-      if (publishers.some(p => p.appointments.some(a => a.type === 'SPECIAL_PIONEER'))) {
-        await generateCongregationS21(settings, serviceMonths, 'SPECIAL_PIONEER').then(async (pdfBytes) => {
+      if (publishers.some(p => p.appointments.some(a => a.type === 'SPECIALPIONEER'))) {
+        await generateCongregationS21(settings, serviceMonths, 'SPECIALPIONEER').then(async (pdfBytes) => {
           if (settings.mergePdf) {
             const newPage     = await PDFDocument.load(pdfBytes)
             const copiedPages = await mergedPdf.copyPages(newPage, newPage.getPageIndices())
             copiedPages.forEach(page => mergedPdf.addPage(page))
           }
           else {
-            zip.file(`S-21_SPECIAL_PIONEERS_${new Date().toLocaleDateString('sv')}.pdf`, pdfBytes)
+            zip.file(`S-21_SPECIALPIONEERS_${new Date().toLocaleDateString('sv')}.pdf`, pdfBytes)
           }
         })
       }

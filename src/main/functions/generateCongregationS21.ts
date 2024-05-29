@@ -69,7 +69,7 @@ export default async function generateCongregationS21(
       pioneerCheckbox.defaultUpdateAppearances()
     }
 
-    if (type === 'SPECIAL_PIONEER') {
+    if (type === 'SPECIALPIONEER') {
       specialPioneerCheckbox.check()
       specialPioneerCheckbox.defaultUpdateAppearances()
     }

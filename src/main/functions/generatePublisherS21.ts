@@ -108,7 +108,7 @@ export default async function generatePublisherS21(
         pioneerCheckbox.defaultUpdateAppearances()
       }
 
-      if (appointment.type === 'SPECIAL_PIONEER') {
+      if (appointment.type === 'SPECIALPIONEER') {
         specialPioneerCheckbox.check()
         specialPioneerCheckbox.defaultUpdateAppearances()
       }
