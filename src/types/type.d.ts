@@ -38,6 +38,7 @@ export interface PublisherService extends BaseService<PublisherModel> {
   resetServiceGroup:            (serviceGroupId: string) => Promise<void>
   updateAddressOnFamilyMembers: (publisher: PublisherModel) => Promise<void>
   findByIdentifier:             (identifier: string) => Promise<PublisherModel | null>
+  saveReport:                   (publisherId: string, report: Report, status: 'ACTIVE' | 'INACTIVE' | 'IRREGULAR') => Promise<number | undefined>
 }
 
 export interface ServiceYearService extends BaseService<ServiceYearModel> {

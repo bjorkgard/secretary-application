@@ -552,5 +552,10 @@
   "history.congregation": "Församlingshistorik",
   "history.publisher": "Förkunnarhistorik",
   "label.hasBeenInService": "Deltagit i tjänsten",
-  "label.auxiliary": "Hjälppionjär"
+  "label.auxiliary": "Hjälppionjär",
+  "label.editReport": "Redigera rapport",
+  "report.description": "Här kan du redigera rapporten för förkunnaren.",
+  "label.select": "Välj...",
+  "label.pioneer": "Pionjär",
+  "label.pioneerService": "Pionjärtjänst"
 }

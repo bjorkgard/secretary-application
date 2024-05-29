@@ -15,6 +15,7 @@ import type {
   CircuitOverseerModel,
   PublicCongregationModel,
   PublisherModel,
+  Report,
   ResponsibilityModel,
   ServiceGroupModel,
   SettingsModel,
@@ -55,6 +56,7 @@ import {
   getCommonExports,
   getCommunications,
   getMonthString,
+  getPublisherStatus,
   getPublishersStats,
   getPublishersWithoutServiceGroup,
   getReportUpdates,
@@ -910,6 +912,32 @@ ipcMain.handle('save-report', async (_, report) => {
   }
 
   return serviceMonthService.saveReport(newReport)
+})
+
+ipcMain.handle('update-publisher-report', async (_, args) => {
+  let newReport: Report = args.report
+
+  newReport = { ...newReport, hasBeenInService: args.report.hasBeenInService === 'YES' }
+  newReport = { ...newReport, hasNotBeenInService: args.report.hasBeenInService === 'NO' }
+
+  if (args.report.studies && args.report.studies !== '')
+    newReport = { ...newReport, studies: Number.parseInt(args.report.studies) }
+
+  else
+    newReport = { ...newReport, studies: undefined }
+
+  if (args.report.hours && args.report.hours !== '')
+    newReport = { ...newReport, hours: Number.parseInt(args.report.hours) }
+
+  else
+    newReport = { ...newReport, hours: undefined }
+
+  if (args.report.pioneer)
+    newReport = { ...newReport, type: 'PIONEER' }
+
+  const status = await getPublisherStatus(args.publisherId, newReport)
+
+  return publisherService.saveReport(args.publisherId, newReport, status)
 })
 
 ipcMain.handle('generate-excel-report-forms', async (_, serviceMonthId) => {

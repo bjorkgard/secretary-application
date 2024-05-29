@@ -10,7 +10,7 @@ import {
 import ROUTES                         from '../constants/routes.json'
 import { PageTracker, UmamiProvider } from '../providers/umami'
 import Layout                         from './Layout'
-import ErrorPage                      from './ErrorPage'
+import LoadingPage                    from './LoadingPage'
 
 // Lazy load pages
 const Loading                  = lazy(() => import('../pages/loading'))
@@ -49,7 +49,7 @@ const PageTrackerRR: FC<any> = () => {
 
 function SuspenseLayout(): JSX.Element {
   return (
-    <Suspense fallback={<ErrorPage />}>
+    <Suspense fallback={<LoadingPage />}>
       <UmamiProvider
         hostUrl={UMAMI_CONFIG.apiUrl}
         websiteId={UMAMI_CONFIG.websiteId}
