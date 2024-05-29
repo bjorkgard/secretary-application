@@ -1,5 +1,44 @@
 # CHANGELOG
 
+## [v1.3.6](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.6) - 2024-05-29 22:15:32
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.3.6 -->
+
+## What's Changed
+### Bug fixes
+* fix(s-21): mark if publisher are Special pioneer by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/502
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.5...v1.3.6
+
+### Bug Fixes
+
+- s-21:
+  - mark if publisher are Special pioneer ([4f1454d](https://github.com/bjorkgard/secretary-application/commit/4f1454d7c7ec093881c8a993fb8971d28d6da63a)) ([#502](https://github.com/bjorkgard/secretary-application/pull/502))
+
+- deps:
+  - bump react-hook-form from 7.51.4 to 7.51.5 (#494) ([0d239c9](https://github.com/bjorkgard/secretary-application/commit/0d239c9df7d456cd1f0d03e9e3d3ec45c6da77ed)) ([#494](https://github.com/bjorkgard/secretary-application/pull/494))
+  - bump react-phone-number-input from 3.4.1 to 3.4.3 (#497) ([203fc37](https://github.com/bjorkgard/secretary-application/commit/203fc37e1134c1a43c81cc0a3602a02ab66f5e07)) ([#497](https://github.com/bjorkgard/secretary-application/pull/497))
+  - bump ajv from 8.13.0 to 8.14.0 (#491) ([0b2eb28](https://github.com/bjorkgard/secretary-application/commit/0b2eb28c9d5ec83edbc6376ff8b658419dc29e34)) ([#491](https://github.com/bjorkgard/secretary-application/pull/491))
+  - bump i18next from 23.11.4 to 23.11.5 (#489) ([4947cd4](https://github.com/bjorkgard/secretary-application/commit/4947cd43f04a9e53cfc0cd18cac51d37b02de25a)) ([#489](https://github.com/bjorkgard/secretary-application/pull/489))
+  - bump react-i18next from 14.1.1 to 14.1.2 (#487) ([2959068](https://github.com/bjorkgard/secretary-application/commit/2959068bab3425b3bf8b6ba0c11543f36f6d3880)) ([#487](https://github.com/bjorkgard/secretary-application/pull/487))
+
+## [v1.3.5](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.5) - 2024-05-25 13:57:04
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.3.5 -->
+
+## What's Changed
+### Bug fixes
+* fix(translation): correct spelling by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/475
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.4...v1.3.5
+
+### Bug Fixes
+
+- translation:
+  - correct spelling ([28713be](https://github.com/bjorkgard/secretary-application/commit/28713bea3faf11becc87c807725d30fb29df91af)) ([#475](https://github.com/bjorkgard/secretary-application/pull/475))
+
 ## [v1.3.4](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.4) - 2024-05-23 20:18:15
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.3.4 -->
