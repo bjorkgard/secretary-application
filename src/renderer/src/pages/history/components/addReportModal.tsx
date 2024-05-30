@@ -30,6 +30,7 @@ interface ReportForm {
 
 export default function AddReportModal(props: EventModalProps): JSX.Element | null {
   const { t } = useTranslation()
+  const today = new Date()
 
   const saveReport = (report: ReportForm): void => {
     window.electron.ipcRenderer.invoke('add-publisher-report', { publisherId: props.publisher?._id, report }).then(() => {
@@ -74,17 +75,21 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
           <input
             type="month"
             className="input input-bordered w-full"
-            {...register('serviceMonth', { required: t('error.required'), onChange(event) {
-              clearErrors('serviceMonth')
-              const exists = props.publisher?.reports.find(r => r.serviceMonth === event.target.value)
+            max={`${today.getFullYear()}-${today.getMonth() < 10 ? '0' : ''}${today.getMonth()}`}
+            {...register('serviceMonth', {
+              required: t('errors.required'),
+              onChange(event) {
+                clearErrors('serviceMonth')
+                const exists = props.publisher?.reports.find(r => r.serviceMonth === event.target.value)
 
-              if (exists) {
-                setError('serviceMonth', {
-                  type:    'manual',
-                  message: t('errors.serviceMonthExists'),
-                })
-              }
-            } })}
+                if (exists) {
+                  setError('serviceMonth', {
+                    type:    'manual',
+                    message: t('errors.serviceMonthExists'),
+                  })
+                }
+              },
+            })}
           />
         </Field>
         <Field label={t('label.hasBeenInService')} error={errors.hasBeenInService?.message}>

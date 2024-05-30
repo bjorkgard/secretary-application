@@ -559,5 +559,7 @@
   "label.pioneer": "Pionjär",
   "label.pioneerService": "Pionjärtjänst",
   "label.addReport": "Lägg till en rapport",
-  "label.serviceMonth": "Tjänstemånad"
+  "label.serviceMonth": "Tjänstemånad",
+  "errors.serviceMonthExists": "Det finns redan en rapport för den här månaden",
+  "errors.required": "Obligatoriskt fält"
 }
