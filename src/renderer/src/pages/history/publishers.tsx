@@ -2,15 +2,17 @@ import { PencilIcon }                  from '@heroicons/react/16/solid'
 import { useEffect, useState }         from 'react'
 import { useTranslation }              from 'react-i18next'
 import type { PublisherModel, Report } from 'src/types/models'
-import ReportModal                     from './components/reportModal'
+import AddReportModal                  from './components/addReportModal'
+import EditReportModal                 from './components/editReportModal'
 
 export default function HistoryPublishers(): JSX.Element {
-  const { t }                                     = useTranslation()
-  const [publishers, setPublishers]               = useState<PublisherModel[]>([])
-  const [selectedPublisher, setSelectedPublisher] = useState<PublisherModel>()
-  const [reports, setReports]                     = useState<Report[]>()
-  const [openReportModal, setOpenReportModal]     = useState<boolean>(false)
-  const [selectedReport, setSelectedReport]       = useState<Report>()
+  const { t }                                         = useTranslation()
+  const [publishers, setPublishers]                   = useState<PublisherModel[]>([])
+  const [selectedPublisher, setSelectedPublisher]     = useState<PublisherModel>()
+  const [reports, setReports]                         = useState<Report[]>()
+  const [openAddReportModal, setOpenAddReportModal]   = useState<boolean>(false)
+  const [openEditReportModal, setOpenEditReportModal] = useState<boolean>(false)
+  const [selectedReport, setSelectedReport]           = useState<Report>()
 
   const getPublishers = (publisherId?: string) => {
     window.electron.ipcRenderer
@@ -45,21 +47,36 @@ export default function HistoryPublishers(): JSX.Element {
 
   const editReport = (identifier: string) => {
     setSelectedReport(reports?.find((r: Report) => r.identifier === identifier))
-    setOpenReportModal(true)
+    setOpenEditReportModal(true)
+  }
+
+  const addReport = () => {
+    setOpenAddReportModal(true)
   }
 
   return (
     <>
-      <ReportModal
-        open={openReportModal}
+      <AddReportModal
+        open={openAddReportModal}
         setOpen={function (open: boolean): void {
-          setOpenReportModal(open)
+          setOpenAddReportModal(open)
+        }}
+        publisher={selectedPublisher}
+        refresh={function (): void {
+          getPublishers(selectedPublisher?._id)
+          setOpenAddReportModal(false)
+        }}
+      />
+      <EditReportModal
+        open={openEditReportModal}
+        setOpen={function (open: boolean): void {
+          setOpenEditReportModal(open)
         }}
         report={selectedReport}
         publisherId={selectedPublisher?._id}
         refresh={function (): void {
           getPublishers(selectedPublisher?._id)
-          setOpenReportModal(false)
+          setOpenEditReportModal(false)
         }}
       />
 
@@ -68,6 +85,12 @@ export default function HistoryPublishers(): JSX.Element {
           <h1>{t('history.publisher')}</h1>
 
           <div className="flex space-x-4">
+            {selectedPublisher && (
+              <button className="btn btn-primary" onClick={() => addReport()}>
+                {t('label.addReport')}
+              </button>
+            )}
+
             <select className="select select-bordered w-fit" onChange={selectPublisher}>
               <option value="">{t('label.selectPublisher')}</option>
               {publishers.map((p) => {

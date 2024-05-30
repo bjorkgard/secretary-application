@@ -70,6 +70,8 @@ import {
 import getServiceYear                 from './utils/getServiceYear'
 import ImportantDateService           from './services/importantDateService'
 import ExportServiceGroupInternalList from './functions/exportServiceGroupInternalList'
+import generateIdentifier             from './utils/generateIdentifier'
+import getSortOrder                   from './utils/getSortOrder'
 
 // Bugsnag.start({
 //  apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
@@ -912,6 +914,34 @@ ipcMain.handle('save-report', async (_, report) => {
   }
 
   return serviceMonthService.saveReport(newReport)
+})
+
+ipcMain.handle('add-publisher-report', async (_, args) => {
+  let newReport: Report = args.report
+
+  newReport = { ...newReport, hasBeenInService: args.report.hasBeenInService === 'YES' }
+  newReport = { ...newReport, hasNotBeenInService: args.report.hasBeenInService === 'NO' }
+
+  if (args.report.studies && args.report.studies !== '')
+    newReport = { ...newReport, studies: Number.parseInt(args.report.studies) }
+
+  else
+    newReport = { ...newReport, studies: undefined }
+
+  if (args.report.hours && args.report.hours !== '')
+    newReport = { ...newReport, hours: Number.parseInt(args.report.hours) }
+
+  else
+    newReport = { ...newReport, hours: undefined }
+
+  if (args.report.pioneer)
+    newReport = { ...newReport, type: 'PIONEER' }
+
+  newReport = { ...newReport, serviceYear: getServiceYear(newReport.serviceMonth) }
+  newReport = { ...newReport, sortOrder: getSortOrder(newReport.serviceMonth) }
+  newReport = { ...newReport, identifier: generateIdentifier() }
+
+  return publisherService.addReport(args.publisherId, newReport)
 })
 
 ipcMain.handle('update-publisher-report', async (_, args) => {

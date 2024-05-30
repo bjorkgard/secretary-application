@@ -232,6 +232,21 @@ export default class PublisherService implements IPublisherService {
     return undefined
   }
 
+  async addReport(publisherId: string, newReport: Report): Promise<number | undefined> {
+    await this.findOneById(publisherId).then(async (publisher) => {
+      if (publisher && publisher._id) {
+        newReport.publisherStatus = publisher.status
+        publisher.reports.push(newReport)
+
+        return await this.update(publisher._id, publisher)
+      }
+
+      return undefined
+    })
+
+    return undefined
+  }
+
   async drop(): Promise<void> {
     publisherStore.drop()
   }

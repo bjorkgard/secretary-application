@@ -557,5 +557,7 @@
   "report.description": "Här kan du redigera rapporten för förkunnaren.",
   "label.select": "Välj...",
   "label.pioneer": "Pionjär",
-  "label.pioneerService": "Pionjärtjänst"
+  "label.pioneerService": "Pionjärtjänst",
+  "label.addReport": "Lägg till en rapport",
+  "label.serviceMonth": "Tjänstemånad"
 }
