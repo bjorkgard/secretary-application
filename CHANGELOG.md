@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## [v1.3.7](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.7) - 2024-05-31 14:54:07
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.3.7 -->
+
+## What's Changed
+### Bug fixes
+* fix(auxiliary): fix a problem in the auxiliary list on the dashboard by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/504
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.6...v1.3.7
+
+### Bug Fixes
+
+- auxiliary:
+  - fix a problem in the auxiliary list on the dashboard ([6b99728](https://github.com/bjorkgard/secretary-application/commit/6b99728a4a03a8b578549790fed35b9ce65cf600)) ([#504](https://github.com/bjorkgard/secretary-application/pull/504))
+
 ## [v1.3.6](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.6) - 2024-05-29 22:15:32
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.3.6 -->
