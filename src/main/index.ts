@@ -701,10 +701,11 @@ ipcMain.handle('save-meetings', async (_, props) => {
 
 ipcMain.handle('auxiliaries', async () => {
   const start                         = new Date()
+  const firstDay                      = new Date(start.getFullYear(), start.getMonth(), 1)
   const auxiliaries: AuxiliaryModel[] = []
 
   for (let index = 0; index < 6; index++) {
-    const copiedDate = new Date(start.getTime())
+    const copiedDate = new Date(firstDay.getTime())
     const date       = addMonths(copiedDate, index)
 
     const tempAux = await auxiliaryService.findByServiceMonth(`${date.getFullYear()}-${getMonthString(date)}`)
