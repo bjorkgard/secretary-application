@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## [v1.4.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.4.0) - 2024-06-10 11:18:04
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.4.0 -->
+
+## What's Changed
+### New features
+* feat(address list): addresslist with emergency contact by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/464
+* feat(service groups): export a lis of service groups by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/467
+* fix(address list): force linebreaks in excel export by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/469
+* feat(transfer publisher): if a publisher is moving select a congregat… by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/474
+* feat(extended register card): export extended register card by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/476
+* feat(history) Add, edit and delete publisher reports by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/501
+
+### Bug fixes
+* fix(version): check if version is released before show warning by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/470
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.9...v1.4.0
+
+### Feature
+
+- history:
+  - publisher history ([d23bca6](https://github.com/bjorkgard/secretary-application/commit/d23bca6ffe9279d65245c43451dc14f2f8274e63)) ([#501](https://github.com/bjorkgard/secretary-application/pull/501))
+
 ## [v1.3.9](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.9) - 2024-06-10 07:28:52
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.3.9 -->
@@ -19,6 +43,11 @@
 - deps:
   - bump electron-updater from 6.1.8 to 6.2.1 (#515) ([d1bb30a](https://github.com/bjorkgard/secretary-application/commit/d1bb30a224218500553b079a7253cf583fcb6edc)) ([#515](https://github.com/bjorkgard/secretary-application/pull/515))
 
+### Refactor
+
+- congregation history:
+  - layout adjustments ([1417295](https://github.com/bjorkgard/secretary-application/commit/1417295be527d020884b4c82a10f67ea67f5829a)) ([#501](https://github.com/bjorkgard/secretary-application/pull/501))
+
 ## [v1.3.8](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.8) - 2024-05-31 18:23:02
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.3.8 -->
@@ -26,6 +55,12 @@
 Fix mac version
 
 **Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.7...v1.3.8
+
+### Feature
+
+- publisher report:
+  - do not add future reports ([55b5d84](https://github.com/bjorkgard/secretary-application/commit/55b5d84ca91b90bf68c72c23431926ee515ffba8)) ([#501](https://github.com/bjorkgard/secretary-application/pull/501))
+  - add historical reports for a publisher ([c550acc](https://github.com/bjorkgard/secretary-application/commit/c550acc1e72951c866890bdf1430e780aeef90d7)) ([#501](https://github.com/bjorkgard/secretary-application/pull/501))
 
 ### Bug Fixes
 
@@ -42,6 +77,20 @@ Fix mac version
 
 
 **Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.5...v1.3.6
+
+### Feature
+
+- edit publishers report:
+  - update publishers reports in history ([4a8b602](https://github.com/bjorkgard/secretary-application/commit/4a8b60243151d3cfbeea31a7492c2b3f72d2a361)) ([#501](https://github.com/bjorkgard/secretary-application/pull/501))
+
+- publisher history:
+  - show report history for a publisher ([57779c5](https://github.com/bjorkgard/secretary-application/commit/57779c5e9d777f3ba9c398deecc3afc2e7de4466)) ([#501](https://github.com/bjorkgard/secretary-application/pull/501))
+
+- congregation history:
+  - show monthly history for the congregation ([fb0009a](https://github.com/bjorkgard/secretary-application/commit/fb0009a2d1adf766e40aa76916fd731d1e9429f3)) ([#501](https://github.com/bjorkgard/secretary-application/pull/501))
+
+- extended register card:
+  - export extended register card ([21a3017](https://github.com/bjorkgard/secretary-application/commit/21a30177e6ae56afd50b0833925b814817f7b8b2)) ([#476](https://github.com/bjorkgard/secretary-application/pull/476))
 
 ### Bug Fixes
 
@@ -66,10 +115,21 @@ Fix mac version
 
 **Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.4...v1.3.5
 
+### Feature
+
+- transfer publisher:
+  - if a publisher is moving select a congregation and transfer data ([1411b10](https://github.com/bjorkgard/secretary-application/commit/1411b1023e171965204a6dbec3401f6b8132c29d)) ([#474](https://github.com/bjorkgard/secretary-application/pull/474))
+
 ### Bug Fixes
 
 - translation:
   - correct spelling ([28713be](https://github.com/bjorkgard/secretary-application/commit/28713bea3faf11becc87c807725d30fb29df91af)) ([#475](https://github.com/bjorkgard/secretary-application/pull/475))
+
+- version:
+  - check if version is released before show warning ([f0b51e2](https://github.com/bjorkgard/secretary-application/commit/f0b51e22a56bca9b5ff5bc2879d306898eabdf85)) ([#470](https://github.com/bjorkgard/secretary-application/pull/470))
+
+- address list:
+  - force linebreaks in excel export ([9fe29a5](https://github.com/bjorkgard/secretary-application/commit/9fe29a5b658135fd896040c9fde28c2f825a531f)) ([#469](https://github.com/bjorkgard/secretary-application/pull/469))
 
 ## [v1.3.4](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.4) - 2024-05-23 20:18:15
 
@@ -81,6 +141,14 @@ Fix mac version
 
 
 **Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.3...v1.3.4
+
+### Feature
+
+- service groups:
+  - export a lis of service groups ([8c586f4](https://github.com/bjorkgard/secretary-application/commit/8c586f43e97e77fb902131e664a0d85377f7aaef)) ([#467](https://github.com/bjorkgard/secretary-application/pull/467))
+
+- address list:
+  - addresslist with emergency contact ([f201cc4](https://github.com/bjorkgard/secretary-application/commit/f201cc49408b92d51508c0bc8802af7bc6829bc2)) ([#464](https://github.com/bjorkgard/secretary-application/pull/464))
 
 ### Bug Fixes
 
@@ -125,19 +193,6 @@ Fix mac version
 
 - deps:
   - bump chart.js from 4.4.2 to 4.4.3 (#456) ([40b5c84](https://github.com/bjorkgard/secretary-application/commit/40b5c842e28b2112ca6a0a402275de3c2d0e91c0)) ([#456](https://github.com/bjorkgard/secretary-application/pull/456))
-
-## [v1.3.1](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.1) - 2024-05-20 15:08:39
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.3.1 -->
-
-## What's Changed
-### Other Changes
-* fix(report excel): fix a problem where the forms were protected by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/448
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.0...v1.3.1
-
-### Bug Fixes
 
 - report excel:
   - fix a problem where the forms were protected ([6fa8731](https://github.com/bjorkgard/secretary-application/commit/6fa87310ba1002e17d1a4a6a606b91152317b686)) ([#448](https://github.com/bjorkgard/secretary-application/pull/448))
