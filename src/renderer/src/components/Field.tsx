@@ -3,10 +3,11 @@ import React from 'react'
 interface FieldProps {
   children: React.ReactNode
   label:    string
+  info?:    string
   error?:   string
 }
 
-export function Field({ children, label, error }: FieldProps): JSX.Element {
+export function Field({ children, label, info, error }: FieldProps): JSX.Element {
   const id = getChildId(children)
 
   return (
@@ -17,6 +18,7 @@ export function Field({ children, label, error }: FieldProps): JSX.Element {
       {children}
       <label className="label">
         {error && <span className="label-text-alt text-red-400">{error}</span>}
+        <span className="label-text-alt font-normal">{info}</span>
       </label>
     </div>
   )

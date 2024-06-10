@@ -11,22 +11,23 @@ import {
   PlusIcon as PlusIconSmall,
   TrashIcon,
 } from '@heroicons/react/20/solid'
-import { formatPhoneNumber }                      from 'react-phone-number-input'
-import type { PublisherModel, ServiceGroupModel } from 'src/types/models'
-import { isTemplateCorrect }                      from '@renderer/utils/isTemplateCorrect'
-import ROUTES                                     from '../../constants/routes.json'
-import EventModal                                 from './components/eventModal'
+import { formatPhoneNumber }                                               from 'react-phone-number-input'
+import type { PublicCongregationModel, PublisherModel, ServiceGroupModel } from 'src/types/models'
+import { isTemplateCorrect }                                               from '@renderer/utils/isTemplateCorrect'
+import ROUTES                                                              from '../../constants/routes.json'
+import EventModal                                                          from './components/eventModal'
 
 export default function Publishers(): JSX.Element {
   const { t }    = useTranslation()
   const navigate = useNavigate()
 
-  const [publishers, setPublishers]         = useState<PublisherModel[]>([])
-  const [publisher, setPublisher]           = useState<PublisherModel>()
-  const [openEventModal, setOpenEventModal] = useState<boolean>(false)
-  const [serviceGroups, setServiceGroups]   = useState<ServiceGroupModel[]>([])
-  const [hasS21, setHasS21]                 = useState<boolean>(false)
-  const [queryString, setQueryString]       = useState<string>('')
+  const [publishers, setPublishers]                   = useState<PublisherModel[]>([])
+  const [publisher, setPublisher]                     = useState<PublisherModel>()
+  const [openEventModal, setOpenEventModal]           = useState<boolean>(false)
+  const [serviceGroups, setServiceGroups]             = useState<ServiceGroupModel[]>([])
+  const [hasS21, setHasS21]                           = useState<boolean>(false)
+  const [queryString, setQueryString]                 = useState<string>('')
+  const [publicCongregations, setPublicCongregations] = useState<PublicCongregationModel[]>([])
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQueryString(e.target.value)
@@ -47,6 +48,12 @@ export default function Publishers(): JSX.Element {
   }
 
   useEffect(() => {
+    window.electron.ipcRenderer.invoke('get-public-congregations').then((result: PublicCongregationModel[]) => {
+      setPublicCongregations(result)
+    })
+  }, [])
+
+  useEffect(() => {
     getServiceGroups()
     getPublishers('lastname', queryString)
     isTemplateCorrect('S-21').then((result) => {
@@ -64,6 +71,11 @@ export default function Publishers(): JSX.Element {
       window.electron.ipcRenderer.send('export-s21', id)
   }
 
+  const exportExtendedRegisterCard = (id: string | undefined): void => {
+    if (id)
+      window.electron.ipcRenderer.send('export-extended-register-card', id)
+  }
+
   const addEvent = (id: string | undefined): void => {
     if (id) {
       setPublisher(publishers.find(p => p._id === id))
@@ -79,6 +91,7 @@ export default function Publishers(): JSX.Element {
           setOpenEventModal(open)
         }}
         publisher={publisher}
+        publicCongregations={publicCongregations}
         refresh={function (): void {
           getPublishers()
           setOpenEventModal(false)
@@ -192,6 +205,17 @@ export default function Publishers(): JSX.Element {
                               >
                                 <DocumentArrowDownIcon className="ml-2 size-5" />
                                 {t('menu.s21')}
+                              </button>
+                            </li>
+                            <li className="m-0 py-1">
+                              <button
+                                className="pl-0 disabled:cursor-not-allowed disabled:opacity-50"
+                                onClick={(): void => {
+                                  exportExtendedRegisterCard(publisher._id)
+                                }}
+                              >
+                                <DocumentArrowDownIcon className="ml-2 size-5" />
+                                {t('menu.extendedRegisterCard')}
                               </button>
                             </li>
                             <li className="m-0 py-1">

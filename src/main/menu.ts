@@ -207,6 +207,23 @@ export default class MenuBuilder {
                 },
               ],
             },
+            {
+              label:   i18n.t('mainMenu.addressListGroupEmergencyContacts'),
+              submenu: [
+                {
+                  label: i18n.t('mainMenu.pdf'),
+                  click: (): void => {
+                    ipcMain.emit('export-addresslist-group-emergency-pdf')
+                  },
+                },
+                {
+                  label: i18n.t('mainMenu.xlsx'),
+                  click: (): void => {
+                    ipcMain.emit('export-addresslist-group-emergency-xlsx')
+                  },
+                },
+              ],
+            },
           ],
         },
         {
@@ -257,6 +274,23 @@ export default class MenuBuilder {
           ],
         },
         {
+          label:   i18n.t('mainMenu.extendedRegisterCard'),
+          submenu: [
+            {
+              label: i18n.t('mainMenu.exportCompleteRegisterCard'),
+              click: (): void => {
+                ipcMain.emit('export-extended-register-cards')
+              },
+            },
+            {
+              label: i18n.t('mainMenu.exportServiceGroupRegisterCard'),
+              click: (): void => {
+                ipcMain.emit('export-extended-register-cards-servicegroup')
+              },
+            },
+          ],
+        },
+        {
           label:   i18n.t('mainMenu.meetingAttendance'),
           submenu: [
             {
@@ -292,6 +326,23 @@ export default class MenuBuilder {
               label: i18n.t('mainMenu.regularParticipants'),
               click: (): void => {
                 ipcMain.emit('export-regular-participants', null, {})
+              },
+            },
+          ],
+        },
+        {
+          label:   i18n.t('mainMenu.serviceGroups'),
+          submenu: [
+            {
+              label: i18n.t('mainMenu.serviceGroupsList'),
+              click: (): void => {
+                ipcMain.emit('export-serviceGroups-list', null, {})
+              },
+            },
+            {
+              label: i18n.t('mainMenu.serviceGroupsInternalList'),
+              click: (): void => {
+                ipcMain.emit('export-serviceGroups-internal-list', null, {})
               },
             },
           ],
@@ -469,6 +520,23 @@ export default class MenuBuilder {
                   },
                 ],
               },
+              {
+                label:   i18n.t('mainMenu.addressListGroupEmergencyContacts'),
+                submenu: [
+                  {
+                    label: i18n.t('mainMenu.pdf'),
+                    click: (): void => {
+                      ipcMain.emit('export-addresslist-group-emergency-pdf')
+                    },
+                  },
+                  {
+                    label: i18n.t('mainMenu.xlsx'),
+                    click: (): void => {
+                      ipcMain.emit('export-addresslist-group-emergency-xlsx')
+                    },
+                  },
+                ],
+              },
             ],
           },
           {
@@ -513,6 +581,23 @@ export default class MenuBuilder {
             ],
           },
           {
+            label:   i18n.t('mainMenu.extendedRegisterCard'),
+            submenu: [
+              {
+                label: i18n.t('mainMenu.exportCompleteRegisterCard'),
+                click: (): void => {
+                  ipcMain.emit('export-extended-register-cards')
+                },
+              },
+              {
+                label: i18n.t('mainMenu.exportServiceGroupRegisterCard'),
+                click: (): void => {
+                  ipcMain.emit('export-extended-register-cards-servicegroup')
+                },
+              },
+            ],
+          },
+          {
             label:   i18n.t('mainMenu.meetingAttendance'),
             submenu: [
               {
@@ -548,6 +633,23 @@ export default class MenuBuilder {
                 label: i18n.t('mainMenu.regularParticipants'),
                 click: (): void => {
                   ipcMain.emit('export-regular-participants', null, {})
+                },
+              },
+            ],
+          },
+          {
+            label:   i18n.t('mainMenu.serviceGroups'),
+            submenu: [
+              {
+                label: i18n.t('mainMenu.serviceGroupsList'),
+                click: (): void => {
+                  ipcMain.emit('export-serviceGroups-list', null, {})
+                },
+              },
+              {
+                label: i18n.t('mainMenu.serviceGroupsInternalList'),
+                click: (): void => {
+                  ipcMain.emit('export-serviceGroups-internal-list', null, {})
                 },
               },
             ],

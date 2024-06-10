@@ -1,20 +1,26 @@
-// import log from 'electron-log'
-import PublisherService    from '../services/publisherService'
-import ServiceMonthService from '../services/serviceMonthService'
-import ServiceYearService  from '../services/serviceYearService'
-import getServiceYear      from '../utils/getServiceYear'
+import { type BrowserWindow, dialog } from 'electron'
+import log                            from 'electron-log'
+import PublisherService               from '../services/publisherService'
+import ServiceMonthService            from '../services/serviceMonthService'
+import ServiceYearService             from '../services/serviceYearService'
+import SettingsService                from '../services/settingsService'
+import getServiceYear                 from '../utils/getServiceYear'
+import i18n                           from '../../localization/i18next.config'
+import exportPublisherS21             from './exportPublisherS21'
 
 interface EventProps {
-  command:     string
-  date:        string
-  publisherId: string
+  command:         string
+  date:            string
+  publisherId:     string
+  newCongregation: string | null
 }
 
 const publisherService    = new PublisherService()
 const serviceMonthService = new ServiceMonthService()
 const serviceYearService  = new ServiceYearService()
+const settingsService     = new SettingsService()
 
-async function storeEvent(event: EventProps): Promise<void> {
+async function storeEvent(mainWindow: BrowserWindow, event: EventProps): Promise<void> {
   let publisher               = await publisherService.findOneById(event.publisherId)
   const splitDate             = event.date.split('-')
   let information             = ''
@@ -68,12 +74,68 @@ async function storeEvent(event: EventProps): Promise<void> {
     case 'MOVED_IN':
       information = `${publisher?.firstname} ${publisher?.lastname}`
       break
-    case 'MOVED_OUT':
+    case 'MOVED_OUT': {
       information = `${publisher?.firstname} ${publisher?.lastname}`
+
+      // Export S-21
+      await exportPublisherS21(mainWindow, event.publisherId)
+
+      // Transfer publisher to new congregation
+      if (event.newCongregation && event.newCongregation !== '') {
+        const cleanPublisher = { ...publisher, familyId: undefined, contact: true, registerCard: false, s290: false, serviceGroupId: undefined, responsibilities: [], tasks: [] }
+
+        const options = {
+          method:  'POST',
+          headers: {
+            'Accept':        'application/json',
+            'Content-Type':  'application/json;charset=UTF-8',
+            'Authorization': `Bearer ${await settingsService.token()}` || import.meta.env.MAIN_VITE_TOKEN,
+          },
+          body: JSON.stringify({
+            identifier: event.newCongregation,
+            type:       'PUBLISHER',
+            data:       JSON.stringify(cleanPublisher),
+          }),
+        }
+
+        await fetch(`${import.meta.env.MAIN_VITE_API}/communication`, options)
+          .then(response => response.json())
+          .then(() => {
+            const responseOptions = {
+              type:      'info' as const,
+              buttons:   ['OK'],
+              defaultId: 0,
+              title:     i18n.t('transfer.success'),
+              message:   i18n.t('transfer.success'),
+              detail:    i18n.t('transfer.transferPublisherDone'),
+            }
+
+            if (mainWindow)
+              dialog.showMessageBox(mainWindow, responseOptions)
+          })
+          .catch((error) => {
+            log.error(error)
+            const responseErrorOptions = {
+              type:      'error' as const,
+              buttons:   ['OK'],
+              defaultId: 0,
+              title:     i18n.t('transfer.error'),
+              message:   i18n.t('transfer.error'),
+              detail:    `${i18n.t('transfer.errorInformation')} : ${error.message}`,
+            }
+
+            if (mainWindow)
+              dialog.showMessageBox(mainWindow, responseErrorOptions)
+
+            return null
+          })
+      }
+
       publisherService.delete(event.publisherId)
       addEventToPublisher     = false
       removeFromActiveReports = true
       break
+    }
     case 'DECEASED':
       information = `${publisher?.firstname} ${publisher?.lastname}`
       publisherService.delete(event.publisherId)

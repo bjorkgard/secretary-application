@@ -13,7 +13,9 @@ import i18n                                        from '../localization/i18next
 import type {
   AuxiliaryModel,
   CircuitOverseerModel,
+  PublicCongregationModel,
   PublisherModel,
+  Report,
   ResponsibilityModel,
   ServiceGroupModel,
   SettingsModel,
@@ -38,16 +40,23 @@ import {
   dbBackup,
   dbRestore,
   exportAddressList,
+  exportAddressListEmergency,
   exportCompletionList,
   exportCongregationS21,
+  exportExtendedRegisterCard,
+  exportExtendedRegisterCards,
   exportMembersDocument,
   exportPublisherS21,
   exportPublishersS21,
   exportRegularParticipantDocument,
+  exportReportSummary,
   exportS88,
+  exportServiceGroupList,
   generateXLSXReportForms,
   getCommonExports,
+  getCommunications,
   getMonthString,
+  getPublisherStatus,
   getPublishersStats,
   getPublishersWithoutServiceGroup,
   getReportUpdates,
@@ -58,8 +67,11 @@ import {
   storeEvent,
   updateSettings,
 } from './functions'
-import getServiceYear       from './utils/getServiceYear'
-import ImportantDateService from './services/importantDateService'
+import getServiceYear                 from './utils/getServiceYear'
+import ImportantDateService           from './services/importantDateService'
+import ExportServiceGroupInternalList from './functions/exportServiceGroupInternalList'
+import generateIdentifier             from './utils/generateIdentifier'
+import getSortOrder                   from './utils/getSortOrder'
 
 // Bugsnag.start({
 //  apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
@@ -94,9 +106,7 @@ async function createWindow(): Promise<void> {
   if (isDebug) {
     try {
       installExtension(REACT_DEVELOPER_TOOLS)
-
         .then(name => log.info(`Added Extension:  ${name}`))
-
         .catch(err => log.info('An error occurred: ', err))
     }
     catch (error) {
@@ -191,9 +201,9 @@ app.whenReady().then(() => {
 
 app.on('ready', () => {
   getReportUpdates(mainWindow)
+  getCommunications()
 
   setInterval(() => {
-    log.info('getReportUpdates')
     getReportUpdates(mainWindow)
   }, 600000) // every 10 minute
 })
@@ -313,6 +323,10 @@ ipcMain.handle('get-settings', async () => {
 
 ipcMain.handle('update-settings', async (_, data: SettingsModel) => {
   return updateSettings(settingsService, data)
+})
+
+ipcMain.handle('get-serviceMonths', async () => {
+  return await serviceMonthService.find()
 })
 
 ipcMain.handle('get-circuitOverseer', async () => {
@@ -479,6 +493,24 @@ ipcMain.on('export-addresslist-group-pdf', async () => {
   exportAddressList(mainWindow, publisherService, 'GROUP', 'PDF')
 })
 
+ipcMain.on('export-addresslist-group-emergency-pdf', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('ADDRESSLIST_GROUP_EMERGENCY', 'PDF', 'export-addresslist-group-emergency-pdf')
+  exportAddressListEmergency(mainWindow, publisherService, 'GROUP', 'PDF')
+})
+
+ipcMain.on('export-addresslist-group-emergency-xlsx', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('ADDRESSLIST_GROUP_EMERGENCY', 'XLSX', 'export-addresslist-group-emergency-xlsx')
+  exportAddressListEmergency(mainWindow, publisherService, 'GROUP', 'XLSX')
+})
+
 ipcMain.on('export-regular-participants', async () => {
   if (!mainWindow)
     return
@@ -567,6 +599,47 @@ ipcMain.on('export-register-card-congregation', async (_event) => {
     })
 })
 
+ipcMain.on('export-serviceGroups-internal-list', async (_event) => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('SERVICEGROUP_INTERNAL_LIST', 'PDF', 'export-serviceGroups-internal-list')
+  ExportServiceGroupInternalList(mainWindow, settingsService, serviceGroupService, publisherService)
+})
+
+ipcMain.on('export-serviceGroups-list', async (_event) => {
+  // This function is used to get all inactive publishers and send to the renderer
+  // to be able to select which publishers to include in the export
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  const inactivePublishers = (await publisherService.findByStatus(['INACTIVE'])).map((pub) => {
+    return (
+      {
+        id:   pub._id,
+        name: `${pub.firstname} ${pub.lastname}`,
+      }
+    )
+  })
+
+  mainWindow?.webContents.send('show-inactive-for-servicegroups', { inactives: inactivePublishers })
+})
+
+ipcMain.on('export-service-groups', async (_event, args) => {
+  // This function is used to export the service groups list with the selected inactive publishers from args
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('SERVICEGROUP_LIST', 'PDF', 'export-serviceGroups-list')
+  exportServiceGroupList(mainWindow, settingsService, serviceGroupService, publisherService, args.inactives)
+})
+
 ipcMain.on('export-register-card', async (_event, args) => {
   if (!mainWindow)
     return
@@ -595,6 +668,72 @@ ipcMain.on('export-register-card', async (_event, args) => {
       if (r !== null) {
         if (mainWindow)
           exportPublishersS21(mainWindow, +sy[r], args.type)
+      }
+      else {
+        mainWindow?.webContents.send('show-spinner', { status: false })
+      }
+    })
+    .catch((err: Error) => {
+      mainWindow?.webContents.send('show-spinner', { status: false })
+      log.error(err)
+    })
+})
+
+ipcMain.on('export-extended-register-card', async (_event, args) => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportExtendedRegisterCard(mainWindow, args)
+})
+
+ipcMain.on('export-extended-register-cards', async (_event) => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportExtendedRegisterCards(mainWindow)
+})
+
+ipcMain.on('export-extended-register-cards-servicegroup', async (_event) => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  const sg: string[]   = []
+  const sgId: string[] = []
+  const splitDate      = new Date().toLocaleDateString('sv').split('-')
+
+  const serviceYear = await serviceYearService.findByServiceYear(getServiceYear(`${splitDate[0]}-${splitDate[1]}`))
+
+  if (!serviceYear)
+    return
+
+  serviceGroupService.find().then((serviceGroups) => {
+    serviceGroups.forEach((serviceGroup) => {
+      sg.push(serviceGroup.name)
+      sgId.push(serviceGroup._id || '')
+    })
+  })
+
+  sg.sort()
+
+  prompt({
+    title:         i18n.t('dialog.selectServiceGroup'),
+    label:         i18n.t('dialog.selectServiceGroupDescription'),
+    type:          'select',
+    selectOptions: sg,
+    alwaysOnTop:   true,
+    buttonLabels:  { cancel: i18n.t('label.cancel'), ok: i18n.t('label.ok') },
+    resizable:     true,
+  })
+    .then((r: number | null) => {
+      if (r !== null) {
+        if (mainWindow)
+          exportExtendedRegisterCards(mainWindow, sgId[r])
       }
       else {
         mainWindow?.webContents.send('show-spinner', { status: false })
@@ -745,6 +884,10 @@ ipcMain.handle('add-auxiliary', async (_, props) => {
   return null
 })
 
+ipcMain.handle('delete-report', async (_, args) => {
+  return publisherService.deleteReport(args.publisherId, args.reportId)
+})
+
 ipcMain.handle('save-report', async (_, report) => {
   const settings = await settingsService.find()
   let newReport  = report
@@ -778,11 +921,89 @@ ipcMain.handle('save-report', async (_, report) => {
   return serviceMonthService.saveReport(newReport)
 })
 
+ipcMain.handle('add-publisher-report', async (_, args) => {
+  let newReport: Report = args.report
+
+  newReport = { ...newReport, hasBeenInService: args.report.hasBeenInService === 'YES' }
+  newReport = { ...newReport, hasNotBeenInService: args.report.hasBeenInService === 'NO' }
+
+  if (args.report.studies && args.report.studies !== '')
+    newReport = { ...newReport, studies: Number.parseInt(args.report.studies) }
+
+  else
+    newReport = { ...newReport, studies: undefined }
+
+  if (args.report.hours && args.report.hours !== '')
+    newReport = { ...newReport, hours: Number.parseInt(args.report.hours) }
+
+  else
+    newReport = { ...newReport, hours: undefined }
+
+  if (args.report.pioneer)
+    newReport = { ...newReport, type: 'PIONEER' }
+
+  if (args.report.specialPioneer)
+    newReport = { ...newReport, type: 'SPECIALPIONEER' }
+
+  if (args.report.missionary)
+    newReport = { ...newReport, type: 'MISSIONARY' }
+
+  newReport = { ...newReport, serviceYear: getServiceYear(newReport.serviceMonth) }
+  newReport = { ...newReport, sortOrder: getSortOrder(newReport.serviceMonth) }
+  newReport = { ...newReport, identifier: generateIdentifier() }
+
+  return publisherService.addReport(args.publisherId, newReport)
+})
+
+ipcMain.handle('update-publisher-report', async (_, args) => {
+  let newReport: Report = args.report
+
+  newReport = { ...newReport, hasBeenInService: args.report.hasBeenInService === 'YES' }
+  newReport = { ...newReport, hasNotBeenInService: args.report.hasBeenInService === 'NO' }
+
+  if (args.report.studies && args.report.studies !== '')
+    newReport = { ...newReport, studies: Number.parseInt(args.report.studies) }
+
+  else
+    newReport = { ...newReport, studies: undefined }
+
+  if (args.report.hours && args.report.hours !== '')
+    newReport = { ...newReport, hours: Number.parseInt(args.report.hours) }
+
+  else
+    newReport = { ...newReport, hours: undefined }
+
+  if (args.report.pioneer)
+    newReport = { ...newReport, type: 'PIONEER' }
+
+  if (args.report.specialPioneer)
+    newReport = { ...newReport, type: 'SPECIALPIONEER' }
+
+  if (args.report.missionary)
+    newReport = { ...newReport, type: 'MISSIONARY' }
+
+  const status = await getPublisherStatus(args.publisherId, newReport)
+
+  return publisherService.saveReport(args.publisherId, newReport, status)
+})
+
 ipcMain.handle('generate-excel-report-forms', async (_, serviceMonthId) => {
   if (!mainWindow)
     return
 
   generateXLSXReportForms(mainWindow, serviceGroupService, serviceMonthService, serviceMonthId)
+})
+
+ipcMain.handle('export-report-summary', async (_, args) => {
+  if (!mainWindow)
+    return
+
+  await exportReportSummary(
+    mainWindow,
+    serviceMonthService,
+    settingsService,
+    args.serviceMonth,
+  )
 })
 
 ipcMain.handle('import-service-reports', async () => {
@@ -824,7 +1045,11 @@ ipcMain.handle('store-event', async (_, args) => {
   if (!mainWindow)
     return
 
-  storeEvent(args.event)
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  await storeEvent(mainWindow, args.event)
+
+  mainWindow?.webContents.send('show-spinner', { status: false })
 })
 
 ipcMain.on('generate-backup', async () => {
@@ -851,20 +1076,57 @@ ipcMain.handle('get-latest-backup', async () => {
   return date
 })
 
+ipcMain.handle('get-public-congregations', async () => {
+  if (!mainWindow)
+    return
+
+  const options = {
+    method:  'GET',
+    headers: {
+      'Accept':       'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization':
+        `Bearer ${await settingsService.token()}` || import.meta.env.MAIN_VITE_TOKEN,
+    },
+  }
+
+  const congregations = await fetch(`${import.meta.env.MAIN_VITE_API}/congregations/public`, options)
+    .then(response => response.json())
+    .then((response: { data: PublicCongregationModel[] }) => {
+      return response.data
+    })
+    .catch((error) => {
+      log.error(error)
+    })
+    .finally(() => {
+      return []
+    })
+
+  return congregations
+})
+
 ipcMain.handle('get-latest-version', async () => {
   if (!mainWindow)
     return
 
   let version: string | undefined
-  const url = 'https://api.github.com/repos/bjorkgard/secretary-application/tags'
+  const url = 'https://api.github.com/repos/bjorkgard/secretary-application/releases'
 
   try {
-    const tags = await fetch(url, {
+    const releases = await fetch(url, {
       headers: {
         Authorization: `Bearer ${import.meta.env.MAIN_VITE_PAT}`,
       },
     }).then(_ => _.json())
-    version    = tags[0].name
+
+    for (const release of releases) {
+      if (!release.draft) {
+        version = releases.name
+        break
+      }
+
+      continue
+    }
   }
   catch (error) {
     log.error(error)

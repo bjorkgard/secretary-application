@@ -34,9 +34,12 @@ export interface PublisherService extends BaseService<PublisherModel> {
   find:                         (sortField: string, queryString?: string) => Promise<PublisherModel[]>
   findByIds:                    (ids: string[]) => Promise<PublisherModel[]>
   findContacts:                 () => Promise<PublisherModel[]>
+  findFamily:                   (familyId: string) => Promise<PublisherModel[]>
   resetServiceGroup:            (serviceGroupId: string) => Promise<void>
   updateAddressOnFamilyMembers: (publisher: PublisherModel) => Promise<void>
   findByIdentifier:             (identifier: string) => Promise<PublisherModel | null>
+  addReport:                    (publisherId: string, report: Report) => Promise<number | undefined>
+  saveReport:                   (publisherId: string, report: Report, status: 'ACTIVE' | 'INACTIVE' | 'IRREGULAR') => Promise<number | undefined>
 }
 
 export interface ServiceYearService extends BaseService<ServiceYearModel> {
@@ -62,7 +65,8 @@ export interface ServiceMonthService extends BaseService<ServiceMonthModel> {
 }
 
 export interface ServiceGroupService extends BaseService<ServiceGroupModel> {
-  find: () => Promise<ServiceGroupModel[]>
+  find:   () => Promise<ServiceGroupModel[]>
+  upsert: (data: ServiceGroupModel) => Promise<number>
 }
 
 export interface ResponsibilityService extends BaseService<ResponsibilityModel> {
