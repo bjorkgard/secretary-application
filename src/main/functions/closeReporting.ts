@@ -143,6 +143,7 @@ async function closeReporting(mainWindow: BrowserWindow | null,  serviceYearServ
       serviceMonthService,
       settingsService,
       serviceMonth.serviceMonth,
+      stats,
     )
   }
 

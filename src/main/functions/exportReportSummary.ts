@@ -1,6 +1,7 @@
 import type { BrowserWindow }                        from 'electron'
 import { jsPDF }                                     from 'jspdf'
 import type { UserOptions }                          from 'jspdf-autotable'
+import type { Stats }                                from '../databases/schemas'
 import i18n                                          from '../../localization/i18next.config'
 import type { Meeting, Report }                      from '../../types/models'
 import type { ServiceMonthService, SettingsService } from '../../types/type'
@@ -40,7 +41,7 @@ function inCircuitOverseerService(report: Report): boolean {
   return report.hasBeenInService && report.type === 'CIRCUITOVERSEER'
 }
 
-async function exportReportSummary(mainWindow: BrowserWindow,  serviceMonthService: ServiceMonthService,  settingsService: SettingsService,  serviceMonth: string): Promise<void> {
+async function exportReportSummary(mainWindow: BrowserWindow,  serviceMonthService: ServiceMonthService,  settingsService: SettingsService,  serviceMonth: string, stats: Stats): Promise<void> {
   const settings = await settingsService.find()
   const SM       = await serviceMonthService.findByServiceMonth(serviceMonth)
 
@@ -52,11 +53,6 @@ async function exportReportSummary(mainWindow: BrowserWindow,  serviceMonthServi
     + SM?.reports.filter(report => inMissionaryService(report)).length
     + SM?.reports.filter(report => inCircuitOverseerService(report)).length
     : 0
-
-  const activePublishers
-    = SM?.reports.filter(
-      report => report.publisherStatus === 'ACTIVE' && report.serviceMonth === serviceMonth,
-    ).length || 0
 
   const reportRows = (reports: Report[]): string[][] => {
     const reportRows: string[][] = []
@@ -174,7 +170,8 @@ async function exportReportSummary(mainWindow: BrowserWindow,  serviceMonthServi
     row1.push(i18n.t('label.midweekMeeting'))
     meetings.forEach((meeting) => {
       sumMidweek += meeting.midweek.reduce((acc, value) => acc + value, 0)
-      row1.push(meeting.midweek.reduce((acc, value) => acc + value, 0).toLocaleString() || '0')
+      if (meetings.length > 1)
+        row1.push(meeting.midweek.reduce((acc, value) => acc + value, 0).toLocaleString() || '0')
     })
     row1.push(sumMidweek.toLocaleString())
     row1.push(Math.round(sumMidweek / meetings[0].midweek.length).toLocaleString())
@@ -183,7 +180,8 @@ async function exportReportSummary(mainWindow: BrowserWindow,  serviceMonthServi
     row2.push(i18n.t('label.weekendMeeting'))
     meetings.forEach((meeting) => {
       sumWeekend += meeting.weekend.reduce((acc, value) => acc + value, 0)
-      row2.push(meeting.weekend.reduce((acc, value) => acc + value, 0).toLocaleString() || '0')
+      if (meetings.length > 1)
+        row2.push(meeting.weekend.reduce((acc, value) => acc + value, 0).toLocaleString() || '0')
     })
     row2.push(sumWeekend.toLocaleString())
     row2.push(Math.round(sumWeekend / meetings[0].weekend.length).toLocaleString())
@@ -229,7 +227,7 @@ async function exportReportSummary(mainWindow: BrowserWindow,  serviceMonthServi
         i18n.t('label.sum'),
         totalReports,
         SM
-          ? SM.reports
+          ? Math.round(SM.reports
             .filter(report => inActivePublisherService(report))
             .reduce((acc, report) => acc + (report.studies || 0), 0)
             + SM.reports
@@ -237,7 +235,7 @@ async function exportReportSummary(mainWindow: BrowserWindow,  serviceMonthServi
               .reduce((acc, report) => acc + (report.studies || 0), 0)
               + SM.reports
                 .filter(report => inPioneerService(report))
-                .reduce((acc, report) => acc + (report.studies || 0), 0)
+                .reduce((acc, report) => acc + (report.studies || 0), 0))
           : 0,
         SM
           ? (
@@ -266,18 +264,27 @@ async function exportReportSummary(mainWindow: BrowserWindow,  serviceMonthServi
 
   pdfDoc.autoTable({
     body: [
-      [i18n.t('label.actives'), activePublishers, '', ''],
       [
-        i18n.t('label.irregulars'),
-        SM?.reports.filter(report => report.publisherStatus === 'IRREGULAR').length.toString()
-        || '0',
+        i18n.t('label.actives'),
+        stats.activePublishers.toString() || '0',
+        '',
+        '',
+      ],
+      [
+        `- ${i18n.t('label.regulars')}`,
+        stats.regularPublishers.toString() || '0',
+        '',
+        '',
+      ],
+      [
+        `- ${i18n.t('label.irregulars')}`,
+        stats.irregularPublishers.toString() || '0',
         '',
         '',
       ],
       [
         i18n.t('label.inactives'),
-        SM?.reports.filter(report => report.publisherStatus === 'INACTIVE').length.toString()
-        || '0',
+        stats.inactivePublishers.toString() || '0',
         '',
         '',
       ],
