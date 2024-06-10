@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## [v1.4.1](https://github.com/bjorkgard/secretary-application/releases/tag/v1.4.1) - 2024-06-10 12:18:25
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.4.1 -->
+
+## What's Changed
+### Bug fixes
+* fix(report compilation): fix problem when exporting old service months by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/528
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.4.0...v1.4.1
+
+### Bug Fixes
+
+- report compilation:
+  - fix problem when exporting old service months ([7b82894](https://github.com/bjorkgard/secretary-application/commit/7b8289457af7eb3096a16ae9be7f027f96a26e68)) ([#528](https://github.com/bjorkgard/secretary-application/pull/528))
+
 ## [v1.4.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.4.0) - 2024-06-10 11:18:04
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.4.0 -->
