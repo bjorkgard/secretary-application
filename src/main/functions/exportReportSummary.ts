@@ -41,9 +41,12 @@ function inCircuitOverseerService(report: Report): boolean {
   return report.hasBeenInService && report.type === 'CIRCUITOVERSEER'
 }
 
-async function exportReportSummary(mainWindow: BrowserWindow,  serviceMonthService: ServiceMonthService,  settingsService: SettingsService,  serviceMonth: string, stats: Stats): Promise<void> {
+async function exportReportSummary(mainWindow: BrowserWindow,  serviceMonthService: ServiceMonthService,  settingsService: SettingsService,  serviceMonth: string, stats?: Stats): Promise<void> {
   const settings = await settingsService.find()
   const SM       = await serviceMonthService.findByServiceMonth(serviceMonth)
+
+  if (!stats)
+    stats = SM?.stats
 
   const totalReports = SM
     ? SM.reports.filter(report => inActivePublisherService(report)).length
@@ -266,25 +269,25 @@ async function exportReportSummary(mainWindow: BrowserWindow,  serviceMonthServi
     body: [
       [
         i18n.t('label.actives'),
-        stats.activePublishers.toString() || '0',
+        stats?.activePublishers.toString() || '0',
         '',
         '',
       ],
       [
         `- ${i18n.t('label.regulars')}`,
-        stats.regularPublishers.toString() || '0',
+        stats?.regularPublishers.toString() || '0',
         '',
         '',
       ],
       [
         `- ${i18n.t('label.irregulars')}`,
-        stats.irregularPublishers.toString() || '0',
+        stats?.irregularPublishers.toString() || '0',
         '',
         '',
       ],
       [
         i18n.t('label.inactives'),
-        stats.inactivePublishers.toString() || '0',
+        stats?.inactivePublishers.toString() || '0',
         '',
         '',
       ],
