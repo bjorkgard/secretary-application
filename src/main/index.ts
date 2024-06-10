@@ -1,11 +1,11 @@
-import os                                             from 'node:os'
-import { join }                                       from 'node:path'
-import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron'
-import { electronApp, is, optimizer }                 from '@electron-toolkit/utils'
-import { autoUpdater }                                from 'electron-updater'
-import windowStateKeeper                              from 'electron-window-state'
-import prompt                                         from 'electron-prompt'
-import log                                            from 'electron-log'
+import os                                                        from 'node:os'
+import { join }                                                  from 'node:path'
+import { BrowserWindow, app, clipboard, dialog, ipcMain, shell } from 'electron'
+import { electronApp, is, optimizer }                            from '@electron-toolkit/utils'
+import { autoUpdater }                                           from 'electron-updater'
+import windowStateKeeper                                         from 'electron-window-state'
+import prompt                                                    from 'electron-prompt'
+import log                                                       from 'electron-log'
 // import Bugsnag                                        from '@bugsnag/electron'
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer'
 import icon                                        from '../../resources/icon.png?asset'
@@ -1127,6 +1127,63 @@ ipcMain.handle('resend-serviceGroupForm', async (_, args) => {
     .finally(() => {
       return []
     })
+})
+
+ipcMain.handle('resend-publisher-report', async (_, args) => {
+  if (!mainWindow)
+    return
+
+  const options = {
+    method:  'PUT',
+    headers: {
+      'Accept':       'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization':
+        `Bearer ${await settingsService.token()}` || import.meta.env.MAIN_VITE_TOKEN,
+    },
+  }
+
+  await fetch(`${import.meta.env.MAIN_VITE_API}/reports/resend/${args.identifier}`, options)
+    .then(response => response.json())
+    .catch((error) => {
+      log.error(error)
+    })
+    .finally(() => {
+      return []
+    })
+})
+
+ipcMain.handle('get-report-url', async (_, args) => {
+  if (!mainWindow)
+    return
+
+  const options = {
+    method:  'GET',
+    headers: {
+      'Accept':       'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization':
+        `Bearer ${await settingsService.token()}` || import.meta.env.MAIN_VITE_TOKEN,
+    },
+  }
+
+  const url = await fetch(`${import.meta.env.MAIN_VITE_API}/reports/url/${args.identifier}`, options)
+    .then(response => response.json())
+    .then((data) => {
+      if (data.url) {
+        clipboard.writeText(data.url)
+        return data.url
+      }
+      return ''
+    })
+    .catch((error) => {
+      log.error(error)
+    })
+    .finally(() => {
+      return ''
+    })
+
+  return url
 })
 
 ipcMain.handle('get-latest-version', async () => {

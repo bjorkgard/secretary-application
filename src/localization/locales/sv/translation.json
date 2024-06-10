@@ -572,5 +572,12 @@
   "Växla utvecklarverktyg": "Växla Utvecklarverktyg",
   "Ångra": "Ångra",
   "label.resendServiceGroupReports": "Skicka om rapportformuläret",
-  "reports.serviceGroupReportsResent": "Rapportformuläret kommer att skickas inom kort"
+  "reports.serviceGroupReportsResent": "Rapportformuläret kommer att skickas inom kort",
+  "reports.resend": "Inom kort skickas det en påminnelse till förkunnaren",
+  "tooltip.resendReport": "Skicka om rapportformuläret",
+  "tooltip.sendEmail": "Skicka ett e-postmeddelande till förkunnaren",
+  "tooltip.sendReportMessage": "Skicka ett SMS till förkunnaren",
+  "tooltip.copyReportUrl": "Kopiera rapporteringslänken",
+  "reports.urlCopied": "Länken är kopierad",
+  "reports.noReportUrl": "Förkunnaren har ingen aktiv rapport online och kan därför inte få någon länk"
 }
