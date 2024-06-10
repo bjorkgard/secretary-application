@@ -1,13 +1,16 @@
-import { writeFile } from 'node:fs/promises'
-import { resolve }   from 'node:path'
-import open          from 'open'
+import { readFile, writeFile } from 'node:fs/promises'
+import { resolve }             from 'node:path'
+import open                    from 'open'
 
-import packageJSON                             from '../../../package.json' assert { type: 'json' }
+// import packageJSON                             from '../../../package.json' assert { type: 'json' }
 import exec                                    from '../../utils/exec.mjs'
 import question                                from '../../utils/question.mjs'
 import { COLORS }                              from '../../constants/colors.mjs'
 import { checkValidations }                    from './validations/index.mjs'
 import { extractOwnerAndRepoFromGitRemoteURL } from './utils/extractors.mjs'
+
+const fileUrl     = new URL('../../../package.json', import.meta.url)
+const packageJSON = JSON.parse(await readFile(fileUrl, 'utf8'))
 
 async function makeRelease() {
   console.clear()
