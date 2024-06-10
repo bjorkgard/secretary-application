@@ -47,6 +47,7 @@ export default function EventModal(props: EventModalProps): JSX.Element {
     { name: t('event.pioneerStart'), command: 'PIONEER_START' },
     { name: t('event.auxiliaryStop'), command: 'AUXILIARY_STOP' },
     { name: t('event.pioneerStop'), command: 'PIONEER_STOP' },
+    { name: t('event.pioneerSchool'), command: 'PIONEER_SCHOOL' },
     { name: t('event.deceased'), command: 'DECEASED' },
     { name: t('event.reinstated'), command: 'REINSTATED' },
     { name: t('event.disassociation'), command: 'DISASSOCIATION' },

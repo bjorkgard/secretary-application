@@ -71,6 +71,9 @@ async function storeEvent(mainWindow: BrowserWindow, event: EventProps): Promise
       publisher   = { ...publisher, appointments: publisher?.appointments.filter(appointment => appointment.type !== 'PIONEER') }
       publisherService.update(event.publisherId, publisher)
       break
+    case 'PIONEER_SCHOOL':
+      information = `${publisher?.firstname} ${publisher?.lastname}`
+      break
     case 'MOVED_IN':
       information = `${publisher?.firstname} ${publisher?.lastname}`
       break
