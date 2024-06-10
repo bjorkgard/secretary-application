@@ -579,5 +579,10 @@
   "tooltip.sendReportMessage": "Skicka ett SMS till förkunnaren",
   "tooltip.copyReportUrl": "Kopiera rapporteringslänken",
   "reports.urlCopied": "Länken är kopierad",
-  "reports.noReportUrl": "Förkunnaren har ingen aktiv rapport online och kan därför inte få någon länk"
+  "reports.noReportUrl": "Förkunnaren har ingen aktiv rapport online och kan därför inte få någon länk",
+  "event.a2": "Ansökan om utökad tjänst (A-2)",
+  "event.a8": "Ansökan om medlemskap i Den världsvida Orden av Jehovas vittnen i särskild heltidstjänst (A-8)",
+  "event.a19": "Ansökan om volontärtjänst (A-19)",
+  "event.co5a": "Särskilt logibehov (CO-5a)",
+  "event.co4": "Logierbjudande (CO-4)"
 }
