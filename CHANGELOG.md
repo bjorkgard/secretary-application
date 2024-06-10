@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## [v1.3.9](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.9) - 2024-06-10 07:28:52
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.3.9 -->
+
+## What's Changed
+### Bug Fixes
+* fix(report compilation): calculate meeting visitors correctly by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/521
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.3.8...v1.3.9
+
+### Bug Fixes
+
+- report compilation:
+  - calculate meeting visitors correctly ([6013621](https://github.com/bjorkgard/secretary-application/commit/60136212e1043d7c251f1994988a7f61271d6262)) ([#521](https://github.com/bjorkgard/secretary-application/pull/521))
+
+- deps:
+  - bump electron-updater from 6.1.8 to 6.2.1 (#515) ([d1bb30a](https://github.com/bjorkgard/secretary-application/commit/d1bb30a224218500553b079a7253cf583fcb6edc)) ([#515](https://github.com/bjorkgard/secretary-application/pull/515))
+
 ## [v1.3.8](https://github.com/bjorkgard/secretary-application/releases/tag/v1.3.8) - 2024-05-31 18:23:02
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.3.8 -->
