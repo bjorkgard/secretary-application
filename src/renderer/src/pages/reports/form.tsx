@@ -142,7 +142,7 @@ export default function ReportsForm(): JSX.Element {
               <Tab.Panels className="mt-2">
                 {tabs.map(tab => (
                   <Tab.Panel key={tab.id}>
-                    <ReportsTable reports={tab.reports} month={serviceMonthName || ''} />
+                    <ReportsTable serviceGroupId={tab.id} reports={tab.reports} month={serviceMonthName || ''} />
                   </Tab.Panel>
                 ))}
               </Tab.Panels>
