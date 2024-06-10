@@ -255,6 +255,37 @@ export default function HistoryCongregation(): JSX.Element {
             <table className="table -mt-2 w-full">
               <thead>
                 <tr>
+                  <th>{t('label.publishers')}</th>
+                  <th>{t('label.amount')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="w-56">{t('label.actives')}</td>
+                  <td>{selectedServiceMonth.stats.activePublishers}</td>
+                </tr>
+                <tr>
+                  <td className="w-56">{`- ${t('label.regulars')}`}</td>
+                  <td>{selectedServiceMonth.stats.regularPublishers}</td>
+                </tr>
+                <tr>
+                  <td className="w-56">{`- ${t('label.irregulars')}`}</td>
+                  <td>{selectedServiceMonth.stats.irregularPublishers}</td>
+                </tr>
+                <tr>
+                  <td className="w-56">{t('label.inactives')}</td>
+                  <td>{selectedServiceMonth.stats.inactivePublishers}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div className="divider mb-6"></div>
+
+          <div className="w-full">
+            <table className="table -mt-2 w-full">
+              <thead>
+                <tr>
                   {meetingHeadlines.map((headline, index) => {
                     return (
                       <th key={`headline-${index}`}>{headline}</th>
