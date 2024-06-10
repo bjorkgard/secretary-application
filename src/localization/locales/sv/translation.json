@@ -561,5 +561,6 @@
   "label.addReport": "Lägg till en rapport",
   "label.serviceMonth": "Tjänstemånad",
   "errors.serviceMonthExists": "Det finns redan en rapport för den här månaden",
-  "errors.required": "Obligatoriskt fält"
+  "errors.required": "Obligatoriskt fält",
+  "label.edit": "Redigera"
 }
