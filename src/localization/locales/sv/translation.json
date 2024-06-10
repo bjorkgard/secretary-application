@@ -584,5 +584,10 @@
   "event.a8": "Ansökan om medlemskap i Den världsvida Orden av Jehovas vittnen i särskild heltidstjänst (A-8)",
   "event.a19": "Ansökan om volontärtjänst (A-19)",
   "event.co5a": "Särskilt logibehov (CO-5a)",
-  "event.co4": "Logierbjudande (CO-4)"
+  "event.co4": "Logierbjudande (CO-4)",
+  "mainMenu.activeApplications": "Aktiva ansökningar",
+  "label.active_applications": "Aktiva ansökningar",
+  "export.latestDate": "Senaste ansökning",
+  "export.comment": "Kommentar",
+  "applications.needsAnUpdate": "Ansökan behöver uppdateras"
 }

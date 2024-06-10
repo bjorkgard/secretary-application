@@ -317,6 +317,12 @@ export default class MenuBuilder {
               },
             },
             {
+              label: i18n.t('mainMenu.activeApplications'),
+              click: (): void => {
+                ipcMain.emit('export-active-applications', null, {})
+              },
+            },
+            {
               label: i18n.t('mainMenu.exportMembers'),
               click: (): void => {
                 ipcMain.emit('export-members', null, {})
@@ -621,6 +627,12 @@ export default class MenuBuilder {
                 label: i18n.t('mainMenu.needsCompletions'),
                 click: (): void => {
                   ipcMain.emit('export-needs-completions', null, {})
+                },
+              },
+              {
+                label: i18n.t('mainMenu.activeApplications'),
+                click: (): void => {
+                  ipcMain.emit('export-active-applications', null, {})
                 },
               },
               {

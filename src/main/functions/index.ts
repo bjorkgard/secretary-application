@@ -1,6 +1,7 @@
 export { default as addMonths } from './addMonths'
 export { default as dbBackup } from './dbBackup'
 export { default as dbRestore } from './dbRestore'
+export { default as exportActiveApplications } from './exportActiveApplications'
 export { default as exportAddressList } from './exportAddressList'
 export { default as exportAddressListEmergency } from './exportAddressListEmergency'
 export { default as exportCompletionList } from './exportCompletionList'

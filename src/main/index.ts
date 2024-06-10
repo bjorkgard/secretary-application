@@ -39,6 +39,7 @@ import {
   closeReporting,
   dbBackup,
   dbRestore,
+  exportActiveApplications,
   exportAddressList,
   exportAddressListEmergency,
   exportCompletionList,
@@ -1184,6 +1185,17 @@ ipcMain.handle('get-report-url', async (_, args) => {
     })
 
   return url
+})
+
+ipcMain.on('export-active-applications', async () => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('ACTIVE_APPLICATIONS', 'PDF', 'export-active-applications')
+  // exportAddressList(mainWindow, publisherService, 'NAME', 'XLSX')
+  exportActiveApplications(mainWindow, publisherService)
 })
 
 ipcMain.handle('get-latest-version', async () => {
