@@ -883,6 +883,10 @@ ipcMain.handle('add-auxiliary', async (_, props) => {
   return null
 })
 
+ipcMain.handle('delete-report', async (_, args) => {
+  return publisherService.deleteReport(args.publisherId, args.reportId)
+})
+
 ipcMain.handle('save-report', async (_, report) => {
   const settings = await settingsService.find()
   let newReport  = report
@@ -937,6 +941,12 @@ ipcMain.handle('add-publisher-report', async (_, args) => {
   if (args.report.pioneer)
     newReport = { ...newReport, type: 'PIONEER' }
 
+  if (args.report.specialPioneer)
+    newReport = { ...newReport, type: 'SPECIALPIONEER' }
+
+  if (args.report.missionary)
+    newReport = { ...newReport, type: 'MISSIONARY' }
+
   newReport = { ...newReport, serviceYear: getServiceYear(newReport.serviceMonth) }
   newReport = { ...newReport, sortOrder: getSortOrder(newReport.serviceMonth) }
   newReport = { ...newReport, identifier: generateIdentifier() }
@@ -964,6 +974,12 @@ ipcMain.handle('update-publisher-report', async (_, args) => {
 
   if (args.report.pioneer)
     newReport = { ...newReport, type: 'PIONEER' }
+
+  if (args.report.specialPioneer)
+    newReport = { ...newReport, type: 'SPECIALPIONEER' }
+
+  if (args.report.missionary)
+    newReport = { ...newReport, type: 'MISSIONARY' }
 
   const status = await getPublisherStatus(args.publisherId, newReport)
 

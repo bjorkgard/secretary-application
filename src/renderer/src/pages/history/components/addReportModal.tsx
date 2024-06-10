@@ -4,6 +4,7 @@ import type { PublisherModel } from 'src/types/models'
 import { useForm }             from 'react-hook-form'
 import { Field }               from '@renderer/components/Field'
 import classNames              from '@renderer/utils/classNames'
+import { useEffect }           from 'react'
 
 interface EventModalProps {
   open:       boolean
@@ -19,6 +20,8 @@ interface ReportForm {
   identifier:       string
   auxiliary:        boolean
   pioneer:          boolean
+  specialPioneer:   boolean
+  missionary:       boolean
   remarks?:         string
   serviceYear:      number
   serviceMonth:     string
@@ -43,8 +46,9 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
     handleSubmit,
     register,
     setError,
+    setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<ReportForm>({
     defaultValues: {
       serviceYear:      0,
@@ -59,9 +63,32 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
       hours:            undefined,
       auxiliary:        false,
       pioneer:          false,
+      specialPioneer:   false,
+      missionary:       false,
       remarks:          undefined,
     },
   })
+
+  useEffect(() => {
+    if (props.open) {
+      clearErrors()
+
+      setValue('serviceYear', 0)
+      setValue('serviceMonth', '')
+      setValue('name', '')
+      setValue('sortOrder', 0)
+      setValue('type', 'PUBLISHER')
+      setValue('publisherStatus', props.publisher?.status ?? 'ACTIVE')
+      setValue('hasBeenInService', '')
+      setValue('studies', undefined)
+      setValue('hours', undefined)
+      setValue('pioneer', props.publisher?.appointments.some(a => a.type === 'PIONEER') || false)
+      setValue('specialPioneer', props.publisher?.appointments.some(a => a.type === 'SPECIALPIONEER') || false)
+      setValue('missionary', props.publisher?.appointments.some(a => a.type === 'MISSIONARY') || false)
+      setValue('auxiliary', props.publisher?.appointments.some(a => a.type === 'AUXILIARY') || false)
+      setValue('remarks', '')
+    }
+  }, [props.open])
 
   return (
     <Modal
@@ -84,7 +111,7 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
 
                 if (exists) {
                   setError('serviceMonth', {
-                    type:    'manual',
+                    type:    'unique',
                     message: t('errors.serviceMonthExists'),
                   })
                 }
@@ -107,9 +134,9 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
         </Field>
 
         <Field label={t('label.pioneerService')}>
-          <div className="flex h-12 items-center space-x-4">
-            <div className="form-control">
-              <label className="label cursor-pointer">
+          <div className="grid grid-cols-3">
+            <div className="form-control col-span-3 text-left">
+              <label className="label cursor-pointer justify-start">
                 <input
                   {...register('auxiliary')}
                   type="checkbox"
@@ -120,7 +147,7 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
               </label>
             </div>
             <div className="form-control">
-              <label className="label cursor-pointer">
+              <label className="label cursor-pointer justify-start">
                 <input
                   {...register('pioneer')}
                   type="checkbox"
@@ -128,6 +155,28 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
                   disabled={watch('hasBeenInService') === 'NO'}
                 />
                 <span className="label-text ml-2">{t('label.pioneer')}</span>
+              </label>
+            </div>
+            <div className="form-control">
+              <label className="label cursor-pointer justify-start">
+                <input
+                  {...register('specialPioneer')}
+                  type="checkbox"
+                  className="checkbox-primary checkbox"
+                  disabled={watch('hasBeenInService') === 'NO'}
+                />
+                <span className="label-text ml-2">{t('label.specialPioneer')}</span>
+              </label>
+            </div>
+            <div className="form-control">
+              <label className="label cursor-pointer justify-start">
+                <input
+                  {...register('missionary')}
+                  type="checkbox"
+                  className="checkbox-primary checkbox"
+                  disabled={watch('hasBeenInService') === 'NO'}
+                />
+                <span className="label-text ml-2">{t('label.missionary')}</span>
               </label>
             </div>
           </div>
@@ -145,7 +194,7 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
           <input
             {...register('hours')}
             className="input input-bordered w-full"
-            disabled={watch('hasBeenInService') === 'NO' || (!watch('pioneer') && !watch('auxiliary'))}
+            disabled={watch('hasBeenInService') === 'NO' || (!watch('pioneer') && !watch('specialPioneer') && !watch('missionary') && !watch('auxiliary'))}
           />
         </Field>
 
@@ -156,7 +205,7 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
           />
         </Field>
 
-        <button type="submit" className="btn btn-primary mt-4 justify-items-end">
+        <button type="submit" className="btn btn-primary mt-4 justify-items-end" disabled={!isValid}>
           {t('button.save')}
         </button>
       </form>

@@ -235,10 +235,38 @@ export default class PublisherService implements IPublisherService {
   async addReport(publisherId: string, newReport: Report): Promise<number | undefined> {
     await this.findOneById(publisherId).then(async (publisher) => {
       if (publisher && publisher._id) {
-        newReport.publisherStatus = publisher.status
-        publisher.reports.push(newReport)
+        const reportIndex = publisher.reports.findIndex(
+          r => r.serviceMonth === newReport.serviceMonth,
+        )
+
+        if (reportIndex !== undefined || null) {
+          publisher.reports[reportIndex] = { ...newReport }
+        }
+        else {
+          newReport.publisherStatus = publisher.status
+          publisher.reports.push(newReport)
+        }
 
         return await this.update(publisher._id, publisher)
+      }
+
+      return undefined
+    })
+
+    return undefined
+  }
+
+  async deleteReport(publisherId: string, identifier: string): Promise<number | undefined> {
+    await this.findOneById(publisherId).then(async (publisher) => {
+      if (publisher && publisher._id) {
+        const reportIndex = publisher.reports.findIndex(
+          r => r.identifier === identifier,
+        )
+
+        if (reportIndex !== undefined || null) {
+          publisher.reports.splice(reportIndex, 1)
+          return await this.update(publisher._id, publisher)
+        }
       }
 
       return undefined

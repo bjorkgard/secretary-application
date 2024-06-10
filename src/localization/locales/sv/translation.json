@@ -557,10 +557,15 @@
   "report.description": "Här kan du redigera rapporten för förkunnaren.",
   "label.select": "Välj...",
   "label.pioneer": "Pionjär",
+  "label.specialPioneer": "Specialpionjär",
+  "label.missionary": "Missionär",
   "label.pioneerService": "Pionjärtjänst",
   "label.addReport": "Lägg till en rapport",
   "label.serviceMonth": "Tjänstemånad",
   "errors.serviceMonthExists": "Det finns redan en rapport för den här månaden",
   "errors.required": "Obligatoriskt fält",
-  "label.edit": "Redigera"
+  "label.edit": "Redigera",
+  "label.deleteReport": "Radera rapport",
+  "publishers.deleteReport.headline": "Radera rapport",
+  "publishers.deleteReport.body": "Är du säker på att du vill radera den här rapporten?"
 }

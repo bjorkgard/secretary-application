@@ -1,7 +1,8 @@
-import { PencilIcon }                  from '@heroicons/react/16/solid'
+import { PencilIcon, TrashIcon }       from '@heroicons/react/16/solid'
 import { useEffect, useState }         from 'react'
 import { useTranslation }              from 'react-i18next'
 import type { PublisherModel, Report } from 'src/types/models'
+import { useConfirmationModalContext } from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
 import AddReportModal                  from './components/addReportModal'
 import EditReportModal                 from './components/editReportModal'
 
@@ -13,6 +14,8 @@ export default function HistoryPublishers(): JSX.Element {
   const [openAddReportModal, setOpenAddReportModal]   = useState<boolean>(false)
   const [openEditReportModal, setOpenEditReportModal] = useState<boolean>(false)
   const [selectedReport, setSelectedReport]           = useState<Report>()
+
+  const confirmContext = useConfirmationModalContext()
 
   const getPublishers = (publisherId?: string) => {
     window.electron.ipcRenderer
@@ -48,6 +51,18 @@ export default function HistoryPublishers(): JSX.Element {
   const editReport = (identifier: string) => {
     setSelectedReport(reports?.find((r: Report) => r.identifier === identifier))
     setOpenEditReportModal(true)
+  }
+
+  const deleteReport = async (identifier: string) => {
+    const result = await confirmContext.showConfirmation(
+      t('publishers.deleteReport.headline'),
+      t('publishers.deleteReport.body'),
+    )
+    if (result) {
+      window.electron.ipcRenderer.invoke('delete-report', { publisherId: selectedPublisher?._id, identifier }).then(() => {
+        getPublishers(selectedPublisher?._id)
+      })
+    }
   }
 
   const addReport = () => {
@@ -136,6 +151,14 @@ export default function HistoryPublishers(): JSX.Element {
                               onClick={() => editReport(report.identifier)}
                             >
                               <PencilIcon className="size-4" />
+                            </button>
+                          </div>
+                          <div className="tooltip tooltip-left" data-tip={t('label.deleteReport')}>
+                            <button
+                              className="btn btn-circle btn-ghost btn-sm"
+                              onClick={() => deleteReport(report.identifier)}
+                            >
+                              <TrashIcon className="size-4" />
                             </button>
                           </div>
                         </td>

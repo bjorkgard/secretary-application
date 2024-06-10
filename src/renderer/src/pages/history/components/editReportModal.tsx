@@ -21,6 +21,8 @@ interface ReportForm {
   identifier:       string
   auxiliary:        boolean
   pioneer:          boolean
+  specialPioneer:   boolean
+  missionary:       boolean
   remarks?:         string
   serviceYear:      number
   serviceMonth:     string
@@ -62,6 +64,8 @@ export default function ReportModal(props: EventModalProps): JSX.Element | null 
       hours:            undefined,
       auxiliary:        false,
       pioneer:          false,
+      specialPioneer:   false,
+      missionary:       false,
       remarks:          undefined,
     },
   })
@@ -79,6 +83,8 @@ export default function ReportModal(props: EventModalProps): JSX.Element | null 
       setValue('studies', props.report.studies)
       setValue('hours', props.report.hours)
       setValue('pioneer', props.report.type === 'PIONEER')
+      setValue('specialPioneer', props.report.type === 'SPECIALPIONEER')
+      setValue('missionary', props.report.type === 'MISSIONARY')
       setValue('auxiliary', (props.report.type === 'AUXILIARY' || props.report?.auxiliary) || false)
       setValue('remarks', props.report.remarks)
     }
@@ -107,9 +113,9 @@ export default function ReportModal(props: EventModalProps): JSX.Element | null 
         </Field>
 
         <Field label={t('label.pioneerService')}>
-          <div className="flex h-12 items-center space-x-4">
-            <div className="form-control">
-              <label className="label cursor-pointer">
+          <div className="grid grid-cols-3">
+            <div className="form-control col-span-3 text-left">
+              <label className="label cursor-pointer justify-start">
                 <input
                   {...register('auxiliary')}
                   type="checkbox"
@@ -120,7 +126,7 @@ export default function ReportModal(props: EventModalProps): JSX.Element | null 
               </label>
             </div>
             <div className="form-control">
-              <label className="label cursor-pointer">
+              <label className="label cursor-pointer justify-start">
                 <input
                   {...register('pioneer')}
                   type="checkbox"
@@ -128,6 +134,28 @@ export default function ReportModal(props: EventModalProps): JSX.Element | null 
                   disabled={watch('hasBeenInService') === 'NO'}
                 />
                 <span className="label-text ml-2">{t('label.pioneer')}</span>
+              </label>
+            </div>
+            <div className="form-control">
+              <label className="label cursor-pointer justify-start">
+                <input
+                  {...register('specialPioneer')}
+                  type="checkbox"
+                  className="checkbox-primary checkbox"
+                  disabled={watch('hasBeenInService') === 'NO'}
+                />
+                <span className="label-text ml-2">{t('label.specialPioneer')}</span>
+              </label>
+            </div>
+            <div className="form-control">
+              <label className="label cursor-pointer justify-start">
+                <input
+                  {...register('missionary')}
+                  type="checkbox"
+                  className="checkbox-primary checkbox"
+                  disabled={watch('hasBeenInService') === 'NO'}
+                />
+                <span className="label-text ml-2">{t('label.missionary')}</span>
               </label>
             </div>
           </div>
@@ -145,7 +173,7 @@ export default function ReportModal(props: EventModalProps): JSX.Element | null 
           <input
             {...register('hours')}
             className="input input-bordered w-full"
-            disabled={watch('hasBeenInService') === 'NO' || (!watch('pioneer') && !watch('auxiliary'))}
+            disabled={watch('hasBeenInService') === 'NO' || (!watch('pioneer') && !watch('specialPioneer') && !watch('missionary') && !watch('auxiliary'))}
           />
         </Field>
 
