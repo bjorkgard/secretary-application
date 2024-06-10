@@ -1,5 +1,5 @@
 import type { PublisherModel }                        from '../../types/models'
-import type { Publisher }                             from '../databases/schemas'
+import type { Publisher, Report }                     from '../databases/schemas'
 import { PublisherSchema }                            from '../databases/schemas'
 import PublisherStore                                 from '../databases/publisherStore'
 import type { PublisherService as IPublisherService } from '../../types/type'
@@ -209,6 +209,70 @@ export default class PublisherService implements IPublisherService {
 
   async updateAddressOnFamilyMembers(publisher: PublisherModel): Promise<void> {
     await publisherStore.updateAddressOnFamilyMembers(publisher)
+  }
+
+  async saveReport(publisherId: string, newReport: Report, status: 'ACTIVE' | 'INACTIVE' | 'IRREGULAR'): Promise<number | undefined> {
+    await this.findOneById(publisherId).then(async (publisher) => {
+      if (publisher && publisher._id) {
+        const reportIndex = publisher.reports.findIndex(
+          r => r.identifier === newReport.identifier,
+        )
+
+        if (reportIndex !== undefined || null) {
+          publisher.reports[reportIndex] = { ...newReport }
+
+          publisher.status = status
+
+          return await this.update(publisher._id, publisher)
+        }
+      }
+      return undefined
+    })
+
+    return undefined
+  }
+
+  async addReport(publisherId: string, newReport: Report): Promise<number | undefined> {
+    await this.findOneById(publisherId).then(async (publisher) => {
+      if (publisher && publisher._id) {
+        const reportIndex = publisher.reports.findIndex(
+          r => r.serviceMonth === newReport.serviceMonth,
+        )
+
+        if (reportIndex !== undefined || null) {
+          publisher.reports[reportIndex] = { ...newReport }
+        }
+        else {
+          newReport.publisherStatus = publisher.status
+          publisher.reports.push(newReport)
+        }
+
+        return await this.update(publisher._id, publisher)
+      }
+
+      return undefined
+    })
+
+    return undefined
+  }
+
+  async deleteReport(publisherId: string, identifier: string): Promise<number | undefined> {
+    await this.findOneById(publisherId).then(async (publisher) => {
+      if (publisher && publisher._id) {
+        const reportIndex = publisher.reports.findIndex(
+          r => r.identifier === identifier,
+        )
+
+        if (reportIndex !== undefined || null) {
+          publisher.reports.splice(reportIndex, 1)
+          return await this.update(publisher._id, publisher)
+        }
+      }
+
+      return undefined
+    })
+
+    return undefined
   }
 
   async drop(): Promise<void> {

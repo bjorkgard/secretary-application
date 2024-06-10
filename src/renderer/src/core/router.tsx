@@ -10,11 +10,13 @@ import {
 import ROUTES                         from '../constants/routes.json'
 import { PageTracker, UmamiProvider } from '../providers/umami'
 import Layout                         from './Layout'
-import ErrorPage                      from './ErrorPage'
+import LoadingPage                    from './LoadingPage'
 
 // Lazy load pages
 const Loading                  = lazy(() => import('../pages/loading'))
 const Dashboard                = lazy(() => import('../pages/dashboard'))
+const HistoryCongregation      = lazy(() => import('../pages/history/congregation'))
+const HistoryPublishers        = lazy(() => import('../pages/history/publishers'))
 const Publishers               = lazy(() => import('../pages/publishers'))
 const PublisherPersonalForm    = lazy(() => import('../pages/publishers/personal'))
 const PublisherContactForm     = lazy(() => import('../pages/publishers/contact'))
@@ -47,7 +49,7 @@ const PageTrackerRR: FC<any> = () => {
 
 function SuspenseLayout(): JSX.Element {
   return (
-    <Suspense fallback={<ErrorPage />}>
+    <Suspense fallback={<LoadingPage />}>
       <UmamiProvider
         hostUrl={UMAMI_CONFIG.apiUrl}
         websiteId={UMAMI_CONFIG.websiteId}
@@ -85,6 +87,11 @@ const router = createMemoryRouter(
           <Route path={ROUTES.REPORTS_FORM} element={<ReportsForm />} />
           <Route path={ROUTES.REPORTS_MEETINGS} element={<ReportsMeetings />} />
           <Route path={ROUTES.REPORTS_COMPLETION} element={<ReportsCompletion />} />
+        </Route>
+
+        <Route path={ROUTES.HISTORY}>
+          <Route path={ROUTES.HISTORY_PUBLISHERS} element={<HistoryPublishers />} />
+          <Route path={ROUTES.HISTORY_CONGREGATION} element={<HistoryCongregation />} />
         </Route>
 
         <Route path={ROUTES.SETTINGS} element={<Settings />} />

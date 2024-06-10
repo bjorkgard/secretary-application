@@ -1,6 +1,6 @@
 import { useRouteError } from 'react-router-dom'
 
-export default function ErrorPage(): JSX.Element {
+export default function LoadingPage(): JSX.Element {
   const error: unknown = useRouteError()
   return (
     <div id="error-page" className="flex h-screen flex-col items-center justify-center gap-8">

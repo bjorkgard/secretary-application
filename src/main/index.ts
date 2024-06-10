@@ -15,6 +15,7 @@ import type {
   CircuitOverseerModel,
   PublicCongregationModel,
   PublisherModel,
+  Report,
   ResponsibilityModel,
   ServiceGroupModel,
   SettingsModel,
@@ -48,12 +49,14 @@ import {
   exportPublisherS21,
   exportPublishersS21,
   exportRegularParticipantDocument,
+  exportReportSummary,
   exportS88,
   exportServiceGroupList,
   generateXLSXReportForms,
   getCommonExports,
   getCommunications,
   getMonthString,
+  getPublisherStatus,
   getPublishersStats,
   getPublishersWithoutServiceGroup,
   getReportUpdates,
@@ -67,6 +70,8 @@ import {
 import getServiceYear                 from './utils/getServiceYear'
 import ImportantDateService           from './services/importantDateService'
 import ExportServiceGroupInternalList from './functions/exportServiceGroupInternalList'
+import generateIdentifier             from './utils/generateIdentifier'
+import getSortOrder                   from './utils/getSortOrder'
 
 // Bugsnag.start({
 //  apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
@@ -318,6 +323,10 @@ ipcMain.handle('get-settings', async () => {
 
 ipcMain.handle('update-settings', async (_, data: SettingsModel) => {
   return updateSettings(settingsService, data)
+})
+
+ipcMain.handle('get-serviceMonths', async () => {
+  return await serviceMonthService.find()
 })
 
 ipcMain.handle('get-circuitOverseer', async () => {
@@ -874,6 +883,10 @@ ipcMain.handle('add-auxiliary', async (_, props) => {
   return null
 })
 
+ipcMain.handle('delete-report', async (_, args) => {
+  return publisherService.deleteReport(args.publisherId, args.reportId)
+})
+
 ipcMain.handle('save-report', async (_, report) => {
   const settings = await settingsService.find()
   let newReport  = report
@@ -907,11 +920,89 @@ ipcMain.handle('save-report', async (_, report) => {
   return serviceMonthService.saveReport(newReport)
 })
 
+ipcMain.handle('add-publisher-report', async (_, args) => {
+  let newReport: Report = args.report
+
+  newReport = { ...newReport, hasBeenInService: args.report.hasBeenInService === 'YES' }
+  newReport = { ...newReport, hasNotBeenInService: args.report.hasBeenInService === 'NO' }
+
+  if (args.report.studies && args.report.studies !== '')
+    newReport = { ...newReport, studies: Number.parseInt(args.report.studies) }
+
+  else
+    newReport = { ...newReport, studies: undefined }
+
+  if (args.report.hours && args.report.hours !== '')
+    newReport = { ...newReport, hours: Number.parseInt(args.report.hours) }
+
+  else
+    newReport = { ...newReport, hours: undefined }
+
+  if (args.report.pioneer)
+    newReport = { ...newReport, type: 'PIONEER' }
+
+  if (args.report.specialPioneer)
+    newReport = { ...newReport, type: 'SPECIALPIONEER' }
+
+  if (args.report.missionary)
+    newReport = { ...newReport, type: 'MISSIONARY' }
+
+  newReport = { ...newReport, serviceYear: getServiceYear(newReport.serviceMonth) }
+  newReport = { ...newReport, sortOrder: getSortOrder(newReport.serviceMonth) }
+  newReport = { ...newReport, identifier: generateIdentifier() }
+
+  return publisherService.addReport(args.publisherId, newReport)
+})
+
+ipcMain.handle('update-publisher-report', async (_, args) => {
+  let newReport: Report = args.report
+
+  newReport = { ...newReport, hasBeenInService: args.report.hasBeenInService === 'YES' }
+  newReport = { ...newReport, hasNotBeenInService: args.report.hasBeenInService === 'NO' }
+
+  if (args.report.studies && args.report.studies !== '')
+    newReport = { ...newReport, studies: Number.parseInt(args.report.studies) }
+
+  else
+    newReport = { ...newReport, studies: undefined }
+
+  if (args.report.hours && args.report.hours !== '')
+    newReport = { ...newReport, hours: Number.parseInt(args.report.hours) }
+
+  else
+    newReport = { ...newReport, hours: undefined }
+
+  if (args.report.pioneer)
+    newReport = { ...newReport, type: 'PIONEER' }
+
+  if (args.report.specialPioneer)
+    newReport = { ...newReport, type: 'SPECIALPIONEER' }
+
+  if (args.report.missionary)
+    newReport = { ...newReport, type: 'MISSIONARY' }
+
+  const status = await getPublisherStatus(args.publisherId, newReport)
+
+  return publisherService.saveReport(args.publisherId, newReport, status)
+})
+
 ipcMain.handle('generate-excel-report-forms', async (_, serviceMonthId) => {
   if (!mainWindow)
     return
 
   generateXLSXReportForms(mainWindow, serviceGroupService, serviceMonthService, serviceMonthId)
+})
+
+ipcMain.handle('export-report-summary', async (_, args) => {
+  if (!mainWindow)
+    return
+
+  await exportReportSummary(
+    mainWindow,
+    serviceMonthService,
+    settingsService,
+    args.serviceMonth,
+  )
 })
 
 ipcMain.handle('import-service-reports', async () => {
