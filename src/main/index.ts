@@ -1105,6 +1105,30 @@ ipcMain.handle('get-public-congregations', async () => {
   return congregations
 })
 
+ipcMain.handle('resend-serviceGroupForm', async (_, args) => {
+  if (!mainWindow)
+    return
+
+  const options = {
+    method:  'PUT',
+    headers: {
+      'Accept':       'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization':
+        `Bearer ${await settingsService.token()}` || import.meta.env.MAIN_VITE_TOKEN,
+    },
+  }
+
+  await fetch(`${import.meta.env.MAIN_VITE_API}/serviceGroups/resend/${args.serviceGroupId}`, options)
+    .then(response => response.json())
+    .catch((error) => {
+      log.error(error)
+    })
+    .finally(() => {
+      return []
+    })
+})
+
 ipcMain.handle('get-latest-version', async () => {
   if (!mainWindow)
     return

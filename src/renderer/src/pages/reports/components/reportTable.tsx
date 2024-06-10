@@ -2,14 +2,18 @@ import type { ChangeEvent }       from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { useTranslation }         from 'react-i18next'
 import type { Report }            from 'src/types/models'
+import { useSettingsState }       from '@renderer/store/settingsStore'
+import classNames                 from '@renderer/utils/classNames'
 
 interface ComponentProps {
-  reports: Report[]
-  month:   string
+  reports:        Report[]
+  month:          string
+  serviceGroupId: string
 }
 
-export function ReportsTable({ month, reports }: ComponentProps): JSX.Element {
-  const { t } = useTranslation()
+export function ReportsTable({ month, reports, serviceGroupId }: ComponentProps): JSX.Element {
+  const { t }         = useTranslation()
+  const settingsState = useSettingsState()
 
   const { register, control, setValue, getValues, watch } = useForm({
     defaultValues: { reports },
@@ -114,6 +118,18 @@ export function ReportsTable({ month, reports }: ComponentProps): JSX.Element {
       saveReport(index)
   }
 
+  const resendReportForm = (serviceGroupId: string): void  => {
+    window.electron.ipcRenderer.invoke('resend-serviceGroupForm', { serviceGroupId }).then(() => {
+      window.Notification.requestPermission().then(() => {
+        // eslint-disable-next-line no-new
+        new window.Notification('SECRETARY', {
+          body:   t('reports.serviceGroupReportsResent'),
+          silent: false,
+        })
+      })
+    })
+  }
+
   return (
     <div className="overflow-x-auto">
       <form>
@@ -210,6 +226,9 @@ export function ReportsTable({ month, reports }: ComponentProps): JSX.Element {
           </tbody>
         </table>
       </form>
+      <div className="flex w-full justify-end">
+        <button className={classNames(!settingsState.online.send_report_group ? 'invisible' : '', 'btn btn-primary')} onClick={() => resendReportForm(serviceGroupId)}>{t('label.resendServiceGroupReports')}</button>
+      </div>
     </div>
   )
 }
