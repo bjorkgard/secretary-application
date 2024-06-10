@@ -175,7 +175,7 @@ export default function HistoryCongregation(): JSX.Element {
         <h1>{t('history.congregation')}</h1>
 
         <div className="flex space-x-4">
-          <button className="btn btn-primary" onClick={() => {}}>{t('label.add')}</button>
+          <button className="btn btn-primary invisible" onClick={() => {}}>{t('label.add')}</button>
 
           <select className="select select-bordered w-fit" onChange={selectServiceMonth}>
             <option value="">{t('label.selectServiceMonth')}</option>
@@ -279,7 +279,7 @@ export default function HistoryCongregation(): JSX.Element {
           </div>
           <div className="flex justify-between">
             {selectedServiceMonth && (
-              <button className="btn btn-primary" onClick={() => {}}>{t('label.edit')}</button>
+              <button className="btn btn-primary invisible" onClick={() => {}}>{t('label.edit')}</button>
             )}
             {selectedServiceMonth && (
               <button className="btn btn-primary" onClick={() => exportSummary(selectedServiceMonth?.serviceMonth || '')}>{t('label.export')}</button>
