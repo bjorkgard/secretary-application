@@ -239,7 +239,7 @@ export default class PublisherService implements IPublisherService {
           r => r.serviceMonth === newReport.serviceMonth,
         )
 
-        if (reportIndex !== undefined || null) {
+        if (reportIndex >= 0) {
           publisher.reports[reportIndex] = { ...newReport }
         }
         else {
