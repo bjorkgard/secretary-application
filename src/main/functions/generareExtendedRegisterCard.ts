@@ -120,31 +120,31 @@ export default async function GenerateExtendedRegisterCard(publisher: PublisherM
     ],
     body: [
       [
-        { content: i18n.t('label.name'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.name'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         `${publisher.firstname} ${publisher.lastname}`,
-        { content: i18n.t('label.family'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.family'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         `${familyMembers.join(', ')}`,
       ],
       [
-        { content: i18n.t('label.address'), rowSpan: 2, styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.address'), rowSpan: 2, styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         { content: `${publisher.address}\n${publisher.zip} ${publisher.city}`, rowSpan: 2 },
-        { content: i18n.t('label.phone'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.phone'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         `${publisher.phone ? publisher.phone.startsWith(countryCallingCode) ? formatPhoneNumber(publisher.phone) : formatPhoneNumberIntl(publisher.phone) : ''}`,
       ],
       [
-        { content: i18n.t('label.mobile'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.mobile'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         `${publisher.mobile ? publisher.mobile.startsWith(countryCallingCode) ? formatPhoneNumber(publisher.mobile) : formatPhoneNumberIntl(publisher.mobile) : ''}`,
       ],
       [
-        { content: i18n.t('label.email'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.email'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         `${publisher.email}`,
-        { content: i18n.t('label.birthday'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.birthday'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         `${publisher.birthday}`,
       ],
       [
-        { content: i18n.t('label.gender'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.gender'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         i18n.t(`label.${publisher.gender.toLowerCase()}`),
-        { content: i18n.t('label.other'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.other'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         `${publisher.other ? publisher.other : ''}`,
       ],
     ],
@@ -193,27 +193,27 @@ export default async function GenerateExtendedRegisterCard(publisher: PublisherM
     ],
     body: [
       [
-        { content: i18n.t('label.serviceGroup'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.serviceGroup'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         `${serviceGroup?.name || ''}`,
-        { content: i18n.t('label.status'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.status'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         i18n.t(`label.${publisher.status.toLowerCase()}`),
       ],
       [
-        { content: i18n.t('label.baptised'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.baptised'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         publisher.baptised ? publisher.baptised : publisher.unknown_baptised ? '?' : '',
-        { content: i18n.t('label.hope'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.hope'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         i18n.t(`label.${publisher.hope.toLowerCase()}`),
       ],
       [
-        { content: i18n.t('label.privileges'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.privileges'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         publisher.appointments.map((a) => {
           return i18n.t(`appointment.${a.type.toLocaleLowerCase()}`) + (a.date ? ` (${a.date})` : '')
         }).join('\n'),
-        { content: i18n.t('label.responsibilities'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.responsibilities'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         responsibilities.join('\n'),
       ],
       [
-        { content: i18n.t('label.tasks'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'right' } },
+        { content: i18n.t('label.tasks'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         { content: tasks.join(', '), colSpan: 3 },
       ],
     ],
