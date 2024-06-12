@@ -589,5 +589,15 @@
   "label.active_applications": "Aktiva ansökningar",
   "export.latestDate": "Senaste ansökning",
   "export.comment": "Kommentar",
-  "applications.needsAnUpdate": "Ansökan behöver uppdateras"
+  "applications.needsAnUpdate": "Ansökan behöver uppdateras",
+  "label.wthOldApplications": "Ansökningar som behöver uppdateras",
+  "label.application": "Ansökning",
+  "label.latestApprovalDate": "Senaste godkännandedatum",
+  "tooltip.deleteApplication": "Radera ansökan",
+  "tooltip.renewApplication": "Förnya ansökan",
+  "confirm.renewApplication.headline": "Förnya ansökan",
+  "confirm.renewApplication.body": "Är du säker på att du vill förnya den här ansökningen?",
+  "confirm.deleteApplication.headline": "Radera ansökan",
+  "confirm.deleteApplication.body": "Är du säker på att du vill radera den här ansökningen?",
+  "history.renewed": "Förnyad"
 }

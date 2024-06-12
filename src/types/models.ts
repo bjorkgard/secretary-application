@@ -154,6 +154,13 @@ export interface PublisherModel extends Base {
   old?:             string
 }
 
+export interface PublisherWithApplication {
+  id:              string
+  name:            string
+  applicationType: string
+  applicationDate: string
+}
+
 export interface ResponsibilityModel extends Base {
   default: boolean
   name:    string

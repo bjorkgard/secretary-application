@@ -31,13 +31,9 @@ function getPublishers(publishers: PublisherModel[], type: string): string[][] {
   return publishers
     .filter(publisher => publisher.histories.some(history => history.type === type))
     .map((publisher) => {
-      const histories = publisher.histories.filter(history => history.type === type)
-      const history   = histories.reduce((a, b) => a.date > b.date ? a : b)
-
+      const histories  = publisher.histories.filter(history => history.type === type)
+      const history    = histories.reduce((a, b) => a.date > b.date ? a : b)
       const dateObject = new Date(history?.date || '')
-
-      log.info(dateObject)
-      log.info(threeYearsAgo)
 
       return [
         `${publisher.lastname}, ${publisher.firstname}`,
