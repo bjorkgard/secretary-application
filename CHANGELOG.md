@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## [v1.4.3](https://github.com/bjorkgard/secretary-application/releases/tag/v1.4.3) - 2024-06-12 17:14:02
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.4.3 -->
+
+## What's Changed
+### Bug fixes
+* fix(add history report): fix a problem with adding history reports by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/551
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.4.2...v1.4.3
+
+### Bug Fixes
+
+- add history report:
+  - fix a problem with adding history reports ([d0156cb](https://github.com/bjorkgard/secretary-application/commit/d0156cbab49ade3e8c2a38a351b299d485189b9f)) ([#551](https://github.com/bjorkgard/secretary-application/pull/551))
+
 ## [v1.4.2](https://github.com/bjorkgard/secretary-application/releases/tag/v1.4.2) - 2024-06-10 20:05:26
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.4.2 -->
