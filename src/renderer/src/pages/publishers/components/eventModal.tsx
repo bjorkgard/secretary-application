@@ -39,6 +39,11 @@ export default function EventModal(props: EventModalProps): JSX.Element {
   const [showCongregationSelector, setShowCongregationSelector] = useState<boolean>(false)
 
   const events: Event[] = [
+    { name: t('event.a2'), command: 'A-2' },
+    { name: t('event.a8'), command: 'A-8' },
+    { name: t('event.a19'), command: 'A-19' },
+    { name: t('event.co5a'), command: 'CO-5A' },
+    { name: t('event.co4'), command: 'CO-4' },
     { name: t('event.movedIn'), command: 'MOVED_IN' },
     { name: t('event.movedOut'), command: 'MOVED_OUT' },
     { name: t('event.publisher'), command: 'PUBLISHER' },

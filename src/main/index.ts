@@ -39,6 +39,8 @@ import {
   closeReporting,
   dbBackup,
   dbRestore,
+  deleteApplication,
+  exportActiveApplications,
   exportAddressList,
   exportAddressListEmergency,
   exportCompletionList,
@@ -58,11 +60,13 @@ import {
   getMonthString,
   getPublisherStatus,
   getPublishersStats,
+  getPublishersWithOldApplications,
   getPublishersWithoutServiceGroup,
   getReportUpdates,
   importJson,
   importServiceReports,
   importTemplate,
+  renewApplication,
   startReporting,
   storeEvent,
   updateSettings,
@@ -1184,6 +1188,28 @@ ipcMain.handle('get-report-url', async (_, args) => {
     })
 
   return url
+})
+
+ipcMain.on('export-active-applications', async () => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('ACTIVE_APPLICATIONS', 'PDF', 'export-active-applications')
+  exportActiveApplications(mainWindow, publisherService)
+})
+
+ipcMain.handle('get-inactive-applications', async () => {
+  return getPublishersWithOldApplications(publisherService)
+})
+
+ipcMain.handle('renew-application', async (_, args) => {
+  return renewApplication(args.id, args.type)
+})
+
+ipcMain.handle('delete-application', async (_, args) => {
+  return deleteApplication(args.id, args.type)
 })
 
 ipcMain.handle('get-latest-version', async () => {
