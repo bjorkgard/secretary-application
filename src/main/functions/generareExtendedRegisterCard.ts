@@ -27,6 +27,7 @@ export default async function GenerateExtendedRegisterCard(publisher: PublisherM
   const responsibilities: string[]           = []
   const tasks: string[]                      = []
   const reports: any[]                       = []
+  const histories: any[]                     = []
 
   const countryCallingCode = `+${getCountryCallingCode((settings?.congregation.country || 'SE') as CountryCode)}`
 
@@ -59,6 +60,15 @@ export default async function GenerateExtendedRegisterCard(publisher: PublisherM
       r.auxiliary ? i18n.t('label.yes') : i18n.t('label.no'),
       r.hours || '',
       r.remarks || '',
+    ])
+  })
+
+  const allHistories = publisher.histories
+  allHistories.forEach((h) => {
+    histories.push([
+      h.date,
+      i18n.t(`event.${h.type.toLowerCase()}`),
+      h.information || '',
     ])
   })
 
@@ -243,6 +253,30 @@ export default async function GenerateExtendedRegisterCard(publisher: PublisherM
       ],
     ],
     body:   reports,
+    margin: { top: 10, left: 10, right: 12, bottom: 0 },
+    styles: {
+      cellPadding: 1,
+      fontSize:    9.5,
+      overflow:    'linebreak',
+      valign:      'top',
+      lineWidth:   0.1,
+    },
+    rowPageBreak: 'avoid',
+    theme:        'plain',
+    startY:       pdfDoc.autoTable.previous ? pdfDoc.autoTable.previous.finalY + 5 : 17,
+  })
+
+  // Histories
+  pdfDoc.autoTable({
+    head: [
+      [{ content: i18n.t('label.histories'), colSpan: 3, styles: { fontSize: 12 } }],
+      [
+        i18n.t('label.date'),
+        i18n.t('label.type'),
+        i18n.t('label.information'),
+      ],
+    ],
+    body:   histories,
     margin: { top: 10, left: 10, right: 12, bottom: 0 },
     styles: {
       cellPadding: 1,

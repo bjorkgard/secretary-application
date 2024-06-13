@@ -24,6 +24,7 @@ async function storeEvent(mainWindow: BrowserWindow, event: EventProps): Promise
   let publisher               = await publisherService.findOneById(event.publisherId)
   const splitDate             = event.date.split('-')
   let information             = ''
+  const description           = ''
   let addEventToServiceYear   = true
   let addEventToPublisher     = true
   let removeFromActiveReports = false
@@ -196,9 +197,9 @@ async function storeEvent(mainWindow: BrowserWindow, event: EventProps): Promise
 
   if (addEventToPublisher) {
     publisher.histories.push({
-      type: event.command,
-      date: event.date,
-      information,
+      type:        event.command,
+      date:        event.date,
+      information: description,
     })
     publisherService.update(event.publisherId, publisher)
   }
