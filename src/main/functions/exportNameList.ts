@@ -113,7 +113,7 @@ async function generate_PDF(mainWindow: BrowserWindow, families: Family[], name:
       pdfDoc.setFontSize(22)
       pdfDoc.setFont('helvetica', 'bold')
       pdfDoc.text(
-        congregationSettings?.congregation.name || i18n.t('label.namelist'),
+        congregationSettings?.congregation.name || i18n.t('label.nameList'),
         pageSize.getWidth() / 2,
         12,
         { align: 'center' },
