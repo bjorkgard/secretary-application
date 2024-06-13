@@ -621,5 +621,7 @@
   "event.pioneer_stop": "Slutar som pionjär",
   "event.pioneer_school": "Pionjärskola",
   "event.moved_in": "Nyinflyttad",
-  "event.moved_out": "Flyttat"
+  "event.moved_out": "Flyttat",
+  "mainMenu.nameList": "Namnlista",
+  "label.nameList": "Namnlista"
 }

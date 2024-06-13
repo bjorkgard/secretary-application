@@ -311,6 +311,12 @@ export default class MenuBuilder {
           label:   i18n.t('mainMenu.publishers'),
           submenu: [
             {
+              label: i18n.t('mainMenu.nameList'),
+              click: (): void => {
+                ipcMain.emit('export-namelist', null, {})
+              },
+            },
+            {
               label: i18n.t('mainMenu.needsCompletions'),
               click: (): void => {
                 ipcMain.emit('export-needs-completions', null, {})
@@ -623,6 +629,12 @@ export default class MenuBuilder {
           {
             label:   i18n.t('mainMenu.publishers'),
             submenu: [
+              {
+                label: i18n.t('mainMenu.nameList'),
+                click: (): void => {
+                  ipcMain.emit('export-namelist', null, {})
+                },
+              },
               {
                 label: i18n.t('mainMenu.needsCompletions'),
                 click: (): void => {
