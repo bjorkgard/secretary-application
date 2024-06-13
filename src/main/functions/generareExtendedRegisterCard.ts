@@ -45,6 +45,9 @@ export default async function GenerateExtendedRegisterCard(publisher: PublisherM
       tasks.push(i18n.t(task.name))
   }
 
+  /*
+   * REPORTS
+  */
   const allReports = publisher.reports
   allReports.sort((a, b) => {
     return a.serviceYear - b.serviceYear  || a.sortOrder - b.sortOrder
@@ -63,7 +66,13 @@ export default async function GenerateExtendedRegisterCard(publisher: PublisherM
     ])
   })
 
+  /*
+   * HISTORIES
+  */
   const allHistories = publisher.histories
+  allHistories.sort((a, b) => {
+    return new Date(a.date).getTime() - new Date(b.date).getTime()
+  })
   allHistories.forEach((h) => {
     histories.push([
       h.date,
