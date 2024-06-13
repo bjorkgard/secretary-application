@@ -623,5 +623,14 @@
   "event.moved_in": "Nyinflyttad",
   "event.moved_out": "Flyttat",
   "mainMenu.nameList": "Namnlista",
-  "label.nameList": "Namnlista"
+  "label.nameList": "Namnlista",
+  "event.stop_pioneer": "Slutar som pionjär",
+  "event.start_aux_pioneer": "Börjar som kontinuerlig hjälppionjär",
+  "event.stop_aux_pioneer": "Slutar som kontinuerlig hjälppionjär",
+  "event.newcomer": "Nyinflyttad",
+  "event.unbaptised_publisher": "Odöpt förkunnare",
+  "event.start_elder": "Förordnad som äldste",
+  "event.last_report": "Senaste rapport",
+  "event.moved": "Flyttat",
+  "event.start_ministerial_servant": "Förordnad som församlingstjänare"
 }
