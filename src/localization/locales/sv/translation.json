@@ -632,5 +632,19 @@
   "event.start_elder": "Förordnad som äldste",
   "event.last_report": "Senaste rapport",
   "event.moved": "Flyttat",
-  "event.start_ministerial_servant": "Förordnad som församlingstjänare"
+  "event.start_ministerial_servant": "Förordnad som församlingstjänare",
+  "mainMenu.congregation": "Församling",
+  "mainMenu.organizationSchema": "Organisationschema",
+  "label.namelist": "Namnlista",
+  "label.organization_schema": "Organisationschema",
+  "export.congregationNumber": "Församlingsnummer: {{number}}",
+  "label.task": "Uppgift",
+  "label.manager": "Föreståndare",
+  "label.soundStage": "Ljud/Podium",
+  "label.cleaning": "Städning",
+  "label.technicalSupport": "Tekniksupport",
+  "label.continousAuxiliaries": "Kontinuerliga hjälppionjärer",
+  "label.elders": "Äldste",
+  "label.ministerialServants": "Församlingstjänare",
+  "label.district": "Distrikt"
 }

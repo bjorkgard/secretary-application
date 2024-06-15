@@ -49,6 +49,7 @@ import {
   exportExtendedRegisterCards,
   exportMembersDocument,
   exportNameList,
+  exportOrganizationSchema,
   exportPublisherS21,
   exportPublishersS21,
   exportRegularParticipantDocument,
@@ -532,6 +533,15 @@ ipcMain.on('export-members', async () => {
 
   exportService.upsert('MEMBERS', 'DOCX', 'export-members')
   exportMembersDocument(mainWindow, publisherService)
+})
+
+ipcMain.on('export-organization-schema', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('ORGANIZATION_SCHEMA', 'PDF', 'export-organization-schema')
+  exportOrganizationSchema(mainWindow, publisherService)
 })
 
 ipcMain.on('export-namelist', async () => {

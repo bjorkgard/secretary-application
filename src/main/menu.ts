@@ -308,6 +308,17 @@ export default class MenuBuilder {
           ],
         },
         {
+          label:   i18n.t('mainMenu.congregation'),
+          submenu: [
+            {
+              label: i18n.t('mainMenu.organizationSchema'),
+              click: (): void => {
+                ipcMain.emit('export-organization-schema', null, {})
+              },
+            },
+          ],
+        },
+        {
           label:   i18n.t('mainMenu.publishers'),
           submenu: [
             {
@@ -622,6 +633,17 @@ export default class MenuBuilder {
                 label: i18n.t('mainMenu.exportCompleteMeetingAttendance'),
                 click: (): void => {
                   ipcMain.emit('export-meeting-attendance', null, { type: 'complete' })
+                },
+              },
+            ],
+          },
+          {
+            label:   i18n.t('mainMenu.congregation'),
+            submenu: [
+              {
+                label: i18n.t('mainMenu.organizationSchema'),
+                click: (): void => {
+                  ipcMain.emit('export-organization-schema', null, {})
                 },
               },
             ],
