@@ -83,7 +83,7 @@
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
     "cz-conventional-changelog": "^3.3.0",
-    "daisyui": "^4.12.2",
+    "daisyui": "^4.12.7",
     "electron": "^30.1.0",
     "electron-builder": "^24.13.3",
     "electron-devtools-installer": "^3.2.0",
