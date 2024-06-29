@@ -57,21 +57,21 @@ export default function ReportsCompletion(): JSX.Element {
       <div className="-mt-4">
         {activeServiceMonth && serviceMonth
           ? (
-            <>
-              <ReportComplilation
-                serviceMonth={serviceMonth.serviceMonth}
-                reports={serviceMonth.reports}
-              />
-              <MeetingComplilation meetings={serviceMonth.meetings} />
-              <div className="mt-8 flex justify-around">
-                <button className="btn btn-primary" onClick={closeServiceMonth}>
-                  {t('report.closeServicMonth')}
-                </button>
-              </div>
-            </>
+              <>
+                <ReportComplilation
+                  serviceMonth={serviceMonth.serviceMonth}
+                  reports={serviceMonth.reports}
+                />
+                <MeetingComplilation meetings={serviceMonth.meetings} />
+                <div className="mt-8 flex justify-around">
+                  <button className="btn btn-primary" onClick={closeServiceMonth}>
+                    {t('report.closeServicMonth')}
+                  </button>
+                </div>
+              </>
             )
           : (
-            <h2>{t('reports.noActive')}</h2>
+              <h2>{t('reports.noActive')}</h2>
             )}
       </div>
     </div>

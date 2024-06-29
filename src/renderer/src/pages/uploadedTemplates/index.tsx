@@ -65,11 +65,11 @@ export default function Templates(): JSX.Element {
             </p>
             {!templates || templates?.length < 1
               ? (
-                <p>
-                  <span className="font-bold uppercase text-red-500">
-                    {t('templates.someMissing')}
-                  </span>
-                </p>
+                  <p>
+                    <span className="font-bold uppercase text-red-500">
+                      {t('templates.someMissing')}
+                    </span>
+                  </p>
                 )
               : (
                   ''
@@ -100,9 +100,9 @@ export default function Templates(): JSX.Element {
                             templates?.find(t => t.code === key)?.updatedAt
                           )
                         : (
-                          <span className="font-bold uppercase text-red-500">
-                            {t('templates.missing')}
-                          </span>
+                            <span className="font-bold uppercase text-red-500">
+                              {t('templates.missing')}
+                            </span>
                           )}
                     </td>
                     <td className="flex justify-end">

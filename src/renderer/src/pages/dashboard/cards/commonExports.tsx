@@ -25,52 +25,52 @@ export default function CommonExports(): JSX.Element | null {
     <Card2 title={t('label.commonExports')} loading={loading}>
       {loading
         ? (
-          <div className="aspect-square w-full rounded-md bg-slate-200" />
+            <div className="aspect-square w-full rounded-md bg-slate-200" />
           )
         : (
-          <div className="w-full">
-            <table className="table table-zebra -mt-2 w-full">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>{t('label.type')}</th>
-                  <th>{t('label.format')}</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {exports.map((exportModel) => {
-                  return (
-                    <tr key={exportModel._id}>
-                      <th>{exportModel.count}</th>
-                      <td>
-                        <div
-                          className="tooltip"
-                          data-tip={t('tooltip.latestExport', { date: exportModel.updatedAt })}
-                        >
-                          {t(`label.${exportModel.name.toLowerCase()}`)}
-                        </div>
-                      </td>
-                      <td>{exportModel.format}</td>
-                      <td>
-                        <div className="tooltip" data-tip={t('tooltip.export')}>
-                          <button
-                            className="btn btn-circle btn-outline btn-xs"
-                            onClick={(): void => {
-                              window.electron.ipcRenderer.send(exportModel.method)
-                              setReload(true)
-                            }}
+            <div className="w-full">
+              <table className="table table-zebra -mt-2 w-full">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>{t('label.type')}</th>
+                    <th>{t('label.format')}</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {exports.map((exportModel) => {
+                    return (
+                      <tr key={exportModel._id}>
+                        <th>{exportModel.count}</th>
+                        <td>
+                          <div
+                            className="tooltip"
+                            data-tip={t('tooltip.latestExport', { date: exportModel.updatedAt })}
                           >
-                            <ArrowDownTrayIcon className="size-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
+                            {t(`label.${exportModel.name.toLowerCase()}`)}
+                          </div>
+                        </td>
+                        <td>{exportModel.format}</td>
+                        <td>
+                          <div className="tooltip" data-tip={t('tooltip.export')}>
+                            <button
+                              className="btn btn-circle btn-outline btn-xs"
+                              onClick={(): void => {
+                                window.electron.ipcRenderer.send(exportModel.method)
+                                setReload(true)
+                              }}
+                            >
+                              <ArrowDownTrayIcon className="size-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
           )}
     </Card2>
   )

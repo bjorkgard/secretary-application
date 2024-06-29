@@ -102,12 +102,12 @@ async function startReporting(mainWindow: BrowserWindow | null,  serviceGroupSer
       sortOrder:           getSortOrder(serviceMonthName),
       identifier:          generateIdentifier(),
       type:                type as
-        | 'PUBLISHER'
-        | 'PIONEER'
-        | 'SPECIALPIONEER'
-        | 'AUXILIARY'
-        | 'MISSIONARY'
-        | 'CIRCUITOVERSEER',
+      | 'PUBLISHER'
+      | 'PIONEER'
+      | 'SPECIALPIONEER'
+      | 'AUXILIARY'
+      | 'MISSIONARY'
+      | 'CIRCUITOVERSEER',
       auxiliary:
         type === 'AUXILIARY'
           ? true

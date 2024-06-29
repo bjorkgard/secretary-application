@@ -151,10 +151,10 @@ export function ReportsTable({ month, reports, serviceGroupId }: ComponentProps)
                   {report.publisherName}
                   {month !== report.name
                     ? (
-                      <>
-                        <br />
-                        <span className="text-xs italic">{report.name}</span>
-                      </>
+                        <>
+                          <br />
+                          <span className="text-xs italic">{report.name}</span>
+                        </>
                       )
                     : null}
                 </td>

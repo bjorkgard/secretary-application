@@ -88,52 +88,52 @@ export default function MissingReports(): JSX.Element | null {
     <Card title={t('label.missingReports', { count: missingReports.length })} loading={loading}>
       {loading
         ? (
-          <div className="mt-2 aspect-square w-full rounded-full bg-slate-200" />
+            <div className="mt-2 aspect-square w-full rounded-full bg-slate-200" />
           )
         : serviceMonth
           ? (
-            <div className="h-48 w-full overflow-x-auto md:h-[416px] lg:h-64 xl:h-80 2xl:h-[28rem]">
-              <table className="table table-zebra table-xs mt-0">
-                <tbody>
-                  {missingReports.map(report => (
-                    <tr key={report.identifier}>
-                      <td>{report.name}</td>
-                      <td className="flex grow justify-end space-x-2">
-                        {report.email
-                          ? settingsState.online.send_report_publisher
+              <div className="h-48 w-full overflow-x-auto md:h-[416px] lg:h-64 xl:h-80 2xl:h-[28rem]">
+                <table className="table table-zebra table-xs mt-0">
+                  <tbody>
+                    {missingReports.map(report => (
+                      <tr key={report.identifier}>
+                        <td>{report.name}</td>
+                        <td className="flex grow justify-end space-x-2">
+                          {report.email
+                            ? settingsState.online.send_report_publisher
+                              ? (
+                                  <span className="tooltip tooltip-left" data-tip={t('tooltip.resendReport')} onClick={() => resendPublisherReport(report.identifier)}>
+                                    <EnvelopeIcon className="size-4" />
+                                  </span>
+                                )
+                              : (
+                                  <a className="tooltip tooltip-left" data-tip={t('tooltip.sendEmail')} href={`mailto:${report.email}`}>
+                                    <EnvelopeIcon className="size-4" />
+                                  </a>
+                                )
+                            : null}
+
+                          {report.mobile
                             ? (
-                              <span className="tooltip tooltip-left" data-tip={t('tooltip.resendReport')} onClick={() => resendPublisherReport(report.identifier)}>
-                                <EnvelopeIcon className="size-4" />
-                              </span>
+                                <a className="tooltip tooltip-left" data-tip={t('tooltip.sendReportMessage')} href={`sms:${report.mobile}?body=${t('sms.missingReport')}`}>
+                                  <DevicePhoneMobileIcon className="size-4" />
+                                </a>
                               )
-                            : (
-                              <a className="tooltip tooltip-left" data-tip={t('tooltip.sendEmail')} href={`mailto:${report.email}`}>
-                                <EnvelopeIcon className="size-4" />
-                              </a>
+                            : null}
+
+                          {settingsState.online.send_report_publisher
+                            ? (
+                                <span className="tooltip tooltip-left" data-tip={t('tooltip.copyReportUrl')} onClick={() => { getReportUrl(report.identifier) }}>
+                                  <ClipboardIcon className="size-4" />
+                                </span>
                               )
-                          : null}
-
-                        {report.mobile
-                          ? (
-                            <a className="tooltip tooltip-left" data-tip={t('tooltip.sendReportMessage')} href={`sms:${report.mobile}?body=${t('sms.missingReport')}`}>
-                              <DevicePhoneMobileIcon className="size-4" />
-                            </a>
-                            )
-                          : null}
-
-                        {settingsState.online.send_report_publisher
-                          ? (
-                            <span className="tooltip tooltip-left" data-tip={t('tooltip.copyReportUrl')} onClick={() => { getReportUrl(report.identifier) }}>
-                              <ClipboardIcon className="size-4" />
-                            </span>
-                            )
-                          : null}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                            : null}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )
           : null}
     </Card>

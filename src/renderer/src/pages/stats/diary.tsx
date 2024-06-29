@@ -80,211 +80,211 @@ export default function StatsDiary(): JSX.Element {
         <div>
           {getHistoryData('MOVED_IN').length
             ? (
-              <>
-                <div className="px-4 sm:px-0">
-                  <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.movedIut')}</h3>
-                </div>
-                <div className="border-t border-gray-100">
-                  <dl className="my-1">
-                    {getHistoryData('MOVED_IN').map(h => (
-                      <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
-                        <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
-                        <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </>
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.movedIut')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('MOVED_IN').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
               )
             : null}
           {getHistoryData('MOVED_OUT').length
             ? (
-              <>
-                <div className="px-4 sm:px-0">
-                  <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.movedOut')}</h3>
-                </div>
-                <div className="border-t border-gray-100">
-                  <dl className="my-1">
-                    {getHistoryData('MOVED_OUT').map(h => (
-                      <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
-                        <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
-                        <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </>
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.movedOut')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('MOVED_OUT').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
               )
             : null}
           {getHistoryData('PUBLISHER').length
             ? (
-              <>
-                <div className="px-4 sm:px-0">
-                  <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.publisher')}</h3>
-                </div>
-                <div className="border-t border-gray-100">
-                  <dl className="my-1">
-                    {getHistoryData('PUBLISHER').map(h => (
-                      <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
-                        <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
-                        <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </>
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.publisher')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('PUBLISHER').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
               )
             : null}
           {getHistoryData('PIONEER_START').length
             ? (
-              <>
-                <div className="px-4 sm:px-0">
-                  <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.pioneer_start')}</h3>
-                </div>
-                <div className="border-t border-gray-100">
-                  <dl className="my-1">
-                    {getHistoryData('PIONEER_START').map(h => (
-                      <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
-                        <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
-                        <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </>
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.pioneer_start')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('PIONEER_START').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
               )
             : null}
           {getHistoryData('PIONEER_SCHOOL').length
             ? (
-              <>
-                <div className="px-4 sm:px-0">
-                  <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.pioneer_school')}</h3>
-                </div>
-                <div className="border-t border-gray-100">
-                  <dl className="my-1">
-                    {getHistoryData('PIONEER_SCHOOL').map(h => (
-                      <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
-                        <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
-                        <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </>
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.pioneer_school')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('PIONEER_SCHOOL').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
               )
             : null}
           {getHistoryData('PIONEER_STOP').length
             ? (
-              <>
-                <div className="px-4 sm:px-0">
-                  <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.pioneer_stop')}</h3>
-                </div>
-                <div className="border-t border-gray-100">
-                  <dl className="my-1">
-                    {getHistoryData('PIONEER_STOP').map(h => (
-                      <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
-                        <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
-                        <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </>
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.pioneer_stop')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('PIONEER_STOP').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
               )
             : null}
           {getAuxiliaries().length
             ? (
-              <>
-                <div className="px-4 sm:px-0">
-                  <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('label.auxiliaries')}</h3>
-                </div>
-                <div className="border-t border-gray-100">
-                  <dl className="my-1">
-                    {getAuxiliaries().map(h => (
-                      <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.date}>
-                        <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
-                        <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </>
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('label.auxiliaries')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getAuxiliaries().map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.date}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
               )
             : null}
           {getHistoryData('BAPTISED').length
             ? (
-              <>
-                <div className="px-4 sm:px-0">
-                  <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.baptised')}</h3>
-                </div>
-                <div className="border-t border-gray-100">
-                  <dl className="my-1">
-                    {getHistoryData('BAPTISED').map(h => (
-                      <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
-                        <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
-                        <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </>
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.baptised')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('BAPTISED').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
               )
             : null}
           {getHistoryData('DECEASED').length
             ? (
-              <>
-                <div className="px-4 sm:px-0">
-                  <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.deceased')}</h3>
-                </div>
-                <div className="border-t border-gray-100">
-                  <dl className="my-1">
-                    {getHistoryData('DECEASED').map(h => (
-                      <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
-                        <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
-                        <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </>
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.deceased')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('DECEASED').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
               )
             : null}
           {getHistoryData('DISASSOCIATION').length
             ? (
-              <>
-                <div className="px-4 sm:px-0">
-                  <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.disassociation')}</h3>
-                </div>
-                <div className="border-t border-gray-100">
-                  <dl className="my-1">
-                    {getHistoryData('DISASSOCIATION').map(h => (
-                      <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
-                        <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
-                        <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </>
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.disassociation')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('DISASSOCIATION').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
               )
             : null}
           {getHistoryData('DISFELLOWSHIPPED').length
             ? (
-              <>
-                <div className="px-4 sm:px-0">
-                  <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.disfellowshipped')}</h3>
-                </div>
-                <div className="border-t border-gray-100">
-                  <dl className="my-1">
-                    {getHistoryData('DISFELLOWSHIPPED').map(h => (
-                      <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
-                        <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
-                        <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </>
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.disfellowshipped')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('DISFELLOWSHIPPED').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
               )
             : null}
         </div>

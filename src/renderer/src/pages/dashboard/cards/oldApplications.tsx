@@ -51,54 +51,54 @@ export default function OldApplications(): JSX.Element | null {
     <Card2 title={t('label.wthOldApplications')} loading={loading}>
       {loading
         ? (
-          <div className="aspect-square w-full rounded-md bg-slate-200" />
+            <div className="aspect-square w-full rounded-md bg-slate-200" />
           )
         : (
-          <div className="w-full">
-            <table className="table table-zebra -mt-2 w-full">
-              <thead>
-                <tr>
-                  <th>{t('label.name')}</th>
-                  <th>{t('label.application')}</th>
-                  <th>{t('label.latestApprovalDate')}</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {publishers.map((publisherModel, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{publisherModel.name}</td>
-                      <td>{publisherModel.applicationType}</td>
-                      <td>{publisherModel.applicationDate}</td>
-                      <td className="flex justify-end space-x-4">
-                        <div className="tooltip" data-tip={t('tooltip.renewApplication')}>
-                          <button
-                            className="btn btn-circle btn-outline btn-xs"
-                            onClick={(): void => {
-                              renewApplication(publisherModel.id, publisherModel.applicationType)
-                            }}
-                          >
-                            <ArrowPathIcon className="size-4" />
-                          </button>
-                        </div>
-                        <div className="tooltip" data-tip={t('tooltip.deleteApplication')}>
-                          <button
-                            className="btn btn-circle btn-outline btn-xs"
-                            onClick={(): void => {
-                              deleteApplication(publisherModel.id, publisherModel.applicationType)
-                            }}
-                          >
-                            <TrashIcon className="size-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
+            <div className="w-full">
+              <table className="table table-zebra -mt-2 w-full">
+                <thead>
+                  <tr>
+                    <th>{t('label.name')}</th>
+                    <th>{t('label.application')}</th>
+                    <th>{t('label.latestApprovalDate')}</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {publishers.map((publisherModel, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{publisherModel.name}</td>
+                        <td>{publisherModel.applicationType}</td>
+                        <td>{publisherModel.applicationDate}</td>
+                        <td className="flex justify-end space-x-4">
+                          <div className="tooltip" data-tip={t('tooltip.renewApplication')}>
+                            <button
+                              className="btn btn-circle btn-outline btn-xs"
+                              onClick={(): void => {
+                                renewApplication(publisherModel.id, publisherModel.applicationType)
+                              }}
+                            >
+                              <ArrowPathIcon className="size-4" />
+                            </button>
+                          </div>
+                          <div className="tooltip" data-tip={t('tooltip.deleteApplication')}>
+                            <button
+                              className="btn btn-circle btn-outline btn-xs"
+                              onClick={(): void => {
+                                deleteApplication(publisherModel.id, publisherModel.applicationType)
+                              }}
+                            >
+                              <TrashIcon className="size-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
           )}
     </Card2>
   )

@@ -100,56 +100,56 @@ export default function ReportsForm(): JSX.Element {
         <h1>{t('reports.headline')}</h1>
         {activeServiceMonth
           ? (
-            <div className="space-x-4">
-              <div className="tooltip tooltip-left" data-tip={t('reports.uploadExcelFiles')}>
-                <button className="btn btn-circle btn-outline" onClick={importExcelFile}>
-                  <ArrowUpTrayIcon className="size-6" />
-                </button>
+              <div className="space-x-4">
+                <div className="tooltip tooltip-left" data-tip={t('reports.uploadExcelFiles')}>
+                  <button className="btn btn-circle btn-outline" onClick={importExcelFile}>
+                    <ArrowUpTrayIcon className="size-6" />
+                  </button>
+                </div>
+                <div className="tooltip tooltip-left" data-tip={t('reports.downloadExcelFiles')}>
+                  <button className="btn btn-circle btn-outline" onClick={generateExcelFiles}>
+                    <ArrowDownTrayIcon className="size-6" />
+                  </button>
+                </div>
               </div>
-              <div className="tooltip tooltip-left" data-tip={t('reports.downloadExcelFiles')}>
-                <button className="btn btn-circle btn-outline" onClick={generateExcelFiles}>
-                  <ArrowDownTrayIcon className="size-6" />
-                </button>
-              </div>
-            </div>
             )
           : null}
       </div>
       <div className="-mt-4">
         {activeServiceMonth
           ? (
-            <Tab.Group>
-              <Tab.List className="-mb-px flex border-b border-gray-200 dark:border-slate-200">
-                {tabs.map((tab) => {
-                  return (
-                    <Tab as={Fragment} key={tab.id}>
-                      {({ selected }): JSX.Element => (
-                        <button
-                          className={classNames(
-                            selected
-                              ? 'border-green-500 text-green-600 dark:border-sky-500 dark:text-sky-400'
-                              : 'border-transparent text-gray-500 hover:border-gray-200 hover:text-gray-700 dark:text-slate-400 dark:hover:border-slate-200 dark:hover:text-slate-200',
-                            'grow flex whitespace-nowrap border-b-2 py-4 px-1 justify-center text-md font-medium no-underline',
-                          )}
-                        >
-                          {tab.name}
-                        </button>
-                      )}
-                    </Tab>
-                  )
-                })}
-              </Tab.List>
-              <Tab.Panels className="mt-2">
-                {tabs.map(tab => (
-                  <Tab.Panel key={tab.id}>
-                    <ReportsTable serviceGroupId={tab.id} reports={tab.reports} month={serviceMonthName || ''} />
-                  </Tab.Panel>
-                ))}
-              </Tab.Panels>
-            </Tab.Group>
+              <Tab.Group>
+                <Tab.List className="-mb-px flex border-b border-gray-200 dark:border-slate-200">
+                  {tabs.map((tab) => {
+                    return (
+                      <Tab as={Fragment} key={tab.id}>
+                        {({ selected }): JSX.Element => (
+                          <button
+                            className={classNames(
+                              selected
+                                ? 'border-green-500 text-green-600 dark:border-sky-500 dark:text-sky-400'
+                                : 'border-transparent text-gray-500 hover:border-gray-200 hover:text-gray-700 dark:text-slate-400 dark:hover:border-slate-200 dark:hover:text-slate-200',
+                              'grow flex whitespace-nowrap border-b-2 py-4 px-1 justify-center text-md font-medium no-underline',
+                            )}
+                          >
+                            {tab.name}
+                          </button>
+                        )}
+                      </Tab>
+                    )
+                  })}
+                </Tab.List>
+                <Tab.Panels className="mt-2">
+                  {tabs.map(tab => (
+                    <Tab.Panel key={tab.id}>
+                      <ReportsTable serviceGroupId={tab.id} reports={tab.reports} month={serviceMonthName || ''} />
+                    </Tab.Panel>
+                  ))}
+                </Tab.Panels>
+              </Tab.Group>
             )
           : (
-            <h2>{t('reports.noActive')}</h2>
+              <h2>{t('reports.noActive')}</h2>
             )}
       </div>
     </div>
