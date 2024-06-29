@@ -7,6 +7,7 @@ import {
   createRoutesFromElements,
   useLocation,
 } from 'react-router-dom'
+import StatsDiary                     from '@renderer/pages/stats/diary'
 import ROUTES                         from '../constants/routes.json'
 import { PageTracker, UmamiProvider } from '../providers/umami'
 import Layout                         from './Layout'
@@ -87,6 +88,10 @@ const router = createMemoryRouter(
           <Route path={ROUTES.REPORTS_FORM} element={<ReportsForm />} />
           <Route path={ROUTES.REPORTS_MEETINGS} element={<ReportsMeetings />} />
           <Route path={ROUTES.REPORTS_COMPLETION} element={<ReportsCompletion />} />
+        </Route>
+
+        <Route path={ROUTES.STATS}>
+          <Route path={ROUTES.DIARY} element={<StatsDiary />} />
         </Route>
 
         <Route path={ROUTES.HISTORY}>
