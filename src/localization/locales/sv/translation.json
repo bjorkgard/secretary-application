@@ -263,7 +263,7 @@
   "label.reports.done": "Rapporter inlämnade",
   "label.reports.missing": "Saknar {{missing}} av {{total}} rapporter",
   "label.reports.waiting": "Rapporter saknas",
-  "label.reports12Month": "Rapporter (seanste 12 månader)",
+  "label.reports12Month": "Rapporter (senaste 12 månader)",
   "label.responsibilities": "Ansvarsområden",
   "label.responsibility": "Ansvarsområde",
   "label.responsible": "Ansvarig",
