@@ -646,5 +646,9 @@
   "label.continousAuxiliaries": "Kontinuerliga hjälppionjärer",
   "label.elders": "Äldste",
   "label.ministerialServants": "Församlingstjänare",
-  "label.district": "Distrikt"
+  "label.district": "Distrikt",
+  "menu.stats": "Statistik",
+  "menu.statsDiary": "Dagbok",
+  "diary.headline": "Dagbok",
+  "label.selectServiceYear": "Välj tjänsteår"
 }

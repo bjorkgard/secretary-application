@@ -331,6 +331,10 @@ ipcMain.handle('update-settings', async (_, data: SettingsModel) => {
   return updateSettings(settingsService, data)
 })
 
+ipcMain.handle('get-serviceYears', async () => {
+  return await serviceYearService.find()
+})
+
 ipcMain.handle('get-serviceMonths', async () => {
   return await serviceMonthService.find()
 })
