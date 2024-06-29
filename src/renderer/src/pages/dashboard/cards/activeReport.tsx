@@ -101,20 +101,20 @@ export default function ActiveReport(): JSX.Element | null {
     >
       {loading
         ? (
-          <div className="mt-2 aspect-square w-full rounded-full bg-slate-200" />
+            <div className="mt-2 aspect-square w-full rounded-full bg-slate-200" />
           )
         : serviceMonth
           ? (
-            <Doughnut data={data} options={options} />
+              <Doughnut data={data} options={options} />
             )
           : (
-            <button
-              type="button"
-              onClick={startReporting}
-              className="btn btn-accent btn-lg m-12 leading-6"
-            >
-              {t('label.startReporting')}
-            </button>
+              <button
+                type="button"
+                onClick={startReporting}
+                className="btn btn-accent btn-lg m-12 leading-6"
+              >
+                {t('label.startReporting')}
+              </button>
             )}
     </Card>
   )

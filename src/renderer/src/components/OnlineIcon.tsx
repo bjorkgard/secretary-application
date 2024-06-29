@@ -27,14 +27,14 @@ export function OnlineIcon(): JSX.Element {
       <span className="sr-only">View notifications</span>
       {isOnline
         ? (
-          <div className="tooltip tooltip-left" data-tip="online">
-            <SignalIcon className="size-6" aria-hidden="true" />
-          </div>
+            <div className="tooltip tooltip-left" data-tip="online">
+              <SignalIcon className="size-6" aria-hidden="true" />
+            </div>
           )
         : (
-          <div className="tooltip tooltip-left" data-tip="offline">
-            <SignalSlashIcon className="size-6" aria-hidden="true" />
-          </div>
+            <div className="tooltip tooltip-left" data-tip="offline">
+              <SignalSlashIcon className="size-6" aria-hidden="true" />
+            </div>
           )}
     </button>
   )

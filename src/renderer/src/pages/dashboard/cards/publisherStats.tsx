@@ -56,10 +56,10 @@ export default function PublisherStats(): JSX.Element {
     >
       {loading
         ? (
-          <div className="aspect-square w-full rounded-full bg-slate-200" />
+            <div className="aspect-square w-full rounded-full bg-slate-200" />
           )
         : (
-          <Doughnut data={data} options={options} />
+            <Doughnut data={data} options={options} />
           )}
     </Card>
   )

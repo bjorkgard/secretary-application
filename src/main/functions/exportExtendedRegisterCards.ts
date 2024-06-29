@@ -106,6 +106,7 @@ function savePdfFile(mainWindow: BrowserWindow, data: Uint8Array, name: string) 
       }
     })
     .catch((err) => {
+      mainWindow?.webContents.send('show-spinner', { status: false })
       log.error(err)
     })
 

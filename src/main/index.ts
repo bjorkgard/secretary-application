@@ -1,11 +1,11 @@
-import os                                             from 'node:os'
-import { join }                                       from 'node:path'
-import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron'
-import { electronApp, is, optimizer }                 from '@electron-toolkit/utils'
-import { autoUpdater }                                from 'electron-updater'
-import windowStateKeeper                              from 'electron-window-state'
-import prompt                                         from 'electron-prompt'
-import log                                            from 'electron-log'
+import os                                                        from 'node:os'
+import { join }                                                  from 'node:path'
+import { BrowserWindow, app, clipboard, dialog, ipcMain, shell } from 'electron'
+import { electronApp, is, optimizer }                            from '@electron-toolkit/utils'
+import { autoUpdater }                                           from 'electron-updater'
+import windowStateKeeper                                         from 'electron-window-state'
+import prompt                                                    from 'electron-prompt'
+import log                                                       from 'electron-log'
 // import Bugsnag                                        from '@bugsnag/electron'
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer'
 import icon                                        from '../../resources/icon.png?asset'
@@ -39,6 +39,8 @@ import {
   closeReporting,
   dbBackup,
   dbRestore,
+  deleteApplication,
+  exportActiveApplications,
   exportAddressList,
   exportAddressListEmergency,
   exportCompletionList,
@@ -46,6 +48,8 @@ import {
   exportExtendedRegisterCard,
   exportExtendedRegisterCards,
   exportMembersDocument,
+  exportNameList,
+  exportOrganizationSchema,
   exportPublisherS21,
   exportPublishersS21,
   exportRegularParticipantDocument,
@@ -58,11 +62,13 @@ import {
   getMonthString,
   getPublisherStatus,
   getPublishersStats,
+  getPublishersWithOldApplications,
   getPublishersWithoutServiceGroup,
   getReportUpdates,
   importJson,
   importServiceReports,
   importTemplate,
+  renewApplication,
   startReporting,
   storeEvent,
   updateSettings,
@@ -325,6 +331,10 @@ ipcMain.handle('update-settings', async (_, data: SettingsModel) => {
   return updateSettings(settingsService, data)
 })
 
+ipcMain.handle('get-serviceYears', async () => {
+  return await serviceYearService.find()
+})
+
 ipcMain.handle('get-serviceMonths', async () => {
   return await serviceMonthService.find()
 })
@@ -527,6 +537,26 @@ ipcMain.on('export-members', async () => {
 
   exportService.upsert('MEMBERS', 'DOCX', 'export-members')
   exportMembersDocument(mainWindow, publisherService)
+})
+
+ipcMain.on('export-organization-schema', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('ORGANIZATION_SCHEMA', 'PDF', 'export-organization-schema')
+  exportOrganizationSchema(mainWindow, publisherService)
+})
+
+ipcMain.on('export-namelist', async () => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('NAMELIST', 'PDF', 'export-namelist')
+
+  exportNameList(mainWindow, publisherService)
 })
 
 ipcMain.on('export-needs-completions', async () => {
@@ -1103,6 +1133,109 @@ ipcMain.handle('get-public-congregations', async () => {
     })
 
   return congregations
+})
+
+ipcMain.handle('resend-serviceGroupForm', async (_, args) => {
+  if (!mainWindow)
+    return
+
+  const options = {
+    method:  'PUT',
+    headers: {
+      'Accept':       'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization':
+        `Bearer ${await settingsService.token()}` || import.meta.env.MAIN_VITE_TOKEN,
+    },
+  }
+
+  await fetch(`${import.meta.env.MAIN_VITE_API}/serviceGroups/resend/${args.serviceGroupId}`, options)
+    .then(response => response.json())
+    .catch((error) => {
+      log.error(error)
+    })
+    .finally(() => {
+      return []
+    })
+})
+
+ipcMain.handle('resend-publisher-report', async (_, args) => {
+  if (!mainWindow)
+    return
+
+  const options = {
+    method:  'PUT',
+    headers: {
+      'Accept':       'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization':
+        `Bearer ${await settingsService.token()}` || import.meta.env.MAIN_VITE_TOKEN,
+    },
+  }
+
+  await fetch(`${import.meta.env.MAIN_VITE_API}/reports/resend/${args.identifier}`, options)
+    .then(response => response.json())
+    .catch((error) => {
+      log.error(error)
+    })
+    .finally(() => {
+      return []
+    })
+})
+
+ipcMain.handle('get-report-url', async (_, args) => {
+  if (!mainWindow)
+    return
+
+  const options = {
+    method:  'GET',
+    headers: {
+      'Accept':       'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization':
+        `Bearer ${await settingsService.token()}` || import.meta.env.MAIN_VITE_TOKEN,
+    },
+  }
+
+  const url = await fetch(`${import.meta.env.MAIN_VITE_API}/reports/url/${args.identifier}`, options)
+    .then(response => response.json())
+    .then((data) => {
+      if (data.url) {
+        clipboard.writeText(data.url)
+        return data.url
+      }
+      return ''
+    })
+    .catch((error) => {
+      log.error(error)
+    })
+    .finally(() => {
+      return ''
+    })
+
+  return url
+})
+
+ipcMain.on('export-active-applications', async () => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('ACTIVE_APPLICATIONS', 'PDF', 'export-active-applications')
+  exportActiveApplications(mainWindow, publisherService)
+})
+
+ipcMain.handle('get-inactive-applications', async () => {
+  return getPublishersWithOldApplications(publisherService)
+})
+
+ipcMain.handle('renew-application', async (_, args) => {
+  return renewApplication(args.id, args.type)
+})
+
+ipcMain.handle('delete-application', async (_, args) => {
+  return deleteApplication(args.id, args.type)
 })
 
 ipcMain.handle('get-latest-version', async () => {

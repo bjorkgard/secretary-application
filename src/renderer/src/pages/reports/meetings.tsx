@@ -48,7 +48,7 @@ export default function ReportsMeetings(): JSX.Element {
               })
             )
           : (
-            <h2>{t('reports.noActive')}</h2>
+              <h2>{t('reports.noActive')}</h2>
             )}
       </div>
     </div>

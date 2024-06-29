@@ -91,97 +91,97 @@ export default function Auxiliaries(): JSX.Element {
     <Card title={t('label.auxiliaries')} loading={loading}>
       {loading
         ? (
-          <div className="aspect-square w-full rounded-md bg-slate-200" />
+            <div className="aspect-square w-full rounded-md bg-slate-200" />
           )
         : (
-          <>
-            <div className="flex size-full flex-col">
-              <div className="join join-vertical w-full text-left">
-                {auxiliaryArray.map((auxiliary) => {
-                  return (
-                    <div className="collapse join-item" key={auxiliary.serviceMonth}>
-                      <input type="radio" name="my-accordion" />
-                      <div className="collapse-title font-medium">
-                        {t(`month.${auxiliary.name}`)}
-                        {' '}
-                        <span className="text-xs">
-                          (
-                          {auxiliary.publishers?.length}
-                          )
-                        </span>
+            <>
+              <div className="flex size-full flex-col">
+                <div className="join join-vertical w-full text-left">
+                  {auxiliaryArray.map((auxiliary) => {
+                    return (
+                      <div className="collapse join-item" key={auxiliary.serviceMonth}>
+                        <input type="radio" name="my-accordion" />
+                        <div className="collapse-title font-medium">
+                          {t(`month.${auxiliary.name}`)}
+                          {' '}
+                          <span className="text-xs">
+                            (
+                            {auxiliary.publishers?.length}
+                            )
+                          </span>
+                        </div>
+                        <div className="collapse-content text-sm">
+                          {auxiliary.publishers?.map((publisher) => {
+                            return (
+                              <p key={publisher._id} className="!my-0">
+                                {publisher.firstname}
+                                {' '}
+                                {publisher.lastname}
+                              </p>
+                            )
+                          })}
+                        </div>
                       </div>
-                      <div className="collapse-content text-sm">
-                        {auxiliary.publishers?.map((publisher) => {
-                          return (
-                            <p key={publisher._id} className="!my-0">
-                              {publisher.firstname}
-                              {' '}
-                              {publisher.lastname}
-                            </p>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-              <button className="btn btn-primary btn-sm self-end" onClick={() => setShowModal(true)}>
-                {t('label.add')}
-              </button>
-            </div>
-            <Modal
-              open={showModal}
-              onClose={() => setShowModal(false)}
-              onConfirm={() => handleSubmit(onSubmit)()}
-              title={t('auxiliary.headline')}
-            >
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="mx-auto grid w-full grid-cols-1 gap-x-6 gap-y-2 sm:mx-0 sm:grid-cols-6">
-                  <div className="sm:col-span-3">
-                    <Field label={t('label.publisher')} error={errors.publisher?.message}>
-                      <select
-                        className={classNames(
-                          errors.publisher ? 'select-error' : '',
-                          'select select-bordered w-full',
-                        )}
-                        {...register('publisher', {
-                          required: t('errors.publisher.required'),
-                        })}
-                      >
-                        <option value="">{t('label.selectPublisher')}</option>
-                        {publishers.map((p) => {
-                          return (
-                            <option key={p._id} value={p._id}>
-                              {p.lastname}
-                              ,
-                              {' '}
-                              {p.firstname}
-                            </option>
-                          )
-                        })}
-                      </select>
-                    </Field>
-                  </div>
-                  <div className="sm:col-span-3">
-                    <Field label={t('label.month')} error={errors.serviceMonth?.message}>
-                      <input
-                        id="serviceMonth"
-                        type="month"
-                        placeholder={t('label.month')}
-                        className={classNames(
-                          errors.serviceMonth ? 'input-error' : '',
-                          'input w-full input-bordered',
-                        )}
-                        {...register('serviceMonth', {
-                          required: t('errors.serviceMonth.required'),
-                        })}
-                      />
-                    </Field>
-                  </div>
+                    )
+                  })}
                 </div>
-              </form>
-            </Modal>
-          </>
+                <button className="btn btn-primary btn-sm self-end" onClick={() => setShowModal(true)}>
+                  {t('label.add')}
+                </button>
+              </div>
+              <Modal
+                open={showModal}
+                onClose={() => setShowModal(false)}
+                onConfirm={() => handleSubmit(onSubmit)()}
+                title={t('auxiliary.headline')}
+              >
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <div className="mx-auto grid w-full grid-cols-1 gap-x-6 gap-y-2 sm:mx-0 sm:grid-cols-6">
+                    <div className="sm:col-span-3">
+                      <Field label={t('label.publisher')} error={errors.publisher?.message}>
+                        <select
+                          className={classNames(
+                            errors.publisher ? 'select-error' : '',
+                            'select select-bordered w-full',
+                          )}
+                          {...register('publisher', {
+                            required: t('errors.publisher.required'),
+                          })}
+                        >
+                          <option value="">{t('label.selectPublisher')}</option>
+                          {publishers.map((p) => {
+                            return (
+                              <option key={p._id} value={p._id}>
+                                {p.lastname}
+                                ,
+                                {' '}
+                                {p.firstname}
+                              </option>
+                            )
+                          })}
+                        </select>
+                      </Field>
+                    </div>
+                    <div className="sm:col-span-3">
+                      <Field label={t('label.month')} error={errors.serviceMonth?.message}>
+                        <input
+                          id="serviceMonth"
+                          type="month"
+                          placeholder={t('label.month')}
+                          className={classNames(
+                            errors.serviceMonth ? 'input-error' : '',
+                            'input w-full input-bordered',
+                          )}
+                          {...register('serviceMonth', {
+                            required: t('errors.serviceMonth.required'),
+                          })}
+                        />
+                      </Field>
+                    </div>
+                  </div>
+                </form>
+              </Modal>
+            </>
           )}
     </Card>
   )

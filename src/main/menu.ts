@@ -308,12 +308,35 @@ export default class MenuBuilder {
           ],
         },
         {
+          label:   i18n.t('mainMenu.congregation'),
+          submenu: [
+            {
+              label: i18n.t('mainMenu.organizationSchema'),
+              click: (): void => {
+                ipcMain.emit('export-organization-schema', null, {})
+              },
+            },
+          ],
+        },
+        {
           label:   i18n.t('mainMenu.publishers'),
           submenu: [
+            {
+              label: i18n.t('mainMenu.nameList'),
+              click: (): void => {
+                ipcMain.emit('export-namelist', null, {})
+              },
+            },
             {
               label: i18n.t('mainMenu.needsCompletions'),
               click: (): void => {
                 ipcMain.emit('export-needs-completions', null, {})
+              },
+            },
+            {
+              label: i18n.t('mainMenu.activeApplications'),
+              click: (): void => {
+                ipcMain.emit('export-active-applications', null, {})
               },
             },
             {
@@ -615,12 +638,35 @@ export default class MenuBuilder {
             ],
           },
           {
+            label:   i18n.t('mainMenu.congregation'),
+            submenu: [
+              {
+                label: i18n.t('mainMenu.organizationSchema'),
+                click: (): void => {
+                  ipcMain.emit('export-organization-schema', null, {})
+                },
+              },
+            ],
+          },
+          {
             label:   i18n.t('mainMenu.publishers'),
             submenu: [
+              {
+                label: i18n.t('mainMenu.nameList'),
+                click: (): void => {
+                  ipcMain.emit('export-namelist', null, {})
+                },
+              },
               {
                 label: i18n.t('mainMenu.needsCompletions'),
                 click: (): void => {
                   ipcMain.emit('export-needs-completions', null, {})
+                },
+              },
+              {
+                label: i18n.t('mainMenu.activeApplications'),
+                click: (): void => {
+                  ipcMain.emit('export-active-applications', null, {})
                 },
               },
               {

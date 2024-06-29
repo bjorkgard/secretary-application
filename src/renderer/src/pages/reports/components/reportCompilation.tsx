@@ -89,61 +89,61 @@ export default function ReportsComplilation({
           </tr>
           {reports.filter(report => inSpecialPioneerService(report)).length
             ? (
-              <tr>
-                <th>{t('label.specialPioneers')}</th>
-                <td>{reports.filter(report => inSpecialPioneerService(report)).length}</td>
-                <td>
-                  {reports
-                    .filter(report => inSpecialPioneerService(report))
-                    .reduce((acc, report) => acc + (report.studies || 0), 0)}
-                </td>
-                <td>
-                  {reports
-                    .filter(report => inSpecialPioneerService(report))
-                    .reduce((acc, report) => acc + (report.hours || 0), 0)
-                    .toLocaleString()}
-                </td>
-              </tr>
+                <tr>
+                  <th>{t('label.specialPioneers')}</th>
+                  <td>{reports.filter(report => inSpecialPioneerService(report)).length}</td>
+                  <td>
+                    {reports
+                      .filter(report => inSpecialPioneerService(report))
+                      .reduce((acc, report) => acc + (report.studies || 0), 0)}
+                  </td>
+                  <td>
+                    {reports
+                      .filter(report => inSpecialPioneerService(report))
+                      .reduce((acc, report) => acc + (report.hours || 0), 0)
+                      .toLocaleString()}
+                  </td>
+                </tr>
               )
             : null}
 
           {reports.filter(report => inMissionaryService(report)).length
             ? (
-              <tr>
-                <th>{t('label.missionaries')}</th>
-                <td>{reports.filter(report => inMissionaryService(report)).length}</td>
-                <td>
-                  {reports
-                    .filter(report => inMissionaryService(report))
-                    .reduce((acc, report) => acc + (report.studies || 0), 0)}
-                </td>
-                <td>
-                  {reports
-                    .filter(report => inMissionaryService(report))
-                    .reduce((acc, report) => acc + (report.hours || 0), 0)
-                    .toLocaleString()}
-                </td>
-              </tr>
+                <tr>
+                  <th>{t('label.missionaries')}</th>
+                  <td>{reports.filter(report => inMissionaryService(report)).length}</td>
+                  <td>
+                    {reports
+                      .filter(report => inMissionaryService(report))
+                      .reduce((acc, report) => acc + (report.studies || 0), 0)}
+                  </td>
+                  <td>
+                    {reports
+                      .filter(report => inMissionaryService(report))
+                      .reduce((acc, report) => acc + (report.hours || 0), 0)
+                      .toLocaleString()}
+                  </td>
+                </tr>
               )
             : null}
 
           {reports.filter(report => inCircuitOverseerService(report)).length
             ? (
-              <tr>
-                <th>{t('label.circuitOverseers')}</th>
-                <td>{reports.filter(report => inCircuitOverseerService(report)).length}</td>
-                <td>
-                  {reports
-                    .filter(report => inCircuitOverseerService(report))
-                    .reduce((acc, report) => acc + (report.studies || 0), 0)}
-                </td>
-                <td>
-                  {reports
-                    .filter(report => inCircuitOverseerService(report))
-                    .reduce((acc, report) => acc + (report.hours || 0), 0)
-                    .toLocaleString()}
-                </td>
-              </tr>
+                <tr>
+                  <th>{t('label.circuitOverseers')}</th>
+                  <td>{reports.filter(report => inCircuitOverseerService(report)).length}</td>
+                  <td>
+                    {reports
+                      .filter(report => inCircuitOverseerService(report))
+                      .reduce((acc, report) => acc + (report.studies || 0), 0)}
+                  </td>
+                  <td>
+                    {reports
+                      .filter(report => inCircuitOverseerService(report))
+                      .reduce((acc, report) => acc + (report.hours || 0), 0)
+                      .toLocaleString()}
+                  </td>
+                </tr>
               )
             : null}
         </tbody>
@@ -154,12 +154,12 @@ export default function ReportsComplilation({
               {totalReports}
               {missingReports > 0
                 ? (
-                  <div
-                    className="tooltip ml-2"
-                    data-tip={t('label.missingReports', { count: missingReports })}
-                  >
-                    <ExclamationTriangleIcon className="size-5 text-red-500" />
-                  </div>
+                    <div
+                      className="tooltip ml-2"
+                      data-tip={t('label.missingReports', { count: missingReports })}
+                    >
+                      <ExclamationTriangleIcon className="size-5 text-red-500" />
+                    </div>
                   )
                 : null}
             </th>

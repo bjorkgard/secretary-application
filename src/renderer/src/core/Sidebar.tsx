@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation }           from 'react-i18next'
 import {
   BriefcaseIcon,
+  ChartBarIcon,
   ClockIcon,
   Cog6ToothIcon,
   HomeIcon,
@@ -34,6 +35,14 @@ const navigation = [
       { name: 'menu.monthlyReport', route: ROUTES.REPORTS_FORM },
       { name: 'menu.monthlyMeetings', route: ROUTES.REPORTS_MEETINGS },
       { name: 'menu.monthlyCompletion', route: ROUTES.REPORTS_COMPLETION },
+    ],
+  },
+  {
+    name:     'menu.stats',
+    route:    ROUTES.STATS,
+    icon:     ChartBarIcon,
+    children: [
+      { name: 'menu.statsDiary', route: ROUTES.DIARY },
     ],
   },
   {

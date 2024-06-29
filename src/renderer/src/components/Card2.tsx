@@ -20,10 +20,10 @@ export function Card2({ children, title, footer, loading = false }: CardProps): 
           ? (
               loading
                 ? (
-                  <div className="h-6 w-full rounded bg-slate-200" />
+                    <div className="h-6 w-full rounded bg-slate-200" />
                   )
                 : (
-                  <h2 className="card-title mb-1">{title}</h2>
+                    <h2 className="card-title mb-1">{title}</h2>
                   )
             )
           : null}
@@ -34,12 +34,12 @@ export function Card2({ children, title, footer, loading = false }: CardProps): 
           ? (
               loading
                 ? (
-                  <div className="mt-2 h-4 w-full rounded bg-slate-200" />
+                    <div className="mt-2 h-4 w-full rounded bg-slate-200" />
                   )
                 : (
-                  <div className="mt-2 w-full text-right text-sm text-gray-700 dark:text-slate-400">
-                    {footer}
-                  </div>
+                    <div className="mt-2 w-full text-right text-sm text-gray-700 dark:text-slate-400">
+                      {footer}
+                    </div>
                   )
             )
           : null}

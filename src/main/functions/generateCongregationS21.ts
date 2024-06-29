@@ -89,12 +89,18 @@ export default async function generateCongregationS21(
     for await (const serviceMonth of serviceMonths) {
       let reports: Report[]
 
-      if (type === 'TOTAL')
+      if (type === 'TOTAL') {
         reports = serviceMonth.reports.filter(report => report.hasBeenInService)
-
-      else
+      }
+      else if (type === 'PUBLISHER') {
+        reports = serviceMonth.reports.filter(report => (report.type === type && !report.auxiliary) && report.hasBeenInService)
+      }
+      else if (type === 'AUXILIARY') {
+        reports = serviceMonth.reports.filter(report => (report.type === type || report.auxiliary) && report.hasBeenInService)
+      }
+      else {
         reports = serviceMonth.reports.filter(report => report.type === type && report.hasBeenInService)
-
+      }
       switch (serviceMonth.sortOrder) {
         case 0:
           hasBeenInServiceCheckbox = form.getCheckBox('901_20_CheckBox')
@@ -134,7 +140,7 @@ export default async function generateCongregationS21(
 
           hoursField.setText(
             type !== 'PUBLISHER'
-              ? Math.round(reports.reduce((a, b) => a + (b.type !== 'PUBLISHER' ? b.hours || 0 : 0), 0)).toLocaleString(settings.congregation.locale)
+              ? Math.round(reports.reduce((a, b) => a + (b.hours || 0), 0)).toLocaleString(settings.congregation.locale)
               : '',
           )
           remarksField.setText(reports.length ? i18n.t('export.countReports', { count: reports.length }) : '')
@@ -158,7 +164,7 @@ export default async function generateCongregationS21(
 
           hoursField.setText(
             type !== 'PUBLISHER'
-              ? Math.round(reports.reduce((a, b) => a + (b.type !== 'PUBLISHER' ? b.hours || 0 : 0), 0)).toLocaleString(settings.congregation.locale)
+              ? Math.round(reports.reduce((a, b) => a + (b.hours || 0), 0)).toLocaleString(settings.congregation.locale)
               : '',
           )
           remarksField.setText(reports.length ? i18n.t('export.countReports', { count: reports.length }) : '')
@@ -182,7 +188,7 @@ export default async function generateCongregationS21(
 
           hoursField.setText(
             type !== 'PUBLISHER'
-              ? Math.round(reports.reduce((a, b) => a + (b.type !== 'PUBLISHER' ? b.hours || 0 : 0), 0)).toLocaleString(settings.congregation.locale)
+              ? Math.round(reports.reduce((a, b) => a + (b.hours || 0), 0)).toLocaleString(settings.congregation.locale)
               : '',
           )
           remarksField.setText(reports.length ? i18n.t('export.countReports', { count: reports.length }) : '')
@@ -206,7 +212,7 @@ export default async function generateCongregationS21(
 
           hoursField.setText(
             type !== 'PUBLISHER'
-              ? Math.round(reports.reduce((a, b) => a + (b.type !== 'PUBLISHER' ? b.hours || 0 : 0), 0)).toLocaleString(settings.congregation.locale)
+              ? Math.round(reports.reduce((a, b) => a + (b.hours || 0), 0)).toLocaleString(settings.congregation.locale)
               : '',
           )
           remarksField.setText(reports.length ? i18n.t('export.countReports', { count: reports.length }) : '')
@@ -230,7 +236,7 @@ export default async function generateCongregationS21(
 
           hoursField.setText(
             type !== 'PUBLISHER'
-              ? Math.round(reports.reduce((a, b) => a + (b.type !== 'PUBLISHER' ? b.hours || 0 : 0), 0)).toLocaleString(settings.congregation.locale)
+              ? Math.round(reports.reduce((a, b) => a + (b.hours || 0), 0)).toLocaleString(settings.congregation.locale)
               : '',
           )
           remarksField.setText(reports.length ? i18n.t('export.countReports', { count: reports.length }) : '')
@@ -254,7 +260,7 @@ export default async function generateCongregationS21(
 
           hoursField.setText(
             type !== 'PUBLISHER'
-              ? Math.round(reports.reduce((a, b) => a + (b.type !== 'PUBLISHER' ? b.hours || 0 : 0), 0)).toLocaleString(settings.congregation.locale)
+              ? Math.round(reports.reduce((a, b) => a + (b.hours || 0), 0)).toLocaleString(settings.congregation.locale)
               : '',
           )
           remarksField.setText(reports.length ? i18n.t('export.countReports', { count: reports.length }) : '')
@@ -278,7 +284,7 @@ export default async function generateCongregationS21(
 
           hoursField.setText(
             type !== 'PUBLISHER'
-              ? Math.round(reports.reduce((a, b) => a + (b.type !== 'PUBLISHER' ? b.hours || 0 : 0), 0)).toLocaleString(settings.congregation.locale)
+              ? Math.round(reports.reduce((a, b) => a + (b.hours || 0), 0)).toLocaleString(settings.congregation.locale)
               : '',
           )
           remarksField.setText(reports.length ? i18n.t('export.countReports', { count: reports.length }) : '')
@@ -302,7 +308,7 @@ export default async function generateCongregationS21(
 
           hoursField.setText(
             type !== 'PUBLISHER'
-              ? Math.round(reports.reduce((a, b) => a + (b.type !== 'PUBLISHER' ? b.hours || 0 : 0), 0)).toLocaleString(settings.congregation.locale)
+              ? Math.round(reports.reduce((a, b) => a + (b.hours || 0), 0)).toLocaleString(settings.congregation.locale)
               : '',
           )
           remarksField.setText(reports.length ? i18n.t('export.countReports', { count: reports.length }) : '')
@@ -326,7 +332,7 @@ export default async function generateCongregationS21(
 
           hoursField.setText(
             type !== 'PUBLISHER'
-              ? Math.round(reports.reduce((a, b) => a + (b.type !== 'PUBLISHER' ? b.hours || 0 : 0), 0)).toLocaleString(settings.congregation.locale)
+              ? Math.round(reports.reduce((a, b) => a + (b.hours || 0), 0)).toLocaleString(settings.congregation.locale)
               : '',
           )
           remarksField.setText(reports.length ? i18n.t('export.countReports', { count: reports.length }) : '')
@@ -350,7 +356,7 @@ export default async function generateCongregationS21(
 
           hoursField.setText(
             type !== 'PUBLISHER'
-              ? Math.round(reports.reduce((a, b) => a + (b.type !== 'PUBLISHER' ? b.hours || 0 : 0), 0)).toLocaleString(settings.congregation.locale)
+              ? Math.round(reports.reduce((a, b) => a + (b.hours || 0), 0)).toLocaleString(settings.congregation.locale)
               : '',
           )
           remarksField.setText(reports.length ? i18n.t('export.countReports', { count: reports.length }) : '')
@@ -374,7 +380,7 @@ export default async function generateCongregationS21(
 
           hoursField.setText(
             type !== 'PUBLISHER'
-              ? Math.round(reports.reduce((a, b) => a + (b.type !== 'PUBLISHER' ? b.hours || 0 : 0), 0)).toLocaleString(settings.congregation.locale)
+              ? Math.round(reports.reduce((a, b) => a + (b.hours || 0), 0)).toLocaleString(settings.congregation.locale)
               : '',
           )
           remarksField.setText(reports.length ? i18n.t('export.countReports', { count: reports.length }) : '')

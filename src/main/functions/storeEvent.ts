@@ -24,11 +24,32 @@ async function storeEvent(mainWindow: BrowserWindow, event: EventProps): Promise
   let publisher               = await publisherService.findOneById(event.publisherId)
   const splitDate             = event.date.split('-')
   let information             = ''
+  const description           = ''
   let addEventToServiceYear   = true
   let addEventToPublisher     = true
   let removeFromActiveReports = false
 
   switch (event.command) {
+    case 'A-2':
+      information           = `${publisher?.firstname} ${publisher?.lastname}`
+      addEventToServiceYear = false
+      break
+    case 'A-8':
+      information           = `${publisher?.firstname} ${publisher?.lastname}`
+      addEventToServiceYear = false
+      break
+    case 'A-19':
+      information           = `${publisher?.firstname} ${publisher?.lastname}`
+      addEventToServiceYear = false
+      break
+    case 'CO-5A':
+      information           = `${publisher?.firstname} ${publisher?.lastname}`
+      addEventToServiceYear = false
+      break
+    case 'CO-4':
+      information           = `${publisher?.firstname} ${publisher?.lastname}`
+      addEventToServiceYear = false
+      break
     case 'BAPTISED':
       information = `${publisher?.firstname} ${publisher?.lastname}`
       publisher   = { ...publisher, baptised: event.date }
@@ -70,6 +91,9 @@ async function storeEvent(mainWindow: BrowserWindow, event: EventProps): Promise
       information = `${publisher?.firstname} ${publisher?.lastname}`
       publisher   = { ...publisher, appointments: publisher?.appointments.filter(appointment => appointment.type !== 'PIONEER') }
       publisherService.update(event.publisherId, publisher)
+      break
+    case 'PIONEER_SCHOOL':
+      information = `${publisher?.firstname} ${publisher?.lastname}`
       break
     case 'MOVED_IN':
       information = `${publisher?.firstname} ${publisher?.lastname}`
@@ -173,9 +197,9 @@ async function storeEvent(mainWindow: BrowserWindow, event: EventProps): Promise
 
   if (addEventToPublisher) {
     publisher.histories.push({
-      type: event.command,
-      date: event.date,
-      information,
+      type:        event.command,
+      date:        event.date,
+      information: description,
     })
     publisherService.update(event.publisherId, publisher)
   }
