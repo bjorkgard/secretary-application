@@ -95,6 +95,41 @@ async function storeEvent(mainWindow: BrowserWindow, event: EventProps): Promise
     case 'PIONEER_SCHOOL':
       information = `${publisher?.firstname} ${publisher?.lastname}`
       break
+    case 'START_MINISTERIAL_SERVANT':
+      if (!publisher.appointments.find(appointment => appointment.type === 'MINISTERIALSERVANT')) {
+        information        = `${publisher?.firstname} ${publisher?.lastname}`
+        const appointments = publisher.appointments
+        publisher          = { ...publisher, appointments: appointments.concat({ type: 'MINISTERIALSERVANT', date: event.date }) }
+        publisherService.update(event.publisherId, publisher)
+      }
+      else {
+        addEventToServiceYear = false
+        addEventToPublisher   = false
+      }
+      break
+    case 'STOP_MINISTERIALSERVANT':
+      information = `${publisher?.firstname} ${publisher?.lastname}`
+      publisher   = { ...publisher, appointments: publisher?.appointments.filter(appointment => appointment.type !== 'MINISTERIALSERVANT') }
+      publisherService.update(event.publisherId, publisher)
+      break
+    case 'START_ELDER':
+      if (!publisher.appointments.find(appointment => appointment.type === 'ELDER')) {
+        information = `${publisher?.firstname} ${publisher?.lastname}`
+        // remove ministerial servant appointments
+        const appointments = publisher.appointments.filter(appointment => appointment.type !== 'MINISTERIALSERVANT')
+        publisher          = { ...publisher, appointments: appointments.concat({ type: 'ELDER', date: event.date }) }
+        publisherService.update(event.publisherId, publisher)
+      }
+      else {
+        addEventToServiceYear = false
+        addEventToPublisher   = false
+      }
+      break
+    case 'STOP_ELDER':
+      information = `${publisher?.firstname} ${publisher?.lastname}`
+      publisher   = { ...publisher, appointments: publisher?.appointments.filter(appointment => appointment.type !== 'ELDER') }
+      publisherService.update(event.publisherId, publisher)
+      break
     case 'MOVED_IN':
       information = `${publisher?.firstname} ${publisher?.lastname}`
       break

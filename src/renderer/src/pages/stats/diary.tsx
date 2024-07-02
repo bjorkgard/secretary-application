@@ -230,6 +230,82 @@ export default function StatsDiary(): JSX.Element {
                 </>
               )
             : null}
+          {getHistoryData('START_MINISTERIAL_SERVANT').length
+            ? (
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.ministerialServantStart')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('START_MINISTERIAL_SERVANT').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
+              )
+            : null}
+          {getHistoryData('STOP_MINISTERIAL_SERVANT').length
+            ? (
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.ministerialServantStop')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('STOP_MINISTERIAL_SERVANT').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
+              )
+            : null}
+          {getHistoryData('START_ELDER').length
+            ? (
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.elderStart')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('START_ELDER').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
+              )
+            : null}
+          {getHistoryData('STOP_ELDER').length
+            ? (
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.elderStop')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('STOP_ELDER').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
+              )
+            : null}
           {getHistoryData('DECEASED').length
             ? (
                 <>
