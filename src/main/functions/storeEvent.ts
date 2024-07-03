@@ -13,6 +13,7 @@ interface EventProps {
   date:            string
   publisherId:     string
   newCongregation: string | null
+  description:     string | null
 }
 
 const publisherService    = new PublisherService()
@@ -24,7 +25,7 @@ async function storeEvent(mainWindow: BrowserWindow, event: EventProps): Promise
   let publisher               = await publisherService.findOneById(event.publisherId)
   const splitDate             = event.date.split('-')
   let information             = ''
-  const description           = ''
+  const description           = event.description || ''
   let addEventToServiceYear   = true
   let addEventToPublisher     = true
   let removeFromActiveReports = false
@@ -129,6 +130,14 @@ async function storeEvent(mainWindow: BrowserWindow, event: EventProps): Promise
       information = `${publisher?.firstname} ${publisher?.lastname}`
       publisher   = { ...publisher, appointments: publisher?.appointments.filter(appointment => appointment.type !== 'ELDER') }
       publisherService.update(event.publisherId, publisher)
+      break
+    case 'START_RESTRICTION':
+      information = `${publisher?.firstname} ${publisher?.lastname}`
+      publisher   = { ...publisher, appointments: [] }
+      publisherService.update(event.publisherId, publisher)
+      break
+    case 'STOP_RESTRICTION':
+      information = `${publisher?.firstname} ${publisher?.lastname}`
       break
     case 'MOVED_IN':
       information = `${publisher?.firstname} ${publisher?.lastname}`

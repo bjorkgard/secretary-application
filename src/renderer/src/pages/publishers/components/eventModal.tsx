@@ -31,6 +31,7 @@ interface EventForm {
   command:         string
   publisherId:     string
   newCongregation: string | null
+  description:     string | null
 }
 
 export default function EventModal(props: EventModalProps): JSX.Element {
@@ -57,6 +58,8 @@ export default function EventModal(props: EventModalProps): JSX.Element {
     { name: t('event.ministerialServantStop'), command: 'STOP_MINISTERIAL_SERVANT' },
     { name: t('event.elderStart'), command: 'START_ELDER' },
     { name: t('event.elderStop'), command: 'STOP_ELDER' },
+    { name: t('event.startRestriction'), command: 'START_RESTRICTION' },
+    { name: t('event.stopRestriction'), command: 'STOP_RESTRICTION' },
     { name: t('event.deceased'), command: 'DECEASED' },
     { name: t('event.reinstated'), command: 'REINSTATED' },
     { name: t('event.disassociation'), command: 'DISASSOCIATION' },
@@ -156,6 +159,13 @@ export default function EventModal(props: EventModalProps): JSX.Element {
             </select>
           </Field>
         )}
+
+        <Field label={t('event.information')} error={errors.description?.message}>
+          <input
+            className="input input-bordered w-full"
+            {...register('description')}
+          />
+        </Field>
 
         <button type="submit" className="btn btn-primary mt-4 justify-items-end">
           {t('button.save')}
