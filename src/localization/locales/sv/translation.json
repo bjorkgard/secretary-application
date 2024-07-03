@@ -654,5 +654,8 @@
   "event.ministerialServantStart": "Förordnad som församlingstjänare",
   "event.elderStart": "Förordnad som äldste",
   "event.ministerialServantStop": "Avregistrerad som församlingstjänare",
-  "event.elderStop": "Avregistrerad som äldste"
+  "event.elderStop": "Avregistrerad som äldste",
+  "event.startRestriction": "Tillrättavisad",
+  "event.stopRestriction": "Fri från restriktioner",
+  "event.information": "Övrig information"
 }
