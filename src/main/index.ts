@@ -1254,7 +1254,7 @@ ipcMain.handle('get-latest-version', async () => {
 
     for (const release of releases) {
       if (!release.draft) {
-        version = releases.name
+        version = release.name
         break
       }
 
