@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## [v1.5.9](https://github.com/bjorkgard/secretary-application/releases/tag/v1.5.9) - 2024-07-04 00:27:18
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.5.9 -->
+
+## What's Changed
+### Bug fixes
+* fix(version): show correct version information by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/599
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.5.8...v1.5.9
+
+### Bug Fixes
+
+- version:
+  - show correct version information ([aa7d20d](https://github.com/bjorkgard/secretary-application/commit/aa7d20dd4ddc513d10b2d48dde3934a573f92740)) ([#599](https://github.com/bjorkgard/secretary-application/pull/599))
+
 ## [v1.5.8](https://github.com/bjorkgard/secretary-application/releases/tag/v1.5.8) - 2024-07-03 23:12:36
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.5.8 -->
