@@ -31,7 +31,6 @@ function renderText(doc: jsPDF, cell: Cell, text: CellInput | HTMLTableCellEleme
   let textPosY   = y + paddHV
   const gfs      = (cell.styles.fontSize / doc.internal.scaleFactor) * 1.15
 
-  log.info(paddHV)
   doc.setFont('helvetica', 'normal')
 
   parts.forEach((part) => {

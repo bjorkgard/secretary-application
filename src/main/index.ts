@@ -56,6 +56,7 @@ import {
   exportReportSummary,
   exportS88,
   exportServiceGroupList,
+  exportSpiritualStatusLst,
   generateXLSXReportForms,
   getCommonExports,
   getCommunications,
@@ -627,6 +628,16 @@ ipcMain.on('export-register-card-congregation', async (_event) => {
       mainWindow?.webContents.send('show-spinner', { status: false })
       log.error(err)
     })
+})
+
+ipcMain.on('export-spiritual-status', async (_event) => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('SPIRITUAL_STATUS_LIST', 'PDF', 'export-spiritual-status')
+  exportSpiritualStatusLst(mainWindow, settingsService, serviceGroupService, publisherService)
 })
 
 ipcMain.on('export-serviceGroups-internal-list', async (_event) => {
