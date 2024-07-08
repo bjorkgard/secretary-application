@@ -1263,6 +1263,16 @@ ipcMain.on('export-irregular-list', async () => {
   exportPublishersList(mainWindow, publisherService, 'IRREGULAR')
 })
 
+ipcMain.on('export-inactive-list', async () => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('INACTIVE_LIST', 'PDF', 'export-inactive-list')
+  exportPublishersList(mainWindow, publisherService, 'INACTIVE')
+})
+
 ipcMain.handle('get-inactive-applications', async () => {
   return getPublishersWithOldApplications(publisherService)
 })

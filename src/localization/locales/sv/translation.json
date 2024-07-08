@@ -684,7 +684,12 @@
   "Växla utvecklarverktyg": "Växla Utvecklarverktyg",
   "Ångra": "Ångra",
   "mainMenu.irregulars": "Oregelbundna",
+  "mainMenu.inactives": "Overksamma",
   "export.publishers": "Förkunnare",
   "export.irregularPublishers": "Oregelbundna förkunnare",
-  "export.missingReports": "Saknade rapporter"
+  "export.missingReports": "Saknade rapporter",
+  "label.irregular_list": "Oregelbundna förkunnare",
+  "label.inactive_list": "Overksamma förkunnare",
+  "export.lastReport": "Senaste rapporten",
+  "export.inactivePublishers": "Overksamma förkunnare"
 }
