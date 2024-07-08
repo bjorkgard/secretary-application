@@ -864,6 +864,8 @@ ipcMain.handle('current-service-month', async () => {
 })
 
 ipcMain.handle('start-reporting', async () => {
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
   return startReporting(
     mainWindow,
     serviceGroupService,
@@ -876,6 +878,8 @@ ipcMain.handle('start-reporting', async () => {
 })
 
 ipcMain.handle('close-reporting', async () => {
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
   return closeReporting(
     mainWindow,
     serviceYearService,

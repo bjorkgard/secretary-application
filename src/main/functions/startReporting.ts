@@ -184,6 +184,8 @@ async function startReporting(mainWindow: BrowserWindow | null,  serviceGroupSer
     await fetch(`${import.meta.env.MAIN_VITE_API}/send_reports`, options)
   }
 
+  mainWindow?.webContents.send('show-spinner', { status: false })
+
   return 'ACTIVATED'
 }
 
