@@ -57,6 +57,7 @@ import {
   exportS88,
   exportServiceGroupList,
   exportSpiritualStatusLst,
+  exportVotingList,
   generateXLSXReportForms,
   getCommonExports,
   getCommunications,
@@ -529,6 +530,16 @@ ipcMain.on('export-regular-participants', async () => {
 
   exportService.upsert('REGULAR_PARTICIPANTS', 'DOCX', 'export-regular-participants')
   exportRegularParticipantDocument(mainWindow, publisherService)
+})
+
+ipcMain.on('export-voting-list', async () => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('VOTING_LIST', 'PDF', 'export-voting-list')
+  exportVotingList(mainWindow, publisherService)
 })
 
 ipcMain.on('export-members', async () => {

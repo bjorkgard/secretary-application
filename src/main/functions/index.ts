@@ -15,6 +15,7 @@ export { default as exportRegularParticipantDocument } from './exportRegularPart
 export { default as exportServiceGroupList } from './exportServiceGroupList'
 export { default as exportServiceGroupInternalList } from './exportServiceGroupInternalList'
 export { default as exportSpiritualStatusLst } from './exportSpiritualStatusLst'
+export { default as exportVotingList } from './exportVotingList'
 export { default as generateXLSXReportForms } from './generateXLSXReportForms'
 export { default as getCommonExports } from './getCommonExports'
 export { default as getCommunications } from './getCommunications'
