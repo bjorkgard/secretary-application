@@ -1,9 +1,8 @@
-import { Fragment, useState }                                from 'react'
+import { Fragment, useEffect, useState }                     from 'react'
 import { useTranslation }                                    from 'react-i18next'
 import { Tab }                                               from '@headlessui/react'
 import type { Report, ServiceGroupModel, ServiceMonthModel } from 'src/types/models'
 import classNames                                            from '@renderer/utils/classNames'
-import { useEffectOnce }                                     from '@renderer/hooks/useOnMountUnsafe'
 import generateIdentifier                                    from '@renderer/utils/generateIdentifier'
 import { ArrowDownTrayIcon, ArrowUpTrayIcon }                from '@heroicons/react/24/solid'
 import { ReportsTable }                                      from './components/reportTable'
@@ -21,6 +20,7 @@ export default function ReportsForm(): JSX.Element {
   const [tabs, setTabs]                             = useState<iTab[]>([])
   const [serviceMonthId, setServiceMonthId]         = useState<string>()
   const [serviceMonthName, setServiceMonthName]     = useState<string>()
+  const [reload, setReload]                         = useState<boolean>(false)
 
   const generateTab = (serviceGroup: ServiceGroupModel, reports: Report[]): iTab => {
     const tab = {
@@ -49,7 +49,7 @@ export default function ReportsForm(): JSX.Element {
     return filteredActiveReports.concat(filteredInactiveReports)
   }
 
-  useEffectOnce(() => {
+  useEffect(() => {
     window.electron.ipcRenderer
       .invoke('current-service-month')
       .then((serviceMonth: ServiceMonthModel) => {
@@ -84,7 +84,7 @@ export default function ReportsForm(): JSX.Element {
             })
         }
       })
-  })
+  }, [reload])
 
   const generateExcelFiles = (): void => {
     window.electron.ipcRenderer.invoke('generate-excel-report-forms', serviceMonthId)
@@ -131,6 +131,7 @@ export default function ReportsForm(): JSX.Element {
                                 : 'border-transparent text-gray-500 hover:border-gray-200 hover:text-gray-700 dark:text-slate-400 dark:hover:border-slate-200 dark:hover:text-slate-200',
                               'grow flex whitespace-nowrap border-b-2 py-4 px-1 justify-center text-md font-medium no-underline',
                             )}
+                            onClick={(): void => setReload(!reload)}
                           >
                             {tab.name}
                           </button>
