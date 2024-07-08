@@ -357,6 +357,12 @@ export default class MenuBuilder {
                 ipcMain.emit('export-regular-participants', null, {})
               },
             },
+            {
+              label: i18n.t('mainMenu.votingList'),
+              click: (): void => {
+                ipcMain.emit('export-voting-list', null, {})
+              },
+            },
           ],
         },
         {
@@ -691,6 +697,12 @@ export default class MenuBuilder {
                 label: i18n.t('mainMenu.regularParticipants'),
                 click: (): void => {
                   ipcMain.emit('export-regular-participants', null, {})
+                },
+              },
+              {
+                label: i18n.t('mainMenu.votingList'),
+                click: (): void => {
+                  ipcMain.emit('export-voting-list', null, {})
                 },
               },
             ],
