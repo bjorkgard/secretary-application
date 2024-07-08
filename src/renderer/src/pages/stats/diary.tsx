@@ -135,6 +135,44 @@ export default function StatsDiary(): JSX.Element {
                 </>
               )
             : null}
+          {getHistoryData('ACTIVE').length
+            ? (
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.active')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('ACTIVE').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
+              )
+            : null}
+          {getHistoryData('INACTIVE').length
+            ? (
+                <>
+                  <div className="px-4 sm:px-0">
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.inactive')}</h3>
+                  </div>
+                  <div className="border-t border-gray-100">
+                    <dl className="my-1">
+                      {getHistoryData('INACTIVE').map(h => (
+                        <div className="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" key={h.information}>
+                          <dt className="m-0 text-sm font-medium leading-6 text-gray-900 dark:text-white">{h.date}</dt>
+                          <dd className="m-0 text-sm leading-6 text-gray-700 sm:col-span-2 dark:text-gray-400">{h.information}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </>
+              )
+            : null}
           {getHistoryData('PIONEER_START').length
             ? (
                 <>

@@ -23,7 +23,7 @@ function cleanUpReport(report: Report): Report {
   return report
 }
 
-function confirmPublisherStatus(publisher: PublisherModel,  report: Report,  serviceYearService: ServiceYearService): 'ACTIVE' | 'INACTIVE' | 'IRREGULAR' {
+function confirmPublisherStatus(publisher: PublisherModel,  report: Report,  serviceYearService: ServiceYearService, publisherService: PublisherService): 'ACTIVE' | 'INACTIVE' | 'IRREGULAR' {
   const lastReports = publisher.reports.slice(-5)
   let status        = 'ACTIVE'
 
@@ -40,6 +40,13 @@ function confirmPublisherStatus(publisher: PublisherModel,  report: Report,  ser
         name: `${publisher.firstname} ${publisher.lastname}`,
       }),
     })
+
+    if (publisher._id) {
+      publisherService.addHistory(publisher._id, {
+        type: 'ACTIVE',
+        date: new Date().toLocaleDateString('sv'),
+      })
+    }
   }
 
   if (publisher.status === 'ACTIVE' && report.hasNotBeenInService)
@@ -63,11 +70,18 @@ function confirmPublisherStatus(publisher: PublisherModel,  report: Report,  ser
     if (status === 'INACTIVE') {
       serviceYearService.addHistory(report.serviceYear, {
         type:        'INACTIVE',
-        date:        new Date().toLocaleDateString(),
+        date:        new Date().toLocaleDateString('sv'),
         information: i18n.t('history.inactive', {
           name: `${publisher.firstname} ${publisher.lastname}`,
         }),
       })
+
+      if (publisher._id) {
+        publisherService.addHistory(publisher._id, {
+          type: 'INACTIVE',
+          date: new Date().toLocaleDateString('sv'),
+        })
+      }
     }
   }
 
@@ -105,7 +119,7 @@ async function closeReporting(mainWindow: BrowserWindow | null,  serviceYearServ
 
       if (publisher && publisher._id) {
         // get publisher status
-        publisher.status = confirmPublisherStatus(publisher, report, serviceYearService)
+        publisher.status = confirmPublisherStatus(publisher, report, serviceYearService, publisherService)
 
         const minimalReport = cleanUpReport(report)
         publisher.reports.push(minimalReport)

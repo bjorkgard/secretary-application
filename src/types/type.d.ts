@@ -39,6 +39,7 @@ export interface PublisherService extends BaseService<PublisherModel> {
   updateAddressOnFamilyMembers: (publisher: PublisherModel) => Promise<void>
   findByIdentifier:             (identifier: string) => Promise<PublisherModel | null>
   findByStatus:                 (status: string[]) => Promise<PublisherModel[]>
+  addHistory:                   (id: string, history: History) => void
   addReport:                    (publisherId: string, report: Report) => Promise<number | undefined>
   saveReport:                   (publisherId: string, report: Report, status: 'ACTIVE' | 'INACTIVE' | 'IRREGULAR') => Promise<number | undefined>
 }
