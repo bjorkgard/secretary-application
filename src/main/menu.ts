@@ -369,6 +369,12 @@ export default class MenuBuilder {
                 ipcMain.emit('export-irregular-list', null, {})
               },
             },
+            {
+              label: i18n.t('mainMenu.inactives'),
+              click: (): void => {
+                ipcMain.emit('export-inactive-list', null, {})
+              },
+            },
           ],
         },
         {
@@ -715,6 +721,12 @@ export default class MenuBuilder {
                 label: i18n.t('mainMenu.irregulars'),
                 click: (): void => {
                   ipcMain.emit('export-irregular-list', null, {})
+                },
+              },
+              {
+                label: i18n.t('mainMenu.inactives'),
+                click: (): void => {
+                  ipcMain.emit('export-inactive-list', null, {})
                 },
               },
             ],

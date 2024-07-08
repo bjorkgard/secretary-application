@@ -17,26 +17,39 @@ interface jsPDFWithPlugin extends jsPDF {
 
 const settingsService = new SettingsService()
 
-function getTableHeaders(): string[] {
+function getTableHeaders(status: string): string[] {
   return [
     i18n.t('export.name'),
     i18n.t('export.address'),
     i18n.t('export.phone'),
     i18n.t('export.email'),
-    i18n.t('export.missingReports'),
+    status === 'INACTIVE' ? i18n.t('export.lastReport') : i18n.t('export.missingReports'),
   ]
 }
 
-function getPublisherRows(publishers: PublisherModel[]): string[][] {
+function getPublisherRows(publishers: PublisherModel[], status: string): string[][] {
   const rows: string[][] = []
 
   for (const publisher of publishers) {
     const missingReports: string[] = []
 
     const reports = publisher.reports.sort((a, b) => b.serviceYear - a.serviceYear || b.sortOrder - a.sortOrder)
-    for (let i = 0; i < 6; i++) {
-      if (reports[i].hasNotBeenInService)
-        missingReports.push(reports[i].serviceMonth)
+    if (status === 'INACTIVE') {
+      for (let i = 0; i < reports.length; i++) {
+        if (reports[i].hasBeenInService) {
+          missingReports.push(reports[i].serviceMonth)
+          break
+        }
+      }
+      if (!missingReports.length) {
+        missingReports.push(publisher.other || '')
+      }
+    }
+    else {
+      for (let i = 0; i < 6; i++) {
+        if (reports[i].hasNotBeenInService)
+          missingReports.push(reports[i].serviceMonth)
+      }
     }
 
     const publisherRow = [
@@ -79,7 +92,7 @@ function savePdfFile(mainWindow: BrowserWindow, name: string, data: ArrayBuffer)
 
 async function generate_PDF(mainWindow: BrowserWindow,  publishers: PublisherModel[],  status: string, name: string): Promise<void> {
   const settings = await settingsService.find()
-  const rows     = getPublisherRows(publishers)
+  const rows     = getPublisherRows(publishers, status)
 
   // eslint-disable-next-line new-cap
   const pdfDoc = new jsPDF() as jsPDFWithPlugin
@@ -95,6 +108,9 @@ async function generate_PDF(mainWindow: BrowserWindow,  publishers: PublisherMod
   if (status === 'IRREGULAR') {
     title = i18n.t('export.irregularPublishers')
   }
+  if (status === 'INACTIVE') {
+    title = i18n.t('export.inactivePublishers')
+  }
 
   // Header
   pdfDoc.setFontSize(22)
@@ -109,7 +125,7 @@ async function generate_PDF(mainWindow: BrowserWindow,  publishers: PublisherMod
   // Table
   const totalPagesExp = '{total_pages_count_string}'
   pdfDoc.autoTable({
-    head:        [getTableHeaders()],
+    head:        [getTableHeaders(status)],
     body:        rows,
     didDrawPage: (data) => {
       // Footer
@@ -134,7 +150,7 @@ async function generate_PDF(mainWindow: BrowserWindow,  publishers: PublisherMod
     },
     margin:       { top: 10, left: 6, right: 6, bottom: 15 },
     columnStyles: {
-      2: { cellWidth: 46 },
+      2: { cellWidth: 40 },
       3: { overflow: 'linebreak', cellWidth: 'auto' },
       4: { overflow: 'linebreak', cellWidth: 'auto' },
     },
@@ -145,7 +161,7 @@ async function generate_PDF(mainWindow: BrowserWindow,  publishers: PublisherMod
       valign:      'middle',
       lineWidth:   0.1,
     },
-    startY:       25,
+    startY:       20,
     rowPageBreak: 'avoid',
     theme:        'plain',
   })
