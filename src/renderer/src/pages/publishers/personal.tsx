@@ -321,6 +321,24 @@ export default function PublisherPersonalForm(): JSX.Element {
             </Field>
           </div>
 
+          {/* SEND REPORTS */}
+          <div className="sm:col-span-3">
+            <Field label={t('label.report')}>
+              <div className="flex h-12 items-center space-x-4">
+                <div className="form-control">
+                  <label className="label cursor-pointer">
+                    <input
+                      {...register('sendReports')}
+                      type="checkbox"
+                      className="checkbox-primary checkbox"
+                    />
+                    <span className="label-text ml-2">{t('label.sendEmailReports')}</span>
+                  </label>
+                </div>
+              </div>
+            </Field>
+          </div>
+
           <div className="col-span-6 col-start-1 mt-2 flex justify-between">
             <button className="btn btn-secondary" onClick={(): void => abort()}>
               {t('button.abort')}

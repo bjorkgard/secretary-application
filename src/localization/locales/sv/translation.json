@@ -679,5 +679,7 @@
   "Växla &Helskärmsläge": "Växla &Helskärmsläge",
   "Växla &Utvecklarverktyg": "Växla &Utvecklarverktyg",
   "Växla utvecklarverktyg": "Växla Utvecklarverktyg",
-  "Ångra": "Ångra"
+  "Ångra": "Ångra",
+  "label.sendEmailReports": "Skicka rapportformulär via e-post",
+  "label.report": "Rapportering"
 }
