@@ -22,7 +22,10 @@ function savePdfFile(mainWindow: BrowserWindow, name: string, data: ArrayBuffer)
     })
     .catch((err) => {
       log.error(err)
+      mainWindow?.webContents.send('show-spinner', { status: false })
     })
+
+  mainWindow?.webContents.send('show-spinner', { status: false })
 }
 
 export default savePdfFile
