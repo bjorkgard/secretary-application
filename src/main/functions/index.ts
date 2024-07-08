@@ -11,6 +11,7 @@ export { default as exportExtendedRegisterCards } from './exportExtendedRegister
 export { default as exportMembersDocument } from './exportMembersDocument'
 export { default as exportNameList } from './exportNameList'
 export { default as exportOrganizationSchema } from './exportOrganizationSchema'
+export { default as exportPublishersList } from './exportPublishersList'
 export { default as exportRegularParticipantDocument } from './exportRegularParticipantDocument'
 export { default as exportServiceGroupList } from './exportServiceGroupList'
 export { default as exportServiceGroupInternalList } from './exportServiceGroupInternalList'

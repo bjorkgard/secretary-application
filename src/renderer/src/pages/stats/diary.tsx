@@ -82,7 +82,7 @@ export default function StatsDiary(): JSX.Element {
             ? (
                 <>
                   <div className="px-4 sm:px-0">
-                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.movedIut')}</h3>
+                    <h3 className="mb-1 text-base font-semibold leading-7 text-gray-900 dark:text-white">{t('event.movedIn')}</h3>
                   </div>
                   <div className="border-t border-gray-100">
                     <dl className="my-1">

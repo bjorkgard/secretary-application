@@ -51,6 +51,7 @@ import {
   exportNameList,
   exportOrganizationSchema,
   exportPublisherS21,
+  exportPublishersList,
   exportPublishersS21,
   exportRegularParticipantDocument,
   exportReportSummary,
@@ -1250,6 +1251,16 @@ ipcMain.on('export-active-applications', async () => {
 
   exportService.upsert('ACTIVE_APPLICATIONS', 'PDF', 'export-active-applications')
   exportActiveApplications(mainWindow, publisherService)
+})
+
+ipcMain.on('export-irregular-list', async () => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportService.upsert('IRREGULAR_LIST', 'PDF', 'export-irregular-list')
+  exportPublishersList(mainWindow, publisherService, 'IRREGULAR')
 })
 
 ipcMain.handle('get-inactive-applications', async () => {

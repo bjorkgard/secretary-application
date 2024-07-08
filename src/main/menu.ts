@@ -363,6 +363,12 @@ export default class MenuBuilder {
                 ipcMain.emit('export-voting-list', null, {})
               },
             },
+            {
+              label: i18n.t('mainMenu.irregulars'),
+              click: (): void => {
+                ipcMain.emit('export-irregular-list', null, {})
+              },
+            },
           ],
         },
         {
@@ -703,6 +709,12 @@ export default class MenuBuilder {
                 label: i18n.t('mainMenu.votingList'),
                 click: (): void => {
                   ipcMain.emit('export-voting-list', null, {})
+                },
+              },
+              {
+                label: i18n.t('mainMenu.irregulars'),
+                click: (): void => {
+                  ipcMain.emit('export-irregular-list', null, {})
                 },
               },
             ],
