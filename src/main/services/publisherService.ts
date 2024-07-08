@@ -1,4 +1,4 @@
-import type { PublisherModel }                        from '../../types/models'
+import type { History, PublisherModel }               from '../../types/models'
 import type { Publisher, Report }                     from '../databases/schemas'
 import { PublisherSchema }                            from '../databases/schemas'
 import PublisherStore                                 from '../databases/publisherStore'
@@ -273,6 +273,15 @@ export default class PublisherService implements IPublisherService {
     })
 
     return undefined
+  }
+
+  addHistory(id: string, history: History): void {
+    this.findOneById(id).then((publisher) => {
+      if (publisher?._id) {
+        publisher.histories.push(history)
+        this.update(publisher._id, publisher)
+      }
+    })
   }
 
   async drop(): Promise<void> {
