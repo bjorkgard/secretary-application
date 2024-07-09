@@ -9,6 +9,7 @@ import Auxiliaries             from './cards/auxiliaries'
 import TemplateWarning         from './cards/templateWarning'
 import WithoutServiceGroup     from './cards/withoutServiceGroup'
 import OldApplications         from './cards/oldApplications'
+import MailResponses           from './cards/mailResponses'
 
 export default function Dashboard(): JSX.Element {
   const [time, setTime]                         = useState<number>(new Date().getTime())
@@ -47,6 +48,7 @@ export default function Dashboard(): JSX.Element {
       <Auxiliaries />
       <WithoutServiceGroup />
       <OldApplications />
+      <MailResponses />
       <CommonExports />
     </div>
   )
