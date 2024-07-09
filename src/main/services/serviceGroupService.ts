@@ -8,25 +8,29 @@ const serviceGroupStore = new ServiceGroupStore('serviceGroups.db', ServiceGroup
 
 function parseServiceGroupModel(data: ServiceGroupModel): ServiceGroup {
   const serviceGroup: ServiceGroup = {
-    name: '',
+    name:      '',
+    receivers: 'BOTH',
   }
 
   serviceGroup.name          = data.name
   serviceGroup.responsibleId = data.responsibleId
   serviceGroup.assistantId   = data.assistantId
+  serviceGroup.receivers     = data.receivers ? data.receivers : 'BOTH'
 
   return serviceGroup
 }
 
 function parseServiceGroup(data: ServiceGroup): ServiceGroupModel {
   const serviceGroupModel: ServiceGroupModel = {
-    name: '',
+    name:      '',
+    receivers: 'BOTH',
   }
 
   serviceGroupModel._id           = data._id
   serviceGroupModel.name          = data.name
   serviceGroupModel.responsibleId = data.responsibleId
   serviceGroupModel.assistantId   = data.assistantId
+  serviceGroupModel.receivers     = data.receivers ? data.receivers : 'BOTH'
   serviceGroupModel.createdAt     = data.createdAt?.toLocaleString('sv-SE')
   serviceGroupModel.updatedAt     = data.updatedAt?.toLocaleString('sv-SE')
 

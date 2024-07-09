@@ -1,11 +1,11 @@
-import { useForm }                                     from 'react-hook-form'
-import { useTranslation }                              from 'react-i18next'
-import { useNavigate, useParams }                      from 'react-router-dom'
-import type { ResponsibilityModel, ServiceGroupModel } from 'src/types/models'
-import { Field }                                       from '@renderer/components/Field'
-import classNames                                      from '@renderer/utils/classNames'
-import { useEffect, useState }                         from 'react'
-import ROUTES                                          from '../../constants/routes.json'
+import { useForm }                  from 'react-hook-form'
+import { useTranslation }           from 'react-i18next'
+import { useNavigate, useParams }   from 'react-router-dom'
+import type { ResponsibilityModel } from 'src/types/models'
+import { Field }                    from '@renderer/components/Field'
+import classNames                   from '@renderer/utils/classNames'
+import { useEffect, useState }      from 'react'
+import ROUTES                       from '../../constants/routes.json'
 
 export default function ResponsibilityForm(): JSX.Element {
   const { t }    = useTranslation()
@@ -21,7 +21,7 @@ export default function ResponsibilityForm(): JSX.Element {
     setValue,
   } = useForm<ResponsibilityModel>({ defaultValues: {}, mode: 'onSubmit' })
 
-  const onSubmit = (data: ServiceGroupModel): void => {
+  const onSubmit = (data: ResponsibilityModel): void => {
     if (data._id) {
       window.electron.ipcRenderer.invoke('update-responsibility', data).then(() => {
         navigate(ROUTES.RESPONSIBILITIES)

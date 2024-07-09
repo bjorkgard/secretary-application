@@ -54,6 +54,7 @@ export interface ServiceGroupModel extends Base {
   assistantId?:   string
   name:           string
   responsibleId?: string
+  receivers:      'NONE' | 'BOTH' | 'ASSISTANT' | 'RESPONSIBLE'
 }
 
 export interface Appointment {

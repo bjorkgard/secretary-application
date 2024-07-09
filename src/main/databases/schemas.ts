@@ -56,6 +56,7 @@ export interface ServiceGroup extends Base {
   name:           string
   responsibleId?: string
   assistantId?:   string
+  receivers:      'NONE' | 'BOTH' | 'ASSISTANT' | 'RESPONSIBLE'
 }
 
 export interface Appointment {
@@ -470,6 +471,7 @@ export const ServiceGroupSchema: JSONSchemaType<ServiceGroup> = {
     name:          { type: 'string' },
     responsibleId: { type: 'string', nullable: true },
     assistantId:   { type: 'string', nullable: true },
+    receivers:     { type: 'string' },
     createdAt:     { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
     updatedAt:     { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },

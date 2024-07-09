@@ -85,6 +85,7 @@ export default function ServiceGroups(): JSX.Element {
                   <th>{t('serviceGroups.header.name')}</th>
                   <th>{t('serviceGroups.header.responsible')}</th>
                   <th>{t('serviceGroups.header.assistant')}</th>
+                  <th>{t('serviceGroups.header.receivers')}</th>
                   <th></th>
                 </tr>
               </thead>
@@ -108,6 +109,7 @@ export default function ServiceGroups(): JSX.Element {
                         {' '}
                         {assistant?.lastname}
                       </td>
+                      <td>{t(`label.${serviceGroup.receivers.toLowerCase()}`)}</td>
                       <td>
                         <div className="flex justify-end space-x-4">
                           <div

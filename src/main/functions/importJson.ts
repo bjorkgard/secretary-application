@@ -266,7 +266,7 @@ export default function ImportJson(
 
           for (const group of importData.groups) {
             if (group.name !== 'Ingen grupp') {
-              await serviceGroupService.create({ name: group.name }).then(async (sg) => {
+              await serviceGroupService.create({ name: group.name, receivers: 'BOTH' }).then(async (sg) => {
                 for await (const oldPublisher of group.publishers) {
                   if (oldPublisher.contact) {
                     await publisherService
@@ -302,7 +302,7 @@ export default function ImportJson(
           }
 
           if (leftPublishers.length > 0) {
-            await serviceGroupService.create({ name: 'TEMPORARY' }).then(async (sg) => {
+            await serviceGroupService.create({ name: 'TEMPORARY', receivers: 'NONE' }).then(async (sg) => {
               for await (const oldPublisher of leftPublishers) {
                 log.info('Creating', oldPublisher.firstname, oldPublisher.lastname)
                 await publisherService.create(parsePublisher(oldPublisher, sg._id))

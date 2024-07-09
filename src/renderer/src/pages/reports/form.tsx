@@ -78,7 +78,7 @@ export default function ReportsForm(): JSX.Element {
 
               // If there are any reports left, add them to the 'other' tab
               if (allReports.length > 0)
-                tabs.push(generateTab({ name: t('label.missingGroup') }, allReports))
+                tabs.push(generateTab({ name: t('label.missingGroup'), receivers: 'NONE' }, allReports))
 
               setTabs(tabs)
             })
