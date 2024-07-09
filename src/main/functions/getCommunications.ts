@@ -70,7 +70,7 @@ async function getCommunications(): Promise<void> {
       for (const c of communications) {
         switch (c.type) {
           case 'PUBLISHER':
-            await serviceGroupService.upsert({ name: 'TEMPORARY' }).then(async () => {
+            await serviceGroupService.upsert({ name: 'TEMPORARY', receivers: 'NONE' }).then(async () => {
               await serviceGroupService.findOneByName('TEMPORARY').then(async (sg) => {
                 if (sg) {
                   const publisher = JSON.parse(c.data)

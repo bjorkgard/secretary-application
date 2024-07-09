@@ -702,5 +702,9 @@
   "Växla &Helskärmsläge": "Växla &Helskärmsläge",
   "Växla &Utvecklarverktyg": "Växla &Utvecklarverktyg",
   "Växla utvecklarverktyg": "Växla Utvecklarverktyg",
-  "Ångra": "Ångra"
+  "Ångra": "Ångra",
+  "label.receivers": "Rapporteringsansvarig",
+  "label.none": "Ingen",
+  "label.both": "Båda",
+  "serviceGroups.header.receivers": "Rapporteringsansvarig"
 }

@@ -50,6 +50,7 @@ export default function ServiceGroupForm(): JSX.Element {
         .then((result: ServiceGroupModel) => {
           setValue('_id', result._id)
           setValue('name', result.name)
+          setValue('receivers', result.receivers)
           setValue('responsibleId', result.responsibleId)
           setValue('assistantId', result.assistantId)
           setServiceGroup(result)
@@ -84,6 +85,24 @@ export default function ServiceGroupForm(): JSX.Element {
                   required: t('errors.name.required'),
                 })}
               />
+            </Field>
+          </div>
+
+          {/* Receivers */}
+          <div className="sm:col-span-3">
+            <Field label={t('label.receivers')} error={errors.receivers?.message}>
+              <select
+                className={classNames(
+                  errors.receivers ? 'select-error' : '',
+                  'select select-bordered w-full',
+                )}
+                {...register('receivers')}
+              >
+                <option value="NONE">{t('label.none')}</option>
+                <option value="BOTH">{t('label.both')}</option>
+                <option value="RESPONSIBLE">{t('label.responsible')}</option>
+                <option value="ASSISTANT">{t('label.assistant')}</option>
+              </select>
             </Field>
           </div>
 
