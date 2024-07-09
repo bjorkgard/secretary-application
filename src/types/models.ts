@@ -226,3 +226,13 @@ export interface TemplateModel extends Base {
   date: string
   path: string
 }
+
+export interface MailResponse {
+  id:              number
+  publisher_email: string
+  description:     string
+  event:           string
+  data:            string
+  fix:             boolean
+  created_at:      string
+}

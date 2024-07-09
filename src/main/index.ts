@@ -40,6 +40,7 @@ import {
   dbBackup,
   dbRestore,
   deleteApplication,
+  deleteMailResponse,
   exportActiveApplications,
   exportAddressList,
   exportAddressListEmergency,
@@ -59,9 +60,11 @@ import {
   exportServiceGroupList,
   exportSpiritualStatusLst,
   exportVotingList,
+  fixMailResponse,
   generateXLSXReportForms,
   getCommonExports,
   getCommunications,
+  getMailResponses,
   getMonthString,
   getPublisherStatus,
   getPublishersStats,
@@ -1271,6 +1274,18 @@ ipcMain.on('export-inactive-list', async () => {
 
   exportService.upsert('INACTIVE_LIST', 'PDF', 'export-inactive-list')
   exportPublishersList(mainWindow, publisherService, 'INACTIVE')
+})
+
+ipcMain.handle('get-mail-responses', async () => {
+  return getMailResponses()
+})
+
+ipcMain.handle('delete-mail-response', async (_, args) => {
+  return deleteMailResponse(args.email)
+})
+
+ipcMain.handle('fix-mail-response', async (_, args) => {
+  return fixMailResponse(args.email)
 })
 
 ipcMain.handle('get-inactive-applications', async () => {
