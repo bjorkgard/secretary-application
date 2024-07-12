@@ -1,5 +1,78 @@
 # CHANGELOG
 
+## [v1.6.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.0) - 2024-07-12 14:06:32
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.6.0 -->
+
+## What's Changed
+### Other Changes
+* docs(CHANGELOG): update release notes by @github-actions in https://github.com/bjorkgard/secretary-application/pull/600
+* feat(spiritual status): export list of all publishers with age, appoi… by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/602
+* fix(version): only show warning if new version exists by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/603
+* feat(voting list): export a voting list to be used in extra meetings by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/604
+* fix(closing reports): show a spinner when closing reports by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/605
+* feat(active/inactive): create an event and store in history for servi… by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/607
+* feat(publisher): update if a publisher should receive a reporting email by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/608
+* fix(report): reload reports when switching tabs by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/609
+* feat(irregular publishers): export a list with all irregular publishers by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/610
+* feat(inactive publishers): export a list of all inactive publishers by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/611
+* chore(deps-dev): bump @antfu/eslint-config from 2.21.2 to 2.21.3 by @dependabot in https://github.com/bjorkgard/secretary-application/pull/612
+* chore(deps-dev): bump @types/node from 20.14.9 to 20.14.10 by @dependabot in https://github.com/bjorkgard/secretary-application/pull/613
+* fix(deps): bump react-hook-form from 7.52.0 to 7.52.1 by @dependabot in https://github.com/bjorkgard/secretary-application/pull/614
+* chore(deps-dev): bump vite from 5.3.2 to 5.3.3 by @dependabot in https://github.com/bjorkgard/secretary-application/pull/615
+* fix(deps): bump react-router-dom from 6.24.0 to 6.24.1 by @dependabot in https://github.com/bjorkgard/secretary-application/pull/617
+* chore(deps-dev): bump typescript from 5.5.2 to 5.5.3 by @dependabot in https://github.com/bjorkgard/secretary-application/pull/616
+* feat(mail response): show warnings from mail server with delete or fix by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/619
+* feat(service group): choose who will receive emails for reports by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/620
+* feat(congregation analysis): show an analys for the congregation for … by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/621
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.5.9...v1.6.0
+
+### Feature
+
+- congregation analysis:
+  - show an analys for the congregation for the given service year ([2dc9146](https://github.com/bjorkgard/secretary-application/commit/2dc9146808ba36041555288f3fef2788ef7bbbfe)) ([#621](https://github.com/bjorkgard/secretary-application/pull/621))
+
+- service group:
+  - choose who will receive emails for reports ([7da098e](https://github.com/bjorkgard/secretary-application/commit/7da098e881924e903daa419bad5987b3fb19a1da)) ([#620](https://github.com/bjorkgard/secretary-application/pull/620))
+
+- mail response:
+  - show warnings from mail server with delete or fix ([a90054e](https://github.com/bjorkgard/secretary-application/commit/a90054e42ddf94fc1cd525d80491961bd8bc970b)) ([#619](https://github.com/bjorkgard/secretary-application/pull/619))
+
+- inactive publishers:
+  - export a list of all inactive publishers ([19c0e79](https://github.com/bjorkgard/secretary-application/commit/19c0e79bf965fa94edd5e02e12e83153941ff4b5)) ([#611](https://github.com/bjorkgard/secretary-application/pull/611))
+
+- irregular publishers:
+  - export a list with all irregular publishers ([d6288e3](https://github.com/bjorkgard/secretary-application/commit/d6288e3901bb2b4000f3b61108df82592adba666)) ([#610](https://github.com/bjorkgard/secretary-application/pull/610))
+
+- publisher:
+  - update if a publisher should receive a reporting email ([42e43ff](https://github.com/bjorkgard/secretary-application/commit/42e43fff354e68a2f9415f5009ec8b47616da620)) ([#608](https://github.com/bjorkgard/secretary-application/pull/608))
+
+- active/inactive:
+  - create an event and store in history for service year and publisher ([76f3288](https://github.com/bjorkgard/secretary-application/commit/76f3288822a252572fa142a2f88e56a0a91121db)) ([#607](https://github.com/bjorkgard/secretary-application/pull/607))
+
+- voting list:
+  - export a voting list to be used in extra meetings ([941a703](https://github.com/bjorkgard/secretary-application/commit/941a703de28af5d47535bf102faae1cfa3d4887d)) ([#604](https://github.com/bjorkgard/secretary-application/pull/604))
+
+- spiritual status:
+  - export list of all publishers with age, appointments and status ([0c2bae2](https://github.com/bjorkgard/secretary-application/commit/0c2bae2e32f0b64a7f64202b0ef390089f096d3b)) ([#602](https://github.com/bjorkgard/secretary-application/pull/602))
+
+### Bug Fixes
+
+- deps:
+  - bump react-router-dom from 6.24.0 to 6.24.1 (#617) ([01bad77](https://github.com/bjorkgard/secretary-application/commit/01bad770915044b93aad5f0d46024918381a7c15)) ([#617](https://github.com/bjorkgard/secretary-application/pull/617))
+  - bump react-hook-form from 7.52.0 to 7.52.1 (#614) ([36ac013](https://github.com/bjorkgard/secretary-application/commit/36ac01384c5664a8a47f0018d028cce0199dfa97)) ([#614](https://github.com/bjorkgard/secretary-application/pull/614))
+
+- report:
+  - reload reports when switching tabs ([0ba9875](https://github.com/bjorkgard/secretary-application/commit/0ba9875c87e8b47375f19c5be9011b6b098511ed)) ([#609](https://github.com/bjorkgard/secretary-application/pull/609))
+
+- closing reports:
+  - show a spinner when closing reports ([5073b64](https://github.com/bjorkgard/secretary-application/commit/5073b64fbc60ef5973bace8fd89231a90635e187)) ([#605](https://github.com/bjorkgard/secretary-application/pull/605))
+
+- version:
+  - only show warning if new version exists ([be966bd](https://github.com/bjorkgard/secretary-application/commit/be966bd7fdd52b400e725383ecb4f8d0af5a042a)) ([#603](https://github.com/bjorkgard/secretary-application/pull/603))
+
 ## [v1.5.9](https://github.com/bjorkgard/secretary-application/releases/tag/v1.5.9) - 2024-07-04 00:27:18
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.5.9 -->
