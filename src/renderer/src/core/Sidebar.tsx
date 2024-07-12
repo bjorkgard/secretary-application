@@ -42,6 +42,7 @@ const navigation = [
     route:    ROUTES.STATS,
     icon:     ChartBarIcon,
     children: [
+      { name: 'menu.statsAnalysis', route: ROUTES.ANALYSIS },
       { name: 'menu.statsDiary', route: ROUTES.DIARY },
     ],
   },

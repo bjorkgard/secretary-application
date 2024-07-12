@@ -345,6 +345,10 @@ ipcMain.handle('get-serviceMonths', async () => {
   return await serviceMonthService.find()
 })
 
+ipcMain.handle('get-serviceMonths-by-ids', async (_, args: { ids: string[] }) => {
+  return await serviceMonthService.findByIds(args.ids)
+})
+
 ipcMain.handle('get-circuitOverseer', async () => {
   return await circuitOverseerService.find()
 })
