@@ -50,7 +50,7 @@
     "electron-window-state": "^5.0.3",
     "exceljs": "^4.4.0",
     "fs-extra": "^11.2.0",
-    "i18next": "^23.11.5",
+    "i18next": "^23.12.1",
     "i18next-fs-backend": "^2.3.1",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
