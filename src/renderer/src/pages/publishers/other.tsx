@@ -1,12 +1,13 @@
-import { useNavigate }         from 'react-router-dom'
-import { useForm }             from 'react-hook-form'
-import { useTranslation }      from 'react-i18next'
-import { ChevronLeftIcon }     from '@heroicons/react/24/solid'
-import { usePublisherState }   from '@renderer/store/publisherStore'
-import type { PublisherModel } from 'src/types/models'
-import { Field }               from '@renderer/components/Field'
-import classNames              from '@renderer/utils/classNames'
-import ROUTES                  from '../../constants/routes.json'
+import { useNavigate }            from 'react-router-dom'
+import { useFieldArray, useForm } from 'react-hook-form'
+import { useTranslation }         from 'react-i18next'
+import { TrashIcon }              from '@heroicons/react/20/solid'
+import { ChevronLeftIcon }        from '@heroicons/react/24/solid'
+import { usePublisherState }      from '@renderer/store/publisherStore'
+import type { PublisherModel }    from 'src/types/models'
+import { Field }                  from '@renderer/components/Field'
+import classNames                 from '@renderer/utils/classNames'
+import ROUTES                     from '../../constants/routes.json'
 
 export default function PublisherOtherForm(): JSX.Element {
   const { t }          = useTranslation()
@@ -14,10 +15,16 @@ export default function PublisherOtherForm(): JSX.Element {
   const publisherState = usePublisherState()
 
   const {
+    control,
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<PublisherModel>({ defaultValues: publisherState.publisher, mode: 'onSubmit' })
+
+  const { fields, remove } = useFieldArray({
+    control,
+    name: 'histories', // unique name for your Field Array
+  })
 
   const saveData = (data: PublisherModel): void => {
     publisherState.setPublisher({ ...publisherState.publisher, ...data })
@@ -68,7 +75,7 @@ export default function PublisherOtherForm(): JSX.Element {
       </div>
       <form onSubmit={handleSubmit(saveData)}>
         <div className="mx-auto grid w-10/12 grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
-          {/* FIRSTNAME */}
+          {/* OTHER */}
           <div className="sm:col-span-6">
             <Field label={t('label.other')} error={errors.other?.message}>
               <textarea
@@ -82,6 +89,41 @@ export default function PublisherOtherForm(): JSX.Element {
                 {...register('other')}
               />
             </Field>
+          </div>
+          <div className="sm:col-span-6">
+            {fields.length > 0 && (
+              <fieldset className="fieldset col-span-6 mb-2">
+                <legend className="bg-white px-1 text-sm font-bold text-gray-700 dark:bg-slate-900 dark:text-slate-400">
+                  {t('label.events')}
+                </legend>
+                {fields.map((item, index) => {
+                  return (
+                    <div key={item.id} className="mb-2 grid grid-cols-12 gap-6">
+                      <div className="col-span-3">
+                        {item.date}
+                      </div>
+                      <div className="col-span-8 leading-tight">
+                        {t(`event.${item.type.toLowerCase()}`)}
+                        <span className="text-xs">
+                          <br />
+                          {item.information}
+                        </span>
+                      </div>
+                      <div className="col-span-1 flex justify-end">
+                        <button
+                          className="btn btn-circle btn-outline btn-xs"
+                          onClick={(): void => {
+                            remove(index)
+                          }}
+                        >
+                          <TrashIcon className="size-4" />
+                        </button>
+                      </div>
+                    </div>
+                  )
+                })}
+              </fieldset>
+            )}
           </div>
 
           <div className="col-span-6 col-start-1 mt-2 flex justify-between">
