@@ -67,7 +67,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.21.3",
+    "@antfu/eslint-config": "^2.23.2",
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",
     "@electron-toolkit/eslint-config-ts": "^2.0.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
