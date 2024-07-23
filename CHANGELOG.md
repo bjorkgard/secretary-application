@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## [v1.6.1](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.1) - 2024-07-23 07:42:43
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.6.1 -->
+
+## What's Changed
+### Bug fix
+* fix(update reports): show error message if application fails to fetch… by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/651
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.0...v1.6.1
+
+### Bug Fixes
+
+- update reports:
+  - show error message if application fails to fetch reports from server ([2a2ade1](https://github.com/bjorkgard/secretary-application/commit/2a2ade1f7a9193917ea9203d3e81558db3ab95f8)) ([#651](https://github.com/bjorkgard/secretary-application/pull/651))
+
+- deps:
+  - bump i18next from 23.12.1 to 23.12.2 (#649) ([b1ab003](https://github.com/bjorkgard/secretary-application/commit/b1ab0036a5ab10d4162f7b7d2e354a508e6da51d)) ([#649](https://github.com/bjorkgard/secretary-application/pull/649))
+  - bump react-router-dom from 6.24.1 to 6.25.1 (#642) ([c914c73](https://github.com/bjorkgard/secretary-application/commit/c914c7362783b442eef61e0b049a71a0259b2877)) ([#642](https://github.com/bjorkgard/secretary-application/pull/642))
+  - bump @heroicons/react from 2.1.4 to 2.1.5 (#629) ([f7ad2e4](https://github.com/bjorkgard/secretary-application/commit/f7ad2e468ed757d5006c262120a10e0af4090cc6)) ([#629](https://github.com/bjorkgard/secretary-application/pull/629))
+  - bump ajv from 8.16.0 to 8.17.1 (#625) ([74607ee](https://github.com/bjorkgard/secretary-application/commit/74607ee38d2e6bba25f9e40e24615995abb7655c)) ([#625](https://github.com/bjorkgard/secretary-application/pull/625))
+  - bump i18next from 23.11.5 to 23.12.1 (#624) ([0efde55](https://github.com/bjorkgard/secretary-application/commit/0efde55c658e5ed6d1d0cb108ef39fd4aaf36164)) ([#624](https://github.com/bjorkgard/secretary-application/pull/624))
+
 ## [v1.6.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.0) - 2024-07-12 14:06:32
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.6.0 -->
