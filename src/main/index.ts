@@ -217,7 +217,7 @@ app.on('ready', () => {
 
   setInterval(() => {
     getReportUpdates(mainWindow)
-  }, 600000) // every 10 minute
+  }, 600000) // every 10 minute (600000)
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

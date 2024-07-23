@@ -47,8 +47,12 @@ async function getReportsFromServer(identifier: string): Promise<ReportDB[]> {
     .then((response: { data: ReportDB[] }) => {
       return response.data
     })
-    .catch((error) => {
+    .catch((error: Error) => {
       log.error(error)
+      new Notification({
+        title: 'SECRETARY',
+        body:  i18n.t('fetch.reports.error', { message: error.message }),
+      }).show()
     })
     .finally(() => {
       return []
