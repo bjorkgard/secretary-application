@@ -730,5 +730,6 @@
   "Växla &Helskärmsläge": "Växla &Helskärmsläge",
   "Växla &Utvecklarverktyg": "Växla &Utvecklarverktyg",
   "Växla utvecklarverktyg": "Växla Utvecklarverktyg",
-  "Ångra": "Ångra"
+  "Ångra": "Ångra",
+  "fetch.reports.error": "Det gick inte att hämta rapporter från servern: {{message}}"
 }
