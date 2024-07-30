@@ -87,7 +87,7 @@
     "electron": "^31.3.0",
     "electron-builder": "^24.13.3",
     "electron-devtools-installer": "^3.2.0",
-    "electron-log": "^5.1.5",
+    "electron-log": "^5.1.7",
     "electron-vite": "^2.3.0",
     "eslint": "^8.57.0",
     "eslint-plugin-align-assignments": "^1.1.2",
