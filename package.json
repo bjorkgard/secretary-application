@@ -51,7 +51,7 @@
     "exceljs": "^4.4.0",
     "fs-extra": "^11.2.0",
     "i18next": "^23.12.2",
-    "i18next-fs-backend": "^2.3.1",
+    "i18next-fs-backend": "^2.3.2",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "jszip": "^3.10.1",
