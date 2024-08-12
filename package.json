@@ -104,7 +104,7 @@
     "tailwindcss": "^3.4.9",
     "tailwindcss-debug-screens": "^2.2.1",
     "typescript": "^5.5.4",
-    "vite": "^5.3.5"
+    "vite": "^5.4.0"
   },
   "config": {
     "commitizen": {
