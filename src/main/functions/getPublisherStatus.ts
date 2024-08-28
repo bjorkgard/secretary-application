@@ -24,17 +24,17 @@ export default async function getPublisherStatus(id: string,  report: Report): P
   if (publisher.status === 'IRREGULAR' && report.hasBeenInService) {
     // Get last reports and check if publisher are active again.
     // If any report hasNotBeenInService, publisher is still irregular
-    lastReports.find(report => report.hasNotBeenInService)
-      ? (status = 'IRREGULAR')
-      : (status = 'ACTIVE')
+    status = lastReports.find(report => report.hasNotBeenInService)
+      ? 'IRREGULAR'
+      : 'ACTIVE'
   }
 
   if (publisher.status === 'IRREGULAR' && report.hasNotBeenInService) {
     // Get last reports and check if publisher are inactive
     // If any report hasBeenInService, publisher is still irregular
-    lastReports.find(report => report.hasBeenInService)
-      ? (status = 'IRREGULAR')
-      : (status = 'INACTIVE')
+    status = lastReports.find(report => report.hasBeenInService)
+      ? 'IRREGULAR'
+      : 'INACTIVE'
   }
 
   return status

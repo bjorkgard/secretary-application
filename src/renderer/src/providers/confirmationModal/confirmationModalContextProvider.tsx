@@ -58,11 +58,13 @@ const ConfirmationModalContextProvider: React.FC<ConfirmationModalContextProvide
   }
 
   const handleOk = (): void => {
+    // eslint-disable-next-line ts/no-unused-expressions
     resolver.current && resolver.current(true)
     onHide()
   }
 
   const handleCancel = (): void => {
+    // eslint-disable-next-line ts/no-unused-expressions
     resolver.current && resolver.current(false)
     onHide()
   }

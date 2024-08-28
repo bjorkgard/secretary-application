@@ -948,6 +948,20 @@ ipcMain.handle('add-auxiliary', async (_, props) => {
   return null
 })
 
+ipcMain.handle('remove-auxiliary', async (_, props) => {
+  const auxiliaries = await auxiliaryService.findByServiceMonth(props.serviceMonth)
+
+  if (auxiliaries?._id) {
+    const index = auxiliaries.publisherIds.indexOf(props.publisher)
+    if (index > -1) {
+      auxiliaries.publisherIds.splice(index, 1)
+      return await auxiliaryService.update(auxiliaries._id, auxiliaries)
+    }
+  }
+
+  return null
+})
+
 ipcMain.handle('delete-report', async (_, args) => {
   return publisherService.deleteReport(args.publisherId, args.reportId)
 })

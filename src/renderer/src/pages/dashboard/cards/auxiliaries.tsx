@@ -8,6 +8,7 @@ import type { AuxiliaryModel, PublisherModel } from 'src/types/models'
 import { useUmamiEventTrack }                  from '@renderer/providers/umami'
 import { Field }                               from '@renderer/components/Field'
 import classNames                              from '@renderer/utils/classNames'
+import { TrashIcon }                           from '@heroicons/react/16/solid'
 
 interface AuxiliaryForm {
   publisher:    PublisherModel
@@ -113,10 +114,21 @@ export default function Auxiliaries(): JSX.Element {
                         <div className="collapse-content text-sm">
                           {auxiliary.publishers?.map((publisher) => {
                             return (
-                              <p key={publisher._id} className="!my-0">
-                                {publisher.firstname}
-                                {' '}
-                                {publisher.lastname}
+                              <p key={publisher._id} className="!my-0 flex w-full justify-between p-0.5 hover:bg-gray-200 hover:dark:bg-slate-700">
+                                <span>{`${publisher.firstname} ${publisher.lastname}`}</span>
+                                {!publisher.appointments.find(a => a.type === 'AUXILIARY')?.date && (
+                                  <TrashIcon
+                                    className="size-4 text-red-400 hover:text-red-600"
+                                    onClick={() => {
+                                      window.electron.ipcRenderer.invoke('remove-auxiliary', {
+                                        publisher:    publisher._id,
+                                        serviceMonth: auxiliary.serviceMonth,
+                                      }).then(() => {
+                                        setReload(true)
+                                      })
+                                    }}
+                                  />
+                                )}
                               </p>
                             )
                           })}
