@@ -84,6 +84,7 @@ import ImportantDateService           from './services/importantDateService'
 import ExportServiceGroupInternalList from './functions/exportServiceGroupInternalList'
 import generateIdentifier             from './utils/generateIdentifier'
 import getSortOrder                   from './utils/getSortOrder'
+import ExportAuxiliariesList          from './functions/exportAuxiliariesList'
 
 // Bugsnag.start({
 //  apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
@@ -607,6 +608,46 @@ ipcMain.on('export-meeting-attendance', async (_event, args) => {
   sy.sort()
 
   exportS88(mainWindow, sy)
+})
+
+ipcMain.on('export-auxiliary-list', async (_event) => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  const sm: string[] = []
+  auxiliaryService.find().then((auxiliaries) => {
+    auxiliaries.forEach((auxiliary) => {
+      sm.push(auxiliary.serviceMonth)
+    })
+  })
+  sm.sort((a, b) => (a > b ? -1 : 1))
+
+  prompt({
+    title:         i18n.t('dialog.selectServiceMonth'),
+    label:         i18n.t('dialog.selectServiceMonthDescription'),
+    type:          'select',
+    selectOptions: sm,
+    alwaysOnTop:   true,
+    buttonLabels:  { cancel: i18n.t('label.cancel'), ok: i18n.t('label.ok') },
+    resizable:     true,
+  })
+    .then(async (r: number | null) => {
+      if (r !== null) {
+        if (mainWindow) {
+          const auxiliaryMonth = await auxiliaryService.findByServiceMonth(sm[r])
+          ExportAuxiliariesList(mainWindow, publisherService, auxiliaryMonth?.publisherIds, auxiliaryMonth?.name)
+        }
+      }
+      else {
+        mainWindow?.webContents.send('show-spinner', { status: false })
+      }
+    })
+    .catch((err: Error) => {
+      mainWindow?.webContents.send('show-spinner', { status: false })
+      log.error(err)
+    })
 })
 
 ipcMain.on('export-register-card-congregation', async (_event) => {

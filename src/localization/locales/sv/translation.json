@@ -731,5 +731,9 @@
   "Växla &Utvecklarverktyg": "Växla &Utvecklarverktyg",
   "Växla utvecklarverktyg": "Växla Utvecklarverktyg",
   "Ångra": "Ångra",
-  "fetch.reports.error": "Det gick inte att hämta rapporter från servern: {{message}}"
+  "fetch.reports.error": "Det gick inte att hämta rapporter från servern: {{message}}",
+  "mainMenu.auxiliaries": "Hjälppionjärer",
+  "dialog.selectServiceMonth": "Välj månad",
+  "dialog.selectServiceMonthDescription": "Välj den månad som listan skall gälla för.",
+  "label.auxiliaryList": "Hjälppionjärer {{month}}"
 }
