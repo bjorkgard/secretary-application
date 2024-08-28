@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## [v1.6.2](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.2) - 2024-08-28 12:48:54
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.6.2 -->
+
+## What's Changed
+### New features
+* Delete auxiliaries by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/711
+* Export auxiliary list by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/712
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.1...v1.6.2
+
+### Bug Fixes
+
+- deps:
+  - bump react-router-dom from 6.26.0 to 6.26.1 (#693) ([4f566fd](https://github.com/bjorkgard/secretary-application/commit/4f566fd3883214edb23f7f4a890256aee253afbb)) ([#693](https://github.com/bjorkgard/secretary-application/pull/693))
+  - bump react-hook-form from 7.52.2 to 7.53.0 (#709) ([1874cbb](https://github.com/bjorkgard/secretary-application/commit/1874cbbea57bff8736f2e5e096cd40c464545f68)) ([#709](https://github.com/bjorkgard/secretary-application/pull/709))
+  - bump chart.js from 4.4.3 to 4.4.4 (#707) ([6f2af8f](https://github.com/bjorkgard/secretary-application/commit/6f2af8f6620ec90fd06ade7d76d8d4a8120fe5be)) ([#707](https://github.com/bjorkgard/secretary-application/pull/707))
+  - bump i18next from 23.12.2 to 23.14.0 (#688) ([b8ffcb4](https://github.com/bjorkgard/secretary-application/commit/b8ffcb4e081c80e23a520ea4861ee85195019cd1)) ([#688](https://github.com/bjorkgard/secretary-application/pull/688))
+  - bump i18next-fs-backend from 2.3.1 to 2.3.2 (#674) ([50e3359](https://github.com/bjorkgard/secretary-application/commit/50e3359091d5ee2e5029e5762a55302141327e61)) ([#674](https://github.com/bjorkgard/secretary-application/pull/674))
+  - bump react-router-dom from 6.25.1 to 6.26.0 (#675) ([4f43f89](https://github.com/bjorkgard/secretary-application/commit/4f43f893de7dfb2e087232323646cebe32f2a45d)) ([#675](https://github.com/bjorkgard/secretary-application/pull/675))
+  - bump react-phone-number-input from 3.4.4 to 3.4.5 (#672) ([8272b2a](https://github.com/bjorkgard/secretary-application/commit/8272b2aa00e8ddfa7f3911e96e1eaebcdf6b39d5)) ([#672](https://github.com/bjorkgard/secretary-application/pull/672))
+  - bump react-hook-form from 7.52.1 to 7.52.2 (#671) ([c1740b8](https://github.com/bjorkgard/secretary-application/commit/c1740b81a59395a48fe44d842cf05b39bf7a1c68)) ([#671](https://github.com/bjorkgard/secretary-application/pull/671))
+  - bump react-phone-number-input from 3.4.3 to 3.4.4 (#656) ([9a4ebac](https://github.com/bjorkgard/secretary-application/commit/9a4ebaca7f69416d9bdc757d8406c1549ab8ddf4)) ([#656](https://github.com/bjorkgard/secretary-application/pull/656))
+
 ## [v1.6.1](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.1) - 2024-07-23 07:42:43
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.6.1 -->
