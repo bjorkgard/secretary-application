@@ -375,6 +375,12 @@ export default class MenuBuilder {
                 ipcMain.emit('export-inactive-list', null, {})
               },
             },
+            {
+              label: i18n.t('mainMenu.auxiliaries'),
+              click: (): void => {
+                ipcMain.emit('export-auxiliary-list', null, {})
+              },
+            },
           ],
         },
         {
@@ -727,6 +733,12 @@ export default class MenuBuilder {
                 label: i18n.t('mainMenu.inactives'),
                 click: (): void => {
                   ipcMain.emit('export-inactive-list', null, {})
+                },
+              },
+              {
+                label: i18n.t('mainMenu.auxiliaries'),
+                click: (): void => {
+                  ipcMain.emit('export-auxiliary-list', null, {})
                 },
               },
             ],
