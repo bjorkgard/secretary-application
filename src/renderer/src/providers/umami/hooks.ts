@@ -3,10 +3,10 @@ import { UmamiContext }                               from './context'
 import type { UmamiCustomEventData, UmamiTrackEvent } from './types'
 
 export function useUmamiEventTrack(): (
-  eventName?: string,
-  pageUrl?: string,
-  eventValue?: UmamiCustomEventData,
-  forceTrack?: boolean
+eventName?: string,
+pageUrl?: string,
+eventValue?: UmamiCustomEventData,
+forceTrack?: boolean
 ) => void {
   const umamiCtx   = useContext(UmamiContext)
   const trackEvent = (
@@ -69,7 +69,7 @@ export function useUmamiEventTrack(): (
       umamiCtx.track(event, forceTrack)
     }
     catch (err) {
-      console.warn && console.warn(err)
+      console.warn(err)
     }
   }
 

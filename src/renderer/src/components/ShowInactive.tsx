@@ -69,7 +69,6 @@ export function ShowInactive({ show, inactives, handleClose }: { show: boolean, 
                           <label key={inactive.id} className="mr-2 flex items-center">
                             <input
                               type="checkbox"
-                              className="form-checkbox"
                               value={inactive.id}
                               onChange={(e) => {
                                 if (e.target.checked)
