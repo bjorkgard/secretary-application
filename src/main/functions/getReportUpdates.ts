@@ -81,6 +81,7 @@ async function resetUpdates(reportIds: number[]): Promise<void> {
 }
 
 async function getReportUpdates(mainWindow: BrowserWindow | null): Promise<void> {
+  log.info('Get report updates')
   const settings            = await settingsService.find()
   const reportIds: number[] = []
 
@@ -94,9 +95,11 @@ async function getReportUpdates(mainWindow: BrowserWindow | null): Promise<void>
 
   // check if there is a service month and if it is not done
   if (settings && serviceMonth && serviceMonth.status !== 'DONE') {
+    log.info('Get reports for:', serviceMonth.serviceMonth)
     // Get report updates from server
     getReportsFromServer(settings.identifier).then(async (updatedReports) => {
       for (const r of updatedReports) {
+        log.info('Report is updated for:', r.publisher_name)
         reportIds.push(r.id)
         const reportIndex = serviceMonth.reports.findIndex(
           report => report.identifier === r.identifier,
@@ -111,6 +114,7 @@ async function getReportUpdates(mainWindow: BrowserWindow | null): Promise<void>
       }
 
       if (serviceMonth._id && updatedReports.length > 0) {
+        log.info('Update service month', serviceMonth.serviceMonth)
         // Update serviceMonth
         await serviceMonthService.update(serviceMonth._id, serviceMonth)
 

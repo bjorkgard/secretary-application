@@ -113,6 +113,17 @@ const isDebug
 let mainWindow: BrowserWindow | null = null
 let menuBuilder: MenuBuilder | null  = null
 
+if (isDebug) {
+  log.transports.console.level = 'info'
+  log.transports.file.level    = 'info'
+  log.info('In development mode')
+}
+else {
+  log.transports.console.level = false
+  log.transports.file.level    = 'info'
+  log.info('In production mode')
+}
+
 autoUpdater.checkForUpdatesAndNotify()
 
 async function createWindow(): Promise<void> {
