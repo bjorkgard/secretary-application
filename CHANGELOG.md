@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## [v1.6.3](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.3) - 2024-09-10 21:55:43
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.6.3 -->
+
+## What's Changed
+### Bug fixes
+* Get service year by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/741
+### Other changes
+* Logging by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/739
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.2...v1.6.3
+
+### Bug Fixes
+
+- deps:
+  - bump react-router-dom from 6.26.1 to 6.26.2 (#735) ([cc34642](https://github.com/bjorkgard/secretary-application/commit/cc34642cc680c01fff1a9444cbaac0d5821bb40a)) ([#735](https://github.com/bjorkgard/secretary-application/pull/735))
+  - bump i18next from 23.14.0 to 23.15.0 (#727) ([0ed2c83](https://github.com/bjorkgard/secretary-application/commit/0ed2c836a0f61aed7e31bb5feef47a00da9a1201)) ([#727](https://github.com/bjorkgard/secretary-application/pull/727))
+  - bump electron-updater from 6.2.1 to 6.3.4 (#723) ([4af1d93](https://github.com/bjorkgard/secretary-application/commit/4af1d9359af3b38bd0455909d13b64d8317ecfa9)) ([#723](https://github.com/bjorkgard/secretary-application/pull/723))
+  - bump jspdf-autotable from 3.8.2 to 3.8.3 (#717) ([ee4a0be](https://github.com/bjorkgard/secretary-application/commit/ee4a0be1445fe844a13c2ade951e6472e25fdaa9)) ([#717](https://github.com/bjorkgard/secretary-application/pull/717))
+
 ## [v1.6.2](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.2) - 2024-08-28 12:48:54
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.6.2 -->
