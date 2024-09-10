@@ -81,7 +81,6 @@ async function resetUpdates(reportIds: number[]): Promise<void> {
 }
 
 async function getReportUpdates(mainWindow: BrowserWindow | null): Promise<void> {
-  log.info('Get report updates')
   const settings            = await settingsService.find()
   const reportIds: number[] = []
 
@@ -92,10 +91,11 @@ async function getReportUpdates(mainWindow: BrowserWindow | null): Promise<void>
   const serviceMonth = await serviceMonthService.findByServiceMonth(
     `${date.getFullYear()}-${monthString < 10 ? '0' : ''}${monthString}`,
   )
+  log.info('Get report updates for', `${date.getFullYear()}-${monthString < 10 ? '0' : ''}${monthString}`)
 
   // check if there is a service month and if it is not done
   if (settings && serviceMonth && serviceMonth.status !== 'DONE') {
-    log.info('Get reports for:', serviceMonth.serviceMonth)
+    log.info('Has active serviceMonth:', serviceMonth._id)
     // Get report updates from server
     getReportsFromServer(settings.identifier).then(async (updatedReports) => {
       for (const r of updatedReports) {
@@ -114,7 +114,7 @@ async function getReportUpdates(mainWindow: BrowserWindow | null): Promise<void>
       }
 
       if (serviceMonth._id && updatedReports.length > 0) {
-        log.info('Update service month', serviceMonth.serviceMonth)
+        log.info('Update service month with reports', updatedReports.length)
         // Update serviceMonth
         await serviceMonthService.update(serviceMonth._id, serviceMonth)
 
