@@ -1,11 +1,15 @@
-import { useForm }                                from 'react-hook-form'
-import { useTranslation }                         from 'react-i18next'
-import { useNavigate, useParams }                 from 'react-router-dom'
-import type { PublisherModel, ServiceGroupModel } from 'src/types/models'
-import { Field }                                  from '@renderer/components/Field'
-import classNames                                 from '@renderer/utils/classNames'
-import { useEffect, useState }                    from 'react'
-import ROUTES                                     from '../../constants/routes.json'
+import { useForm }                                          from 'react-hook-form'
+import { useTranslation }                                   from 'react-i18next'
+import { useNavigate, useParams }                           from 'react-router-dom'
+import type { PublisherModel, ServiceGroupModel }           from 'src/types/models'
+import { useEffect, useState }                              from 'react'
+import { ErrorMessage, Field, FieldGroup, Fieldset, Label } from '@renderer/components/catalyst/fieldset'
+import { Heading }                                          from '@renderer/components/catalyst/heading'
+import { Text }                                             from '@renderer/components/catalyst/text'
+import { Input }                                            from '@renderer/components/catalyst/input'
+import { Select }                                           from '@renderer/components/catalyst/select'
+import { Button }                                           from '@renderer/components/catalyst/button'
+import ROUTES                                               from '../../constants/routes.json'
 
 export default function ServiceGroupForm(): JSX.Element {
   const { t }    = useTranslation()
@@ -18,9 +22,9 @@ export default function ServiceGroupForm(): JSX.Element {
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
-  } = useForm<ServiceGroupModel>({ defaultValues: {}, mode: 'onSubmit' })
+  } = useForm<ServiceGroupModel>({ defaultValues: {}, mode: 'onChange' })
 
   const onSubmit = (data: ServiceGroupModel): void => {
     if (data._id) {
@@ -64,111 +68,73 @@ export default function ServiceGroupForm(): JSX.Element {
   }
 
   return (
-    <div>
-      <div className="flex justify-between">
-        <h1>{id ? t('serviceGroups.editHeadline') : t('serviceGroups.addHeadline')}</h1>
-      </div>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Fieldset>
+        <Heading>{id ? t('serviceGroups.editHeadline') : t('serviceGroups.addHeadline')}</Heading>
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
+          <Text></Text>
+          <FieldGroup className="sm:col-span-2">
+            <div className="grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-6 md:col-span-2">
+              <Field className="sm:col-span-3">
+                <Label>{t('label.name')}</Label>
+                <Input
+                  {...register('name', {
+                    required: t('errors.name.required'),
+                  })}
+                  invalid={!!errors.name}
+                  autoFocus
+                />
+                {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
+              </Field>
+              <Field className="col-span-3">
+                <Label>{t('label.receivers')}</Label>
+                <Select
+                  {...register('receivers')}
+                >
+                  <option value="NONE">{t('label.none')}</option>
+                  <option value="BOTH">{t('label.both')}</option>
+                  <option value="RESPONSIBLE">{t('label.responsible')}</option>
+                  <option value="ASSISTANT">{t('label.assistant')}</option>
+                </Select>
+                {errors.receivers && <ErrorMessage>{errors.receivers.message}</ErrorMessage>}
+              </Field>
+              <Field className="col-span-3">
+                <Label>{t('label.responsible')}</Label>
+                <Select
+                  {...register('responsibleId')}
+                >
+                  <option value="">{t('label.selectResponsible')}</option>
+                  {publishers.map((p) => {
+                    return (
+                      <option key={p._id} value={p._id}>{`${p.lastname}, ${p.firstname}`}</option>
+                    )
+                  })}
+                </Select>
+                {errors.responsibleId && <ErrorMessage>{errors.responsibleId.message}</ErrorMessage>}
+              </Field>
+              <Field className="col-span-3">
+                <Label>{t('label.assistant')}</Label>
+                <Select
+                  {...register('assistantId')}
+                >
+                  <option value="">{t('label.selectAssistant')}</option>
+                  {publishers.map((p) => {
+                    return (
+                      <option key={p._id} value={p._id}>{`${p.lastname}, ${p.firstname}`}</option>
+                    )
+                  })}
+                </Select>
+                {errors.assistantId && <ErrorMessage>{errors.assistantId.message}</ErrorMessage>}
+              </Field>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mx-auto grid w-10/12 grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
-          {/* Name */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.name')} error={errors.name?.message}>
-              <input
-                id="name"
-                placeholder={t('label.name')}
-                className={classNames(
-                  errors.name ? 'input-error' : '',
-                  'input w-full input-bordered dark:placeholder:text-slate-500',
-                )}
-                {...register('name', {
-                  required: t('errors.name.required'),
-                })}
-              />
-            </Field>
-          </div>
-
-          {/* Receivers */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.receivers')} error={errors.receivers?.message}>
-              <select
-                className={classNames(
-                  errors.receivers ? 'select-error' : '',
-                  'select select-bordered w-full',
-                )}
-                {...register('receivers')}
-              >
-                <option value="NONE">{t('label.none')}</option>
-                <option value="BOTH">{t('label.both')}</option>
-                <option value="RESPONSIBLE">{t('label.responsible')}</option>
-                <option value="ASSISTANT">{t('label.assistant')}</option>
-              </select>
-            </Field>
-          </div>
-
-          {/* Responsible */}
-          <div className="!col-start-1 sm:col-span-3">
-            <Field label={t('label.responsible')} error={errors.responsibleId?.message}>
-              <select
-                className={classNames(
-                  errors.responsibleId ? 'select-error' : '',
-                  'select select-bordered w-full',
-                )}
-                {...register('responsibleId')}
-              >
-                <option value="">{t('label.selectResponsible')}</option>
-                {publishers.map((p) => {
-                  return (
-                    <option key={p._id} value={p._id}>
-                      {p.lastname}
-                      ,
-                      {' '}
-                      {p.firstname}
-                    </option>
-                  )
-                })}
-              </select>
-            </Field>
-          </div>
-
-          {/* Responsible */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.assistant')} error={errors.assistantId?.message}>
-              <select
-                className={classNames(
-                  errors.assistantId ? 'select-error' : '',
-                  'select select-bordered w-full',
-                )}
-                {...register('assistantId')}
-              >
-                <option value="">{t('label.selectAssistant')}</option>
-                {publishers.map((p) => {
-                  return (
-                    <option key={p._id} value={p._id}>
-                      {p.lastname}
-                      ,
-                      {' '}
-                      {p.firstname}
-                    </option>
-                  )
-                })}
-              </select>
-            </Field>
-          </div>
-
-          <div className="col-span-6 col-start-1 mt-2 flex justify-between">
-            <button
-              className="btn btn-secondary"
-              onClick={(): void => navigate(ROUTES.SERVICE_GROUPS)}
-            >
-              {t('button.abort')}
-            </button>
-            <button className="btn btn-primary" type="submit">
-              {t('button.save')}
-            </button>
-          </div>
+              <div className="sm:col-span-6 sm:flex sm:justify-between">
+                <Button outline onClick={(): void => navigate(ROUTES.SERVICE_GROUPS)}>{t('button.abort')}</Button>
+                <Button color="blue" type="submit" disabled={!isValid}>{t('button.save')}</Button>
+              </div>
+            </div>
+          </FieldGroup>
         </div>
-      </form>
-    </div>
+      </Fieldset>
+    </form>
   )
 }

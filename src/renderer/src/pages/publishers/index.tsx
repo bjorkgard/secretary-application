@@ -1,21 +1,25 @@
-import { useEffect, useState } from 'react'
-import { useTranslation }      from 'react-i18next'
-import { useNavigate }         from 'react-router-dom'
-import { PlusIcon }            from '@heroicons/react/24/solid'
+import { useEffect, useState }           from 'react'
+import { useTranslation }                from 'react-i18next'
+import { useNavigate }                   from 'react-router-dom'
+import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/solid'
+import { EllipsisHorizontalIcon }        from '@heroicons/react/20/solid'
 import {
-  DevicePhoneMobileIcon,
   DocumentArrowDownIcon,
-  EllipsisHorizontalIcon,
-  MagnifyingGlassIcon,
   PencilIcon,
   PlusIcon as PlusIconSmall,
-  TrashIcon,
-} from '@heroicons/react/20/solid'
-import { formatPhoneNumber }                                               from 'react-phone-number-input'
-import type { PublicCongregationModel, PublisherModel, ServiceGroupModel } from 'src/types/models'
-import { isTemplateCorrect }                                               from '@renderer/utils/isTemplateCorrect'
-import ROUTES                                                              from '../../constants/routes.json'
-import EventModal                                                          from './components/eventModal'
+} from '@heroicons/react/16/solid'
+import { formatPhoneNumber }                                                    from 'react-phone-number-input'
+import type { PublicCongregationModel, PublisherModel, ServiceGroupModel }      from 'src/types/models'
+import { isTemplateCorrect }                                                    from '@renderer/utils/isTemplateCorrect'
+import { Heading }                                                              from '@renderer/components/catalyst/heading'
+import { Button }                                                               from '@renderer/components/catalyst/button'
+import { InputGroupSmall, InputSmall }                                          from '@renderer/components/catalyst/input-small'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow }        from '@renderer/components/catalyst/table'
+import { Badge }                                                                from '@renderer/components/catalyst/badge'
+import { TextLink }                                                             from '@renderer/components/catalyst/text'
+import { Dropdown, DropdownButton, DropdownHeader, DropdownItem, DropdownMenu } from '@renderer/components/catalyst/dropdown'
+import ROUTES                                                                   from '../../constants/routes.json'
+import EventModal                                                               from './components/eventModal'
 
 export default function Publishers(): JSX.Element {
   const { t }    = useTranslation()
@@ -97,172 +101,126 @@ export default function Publishers(): JSX.Element {
           setOpenEventModal(false)
         }}
       />
-      <div className="flex h-full flex-col">
-        <div className="flex justify-between">
-          <h1>{t('publishers.headline')}</h1>
-          <div className="relative mx-12 block h-12 w-full text-slate-500">
-            <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2" />
-            <input autoComplete="off" spellCheck="false" aria-autocomplete="list" name="publisher-filter" type="search" className="input input-bordered w-full pl-12 dark:placeholder:text-slate-500" placeholder={t('search')} onChange={onChange} />
+      <div className="flex flex-col">
+        <div className="sticky flex w-full justify-between">
+          <Heading>{t('publishers.headline')}</Heading>
+          <div className="w-1/3">
+            <InputGroupSmall>
+              <MagnifyingGlassIcon />
+              <InputSmall name="search" placeholder={t('search')} aria-label="Search" onChange={onChange} />
+            </InputGroupSmall>
           </div>
           <div className="tooltip tooltip-left" data-tip={t('label.addPublisher')}>
-            <button
-              className="btn btn-circle btn-outline"
+            <Button
               onClick={(): void => navigate(ROUTES.PUBLISHER_PERSONAL_FORM)}
+              color="blue"
             >
-              <PlusIcon className="size-6" />
-            </button>
+              <PlusIcon className="size-6 text-white" />
+              Lägg till
+            </Button>
           </div>
         </div>
-        <div className="h-full">
-          <table className="table table-zebra">
-            <thead>
-              <tr>
-                <th></th>
-                <th>{t('publishers.header.group')}</th>
-                <th>{t('publishers.header.lastname')}</th>
-                <th>{t('publishers.header.firstname')}</th>
-                <th>{t('publishers.header.mobile')}</th>
-                <th>{t('publishers.header.email')}</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {publishers.map((publisher) => {
-                const serviceGroup = serviceGroups.find(sg => sg._id === publisher.serviceGroupId)
-                const appointments
+
+        <Table dense grid striped className="mt-2 [--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
+          <TableHead>
+            <TableRow>
+              <TableHeader></TableHeader>
+              <TableHeader>{t('publishers.header.group')}</TableHeader>
+              <TableHeader>{t('publishers.header.lastname')}</TableHeader>
+              <TableHeader>{t('publishers.header.firstname')}</TableHeader>
+              <TableHeader>{t('publishers.header.mobile')}</TableHeader>
+              <TableHeader>{t('publishers.header.email')}</TableHeader>
+              <TableHeader></TableHeader>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {publishers.map((publisher) => {
+              const serviceGroup = serviceGroups.find(sg => sg._id === publisher.serviceGroupId)
+              const appointments
                   = publisher.appointments.map((a) => {
                     if (a.type)
                       return `badge.short.${a.type.toLowerCase()}`
 
                     return null
                   }) || []
-                return (
-                  <tr key={publisher._id} className="hover">
-                    <td>
-                      {appointments.map((appointment) => {
-                        if (appointment) {
-                          return (
-                            <div className="badge badge-primary badge-sm mr-1" key={appointment}>
-                              {t(appointment)}
+
+              return (
+                <TableRow key={publisher._id}>
+                  <TableCell className="flex gap-1">
+                    {appointments.map((appointment) => {
+                      if (appointment) {
+                        return (
+                          <Badge key={appointment} color="blue">{t(appointment)}</Badge>
+                        )
+                      }
+                      else {
+                        return null
+                      }
+                    })}
+                  </TableCell>
+                  <TableCell>{serviceGroup?.name || '-'}</TableCell>
+                  <TableCell>{publisher.firstname}</TableCell>
+                  <TableCell>{publisher.lastname}</TableCell>
+                  <TableCell>
+                    <TextLink href={`sms:${publisher.mobile}`}>{publisher.mobile ? formatPhoneNumber(publisher.mobile) : ''}</TextLink>
+                  </TableCell>
+                  <TableCell>
+                    <TextLink href={`mailto:${publisher.email}`}>{publisher.email}</TextLink>
+                  </TableCell>
+                  <TableCell>
+                    <div className="-mx-3 -my-1.5 sm:-mx-2.5">
+                      <Dropdown>
+                        <DropdownButton outline aria-label="More options">
+                          <EllipsisHorizontalIcon />
+                        </DropdownButton>
+                        <DropdownMenu anchor="bottom end">
+                          <DropdownHeader>
+                            <div className="pr-6">
+                              <div className="text-xs text-zinc-500 dark:text-zinc-400">{`${publisher.firstname} ${publisher.lastname}`}</div>
                             </div>
-                          )
-                        }
-                        else {
-                          return null
-                        }
-                      })}
-                    </td>
-                    <td>{serviceGroup?.name || '-'}</td>
-                    <td>{publisher.lastname}</td>
-                    <td>{publisher.firstname}</td>
-                    <td>
-                      <a className="link-hover link" href={`sms:${publisher.mobile}`}>
-                        {publisher.mobile ? formatPhoneNumber(publisher.mobile) : ''}
-                      </a>
-                    </td>
-                    <td>
-                      <a className="link-hover link" href={`mailto:${publisher.email}`}>
-                        {publisher.email}
-                      </a>
-                    </td>
-                    <td>
-                      <div className="flex justify-end space-x-4">
-                        <div className="dropdown dropdown-left">
-                          <div
-                            tabIndex={0}
-                            role="button"
-                            className="btn btn-circle btn-outline btn-xs"
+                          </DropdownHeader>
+                          <DropdownItem
+                            onClick={(): void => {
+                              addEvent(publisher._id)
+                            }}
                           >
-                            <EllipsisHorizontalIcon className="size-4" />
-                          </div>
-                          <ul
-                            tabIndex={0}
-                            className="menu dropdown-content menu-sm z-10 w-52 rounded-box border border-gray-900/10 bg-gray-50 shadow-xl dark:border-slate-400/50 dark:bg-slate-800"
+                            <PlusIconSmall />
+                            {t('menu.event')}
+                          </DropdownItem>
+                          <DropdownItem
+                            onClick={(): void => {
+                              exportS21(publisher._id)
+                            }}
+                            disabled={!hasS21}
                           >
-                            <li className="menu-title m-0 py-1">
-                              {publisher.firstname}
-                              {' '}
-                              {publisher.lastname}
-                            </li>
-                            <li className="m-0 py-1">
-                              <button
-                                className="pl-0"
-                                onClick={(): void => {
-                                  addEvent(publisher._id)
-                                }}
-                              >
-                                <PlusIconSmall className="ml-2 size-5" />
-                                {t('menu.event')}
-                              </button>
-                            </li>
-                            <li className="m-0 py-1">
-                              <button
-                                className="pl-0 disabled:cursor-not-allowed disabled:opacity-50"
-                                onClick={(): void => {
-                                  exportS21(publisher._id)
-                                }}
-                                disabled={!hasS21}
-                              >
-                                <DocumentArrowDownIcon className="ml-2 size-5" />
-                                {t('menu.s21')}
-                              </button>
-                            </li>
-                            <li className="m-0 py-1">
-                              <button
-                                className="pl-0 disabled:cursor-not-allowed disabled:opacity-50"
-                                onClick={(): void => {
-                                  exportExtendedRegisterCard(publisher._id)
-                                }}
-                              >
-                                <DocumentArrowDownIcon className="ml-2 size-5" />
-                                {t('menu.extendedRegisterCard')}
-                              </button>
-                            </li>
-                            <li className="m-0 py-1">
-                              <button
-                                className="pl-0"
-                                onClick={(): void => {
-                                  editPublisher(publisher._id)
-                                }}
-                              >
-                                <PencilIcon className="ml-2 size-5" />
-                                {t('menu.edit')}
-                              </button>
-                            </li>
-                            <li className="m-0 hidden py-1">
-                              <button
-                                className="pl-0"
-                                onClick={(): void => {
-                                  // eslint-disable-next-line no-console
-                                  console.log('send contact')
-                                }}
-                              >
-                                <DevicePhoneMobileIcon className="ml-2 size-5" />
-                                {t('menu.sendContact')}
-                              </button>
-                            </li>
-                            <li className="m-0 hidden py-1">
-                              <button
-                                className="pl-0"
-                                onClick={(): void => {
-                                  // eslint-disable-next-line no-console
-                                  console.log('delete')
-                                }}
-                              >
-                                <TrashIcon className="ml-2 size-5" />
-                                {t('menu.delete')}
-                              </button>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
+                            <DocumentArrowDownIcon />
+                            {t('menu.s21')}
+                          </DropdownItem>
+                          <DropdownItem
+                            onClick={(): void => {
+                              exportExtendedRegisterCard(publisher._id)
+                            }}
+                          >
+                            <DocumentArrowDownIcon />
+                            {t('menu.extendedRegisterCard')}
+                          </DropdownItem>
+                          <DropdownItem
+                            onClick={(): void => {
+                              editPublisher(publisher._id)
+                            }}
+                          >
+                            <PencilIcon />
+                            {t('menu.edit')}
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+          </TableBody>
+        </Table>
       </div>
     </>
   )

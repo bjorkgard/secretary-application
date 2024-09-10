@@ -1,5 +1,5 @@
-import type { FC }        from 'react'
-import { Suspense, lazy } from 'react'
+import type { FC }  from 'react'
+import { Suspense } from 'react'
 import {
   Outlet,
   Route,
@@ -10,33 +10,31 @@ import {
 import StatsAnalysis                  from '@renderer/pages/stats/analysis'
 import StatsDiary                     from '@renderer/pages/stats/diary'
 import ROUTES                         from '../constants/routes.json'
+import CircuitOverseer                from '../pages/circuitOverseer'
+import Dashboard                      from '../pages/dashboard'
+import HistoryCongregation            from '../pages/history/congregation'
+import HistoryPublishers              from '../pages/history/publishers'
+import Loading                        from '../pages/loading'
+import Publishers                     from '../pages/publishers'
+import PublisherContactForm           from '../pages/publishers/contact'
+import PublisherPersonalForm          from '../pages/publishers/personal'
+import PublisherAppointmentForm       from '../pages/publishers/appointment'
+import PublisherOtherForm             from '../pages/publishers/other'
+import ReportsCompletion              from '../pages/reports/completion'
+import ReportsForm                    from '../pages/reports/form'
+import ReportsMeetings                from '../pages/reports/meetings'
+import Registration                   from '../pages/registration'
+import Responsibilities               from '../pages/responsibilities'
+import ResponibilityForm              from '../pages/responsibilities/form'
+import Settings                       from '../pages/settings'
+import ServiceGroups                  from '../pages/serviceGroups'
+import ServiceGroupForm               from '../pages/serviceGroups/form'
+import Tasks                          from '../pages/tasks'
+import TaskForm                       from '../pages/tasks/form'
+import Templates                      from '../pages/uploadedTemplates'
 import { PageTracker, UmamiProvider } from '../providers/umami'
 import Layout                         from './Layout'
 import LoadingPage                    from './LoadingPage'
-
-// Lazy load pages
-const Loading                  = lazy(() => import('../pages/loading'))
-const Dashboard                = lazy(() => import('../pages/dashboard'))
-const HistoryCongregation      = lazy(() => import('../pages/history/congregation'))
-const HistoryPublishers        = lazy(() => import('../pages/history/publishers'))
-const Publishers               = lazy(() => import('../pages/publishers'))
-const PublisherPersonalForm    = lazy(() => import('../pages/publishers/personal'))
-const PublisherContactForm     = lazy(() => import('../pages/publishers/contact'))
-const PublisherAppointmentForm = lazy(() => import('../pages/publishers/appointment'))
-const PublisherOtherForm       = lazy(() => import('../pages/publishers/other'))
-const Settings                 = lazy(() => import('../pages/settings'))
-const ServiceGroups            = lazy(() => import('../pages/serviceGroups'))
-const ServiceGroupForm         = lazy(() => import('../pages/serviceGroups/form'))
-const Responsibilities         = lazy(() => import('../pages/responsibilities'))
-const ResponibilityForm        = lazy(() => import('../pages/responsibilities/form'))
-const Tasks                    = lazy(() => import('../pages/tasks'))
-const TaskForm                 = lazy(() => import('../pages/tasks/form'))
-const Registration             = lazy(() => import('../pages/registration'))
-const ReportsForm              = lazy(() => import('../pages/reports/form'))
-const ReportsMeetings          = lazy(() => import('../pages/reports/meetings'))
-const ReportsCompletion        = lazy(() => import('../pages/reports/completion'))
-const CircuitOverseer          = lazy(() => import('../pages/circuitOverseer'))
-const Templates                = lazy(() => import('../pages/uploadedTemplates'))
 
 const UMAMI_CONFIG = {
   apiUrl:         'https://stats.jwapp.info/',

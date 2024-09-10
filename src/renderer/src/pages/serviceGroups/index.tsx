@@ -1,11 +1,16 @@
-import { useEffect, useState }                    from 'react'
-import { useTranslation }                         from 'react-i18next'
-import { useNavigate }                            from 'react-router-dom'
-import { PlusIcon }                               from '@heroicons/react/24/solid'
-import { PencilIcon, TrashIcon }                  from '@heroicons/react/20/solid'
-import type { PublisherModel, ServiceGroupModel } from 'src/types/models'
-import { useConfirmationModalContext }            from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
-import ROUTES                                     from '../../constants/routes.json'
+import { useEffect, useState }                                           from 'react'
+import { useTranslation }                                                from 'react-i18next'
+import { useNavigate }                                                   from 'react-router-dom'
+import { PlusIcon }                                                      from '@heroicons/react/24/solid'
+import { PencilIcon, TrashIcon }                                         from '@heroicons/react/20/solid'
+import type { PublisherModel, ServiceGroupModel }                        from 'src/types/models'
+import { useConfirmationModalContext }                                   from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import { Fieldset }                                                      from '@renderer/components/catalyst/fieldset'
+import { Heading }                                                       from '@renderer/components/catalyst/heading'
+import { Text }                                                          from '@renderer/components/catalyst/text'
+import { Button }                                                        from '@renderer/components/catalyst/button'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@renderer/components/catalyst/table'
+import ROUTES                                                            from '../../constants/routes.json'
 
 export default function ServiceGroups(): JSX.Element {
   const { t }          = useTranslation()
@@ -59,95 +64,85 @@ export default function ServiceGroups(): JSX.Element {
 
   return (
     <div>
-      <div className="flex justify-between">
-        <h1>{t('serviceGroups.headline')}</h1>
-        <div className="tooltip tooltip-left" data-tip={t('label.addServiceGroup')}>
-          <button
-            className="btn btn-circle btn-outline"
-            onClick={(): void => navigate(`${ROUTES.SERVICE_GROUPS}/add`)}
-          >
-            <PlusIcon className="size-6" />
-          </button>
-        </div>
-      </div>
-
-      <div className="space-y-12">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-3">
-          <div>
-            <p className="text-sm text-gray-900 dark:text-slate-300">
-              {t('serviceGroups.description')}
-            </p>
+      <Fieldset>
+        <div className="flex justify-between">
+          <Heading>{t('serviceGroups.headline')}</Heading>
+          <div className="tooltip tooltip-left" data-tip={t('label.addServiceGroup')}>
+            <Button
+              onClick={(): void => navigate(`${ROUTES.SERVICE_GROUPS}/add`)}
+              color="blue"
+            >
+              <PlusIcon className="size-6 text-white" />
+              Lägg till
+            </Button>
           </div>
-          <div className="w-full md:col-span-2">
-            <table className="table table-zebra mt-0">
-              <thead>
-                <tr>
-                  <th>{t('serviceGroups.header.name')}</th>
-                  <th>{t('serviceGroups.header.responsible')}</th>
-                  <th>{t('serviceGroups.header.assistant')}</th>
-                  <th>{t('serviceGroups.header.receivers')}</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
+        </div>
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
+          <Text>{t('serviceGroups.description')}</Text>
+          <div className="col-span-2">
+            <Table dense grid striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
+              <TableHead>
+                <TableRow>
+                  <TableHeader>{t('serviceGroups.header.name')}</TableHeader>
+                  <TableHeader>{t('serviceGroups.header.responsible')}</TableHeader>
+                  <TableHeader>{t('serviceGroups.header.assistant')}</TableHeader>
+                  <TableHeader>{t('serviceGroups.header.receivers')}</TableHeader>
+                  <TableHeader>&nbsp;</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {serviceGroups.map((serviceGroup) => {
                   if (serviceGroup.name === 'TEMPORARY')
                     return null
 
                   const responsible = responibles.find(r => r._id === serviceGroup.responsibleId)
                   const assistant   = responibles.find(r => r._id === serviceGroup.assistantId)
+
                   return (
-                    <tr key={serviceGroup._id} className="hover">
-                      <td>{serviceGroup.name}</td>
-                      <td>
-                        {responsible?.firstname}
-                        {' '}
-                        {responsible?.lastname}
-                      </td>
-                      <td>
-                        {assistant?.firstname}
-                        {' '}
-                        {assistant?.lastname}
-                      </td>
-                      <td>{t(`label.${serviceGroup.receivers.toLowerCase()}`)}</td>
-                      <td>
+                    <TableRow key={serviceGroup._id} className="hover">
+                      <TableCell>{serviceGroup.name}</TableCell>
+                      <TableCell>{`${responsible?.firstname} ${responsible?.lastname}`}</TableCell>
+                      <TableCell>{`${assistant?.firstname} ${assistant?.lastname}`}</TableCell>
+                      <TableCell>{t(`label.${serviceGroup.receivers.toLowerCase()}`)}</TableCell>
+                      <TableCell>
                         <div className="flex justify-end space-x-4">
                           <div
                             className="tooltip tooltip-left"
                             data-tip={t('tooltip.editServiceGroup')}
                           >
-                            <button
-                              className="btn btn-circle btn-outline btn-xs"
+                            <Button
+                              outline
                               onClick={(): void => {
                                 editServiceGroup(serviceGroup._id)
                               }}
                             >
-                              <PencilIcon className="size-4" />
-                            </button>
+                              <PencilIcon />
+                            </Button>
                           </div>
                           <div
                             className="tooltip tooltip-left"
                             data-tip={t('tooltip.deleteServiceGroup')}
                           >
-                            <button
-                              className="btn btn-circle btn-outline btn-xs"
+                            <Button
+                              outline
                               onClick={(): void => {
                                 deleteServiceGroup(serviceGroup._id)
                               }}
                             >
                               <TrashIcon className="size-4" />
-                            </button>
+                            </Button>
                           </div>
                         </div>
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                   )
                 })}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
+
         </div>
-      </div>
+      </Fieldset>
 
     </div>
   )

@@ -1,8 +1,13 @@
-import { useEffect, useState } from 'react'
-import { useTranslation }      from 'react-i18next'
-import { ArrowUpTrayIcon }     from '@heroicons/react/20/solid'
-import type { TemplateModel }  from 'src/types/models'
-import TEMPLATES               from '../../constants/templates.json'
+import { useEffect, useState }                                           from 'react'
+import { useTranslation }                                                from 'react-i18next'
+import { ArrowUpTrayIcon }                                               from '@heroicons/react/20/solid'
+import type { TemplateModel }                                            from 'src/types/models'
+import { Fieldset }                                                      from '@renderer/components/catalyst/fieldset'
+import { Heading }                                                       from '@renderer/components/catalyst/heading'
+import { Button }                                                        from '@renderer/components/catalyst/button'
+import { Text }                                                          from '@renderer/components/catalyst/text'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@renderer/components/catalyst/table'
+import TEMPLATES                                                         from '../../constants/templates.json'
 
 export default function Templates(): JSX.Element {
   const { t } = useTranslation()
@@ -52,48 +57,43 @@ export default function Templates(): JSX.Element {
   }
 
   return (
-    <div className="min-h-full">
-      <h1>{t('templates.headline')}</h1>
-      <div className="space-y-12">
+    <div>
+      <Fieldset>
+        <div>
+          <Heading>{t('templates.headline')}</Heading>
+        </div>
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
           <div>
-            <p className="text-sm text-gray-900 dark:text-slate-300">
-              {t('templates.description')}
-            </p>
-            <p className="text-sm text-gray-900 dark:text-slate-300">
-              {t('templates.description2')}
-            </p>
+            <Text>{t('templates.description')}</Text>
+            <Text>{t('templates.description2')}</Text>
             {!templates || templates?.length < 1
               ? (
-                  <p>
-                    <span className="font-bold uppercase text-red-500">
-                      {t('templates.someMissing')}
-                    </span>
-                  </p>
+                  <Text className="font-bold uppercase text-red-500">
+                    {t('templates.someMissing')}
+                  </Text>
                 )
               : (
                   ''
                 )}
           </div>
-          <div className="grid max-w-2xl md:col-span-2">
-            <table className="table table-zebra mt-0">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th>{t('templates.name')}</th>
-                  <th>{t('templates.code')}</th>
-                  <th>{t('templates.date')}</th>
-                  <th>{t('templates.uploadedAt')}</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
+          <div className="col-span-2">
+            <Table dense grid striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
+              <TableHead>
+                <TableRow>
+                  <TableHeader>{t('templates.name')}</TableHeader>
+                  <TableHeader>{t('templates.code')}</TableHeader>
+                  <TableHeader>{t('templates.date')}</TableHeader>
+                  <TableHeader>{t('templates.uploadedAt')}</TableHeader>
+                  <TableHeader>&nbsp;</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {Object.keys(TEMPLATES).map(key => (
-                  <tr key={key}>
-                    <td>{t(`templates.${key}`)}</td>
-                    <th>{key}</th>
-                    <td>{TEMPLATES[key]}</td>
-                    <td>
+                  <TableRow key={key}>
+                    <TableCell>{t(`templates.${key}`)}</TableCell>
+                    <TableCell className="font-bold">{key}</TableCell>
+                    <TableCell>{TEMPLATES[key]}</TableCell>
+                    <TableCell>
                       {templates?.find(t => t.code === key)
                       && templates?.find(t => t.code === key)?.date === TEMPLATES[key]
                         ? (
@@ -104,22 +104,19 @@ export default function Templates(): JSX.Element {
                               {t('templates.missing')}
                             </span>
                           )}
-                    </td>
-                    <td className="flex justify-end">
-                      <button
-                        className="btn btn-circle btn-outline btn-xs"
-                        onClick={() => upload(key)}
-                      >
+                    </TableCell>
+                    <TableCell className="flex justify-end">
+                      <Button outline onClick={() => upload(key)}>
                         <ArrowUpTrayIcon className="size-4" />
-                      </button>
-                    </td>
-                  </tr>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         </div>
-      </div>
+      </Fieldset>
     </div>
   )
 }

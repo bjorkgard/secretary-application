@@ -365,7 +365,7 @@
   "label.public": "Församlingen är synlig för import",
   "label.publisher": "Förkunnare",
   "label.publishers": "Förkunnare",
-  "label.receivers": "Rapporteringsansvarig",
+  "label.receivers": "Rapportering",
   "label.registerCard": "Personuppgiftskort",
   "label.regular": "Regelbunden",
   "label.regular_participants": "Regelbundna deltagare",
@@ -735,5 +735,8 @@
   "mainMenu.auxiliaries": "Hjälppionjärer",
   "dialog.selectServiceMonth": "Välj månad",
   "dialog.selectServiceMonthDescription": "Välj den månad som listan skall gälla för.",
-  "label.auxiliaryList": "Hjälppionjärer {{month}}"
+  "label.auxiliaryList": "Hjälppionjärer {{month}}",
+  "responisbilities.editHeadline": "Uppdatera ansvarsområde",
+  "responisbilities.addHeadline": "Lägg till ansvarsområde",
+  "tooltip.deleteLanguageGroup": "Radera språkgrupp"
 }

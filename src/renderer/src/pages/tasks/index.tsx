@@ -1,11 +1,16 @@
-import { useEffect, useState }                 from 'react'
-import { useTranslation }                      from 'react-i18next'
-import { useNavigate }                         from 'react-router-dom'
-import { PlusIcon }                            from '@heroicons/react/24/solid'
-import { PencilIcon, TrashIcon }               from '@heroicons/react/20/solid'
-import type { ResponsibilityModel, TaskModel } from 'src/types/models'
-import { useConfirmationModalContext }         from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
-import ROUTES                                  from '../../constants/routes.json'
+import { useEffect, useState }                                           from 'react'
+import { useTranslation }                                                from 'react-i18next'
+import { useNavigate }                                                   from 'react-router-dom'
+import { PlusIcon }                                                      from '@heroicons/react/24/solid'
+import { PencilIcon, TrashIcon }                                         from '@heroicons/react/20/solid'
+import type { ResponsibilityModel, TaskModel }                           from 'src/types/models'
+import { useConfirmationModalContext }                                   from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import { Fieldset }                                                      from '@renderer/components/catalyst/fieldset'
+import { Heading }                                                       from '@renderer/components/catalyst/heading'
+import { Button }                                                        from '@renderer/components/catalyst/button'
+import { Text }                                                          from '@renderer/components/catalyst/text'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@renderer/components/catalyst/table'
+import ROUTES                                                            from '../../constants/routes.json'
 
 export default function Tasks(): JSX.Element {
   const { t }          = useTranslation()
@@ -64,76 +69,77 @@ export default function Tasks(): JSX.Element {
 
   return (
     <div>
-      <div className="flex justify-between">
-        <h1>{t('tasks.headline')}</h1>
-        <div className="tooltip tooltip-left" data-tip={t('label.addTask')}>
-          <button
-            className="btn btn-circle btn-outline"
-            onClick={(): void => navigate(`${ROUTES.TASKS}/add`)}
-          >
-            <PlusIcon className="size-6" />
-          </button>
-        </div>
-      </div>
-
-      <div className="space-y-12">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-3">
-          <div>
-            <p className="text-sm text-gray-900 dark:text-slate-300">
-              {t('tasks.description')}
-            </p>
+      <Fieldset>
+        <div className="flex justify-between">
+          <Heading>{t('tasks.headline')}</Heading>
+          <div className="tooltip tooltip-left" data-tip={t('label.addTask')}>
+            <Button
+              onClick={(): void => navigate(`${ROUTES.TASKS}/add`)}
+              color="blue"
+            >
+              <PlusIcon className="size-6 text-white" />
+              Lägg till
+            </Button>
           </div>
-          <div className="w-full md:col-span-2">
-            <table className="table table-zebra mt-0">
-              <thead>
-                <tr>
-                  <th>{t('tasks.header.name')}</th>
-                  <th>{t('tasks.header.responsibility')}</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
+        </div>
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
+          <Text>{t('tasks.description')}</Text>
+          <div className="col-span-2">
+            <Table dense grid striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
+              <TableHead>
+                <TableRow>
+                  <TableHeader>{t('tasks.header.name')}</TableHeader>
+                  <TableHeader>{t('tasks.header.responsibility')}</TableHeader>
+                  <TableHeader>&nbsp;</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {tasks.map((task) => {
                   const responsibility = responsibilities.find(r => r._id === task.responsibilityId)
-
                   return (
-                    <tr key={task._id} className="hover">
-                      <td>{task.name}</td>
-                      <td>{responsibility?.name}</td>
-                      <td>
+                    <TableRow key={task._id}>
+                      <TableCell>{task.name}</TableCell>
+                      <TableCell>{responsibility?.name}</TableCell>
+                      <TableCell>
                         <div className="flex justify-end space-x-4">
-                          <div className="tooltip tooltip-left" data-tip={t('tooltip.editTask')}>
-                            <button
-                              className="btn btn-circle btn-outline btn-xs"
+                          <div
+                            className="tooltip tooltip-left"
+                            data-tip={t('tooltip.editResponsibility')}
+                          >
+                            <Button
+                              outline
                               onClick={(): void => {
                                 editTask(task._id)
                               }}
                               disabled={task.default}
                             >
                               <PencilIcon className="size-4" />
-                            </button>
+                            </Button>
                           </div>
-                          <div className="tooltip tooltip-left" data-tip={t('tooltip.deleteTask')}>
-                            <button
-                              className="btn btn-circle btn-outline btn-xs"
+                          <div
+                            className="tooltip tooltip-left"
+                            data-tip={t('tooltip.deleteServiceGroup')}
+                          >
+                            <Button
+                              outline
                               onClick={(): void => {
                                 deleteTask(task._id)
                               }}
                               disabled={task.default}
                             >
                               <TrashIcon className="size-4" />
-                            </button>
+                            </Button>
                           </div>
                         </div>
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                   )
                 })}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         </div>
-      </div>
+      </Fieldset>
     </div>
   )
 }

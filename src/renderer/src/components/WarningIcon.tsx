@@ -31,7 +31,7 @@ export function WarningIcon(): JSX.Element {
         showWarning
           ? 'text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500'
           : 'text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-500',
-        '-m-2.5 p-2.5',
+        'flex h-full items-center',
       )}
     >
       <span className="sr-only">View notifications</span>
