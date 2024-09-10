@@ -866,10 +866,20 @@ ipcMain.on('export-register-card-servicegroup', async (_event, args) => {
   const sgId: string[] = []
   const splitDate      = new Date().toLocaleDateString('sv').split('-')
 
-  const serviceYear = await serviceYearService.findByServiceYear(getServiceYear(`${splitDate[0]}-${splitDate[1]}`))
+  let serviceYear = await serviceYearService.findByServiceYear(getServiceYear(`${splitDate[0]}-${splitDate[1]}`))
 
-  if (!serviceYear)
-    return
+  if (!serviceYear) {
+    const newSplitDate   = new Date(new Date().setDate(0)).toLocaleDateString('sv').split('-')
+    const newServiceYear = await serviceYearService.findByServiceYear(getServiceYear(`${newSplitDate[0]}-${newSplitDate[1]}`))
+
+    if (!newServiceYear) {
+      mainWindow?.webContents.send('show-spinner', { status: false })
+      return
+    }
+    else {
+      serviceYear = newServiceYear
+    }
+  }
 
   serviceGroupService.find().then((serviceGroups) => {
     serviceGroups.forEach((serviceGroup) => {
