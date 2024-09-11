@@ -95,11 +95,12 @@ async function getReportUpdates(mainWindow: BrowserWindow | null): Promise<void>
 
   // check if there is a service month and if it is not done
   if (settings && serviceMonth && serviceMonth.status !== 'DONE') {
-    log.info('Has active serviceMonth:', serviceMonth._id)
+    log.info('Has an active serviceMonth:', serviceMonth._id)
     // Get report updates from server
     getReportsFromServer(settings.identifier).then(async (updatedReports) => {
+      log.info('Get updated reports', updatedReports.length)
       for (const r of updatedReports) {
-        log.info('Report is updated for:', r.publisher_name)
+        log.info('Report is updated for:', r.identifier)
         reportIds.push(r.id)
         const reportIndex = serviceMonth.reports.findIndex(
           report => report.identifier === r.identifier,
@@ -122,6 +123,7 @@ async function getReportUpdates(mainWindow: BrowserWindow | null): Promise<void>
         mainWindow?.webContents.send('updated-reports')
 
         // Update online reports
+        log.info('Reset updated reports', reportIds)
         resetUpdates(reportIds)
 
         new Notification({

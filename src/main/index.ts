@@ -121,7 +121,6 @@ if (isDebug) {
 else {
   log.transports.console.level = false
   log.transports.file.level    = 'info'
-  log.info('In production mode')
 }
 
 autoUpdater.checkForUpdatesAndNotify()
