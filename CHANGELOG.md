@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [v1.6.4](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.4) - 2024-09-11 07:12:11
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.6.4 -->
+
+## What's Changed
+### Bug fixes
+* Add missing Export option in Windows by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/743
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.3...v1.6.4
+
 ## [v1.6.3](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.3) - 2024-09-10 21:55:43
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.6.3 -->
