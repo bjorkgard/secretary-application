@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [v1.6.6](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.6) - 2024-09-11 17:06:15
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.6.6 -->
+
+## What's Changed
+### Bug fixes
+* Fix missing reports by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/747
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.5...v1.6.6
+
 ## [v1.6.5](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.5) - 2024-09-11 08:02:34
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.6.5 -->
