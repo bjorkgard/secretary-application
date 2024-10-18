@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## [v1.6.7](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.7) - 2024-10-18 11:35:13
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.6.7 -->
+
+## What's Changed
+### Bug fixes
+* Do not show public congregations if not fetched
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.6...v1.6.7
+
+### Bug Fixes
+
+- deps:
+  - bump react-router-dom from 6.26.2 to 6.27.0 (#796) ([b03ead4](https://github.com/bjorkgard/secretary-application/commit/b03ead4b74cbc93d44dede8c54091930e0acb404)) ([#796](https://github.com/bjorkgard/secretary-application/pull/796))
+  - bump i18next from 23.15.1 to 23.15.2 (#784) ([6ae3cdf](https://github.com/bjorkgard/secretary-application/commit/6ae3cdfbe98208a48bc6a0beca846de232a625c2)) ([#784](https://github.com/bjorkgard/secretary-application/pull/784))
+  - bump electron-updater from 6.3.4 to 6.3.9 (#782) ([850d6db](https://github.com/bjorkgard/secretary-application/commit/850d6db7a45929c5df63935366bd78702d070124)) ([#782](https://github.com/bjorkgard/secretary-application/pull/782))
+  - bump rollup from 4.21.1 to 4.22.4 in the npm_and_yarn group (#775) ([482b042](https://github.com/bjorkgard/secretary-application/commit/482b0425ccd4417a66b5838de69a53028933e7c8)) ([#775](https://github.com/bjorkgard/secretary-application/pull/775))
+  - bump i18next from 23.15.0 to 23.15.1 (#761) ([e265924](https://github.com/bjorkgard/secretary-application/commit/e265924b91b84ef867ee4e8d09c860d34c791fa8)) ([#761](https://github.com/bjorkgard/secretary-application/pull/761))
+  - bump react-phone-number-input from 3.4.6 to 3.4.8 (#771) ([64774e0](https://github.com/bjorkgard/secretary-application/commit/64774e09d11e989c7f6b680cd1b10b8387d48ad8)) ([#771](https://github.com/bjorkgard/secretary-application/pull/771))
+  - bump jspdf from 2.5.1 to 2.5.2 (#767) ([ecbfda5](https://github.com/bjorkgard/secretary-application/commit/ecbfda50525402f8ecdb339539135b4ee27dede6)) ([#767](https://github.com/bjorkgard/secretary-application/pull/767))
+  - bump react-phone-number-input from 3.4.5 to 3.4.6 (#755) ([1553c62](https://github.com/bjorkgard/secretary-application/commit/1553c62dfcefab8df26fb446d1ac7366b0104e8e)) ([#755](https://github.com/bjorkgard/secretary-application/pull/755))
+
 ## [v1.6.6](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.6) - 2024-09-11 17:06:15
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.6.6 -->
@@ -160,6 +183,12 @@
 - spiritual status:
   - export list of all publishers with age, appointments and status ([0c2bae2](https://github.com/bjorkgard/secretary-application/commit/0c2bae2e32f0b64a7f64202b0ef390089f096d3b)) ([#602](https://github.com/bjorkgard/secretary-application/pull/602))
 
+- event:
+  - add event for restrictions ([41a06f0](https://github.com/bjorkgard/secretary-application/commit/41a06f0a628fe51e7da5f269d786885590bfb94d)) ([#597](https://github.com/bjorkgard/secretary-application/pull/597))
+
+- appointments:
+  - add event to add appointment  ministerial servant and elder ([030f659](https://github.com/bjorkgard/secretary-application/commit/030f659836a1af9af15dc6c23bbf6f88538b1779)) ([#596](https://github.com/bjorkgard/secretary-application/pull/596))
+
 ### Bug Fixes
 
 - deps:
@@ -174,41 +203,7 @@
 
 - version:
   - only show warning if new version exists ([be966bd](https://github.com/bjorkgard/secretary-application/commit/be966bd7fdd52b400e725383ecb4f8d0af5a042a)) ([#603](https://github.com/bjorkgard/secretary-application/pull/603))
-
-## [v1.5.9](https://github.com/bjorkgard/secretary-application/releases/tag/v1.5.9) - 2024-07-04 00:27:18
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.5.9 -->
-
-## What's Changed
-### Bug fixes
-* fix(version): show correct version information by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/599
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.5.8...v1.5.9
-
-### Bug Fixes
-
-- version:
   - show correct version information ([aa7d20d](https://github.com/bjorkgard/secretary-application/commit/aa7d20dd4ddc513d10b2d48dde3934a573f92740)) ([#599](https://github.com/bjorkgard/secretary-application/pull/599))
-
-## [v1.5.8](https://github.com/bjorkgard/secretary-application/releases/tag/v1.5.8) - 2024-07-03 23:12:36
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.5.8 -->
-
-## What's Changed
-### New features
-* feat(event): add event for restrictions by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/597
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.5.7...v1.5.8
-
-### Feature
-
-- event:
-  - add event for restrictions ([41a06f0](https://github.com/bjorkgard/secretary-application/commit/41a06f0a628fe51e7da5f269d786885590bfb94d)) ([#597](https://github.com/bjorkgard/secretary-application/pull/597))
-
-- appointments:
-  - add event to add appointment  ministerial servant and elder ([030f659](https://github.com/bjorkgard/secretary-application/commit/030f659836a1af9af15dc6c23bbf6f88538b1779)) ([#596](https://github.com/bjorkgard/secretary-application/pull/596))
 
 ## [v1.5.5](https://github.com/bjorkgard/secretary-application/releases/tag/v1.5.5) - 2024-06-29 12:17:43
 
