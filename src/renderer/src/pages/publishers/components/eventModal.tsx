@@ -139,7 +139,7 @@ export default function EventModal(props: EventModalProps): JSX.Element {
           </select>
         </Field>
 
-        {showCongregationSelector && (
+        {showCongregationSelector && props.publicCongregations && (
           <Field label={t('event.transferToNewCongregation')} info={t('event.selectCongregation')} error={errors.newCongregation?.message}>
             <select
               className={classNames(
