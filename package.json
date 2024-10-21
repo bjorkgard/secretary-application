@@ -59,7 +59,7 @@
     "open": "^10.1.0",
     "pdf-lib": "^1.17.1",
     "react-chartjs-2": "^5.2.0",
-    "react-hook-form": "^7.53.0",
+    "react-hook-form": "^7.53.1",
     "react-i18next": "^14.1.2",
     "react-phone-number-input": "^3.4.8",
     "react-router-dom": "^6.27.0",
