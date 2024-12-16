@@ -64,7 +64,7 @@
     "react-phone-number-input": "^3.4.10",
     "react-router-dom": "^6.28.0",
     "tailwind-scrollbar-hide": "^1.1.7",
-    "uuid": "^9.0.1"
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.2",
