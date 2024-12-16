@@ -107,7 +107,7 @@ export default function Publishers(): JSX.Element {
           <div className="w-1/3">
             <InputGroupSmall>
               <MagnifyingGlassIcon />
-              <InputSmall name="search" placeholder={t('search')} aria-label="Search" onChange={onChange} />
+              <InputSmall name="search" placeholder={t('search')} aria-label="Search" onChange={onChange} type="search" />
             </InputGroupSmall>
           </div>
           <div className="tooltip tooltip-left" data-tip={t('label.addPublisher')}>

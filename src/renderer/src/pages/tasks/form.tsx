@@ -107,7 +107,7 @@ export default function TaskForm(): JSX.Element {
                 {errors.responsibilityId && <ErrorMessage>{errors.responsibilityId.message}</ErrorMessage>}
               </Field>
               <div className="sm:col-span-6 sm:flex sm:justify-between">
-                <Button outline onClick={(): void => navigate(ROUTES.RESPONSIBILITIES)}>{t('button.abort')}</Button>
+                <Button outline onClick={(): void => navigate(ROUTES.TASKS)}>{t('button.abort')}</Button>
                 <Button color="blue" type="submit" disabled={!isValid}>{t('button.save')}</Button>
               </div>
             </div>

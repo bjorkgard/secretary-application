@@ -1,5 +1,5 @@
-import type { FC }  from 'react'
 import { Suspense } from 'react'
+import type { FC }  from 'react'
 import {
   Outlet,
   Route,

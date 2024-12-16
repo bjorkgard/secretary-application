@@ -1,3 +1,4 @@
+import { useEffect, useState }                    from 'react'
 import { useNavigate, useParams }                 from 'react-router-dom'
 import { useForm }                                from 'react-hook-form'
 import { useTranslation }                         from 'react-i18next'
@@ -6,7 +7,6 @@ import { usePublisherState }                      from '@renderer/store/publishe
 import type { PublisherModel, ServiceGroupModel } from 'src/types/models'
 import { Field }                                  from '@renderer/components/Field'
 import classNames                                 from '@renderer/utils/classNames'
-import { useEffect, useState }                    from 'react'
 import ROUTES                                     from '../../constants/routes.json'
 
 export default function PublisherPersonalForm(): JSX.Element {
