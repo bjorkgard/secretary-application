@@ -159,6 +159,16 @@ async function generate_DOCX(mainWindow: BrowserWindow,  publishers: PublisherMo
           }),
         ],
       },
+      secretary_name: {
+        type:     PatchType.PARAGRAPH,
+        children: [
+          new TextRun({
+            text: `${settings?.user.firstname} ${settings?.user.lastname}`,
+            font: 'Arial',
+            size: 22,
+          }),
+        ],
+      },
       table: {
         type:     PatchType.DOCUMENT,
         children: [publisherTable],
