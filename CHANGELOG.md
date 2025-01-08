@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [v1.6.9](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.9) - 2025-01-08 15:29:48
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.6.9 -->
+
+## What's Changed
+### Bug fixes
+* Fix: Selection of publishers by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/921
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.8...v1.6.9
+
 ## [v1.6.8](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.8) - 2025-01-08 12:24:44
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.6.8 -->
