@@ -861,13 +861,18 @@ ipcMain.on('export-register-card-servicegroup', async (_event, args) => {
     return
   mainWindow?.webContents.send('show-spinner', { status: true })
 
+  const sy: string[]   = []
   const sg: string[]   = []
   const sgId: string[] = []
-  const splitDate      = new Date().toLocaleDateString('sv').split('-')
 
-  let serviceYear = await serviceYearService.findByServiceYear(getServiceYear(`${splitDate[0]}-${splitDate[1]}`))
+  await serviceYearService.find().then((serviceYears) => {
+    serviceYears.forEach((serviceYear) => {
+      sy.push(serviceYear.name.toString())
+    })
+    sy.sort((a, b) => (a > b ? -1 : 1))
+  })
 
-  if (!serviceYear) {
+  if (!sy.length) {
     const newSplitDate   = new Date(new Date().setDate(0)).toLocaleDateString('sv').split('-')
     const newServiceYear = await serviceYearService.findByServiceYear(getServiceYear(`${newSplitDate[0]}-${newSplitDate[1]}`))
 
@@ -876,7 +881,7 @@ ipcMain.on('export-register-card-servicegroup', async (_event, args) => {
       return
     }
     else {
-      serviceYear = newServiceYear
+      sy.push(newServiceYear.name.toString())
     }
   }
 
@@ -900,8 +905,28 @@ ipcMain.on('export-register-card-servicegroup', async (_event, args) => {
   })
     .then((r: number | null) => {
       if (r !== null) {
-        if (mainWindow)
-          exportPublishersS21(mainWindow, serviceYear.name, args.type, sgId[r])
+        prompt({
+          title:         i18n.t('dialog.selectServiceYear'),
+          label:         i18n.t('dialog.selectServiceYearDescription'),
+          type:          'select',
+          selectOptions: sy,
+          alwaysOnTop:   true,
+          buttonLabels:  { cancel: i18n.t('label.cancel'), ok: i18n.t('label.ok') },
+          resizable:     true,
+        })
+          .then((sr: number | null) => {
+            if (sr !== null) {
+              if (mainWindow)
+                exportPublishersS21(mainWindow, +sy[sr], args.type, sgId[r])
+            }
+            else {
+              mainWindow?.webContents.send('show-spinner', { status: false })
+            }
+          })
+          .catch((err: Error) => {
+            mainWindow?.webContents.send('show-spinner', { status: false })
+            log.error(err)
+          })
       }
       else {
         mainWindow?.webContents.send('show-spinner', { status: false })
