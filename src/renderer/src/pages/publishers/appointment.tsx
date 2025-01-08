@@ -48,6 +48,22 @@ export default function PublisherAppointmentForm(): JSX.Element {
   })
 
   const watchAppointments = watch('appointments')
+  const formData          = watch()
+
+  const quickSave = (): void => {
+    const updatedPublisher = { ...publisherState.publisher, ...formData }
+
+    window.electron.ipcRenderer.invoke('update-publisher', updatedPublisher).then(() => {
+      window.Notification.requestPermission().then(() => {
+        // eslint-disable-next-line no-new
+        new window.Notification('SECRETARY', {
+          body: t('publishers.notification.updated'),
+        })
+      })
+      publisherState.delete()
+      navigate(ROUTES.PUBLISHERS)
+    })
+  }
 
   const saveData = (data: PublisherModel): void => {
     data.appointments = data.appointments?.filter(appointment => appointment.type)
@@ -280,6 +296,14 @@ export default function PublisherAppointmentForm(): JSX.Element {
               <ChevronLeftIcon className="size-5" />
               {t('button.back')}
             </button>
+            {
+              publisherState.publisher._id
+              && (
+                <button className="btn btn-accent" onClick={(): void => quickSave()}>
+                  {t('button.save')}
+                </button>
+              )
+            }
             <button className="btn btn-primary" type="submit">
               {t('button.next')}
               <ChevronRightIcon className="size-5" />
