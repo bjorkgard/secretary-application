@@ -29,7 +29,7 @@ export default async function generateS88(
 
   if (template) {
     const originalPdfBytes = fs.readFileSync(template.path)
-    const pdfDoc           = await PDFDocument.load(originalPdfBytes)
+    const pdfDoc           = await PDFDocument.load(new Uint8Array(originalPdfBytes))
     const form             = pdfDoc.getForm()
 
     // ServiceYear 1

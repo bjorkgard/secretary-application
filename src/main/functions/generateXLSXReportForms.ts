@@ -190,7 +190,8 @@ async function generateFile(serviceGroupWithReports: ServiceGroupWithReports): P
   */
 
   // eslint-disable-next-line node/prefer-global/buffer
-  return { filename, fileBuffer: (await workbook.xlsx.writeBuffer()) as Buffer }
+  return { filename, fileBuffer: (await workbook.xlsx.writeBuffer()) as unknown as Buffer }
+  // return { filename, fileBuffer: (await workbook.xlsx.writeBuffer()) as Buffer }
 }
 
 /**
@@ -231,7 +232,7 @@ export default async function GenerateXLSXReportForms(
   // Build XLS-file for each service group
   for (const sg of serviceGroupWithReports) {
     await generateFile(sg).then((file) => {
-      zip.file(file.filename, file.fileBuffer)
+      zip.file(file.filename, new Uint8Array(file.fileBuffer))
     })
   }
 

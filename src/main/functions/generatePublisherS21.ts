@@ -36,12 +36,12 @@ export default async function generatePublisherS21(
 
   if (template) {
     const originalPdfBytes = fs.readFileSync(template.path)
-    const pdfDoc           = await PDFDocument.load(originalPdfBytes)
+    const pdfDoc           = await PDFDocument.load(new Uint8Array(originalPdfBytes))
 
     if (fontBytes) {
       pdfDoc.registerFontkit(fontkit)
-      await pdfDoc.embedFont(fontBytes)
-      customFont = await pdfDoc.embedFont(fontBytes)
+      await pdfDoc.embedFont(new Uint8Array(fontBytes))
+      customFont = await pdfDoc.embedFont(new Uint8Array(fontBytes))
     }
 
     const form                      = pdfDoc.getForm()

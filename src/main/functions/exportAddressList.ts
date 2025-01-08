@@ -116,8 +116,7 @@ function savePdfFile(mainWindow: BrowserWindow, name: string, data: ArrayBuffer)
     .then((response) => {
       if (!response.canceled && response.filePath) {
         if (data)
-          // eslint-disable-next-line node/prefer-global/buffer
-          fs.writeFileSync(response.filePath, Buffer.from(data))
+          fs.writeFileSync(response.filePath, new Uint8Array(data))
       }
     })
     .catch((err) => {
