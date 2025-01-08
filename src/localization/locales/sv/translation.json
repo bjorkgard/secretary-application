@@ -739,5 +739,6 @@
   "label.resident": "Folkbokförd",
   "resident.select": "-- Välj land --",
   "resident.sweden": "Sverige",
-  "resident.other": "Annat"
+  "resident.other": "Annat",
+  "export.residentCountry": "Folkbokföringsland"
 }
