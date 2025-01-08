@@ -175,7 +175,7 @@ export default async function ExportMembersDocument(
 ): Promise<void> {
   const fileName      = `Members_${new Date().toLocaleDateString('sv')}`
   const allPublishers = await publisherService.find('LASTNAME')
-  const members       = allPublishers.filter(p => p.resident === 'SWEDEN' && (p.baptised || p.unknown_baptised))
+  const members       = allPublishers.filter(p => p.resident === 'SWEDEN' && (p.baptised || p.unknown_baptised) && p.status !== 'INACTIVE')
 
   generate_DOCX(mainWindow, members, fileName)
 }
