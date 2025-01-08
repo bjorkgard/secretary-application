@@ -1,5 +1,42 @@
 # CHANGELOG
 
+## [v1.6.8](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.8) - 2025-01-08 12:24:44
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.6.8 -->
+
+## What's Changed
+### Updates
+* Updated members list
+* Quick save publisher by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/917
+* Select service year when exporting register card for service group by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/918
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.7...v1.6.8
+
+### Bug Fixes
+
+- deps:
+  - bump react-chartjs-2 from 5.2.0 to 5.3.0 (#912) ([2fe512a](https://github.com/bjorkgard/secretary-application/commit/2fe512a29ea3323100222e8225a5a4dc1e9724f7)) ([#912](https://github.com/bjorkgard/secretary-application/pull/912))
+  - bump react-hook-form from 7.54.1 to 7.54.2 (#899) ([57a5ae4](https://github.com/bjorkgard/secretary-application/commit/57a5ae40a05a69bc768589ce92527c725c31422a)) ([#899](https://github.com/bjorkgard/secretary-application/pull/899))
+  - bump react-hook-form from 7.54.0 to 7.54.1 (#890) ([fb951a8](https://github.com/bjorkgard/secretary-application/commit/fb951a808ceea1fdef13404e31b75c8fedb8b5ff)) ([#890](https://github.com/bjorkgard/secretary-application/pull/890))
+  - bump the npm_and_yarn group with 1 update (#884) ([5c0ef60](https://github.com/bjorkgard/secretary-application/commit/5c0ef60d70b4ff8b6fee25070f5610f3b7d4b9cd)) ([#884](https://github.com/bjorkgard/secretary-application/pull/884))
+  - bump react-hook-form from 7.53.2 to 7.54.0 (#881) ([9d8ac72](https://github.com/bjorkgard/secretary-application/commit/9d8ac7203683ac8fb5246d71772a9153494d060c)) ([#881](https://github.com/bjorkgard/secretary-application/pull/881))
+  - bump react-phone-number-input from 3.4.9 to 3.4.10 (#879) ([e5e1870](https://github.com/bjorkgard/secretary-application/commit/e5e187082422cf774fdae72d0a3297d2ee35f973)) ([#879](https://github.com/bjorkgard/secretary-application/pull/879))
+  - bump chart.js from 4.4.6 to 4.4.7 (#862) ([83ff33d](https://github.com/bjorkgard/secretary-application/commit/83ff33ddff0ab0a8fa1467cb92a1fceb64232115)) ([#862](https://github.com/bjorkgard/secretary-application/pull/862))
+  - bump i18next-fs-backend from 2.3.2 to 2.6.0 (#856) ([1b6b4dd](https://github.com/bjorkgard/secretary-application/commit/1b6b4dd064dc61925811016ee9e6505219a06b57)) ([#856](https://github.com/bjorkgard/secretary-application/pull/856))
+  - bump @heroicons/react from 2.1.5 to 2.2.0 (#852) ([8e50a46](https://github.com/bjorkgard/secretary-application/commit/8e50a46cfef9638d1427daba80e99dc8c29e0fd6)) ([#852](https://github.com/bjorkgard/secretary-application/pull/852))
+  - bump react-hook-form from 7.53.1 to 7.53.2 (#838) ([474a680](https://github.com/bjorkgard/secretary-application/commit/474a6809de54afafea204c05d3c1b6381c7435dd)) ([#838](https://github.com/bjorkgard/secretary-application/pull/838))
+  - bump react-router-dom from 6.27.0 to 6.28.0 (#847) ([0d69b00](https://github.com/bjorkgard/secretary-application/commit/0d69b0030f6a94b912d04f8fec6d48e280ab3018)) ([#847](https://github.com/bjorkgard/secretary-application/pull/847))
+  - bump i18next from 23.16.4 to 23.16.5 (#841) ([f93aadd](https://github.com/bjorkgard/secretary-application/commit/f93aaddcb1b94e4ced8f8d69ca3fd30773ca0e57)) ([#841](https://github.com/bjorkgard/secretary-application/pull/841))
+  - bump i18next from 23.16.2 to 23.16.4 (#830) ([3666515](https://github.com/bjorkgard/secretary-application/commit/3666515c6af0dc3aa9c2a4e8950a024387a89e97)) ([#830](https://github.com/bjorkgard/secretary-application/pull/830))
+  - bump chart.js from 4.4.5 to 4.4.6 (#826) ([2175755](https://github.com/bjorkgard/secretary-application/commit/217575519f97aa9f3a8d2551583e5849915ef49c)) ([#826](https://github.com/bjorkgard/secretary-application/pull/826))
+  - bump i18next from 23.16.0 to 23.16.2 (#818) ([7a66afe](https://github.com/bjorkgard/secretary-application/commit/7a66afe704909a5b4a67a16a352bfbde867ccf3b)) ([#818](https://github.com/bjorkgard/secretary-application/pull/818))
+  - bump react-phone-number-input from 3.4.8 to 3.4.9 (#814) ([bad476e](https://github.com/bjorkgard/secretary-application/commit/bad476e6d93240027acf43456817f8bc4ec69b6e)) ([#814](https://github.com/bjorkgard/secretary-application/pull/814))
+  - bump react-hook-form from 7.53.0 to 7.53.1 (#819) ([e077b47](https://github.com/bjorkgard/secretary-application/commit/e077b47206db0245cf1b341a00d5a632de3e6055)) ([#819](https://github.com/bjorkgard/secretary-application/pull/819))
+  - bump chart.js from 4.4.4 to 4.4.5 (#817) ([f1be663](https://github.com/bjorkgard/secretary-application/commit/f1be66333a6c4a5ea7a8052acfad70d24c1edf83)) ([#817](https://github.com/bjorkgard/secretary-application/pull/817))
+  - bump jspdf-autotable from 3.8.3 to 3.8.4 (#815) ([dad5c8e](https://github.com/bjorkgard/secretary-application/commit/dad5c8edc315dfb7b8765b73a940e262b4224bb8)) ([#815](https://github.com/bjorkgard/secretary-application/pull/815))
+  - bump i18next from 23.15.2 to 23.16.0 (#804) ([89131f8](https://github.com/bjorkgard/secretary-application/commit/89131f88b30e23a5e84c5a9186155aca0b5751d1)) ([#804](https://github.com/bjorkgard/secretary-application/pull/804))
+
 ## [v1.6.7](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.7) - 2024-10-18 11:35:13
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.6.7 -->
@@ -189,44 +226,6 @@
 - appointments:
   - add event to add appointment  ministerial servant and elder ([030f659](https://github.com/bjorkgard/secretary-application/commit/030f659836a1af9af15dc6c23bbf6f88538b1779)) ([#596](https://github.com/bjorkgard/secretary-application/pull/596))
 
-### Bug Fixes
-
-- deps:
-  - bump react-router-dom from 6.24.0 to 6.24.1 (#617) ([01bad77](https://github.com/bjorkgard/secretary-application/commit/01bad770915044b93aad5f0d46024918381a7c15)) ([#617](https://github.com/bjorkgard/secretary-application/pull/617))
-  - bump react-hook-form from 7.52.0 to 7.52.1 (#614) ([36ac013](https://github.com/bjorkgard/secretary-application/commit/36ac01384c5664a8a47f0018d028cce0199dfa97)) ([#614](https://github.com/bjorkgard/secretary-application/pull/614))
-
-- report:
-  - reload reports when switching tabs ([0ba9875](https://github.com/bjorkgard/secretary-application/commit/0ba9875c87e8b47375f19c5be9011b6b098511ed)) ([#609](https://github.com/bjorkgard/secretary-application/pull/609))
-
-- closing reports:
-  - show a spinner when closing reports ([5073b64](https://github.com/bjorkgard/secretary-application/commit/5073b64fbc60ef5973bace8fd89231a90635e187)) ([#605](https://github.com/bjorkgard/secretary-application/pull/605))
-
-- version:
-  - only show warning if new version exists ([be966bd](https://github.com/bjorkgard/secretary-application/commit/be966bd7fdd52b400e725383ecb4f8d0af5a042a)) ([#603](https://github.com/bjorkgard/secretary-application/pull/603))
-  - show correct version information ([aa7d20d](https://github.com/bjorkgard/secretary-application/commit/aa7d20dd4ddc513d10b2d48dde3934a573f92740)) ([#599](https://github.com/bjorkgard/secretary-application/pull/599))
-
-## [v1.5.5](https://github.com/bjorkgard/secretary-application/releases/tag/v1.5.5) - 2024-06-29 12:17:43
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.5.5 -->
-
-## What's Changed
-### New features
-* feat(event): pioneer school
-* feat(reports): Send reminder to a publisher
-* feat(reports): Send reminder to service group overseer
-* feat(events): Add applications
-* feat(export): Name list
-* feat(export): Congregation organization schema
-* feat(stats): Diary
-
-### Bug fixes
-* fix(personal history): Show personal history on extended register card
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.4.3...v1.5.5
-
-### Feature
-
 - diary:
   - show all events in a service year ([8612a44](https://github.com/bjorkgard/secretary-application/commit/8612a44d86a8ad616f264618e3435a3de74bd23d)) ([#581](https://github.com/bjorkgard/secretary-application/pull/581))
 
@@ -238,46 +237,6 @@
 
 - extended register card:
   - add personal history on the extended register card ([1f78110](https://github.com/bjorkgard/secretary-application/commit/1f781107d841bdc467b52af6b43474deb4d20d1d)) ([#553](https://github.com/bjorkgard/secretary-application/pull/553))
-
-### Bug Fixes
-
-- congregation s-21:
-  - wrong calculation on auxiliaries ([0171442](https://github.com/bjorkgard/secretary-application/commit/01714422ef7d1e5a6691cf5deb29ed0701c0608b)) ([#585](https://github.com/bjorkgard/secretary-application/pull/585))
-
-- typo:
-  - fix spelling ([17e9264](https://github.com/bjorkgard/secretary-application/commit/17e92645dc8df39914489c8e7ebfce29c9053a53)) ([#583](https://github.com/bjorkgard/secretary-application/pull/583))
-  - fix spelling ([0ebff5e](https://github.com/bjorkgard/secretary-application/commit/0ebff5e67c91f8a8ee4426ebd75de54433936309)) ([#582](https://github.com/bjorkgard/secretary-application/pull/582))
-
-- deps:
-  - bump @heroicons/react from 2.1.3 to 2.1.4 (#571) ([e3975d6](https://github.com/bjorkgard/secretary-application/commit/e3975d6b470de0cdee5ca4f316b7091e8969ebe6)) ([#571](https://github.com/bjorkgard/secretary-application/pull/571))
-  - bump react-hook-form from 7.51.5 to 7.52.0 (#565) ([4ce2d2b](https://github.com/bjorkgard/secretary-application/commit/4ce2d2b9defdb117a5b4dc7621f34ba023aa547c)) ([#565](https://github.com/bjorkgard/secretary-application/pull/565))
-
-- common exports:
-  - typo ([ac5aa6e](https://github.com/bjorkgard/secretary-application/commit/ac5aa6e9509a858c17f345909f76a5bc8d4f3447)) ([#561](https://github.com/bjorkgard/secretary-application/pull/561))
-
-- extended register card:
-  - add missing translations and hide the table if no history ([6ef5505](https://github.com/bjorkgard/secretary-application/commit/6ef5505103ff61943d5ffb259c0cdcf636db193e)) ([#556](https://github.com/bjorkgard/secretary-application/pull/556))
-
-- personal history:
-  - sort personal history on extended register card ([6121fcf](https://github.com/bjorkgard/secretary-application/commit/6121fcf559bc1b1e49ddb62b4a100dd1ba312988)) ([#553](https://github.com/bjorkgard/secretary-application/pull/553))
-
-### Performance Improvements
-
-- electron:
-  - update to latest electron ([bfcad70](https://github.com/bjorkgard/secretary-application/commit/bfcad70581c75657694cf529b953a9f0d319205c)) ([#590](https://github.com/bjorkgard/secretary-application/pull/590))
-
-## [v1.4.3](https://github.com/bjorkgard/secretary-application/releases/tag/v1.4.3) - 2024-06-12 17:14:02
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.4.3 -->
-
-## What's Changed
-### Bug fixes
-* fix(add history report): fix a problem with adding history reports by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/551
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.4.2...v1.4.3
-
-### Feature
 
 - old applications warning:
   - add a card on the dashboard. Show publishers with old applications ([93ee62f](https://github.com/bjorkgard/secretary-application/commit/93ee62f52b64a27d2a2e9d85cd67daefa6bf90ce)) ([#547](https://github.com/bjorkgard/secretary-application/pull/547))
@@ -299,6 +258,39 @@
 
 ### Bug Fixes
 
+- deps:
+  - bump react-router-dom from 6.24.0 to 6.24.1 (#617) ([01bad77](https://github.com/bjorkgard/secretary-application/commit/01bad770915044b93aad5f0d46024918381a7c15)) ([#617](https://github.com/bjorkgard/secretary-application/pull/617))
+  - bump react-hook-form from 7.52.0 to 7.52.1 (#614) ([36ac013](https://github.com/bjorkgard/secretary-application/commit/36ac01384c5664a8a47f0018d028cce0199dfa97)) ([#614](https://github.com/bjorkgard/secretary-application/pull/614))
+  - bump @heroicons/react from 2.1.3 to 2.1.4 (#571) ([e3975d6](https://github.com/bjorkgard/secretary-application/commit/e3975d6b470de0cdee5ca4f316b7091e8969ebe6)) ([#571](https://github.com/bjorkgard/secretary-application/pull/571))
+  - bump react-hook-form from 7.51.5 to 7.52.0 (#565) ([4ce2d2b](https://github.com/bjorkgard/secretary-application/commit/4ce2d2b9defdb117a5b4dc7621f34ba023aa547c)) ([#565](https://github.com/bjorkgard/secretary-application/pull/565))
+  - bump ajv from 8.14.0 to 8.16.0 (#534) ([aaf477d](https://github.com/bjorkgard/secretary-application/commit/aaf477d0992ffe65cbadc5d5fc80ae44dcc0c537)) ([#534](https://github.com/bjorkgard/secretary-application/pull/534))
+
+- report:
+  - reload reports when switching tabs ([0ba9875](https://github.com/bjorkgard/secretary-application/commit/0ba9875c87e8b47375f19c5be9011b6b098511ed)) ([#609](https://github.com/bjorkgard/secretary-application/pull/609))
+
+- closing reports:
+  - show a spinner when closing reports ([5073b64](https://github.com/bjorkgard/secretary-application/commit/5073b64fbc60ef5973bace8fd89231a90635e187)) ([#605](https://github.com/bjorkgard/secretary-application/pull/605))
+
+- version:
+  - only show warning if new version exists ([be966bd](https://github.com/bjorkgard/secretary-application/commit/be966bd7fdd52b400e725383ecb4f8d0af5a042a)) ([#603](https://github.com/bjorkgard/secretary-application/pull/603))
+  - show correct version information ([aa7d20d](https://github.com/bjorkgard/secretary-application/commit/aa7d20dd4ddc513d10b2d48dde3934a573f92740)) ([#599](https://github.com/bjorkgard/secretary-application/pull/599))
+
+- congregation s-21:
+  - wrong calculation on auxiliaries ([0171442](https://github.com/bjorkgard/secretary-application/commit/01714422ef7d1e5a6691cf5deb29ed0701c0608b)) ([#585](https://github.com/bjorkgard/secretary-application/pull/585))
+
+- typo:
+  - fix spelling ([17e9264](https://github.com/bjorkgard/secretary-application/commit/17e92645dc8df39914489c8e7ebfce29c9053a53)) ([#583](https://github.com/bjorkgard/secretary-application/pull/583))
+  - fix spelling ([0ebff5e](https://github.com/bjorkgard/secretary-application/commit/0ebff5e67c91f8a8ee4426ebd75de54433936309)) ([#582](https://github.com/bjorkgard/secretary-application/pull/582))
+
+- common exports:
+  - typo ([ac5aa6e](https://github.com/bjorkgard/secretary-application/commit/ac5aa6e9509a858c17f345909f76a5bc8d4f3447)) ([#561](https://github.com/bjorkgard/secretary-application/pull/561))
+
+- extended register card:
+  - add missing translations and hide the table if no history ([6ef5505](https://github.com/bjorkgard/secretary-application/commit/6ef5505103ff61943d5ffb259c0cdcf636db193e)) ([#556](https://github.com/bjorkgard/secretary-application/pull/556))
+
+- personal history:
+  - sort personal history on extended register card ([6121fcf](https://github.com/bjorkgard/secretary-application/commit/6121fcf559bc1b1e49ddb62b4a100dd1ba312988)) ([#553](https://github.com/bjorkgard/secretary-application/pull/553))
+
 - add history report:
   - fix a problem with adding history reports ([d0156cb](https://github.com/bjorkgard/secretary-application/commit/d0156cbab49ade3e8c2a38a351b299d485189b9f)) ([#551](https://github.com/bjorkgard/secretary-application/pull/551))
 
@@ -310,13 +302,15 @@
   - get stats from db ([d71e5d2](https://github.com/bjorkgard/secretary-application/commit/d71e5d28e16fa7ed276bb06ef2465b0d16526e7a)) ([#544](https://github.com/bjorkgard/secretary-application/pull/544))
   - fix problem when exporting old service months ([7b82894](https://github.com/bjorkgard/secretary-application/commit/7b8289457af7eb3096a16ae9be7f027f96a26e68)) ([#528](https://github.com/bjorkgard/secretary-application/pull/528))
 
-- deps:
-  - bump ajv from 8.14.0 to 8.16.0 (#534) ([aaf477d](https://github.com/bjorkgard/secretary-application/commit/aaf477d0992ffe65cbadc5d5fc80ae44dcc0c537)) ([#534](https://github.com/bjorkgard/secretary-application/pull/534))
-
 ### Refactor
 
 - changelog:
   - update changelog ([e863a70](https://github.com/bjorkgard/secretary-application/commit/e863a70d698c97bec966b64884f1c488a1e7aa88)) ([#527](https://github.com/bjorkgard/secretary-application/pull/527))
+
+### Performance Improvements
+
+- electron:
+  - update to latest electron ([bfcad70](https://github.com/bjorkgard/secretary-application/commit/bfcad70581c75657694cf529b953a9f0d319205c)) ([#590](https://github.com/bjorkgard/secretary-application/pull/590))
 
 ## [v1.4.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.4.0) - 2024-06-10 11:18:04
 
