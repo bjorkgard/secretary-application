@@ -613,7 +613,7 @@ ipcMain.on('export-meeting-attendance', async (_event, args) => {
   })
 
   if (args.type === 'latest')
-    sy = sy.slice(0, 2)
+    sy = sy.reverse().slice(0, 2)
 
   sy.sort()
 

@@ -5,7 +5,7 @@ import log              from 'electron-log'
 
 export default async function confirmTemplete(code: string, path: string): Promise<boolean> {
   const pdfBytes = fs.readFileSync(path)
-  const pdfDoc   = await PDFDocument.load(pdfBytes)
+  const pdfDoc   = await PDFDocument.load(new Uint8Array(pdfBytes))
   const form     = pdfDoc.getForm()
 
   switch (code) {
