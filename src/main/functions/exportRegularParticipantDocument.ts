@@ -19,6 +19,7 @@ import type { PublisherModel }   from '../../types/models'
 import type { PublisherService } from '../../types/type'
 import SettingsService           from '../services/settingsService'
 import i18n                      from '../../localization/i18next.config'
+import getServiceYear            from '../utils/getServiceYear'
 import isDev                     from './isDev'
 
 const settingsService = new SettingsService()
@@ -47,6 +48,9 @@ function saveDocxFile(mainWindow: BrowserWindow, fileName: string, doc: Uint8Arr
 
 async function generate_DOCX(mainWindow: BrowserWindow,  publishers: PublisherModel[], fileName: string): Promise<void> {
   const settings = await settingsService.find()
+  const now      = new Date()
+  const date     = now.toLocaleDateString('sv')
+  const year     = getServiceYear(`${now.getFullYear()}-${now.getMonth()}}`)
 
   const publisherTable = new Table({
     rows: [
@@ -67,7 +71,12 @@ async function generate_DOCX(mainWindow: BrowserWindow,  publishers: PublisherMo
           new TableCell({
             children:      [new Paragraph({ children: [new TextRun({ text: i18n.t('export.membersAddress'), font: 'Arial', bold: true, size: 22 })] })],
             verticalAlign: VerticalAlign.CENTER,
-            width:         { size: 6000, type: WidthType.DXA },
+            width:         { size: 5000, type: WidthType.DXA },
+          }),
+          new TableCell({
+            children:      [new Paragraph({ children: [new TextRun({ text: i18n.t('export.membersBirthday'), font: 'Arial', bold: true, size: 22 })] })],
+            verticalAlign: VerticalAlign.CENTER,
+            width:         { size: 3000, type: WidthType.DXA },
           }),
         ],
       }),
@@ -90,6 +99,10 @@ async function generate_DOCX(mainWindow: BrowserWindow,  publishers: PublisherMo
           children:      [new Paragraph({ children: [new TextRun({ text: `${publisher.address}, ${publisher.zip} ${publisher.city}`, font: 'Arial', size: 22 })] })],
           verticalAlign: VerticalAlign.CENTER,
         }),
+        new TableCell({
+          children:      [new Paragraph({ children: [new TextRun({ text: `${publisher.birthday}`, font: 'Arial', size: 22 })] })],
+          verticalAlign: VerticalAlign.CENTER,
+        }),
       ],
     })
 
@@ -108,9 +121,20 @@ async function generate_DOCX(mainWindow: BrowserWindow,  publishers: PublisherMo
         children: [
           new TextRun({
             text:    i18n.t('export.participantsList', { name: settings?.congregation.name.toUpperCase() }),
+            font:    'Arial',
             bold:    true,
             size:    28,
             allCaps: true,
+          }),
+        ],
+      },
+      participants_date: {
+        type:     PatchType.PARAGRAPH,
+        children: [
+          new TextRun({
+            text: i18n.t('export.membersDate', { date }),
+            font: 'Arial',
+            size: 22,
           }),
         ],
       },
@@ -118,9 +142,20 @@ async function generate_DOCX(mainWindow: BrowserWindow,  publishers: PublisherMo
         type:     PatchType.PARAGRAPH,
         children: [
           new TextRun({
-            text: i18n.t('export.participantsCount', { count: publishers.length }),
+            text: i18n.t('export.participantsCount', { year: year - 1, count: publishers.length }),
+            font: 'Arial',
             bold: true,
             size: 28,
+          }),
+        ],
+      },
+      participants_certification: {
+        type:     PatchType.PARAGRAPH,
+        children: [
+          new TextRun({
+            text: i18n.t('export.partisipantsCertification'),
+            font: 'Arial',
+            size: 22,
           }),
         ],
       },
