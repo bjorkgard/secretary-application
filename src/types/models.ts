@@ -142,7 +142,6 @@ export interface PublisherModel extends Base {
   mobile?:          string
   other?:           string
   phone?:           string
-  registerCard:     boolean
   reports:          Report[]
   responsibilities: string[]
   s290:             boolean
@@ -153,6 +152,7 @@ export interface PublisherModel extends Base {
   unknown_baptised: boolean
   zip:              string
   old?:             string
+  resident:         string
 }
 
 export interface PublisherWithApplication {

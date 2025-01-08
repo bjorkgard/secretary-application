@@ -125,7 +125,7 @@ export default function PublisherPersonalForm(): JSX.Element {
           </div>
 
           {/* GENDER */}
-          <div className="sm:col-span-3">
+          <div className="sm:col-span-2">
             <Field label={t('label.gender')}>
               <div className="flex h-12 items-center space-x-4">
                 <div className="form-control">
@@ -153,6 +153,25 @@ export default function PublisherPersonalForm(): JSX.Element {
                     <span className="label-text ml-2">{t('label.woman')}</span>
                   </label>
                 </div>
+              </div>
+            </Field>
+          </div>
+
+          {/* RESIDENT */}
+          <div className="sm:col-span-1">
+            <Field label={t('label.resident')}>
+              <div className="flex h-12 items-center space-x-4">
+                <select
+                  className={classNames(
+                    errors.resident ? 'select-error' : '',
+                    'select select-bordered w-full',
+                  )}
+                  {...register('resident', { required: true })}
+                >
+                  <option value="">{t('resident.select')}</option>
+                  <option value="SWEDEN">{t('resident.sweden')}</option>
+                  <option value="OTHER">{t('resident.other')}</option>
+                </select>
               </div>
             </Field>
           </div>
@@ -253,16 +272,6 @@ export default function PublisherPersonalForm(): JSX.Element {
                       className="checkbox-primary checkbox"
                     />
                     <span className="label-text ml-2">{t('label.s290')}</span>
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <input
-                      {...register('registerCard')}
-                      type="checkbox"
-                      className="checkbox-primary checkbox"
-                    />
-                    <span className="label-text ml-2">{t('label.registerCard')}</span>
                   </label>
                 </div>
               </div>

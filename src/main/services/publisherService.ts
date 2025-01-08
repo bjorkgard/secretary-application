@@ -1,3 +1,4 @@
+import Logger                                         from 'electron-log'
 import type { History, PublisherModel }               from '../../types/models'
 import type { Publisher, Report }                     from '../databases/schemas'
 import { PublisherSchema }                            from '../databases/schemas'
@@ -9,7 +10,6 @@ const publisherStore = new PublisherStore('publishers.db', PublisherSchema, 'las
 function parsePublisherModel(data: PublisherModel): Publisher {
   const publisher: Publisher = {
     s290:             false,
-    registerCard:     false,
     firstname:        '',
     lastname:         '',
     birthday:         '',
@@ -36,10 +36,10 @@ function parsePublisherModel(data: PublisherModel): Publisher {
     histories:        [],
     reports:          [],
     old:              '',
+    resident:         '',
   }
 
   publisher.s290                   = data.s290
-  publisher.registerCard           = data.registerCard
   publisher.firstname              = data.firstname
   publisher.lastname               = data.lastname
   publisher.birthday               = data.birthday
@@ -71,6 +71,7 @@ function parsePublisherModel(data: PublisherModel): Publisher {
   publisher.histories              = data.histories
   publisher.reports                = data.reports
   publisher.old                    = data.old
+  publisher.resident               = data.resident
 
   return publisher
 }
@@ -78,7 +79,6 @@ function parsePublisherModel(data: PublisherModel): Publisher {
 function parsePublisher(data: Publisher): PublisherModel {
   const publisherModel: PublisherModel = {
     s290:             false,
-    registerCard:     false,
     firstname:        '',
     lastname:         '',
     birthday:         '',
@@ -105,11 +105,11 @@ function parsePublisher(data: Publisher): PublisherModel {
     histories:        [],
     reports:          [],
     old:              '',
+    resident:         '',
   }
 
   publisherModel._id                    = data._id
   publisherModel.s290                   = data.s290
-  publisherModel.registerCard           = data.registerCard
   publisherModel.firstname              = data.firstname
   publisherModel.lastname               = data.lastname
   publisherModel.birthday               = data.birthday
@@ -141,6 +141,7 @@ function parsePublisher(data: Publisher): PublisherModel {
   publisherModel.histories              = data.histories
   publisherModel.reports                = data.reports
   publisherModel.old                    = data.old
+  publisherModel.resident               = data.resident
   publisherModel.createdAt              = data.createdAt?.toLocaleString('sv-SE')
   publisherModel.updatedAt              = data.updatedAt?.toLocaleString('sv-SE')
 
@@ -186,6 +187,9 @@ export default class PublisherService implements IPublisherService {
 
   async update(id: string, data: PublisherModel): Promise<number> {
     const publisher = parsePublisherModel(data)
+
+    Logger.info('Updating publisher', publisher)
+
     return (await publisherStore.update(id, publisher)) as number
   }
 

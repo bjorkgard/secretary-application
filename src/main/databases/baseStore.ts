@@ -3,6 +3,7 @@ import type { JSONSchemaType } from 'ajv'
 import Ajv                     from 'ajv'
 import addFormats              from 'ajv-formats'
 import Datastore               from 'nedb-promises'
+import Logger                  from 'electron-log'
 import type {
   Auxiliary,
   CircuitOverseer,
@@ -89,6 +90,7 @@ export default class BaseStore<
 
   async update(_id: string, data: T): Promise<number | undefined> {
     const isValid: boolean = this.validate(data)
+    Logger.info('isValid', isValid)
 
     if (isValid)
       return await this.databaseInstance.update({ _id }, data)

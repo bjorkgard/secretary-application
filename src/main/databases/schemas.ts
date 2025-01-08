@@ -107,7 +107,6 @@ export interface Report {
 
 export interface Publisher extends Base {
   s290:              boolean
-  registerCard:      boolean
   firstname:         string
   lastname:          string
   birthday?:         string
@@ -137,6 +136,7 @@ export interface Publisher extends Base {
   children:          Child[]
   reports:           Report[]
   old?:              string
+  resident:          string
 }
 
 export interface Responsibility extends Base {
@@ -408,7 +408,6 @@ export const PublisherSchema: JSONSchemaType<Publisher> = {
   properties: {
     _id:              { type: 'string', nullable: true },
     s290:             { type: 'boolean' },
-    registerCard:     { type: 'boolean' },
     firstname:        { type: 'string' },
     lastname:         { type: 'string' },
     birthday:         { type: 'string', nullable: true },
@@ -435,6 +434,7 @@ export const PublisherSchema: JSONSchemaType<Publisher> = {
     blind:            { type: 'boolean' },
     sendReports:      { type: 'boolean' },
     old:              { type: 'string', nullable: true },
+    resident:         { type: 'string' },
     children:         { type: 'array', items: ChildSchema },
     histories:        { type: 'array', items: HistorySchema },
     reports:          { type: 'array', items: ReportSchema },
@@ -443,7 +443,6 @@ export const PublisherSchema: JSONSchemaType<Publisher> = {
   },
   required: [
     's290',
-    'registerCard',
     'firstname',
     'lastname',
     'gender',
@@ -460,6 +459,7 @@ export const PublisherSchema: JSONSchemaType<Publisher> = {
     'children',
     'histories',
     'reports',
+    'resident',
   ],
   additionalProperties: false,
 }

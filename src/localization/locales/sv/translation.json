@@ -735,5 +735,9 @@
   "mainMenu.auxiliaries": "Hjälppionjärer",
   "dialog.selectServiceMonth": "Välj månad",
   "dialog.selectServiceMonthDescription": "Välj den månad som listan skall gälla för.",
-  "label.auxiliaryList": "Hjälppionjärer {{month}}"
+  "label.auxiliaryList": "Hjälppionjärer {{month}}",
+  "label.resident": "Folkbokförd",
+  "resident.select": "-- Välj land --",
+  "resident.sweden": "Sverige",
+  "resident.other": "Annat"
 }
