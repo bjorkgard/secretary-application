@@ -4,7 +4,6 @@ import type { PublisherModel }     from 'src/types/models'
 const initialState: PublisherModel = {
   _id:              '',
   s290:             false,
-  registerCard:     false,
   firstname:        '',
   lastname:         '',
   gender:           'MAN',
@@ -25,6 +24,7 @@ const initialState: PublisherModel = {
   histories:        [],
   reports:          [],
   sendReports:      false,
+  resident:         '',
 }
 
 const publisherState = hookstate<PublisherModel>(initialState)

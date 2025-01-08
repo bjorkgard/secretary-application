@@ -20,7 +20,7 @@ function getTableHeaders(): string[] {
   return [
     i18n.t('export.name'),
     i18n.t('export.s290'),
-    i18n.t('export.registerCard'),
+    i18n.t('export.residentCountry'),
     i18n.t('export.emergencyContact'),
   ]
 }
@@ -32,7 +32,7 @@ function getPublisherRows(publishers: PublisherModel[]): string[][] {
     const publisherRow = [
       `${publisher.lastname}, ${publisher.firstname}`,
       publisher.s290 ? 'X' : '',
-      publisher.registerCard ? 'X' : '',
+      publisher.resident ? 'X' : '',
       publisher.emergencyContact.name ? 'X' : '',
     ]
 
@@ -146,7 +146,7 @@ export default async function ExportCompletionList(
   publisherService: PublisherService,
 ): Promise<void> {
   const rawPublishers = await publisherService.find('LASTNAME')
-  const publishers    = rawPublishers.filter(publisher => !publisher.s290 || !publisher.registerCard || !publisher.emergencyContact.name)
+  const publishers    = rawPublishers.filter(publisher => !publisher.s290 || !publisher.resident || !publisher.emergencyContact.name)
 
   const name = `CompletionList_${new Date().toLocaleDateString('sv')}`
 
