@@ -140,7 +140,7 @@ export default async function ExportRegularParticipantDocument(
 ): Promise<void> {
   const fileName      = `RegularParticipants_${new Date().toLocaleDateString('sv')}`
   const allPublishers = await publisherService.find('LASTNAME')
-  const members       = allPublishers.filter(p => p.registerCard && (p.baptised === null && !p.unknown_baptised && p.status !== 'INACTIVE'))
+  const members       = allPublishers.filter(p => p.resident === 'SWEDEN' && (p.baptised === null && !p.unknown_baptised && p.status !== 'INACTIVE'))
 
   generate_DOCX(mainWindow, members, fileName)
 }

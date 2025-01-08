@@ -174,7 +174,6 @@ function parsePublisher(publisher: any, serviceGroupId = '', familyId = ''): Pub
 
   const parsedPublisher: PublisherModel = {
     s290:             publisher.gdpr,
-    registerCard:     publisher.personalDataCard === 1,
     lastname:         publisher.lastname,
     firstname:        publisher.firstname,
     birthday:         publisher.birthday,
@@ -208,6 +207,7 @@ function parsePublisher(publisher: any, serviceGroupId = '', familyId = ''): Pub
     children,
     histories,
     reports,
+    resident:    '',
   }
 
   return parsedPublisher
