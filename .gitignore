@@ -5,6 +5,7 @@ out
 
 db
 templates
+temporary
 
 .env
 .env.production
