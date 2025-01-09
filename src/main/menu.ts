@@ -28,7 +28,6 @@ export default class MenuBuilder {
 
     const menu = Menu.buildFromTemplate(template as MenuItemConstructorOptions[])
     Menu.setApplicationMenu(menu)
-    // log.info('menu', menu)
     return menu
   }
 
@@ -164,6 +163,18 @@ export default class MenuBuilder {
         },
         { type: 'separator' },
         { label: i18n.t('Flytta fram alla'), selector: 'arrangeInFront:' },
+      ],
+    }
+
+    const subMenuImport: MenuItemConstructorOptions = {
+      label:   i18n.t('mainMenu.import'),
+      submenu: [
+        {
+          label: i18n.t('mainMenu.importFromS21'),
+          click: (): void => {
+            ipcMain.emit('import-s21')
+          },
+        },
       ],
     }
 
@@ -418,13 +429,6 @@ export default class MenuBuilder {
             ipcMain.emit('restore-backup')
           },
         },
-        { type: 'separator' },
-        {
-          label: i18n.t('mainMenu.import'),
-          click: (): void => {
-            ipcMain.emit('import')
-          },
-        },
       ],
     }
 
@@ -474,6 +478,7 @@ export default class MenuBuilder {
       subMenuEdit,
       subMenuView,
       subMenuWindow,
+      subMenuImport,
       subMenuExport,
       subMenuMaintenance,
       subMenuLanguage,
@@ -532,6 +537,17 @@ export default class MenuBuilder {
                   },
                 },
               ],
+      },
+      {
+        label:   i18n.t('mainMenu.import'),
+        submenu: [
+          {
+            label: i18n.t('mainMenu.importFromS21'),
+            click: (): void => {
+              ipcMain.emit('import-s21')
+            },
+          },
+        ],
       },
       {
         label:   i18n.t('mainMenu.export'),

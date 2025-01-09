@@ -85,6 +85,7 @@ import ExportServiceGroupInternalList from './functions/exportServiceGroupIntern
 import generateIdentifier             from './utils/generateIdentifier'
 import getSortOrder                   from './utils/getSortOrder'
 import ExportAuxiliariesList          from './functions/exportAuxiliariesList'
+import importS21                      from './functions/importS21'
 
 // Bugsnag.start({
 //  apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
@@ -282,6 +283,7 @@ ipcMain.on('app-quit', () => {
   app.quit()
 })
 
+// deprecated import from old secretary 2025-01-09
 ipcMain.on('import', () => {
   if (!mainWindow)
     return
@@ -294,6 +296,13 @@ ipcMain.on('import', () => {
     auxiliaryService,
     settingsService,
   )
+})
+
+ipcMain.on('import-s21', () => {
+  if (!mainWindow)
+    return
+
+  importS21(mainWindow)
 })
 
 ipcMain.handle('registration', async (_, param: SettingsModel) => {
