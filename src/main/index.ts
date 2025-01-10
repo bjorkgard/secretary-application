@@ -86,6 +86,7 @@ import generateIdentifier             from './utils/generateIdentifier'
 import getSortOrder                   from './utils/getSortOrder'
 import ExportAuxiliariesList          from './functions/exportAuxiliariesList'
 import importS21                      from './functions/importS21'
+import importExcel                    from './functions/importExcel'
 
 // Bugsnag.start({
 //  apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
@@ -303,6 +304,13 @@ ipcMain.on('import-s21', () => {
     return
 
   importS21(mainWindow)
+})
+
+ipcMain.on('import-excel', () => {
+  if (!mainWindow)
+    return
+
+  importExcel(mainWindow)
 })
 
 ipcMain.handle('registration', async (_, param: SettingsModel) => {
