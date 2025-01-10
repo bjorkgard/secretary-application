@@ -1,12 +1,12 @@
-import { Fragment, useState }    from 'react'
-import { Outlet }                from 'react-router-dom'
-import { Dialog, Transition }    from '@headlessui/react'
-import { Bars3Icon, XMarkIcon }  from '@heroicons/react/24/outline'
-import classNames                from '@renderer/utils/classNames'
-import { OnlineIcon }            from '@renderer/components/OnlineIcon'
-import { WarningIcon }           from '@renderer/components/WarningIcon'
-import { Updates }               from '@renderer/components/Updates'
-import { Sidebar, SidebarSmall } from './Sidebar'
+import { Fragment, useState }                               from 'react'
+import { Outlet }                                           from 'react-router-dom'
+import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
+import { Bars3Icon, XMarkIcon }                             from '@heroicons/react/24/outline'
+import classNames                                           from '@renderer/utils/classNames'
+import { OnlineIcon }                                       from '@renderer/components/OnlineIcon'
+import { WarningIcon }                                      from '@renderer/components/WarningIcon'
+import { Updates }                                          from '@renderer/components/Updates'
+import { Sidebar, SidebarSmall }                            from './Sidebar'
 
 export default function Layout(): JSX.Element {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -18,9 +18,9 @@ export default function Layout(): JSX.Element {
         import.meta.env.RENDERER_VITE_NODE_ENV !== 'production' ? 'debug-screens' : '',
       )}
     >
-      <Transition.Root show={sidebarOpen} as={Fragment}>
+      <Transition show={sidebarOpen} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setSidebarOpen}>
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
             enterFrom="opacity-0"
@@ -30,9 +30,9 @@ export default function Layout(): JSX.Element {
             leaveTo="opacity-0"
           >
             <div className="fixed inset-0 bg-gray-900/80" />
-          </Transition.Child>
+          </TransitionChild>
           <div className="fixed inset-0 flex">
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="transition ease-in-out duration-300 transform"
               enterFrom="-translate-x-full"
@@ -41,8 +41,8 @@ export default function Layout(): JSX.Element {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
-                <Transition.Child
+              <DialogPanel className="relative mr-16 flex w-full max-w-xs flex-1">
+                <TransitionChild
                   as={Fragment}
                   enter="ease-in-out duration-300"
                   enterFrom="opacity-0"
@@ -61,18 +61,18 @@ export default function Layout(): JSX.Element {
                       <XMarkIcon className="size-6 text-white" aria-hidden="true" />
                     </button>
                   </div>
-                </Transition.Child>
+                </TransitionChild>
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4 dark:bg-slate-900">
                   <nav className="mt-4 flex flex-1 flex-col">
                     <SidebarSmall />
                   </nav>
                 </div>
-              </Dialog.Panel>
-            </Transition.Child>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </Dialog>
-      </Transition.Root>
+      </Transition>
 
       {/* Static sidebar for desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-40 lg:flex lg:w-72 lg:flex-col">
