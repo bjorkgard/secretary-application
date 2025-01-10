@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## [v1.6.11](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.11) - 2025-01-10 09:03:24
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.6.11 -->
+
+## What's Changed
+### New things
+* Import S-21 by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/926
+* Import publishers from xlsx-file by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/931
+### Bug fixes
+* Headers on publisher list by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/932
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.10...v1.6.11
+
 ## [v1.6.10](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.10) - 2025-01-08 17:08:16
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.6.10 -->
