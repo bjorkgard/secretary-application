@@ -175,6 +175,12 @@ export default class MenuBuilder {
             ipcMain.emit('import-s21')
           },
         },
+        {
+          label: i18n.t('mainMenu.importFromExcel'),
+          click: (): void => {
+            ipcMain.emit('import-excel')
+          },
+        },
       ],
     }
 
@@ -545,6 +551,12 @@ export default class MenuBuilder {
             label: i18n.t('mainMenu.importFromS21'),
             click: (): void => {
               ipcMain.emit('import-s21')
+            },
+          },
+          {
+            label: i18n.t('mainMenu.importFromExcel'),
+            click: (): void => {
+              ipcMain.emit('import-excel')
             },
           },
         ],
