@@ -66,7 +66,7 @@
     "react-i18next": "^14.1.2",
     "react-phone-number-input": "^3.4.11",
     "react-router-dom": "^6.28.0",
-    "tailwind-scrollbar-hide": "^1.1.7",
+    "tailwind-scrollbar-hide": "^2.0.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
