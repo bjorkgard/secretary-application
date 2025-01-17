@@ -1,15 +1,21 @@
-import { useEffect, useState }    from 'react'
-import { useTranslation }         from 'react-i18next'
-import type { SubmitHandler }     from 'react-hook-form'
-import { useFieldArray, useForm } from 'react-hook-form'
-import { getCountries }           from 'react-phone-number-input/input'
-import countryLabels              from 'react-phone-number-input/locale/en.json'
-import { TrashIcon }              from '@heroicons/react/20/solid'
-import type { SettingsModel }     from 'src/types/models'
-import classNames                 from '@renderer/utils/classNames'
-import { useSettingsState }       from '@renderer/store/settingsStore'
-import { Field }                  from '@renderer/components/Field'
-import { useUmamiEventTrack }     from '@renderer/providers/umami'
+import { useEffect, useState }                                           from 'react'
+import { useTranslation }                                                from 'react-i18next'
+import type { SubmitHandler }                                            from 'react-hook-form'
+import { Controller, useFieldArray, useForm }                            from 'react-hook-form'
+import { getCountries }                                                  from 'react-phone-number-input/input'
+import countryLabels                                                     from 'react-phone-number-input/locale/en.json'
+import { PlusIcon, TrashIcon }                                           from '@heroicons/react/20/solid'
+import type { SettingsModel }                                            from 'src/types/models'
+import { useSettingsState }                                              from '@renderer/store/settingsStore'
+import { useUmamiEventTrack }                                            from '@renderer/providers/umami'
+import { Description, ErrorMessage, Field, FieldGroup, Fieldset, Label } from '@renderer/components/catalyst/fieldset'
+import { Heading, Subheading }                                           from '@renderer/components/catalyst/heading'
+import { Text }                                                          from '@renderer/components/catalyst/text'
+import { Input }                                                         from '@renderer/components/catalyst/input'
+import { Divider }                                                       from '@renderer/components/catalyst/divider'
+import { Select }                                                        from '@renderer/components/catalyst/select'
+import { Button }                                                        from '@renderer/components/catalyst/button'
+import { Switch, SwitchField, SwitchGroup }                              from '@renderer/components/catalyst/switch'
 
 interface Country {
   code: string
@@ -25,11 +31,12 @@ export default function Settings(): JSX.Element {
 
   const {
     register,
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
     control,
   } = useForm<SettingsModel>({
     values: data,
+    mode:   'onChange',
   })
 
   const { fields, append, remove } = useFieldArray({
@@ -65,83 +72,44 @@ export default function Settings(): JSX.Element {
   }, [])
 
   return (
-    <form className="min-h-full" onSubmit={handleSubmit(onSubmit)}>
-      <h1>{t('settings.headline')}</h1>
-      <div className="space-y-12">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3 dark:border-slate-400/50">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Fieldset>
+        <Heading>{t('settings.headline')}</Heading>
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
           <div>
-            <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-slate-300">
-              {t('settings.congregation.headline')}
-            </h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-slate-300">
-              {t('settings.congregation.information')}
-            </p>
+            <Subheading>{t('settings.congregation.headline')}</Subheading>
+            <Text>{t('settings.congregation.information')}</Text>
           </div>
-
-          <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
-            <div className="sm:col-span-3">
-              <div className="form-control w-full">
-                <label className="label">
-                  <span className="label-text">{t('label.congregationName')}</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder={t('label.congregationName')}
-                  className={classNames(
-                    errors.congregation?.name ? 'input-error' : '',
-                    'input input-bordered w-full',
-                  )}
-                  defaultValue={data?.congregation?.name}
+          <FieldGroup className="sm:col-span-2">
+            <div className="grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-6 md:col-span-2">
+              <Field className="sm:col-span-3">
+                <Label>{t('label.congregationName')}</Label>
+                <Input
                   {...register('congregation.name', {
                     required: t('errors.congregationName.required'),
                   })}
-                  aria-invalid={errors.congregation?.name ? 'true' : 'false'}
+                  invalid={!!errors.congregation?.name}
+                  autoFocus
                 />
-                <label className="label">
-                  {errors.congregation?.name && (
-                    <span className="label-text-alt text-red-400">
-                      {errors.congregation.name.message}
-                    </span>
-                  )}
-                </label>
-              </div>
-            </div>
-
-            <div className="sm:col-span-3">
-              <div className="form-control w-full">
-                <label className="label">
-                  <span className="label-text">{t('label.congregationNumber')}</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder={t('label.congregationNumber')}
-                  className={classNames(
-                    errors.congregation?.number ? 'input-error' : '',
-                    'input input-bordered w-full',
-                  )}
-                  defaultValue={data?.congregation?.number}
+                {errors.congregation?.name && <ErrorMessage>{errors.congregation?.name.message}</ErrorMessage>}
+              </Field>
+              <Field className="sm:col-span-3">
+                <Label>{t('label.congregationNumber')}</Label>
+                <Input
                   {...register('congregation.number', {
                     required: t('errors.congregationNumber.required'),
                   })}
-                  aria-invalid={errors.congregation?.number ? 'true' : 'false'}
+                  invalid={!!errors.congregation?.number}
                 />
-                <label className="label">
-                  {errors.congregation?.number && (
-                    <span className="label-text-alt text-red-400">
-                      {errors.congregation.number.message}
-                    </span>
-                  )}
-                </label>
-              </div>
-            </div>
-
-            <div className="col-span-3">
-              <Field label={t('label.country')} error={errors.congregation?.country?.message}>
-                <select
-                  className="select select-bordered w-full max-w-xs"
+                {errors.congregation?.number && <ErrorMessage>{errors.congregation?.number.message}</ErrorMessage>}
+              </Field>
+              <Field className="sm:col-span-3">
+                <Label>{t('label.country')}</Label>
+                <Select
                   {...register('congregation.country', {
                     required: t('errors.congregationCountry.required'),
                   })}
+                  invalid={!!errors.congregation?.country}
                 >
                   {countries.map((country) => {
                     return (
@@ -150,300 +118,175 @@ export default function Settings(): JSX.Element {
                       </option>
                     )
                   })}
-                </select>
+                </Select>
+                {errors.congregation?.country && <ErrorMessage>{errors.congregation?.country.message}</ErrorMessage>}
               </Field>
-            </div>
-
-            <div className="col-span-3">
-              <Field label={t('label.locale')} error={errors.congregation?.locale?.message}>
-                <select
-                  className="select select-bordered w-full max-w-xs"
+              <Field className="sm:col-span-3">
+                <Label>{t('label.locale')}</Label>
+                <Select
                   {...register('congregation.locale', {
                     required: t('errors.congregationLocale.required'),
                   })}
+                  invalid={!!errors.congregation?.locale}
                 >
                   <option value="en">English</option>
                   <option value="sv">Svenska</option>
-                </select>
+                </Select>
+                {errors.congregation?.locale && <ErrorMessage>{errors.congregation?.locale.message}</ErrorMessage>}
               </Field>
             </div>
-          </div>
+          </FieldGroup>
         </div>
-
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3 dark:border-slate-400/50">
+        <Divider className="my-4" />
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
           <div>
-            <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-slate-300">
-              {t('settings.languageGroup.headline')}
-            </h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-slate-300">
-              {t('settings.languageGroup.information')}
-            </p>
+            <Subheading>{t('settings.languageGroup.headline')}</Subheading>
+            <Text>{t('settings.languageGroup.information')}</Text>
           </div>
-          <div className="max-w-2xl space-y-10 md:col-span-2">
-            <fieldset>
+          <FieldGroup className="sm:col-span-2">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-6 md:col-span-2">
               {fields.map((item, index) => {
                 return (
-                  <div key={item.id} className="grid grid-cols-6 gap-6">
-                    <div className="sm:col-span-3">
-                      <Field
-                        label={t('label.name')}
-                        error={errors.congregation?.languageGroups?.[index]?.name?.message}
-                      >
-                        <input
-                          {...register(`congregation.languageGroups.${index}.name` as const, {
-                            required: t('errors.languageGroup.name.required'),
-                          })}
-                          className="input input-bordered w-full"
-                        />
-                      </Field>
+                  <div key={item.id} className="grid grid-cols-2 items-end justify-start gap-6 sm:col-span-6">
+                    <Field>
+                      <Label>{t('label.name')}</Label>
+                      <Input
+                        {...register(`congregation.languageGroups.${index}.name` as const, {
+                          required: t('errors.languageGroup.name.required'),
+                        })}
+                      />
+                    </Field>
+                    <div className="tooltip flex justify-start pb-1.5" data-tip={t('tooltip.deleteLanguageGroup')}>
+                      <Button outline onClick={(): void => remove(index)}>
+                        <TrashIcon className="size-4" />
+                      </Button>
                     </div>
 
-                    <div className="flex w-full items-center justify-end pt-4 sm:col-span-1">
-                      <div className="tooltip" data-tip={t('tooltip.deleteChild')}>
-                        <button
-                          className="btn btn-circle btn-outline btn-xs"
-                          onClick={(): void => {
-                            remove(index)
-                          }}
-                        >
-                          <TrashIcon className="size-4" />
-                        </button>
-                      </div>
-                    </div>
                   </div>
                 )
               })}
-            </fieldset>
-            <button
-              className="btn btn-secondary btn-sm"
-              onClick={(): void => append({ name: '' })}
-              type="button"
-            >
-              {t('button.addLanguageGroup')}
-            </button>
-          </div>
+              <Button
+                color="blue"
+                className="col-span-1 sm:col-span-3"
+                onClick={(): void => append({ name: '' })}
+              >
+                <PlusIcon />
+                {t('button.addLanguageGroup')}
+              </Button>
+            </div>
+          </FieldGroup>
         </div>
-
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3 dark:border-slate-400/50">
+        <Divider className="my-4" />
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
           <div>
-            <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-slate-300">
-              {t('settings.user.headline')}
-            </h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-slate-300">
-              {t('settings.user.information')}
-            </p>
+            <Subheading>{t('settings.user.headline')}</Subheading>
+            <Text>{t('settings.user.information')}</Text>
           </div>
-
-          <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
-            <div className="sm:col-span-3">
-              <div className="form-control w-full">
-                <label className="label">
-                  <span className="label-text">{t('label.firstname')}</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder={t('label.firstname')}
-                  className={classNames(
-                    errors.user?.firstname ? 'input-error' : '',
-                    'input input-bordered w-full',
-                  )}
+          <FieldGroup className="sm:col-span-2">
+            <div className="grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-6 md:col-span-2">
+              <Field className="sm:col-span-3">
+                <Label>{t('label.firstname')}</Label>
+                <Input
                   {...register('user.firstname', {
                     required: t('errors.firstname.required'),
                   })}
-                  aria-invalid={errors.user?.firstname ? 'true' : 'false'}
+                  invalid={!!errors.user?.firstname}
                 />
-                <label className="label">
-                  {errors.user?.firstname && (
-                    <span className="label-text-alt text-red-400">
-                      {errors.user.firstname.message}
-                    </span>
-                  )}
-                </label>
-              </div>
-            </div>
-
-            <div className="sm:col-span-3">
-              <div className="form-control w-full">
-                <label className="label">
-                  <span className="label-text">{t('label.lastname')}</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder={t('label.lastname')}
-                  className={classNames(
-                    errors.user?.lastname ? 'input-error' : '',
-                    'input input-bordered w-full',
-                  )}
-                  defaultValue={data?.user?.lastname}
+                {errors.user?.firstname && <ErrorMessage>{errors.user?.firstname.message}</ErrorMessage>}
+              </Field>
+              <Field className="sm:col-span-3">
+                <Label>{t('label.lastname')}</Label>
+                <Input
                   {...register('user.lastname', {
                     required: t('errors.lastname.required'),
                   })}
-                  aria-invalid={errors.user?.lastname ? 'true' : 'false'}
+                  invalid={!!errors.user?.lastname}
                 />
-                <label className="label">
-                  {errors.user?.lastname && (
-                    <span className="label-text-alt text-red-400">
-                      {errors.user.lastname.message}
-                    </span>
-                  )}
-                </label>
-              </div>
-            </div>
-
-            <div className="sm:col-span-6">
-              <div className="form-control w-full">
-                <label className="label">
-                  <span className="label-text">{t('label.email')}</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder={t('label.email')}
-                  className={classNames(
-                    errors.user?.email ? 'input-error' : '',
-                    'input input-bordered w-full',
-                  )}
-                  defaultValue={data?.user?.email}
+                {errors.user?.lastname && <ErrorMessage>{errors.user?.lastname.message}</ErrorMessage>}
+              </Field>
+              <Field className="col-span-6">
+                <Label>{t('label.email')}</Label>
+                <Input
+                  type="email"
                   {...register('user.email', {
                     required: t('errors.email.required'),
                     validate: value => !value.includes('jwpub.org') || t('errors.email.jwpub'),
                   })}
-                  aria-invalid={errors.user?.email ? 'true' : 'false'}
+                  invalid={!!errors.user?.email}
                 />
-                <label className="label">
-                  {errors.user?.email && (
-                    <span className="label-text-alt text-red-400">{errors.user.email.message}</span>
-                  )}
-                </label>
-              </div>
+                {errors.user?.email && <ErrorMessage>{errors.user?.email.message}</ErrorMessage>}
+              </Field>
             </div>
-          </div>
+          </FieldGroup>
         </div>
-
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3 dark:border-slate-400/50">
+        <Divider className="my-4" />
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
           <div>
-            <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-slate-300">
-              {t('settings.online.headline')}
-            </h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-slate-300">
-              {t('settings.online.information')}
-            </p>
+            <Subheading>{t('settings.online.headline')}</Subheading>
+            <Text>{t('settings.online.information')}</Text>
           </div>
-
-          <div className="max-w-2xl space-y-10 md:col-span-2">
-            <fieldset>
-              <div className="mt-2 space-y-4">
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center">
-                    <input
-                      id="public"
-                      type="checkbox"
-                      {...register('online.public')}
-                      className="checkbox-primary checkbox"
-                    />
-                  </div>
-                  <div className="text-sm leading-6">
-                    <label
-                      htmlFor="public"
-                      className="cursor-pointer font-medium text-gray-900 dark:text-slate-300"
-                    >
-                      {t('label.public')}
-                    </label>
-                    <p className="text-gray-500 dark:text-slate-400">
-                      {t('settings.online.public')}
-                    </p>
-                  </div>
-                </div>
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center">
-                    <input
-                      id="send_report_group"
-                      type="checkbox"
-                      {...register('online.send_report_group')}
-                      className="checkbox-primary checkbox"
-                    />
-                  </div>
-                  <div className="text-sm leading-6">
-                    <label
-                      htmlFor="send_report_group"
-                      className="cursor-pointer font-medium text-gray-900 dark:text-slate-300"
-                    >
-                      {t('label.send_report_group')}
-                    </label>
-                    <p className="text-gray-500 dark:text-slate-400">
-                      {t('settings.online.send_report_group')}
-                    </p>
-                  </div>
-                </div>
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center">
-                    <input
-                      id="send_report_publisher"
-                      type="checkbox"
-                      {...register('online.send_report_publisher')}
-                      className="checkbox-primary checkbox"
-                    />
-                  </div>
-                  <div className="text-sm leading-6">
-                    <label
-                      htmlFor="send_report_publisher"
-                      className="cursor-pointer font-medium text-gray-900 dark:text-slate-300"
-                    >
-                      {t('label.send_report_publisher')}
-                    </label>
-                    <p className="text-gray-500 dark:text-slate-400">
-                      {t('settings.online.send_report_publisher')}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
+          <FieldGroup className="sm:col-span-2">
+            <div className="grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-6 md:col-span-2">
+              <SwitchGroup className="sm:col-span-6">
+                <SwitchField>
+                  <Controller
+                    name="online.public"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} />)}
+                  />
+                  <Label>{t('label.public')}</Label>
+                  <Description>{t('settings.online.public')}</Description>
+                </SwitchField>
+                <SwitchField>
+                  <Controller
+                    name="online.send_report_group"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} />)}
+                  />
+                  <Label>{t('label.send_report_group')}</Label>
+                  <Description>{t('settings.online.send_report_group')}</Description>
+                </SwitchField>
+                <SwitchField>
+                  <Controller
+                    name="online.send_report_publisher"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} />)}
+                  />
+                  <Label>{t('label.send_report_publisher')}</Label>
+                  <Description>{t('settings.online.send_report_publisher')}</Description>
+                </SwitchField>
+              </SwitchGroup>
+            </div>
+          </FieldGroup>
         </div>
-
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3 dark:border-slate-400/50">
+        <Divider className="my-4" />
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
           <div>
-            <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-slate-300">
-              {t('settings.experimental.headline')}
-            </h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-slate-300">
-              {t('settings.experimental.information')}
-            </p>
+            <Subheading>{t('settings.experimental.headline')}</Subheading>
+            <Text>{t('settings.experimental.information')}</Text>
           </div>
-
-          <div className="max-w-2xl space-y-10 md:col-span-2">
-            <fieldset>
-              <div className="mt-2 space-y-4">
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center">
-                    <input
-                      id="mergePdf"
-                      type="checkbox"
-                      {...register('mergePdf')}
-                      className="checkbox-primary checkbox"
-                    />
-                  </div>
-                  <div className="text-sm leading-6">
-                    <label
-                      htmlFor="mergePdf"
-                      className="cursor-pointer font-medium text-gray-900 dark:text-slate-300"
-                    >
-                      {t('label.mergePdf')}
-                    </label>
-                    <p className="text-gray-500 dark:text-slate-400">
-                      {t('settings.mergePdf')}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
+          <FieldGroup className="sm:col-span-2">
+            <div className="grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-6 md:col-span-2">
+              <SwitchGroup className="sm:col-span-6">
+                <SwitchField>
+                  <Controller
+                    name="mergePdf"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} />)}
+                  />
+                  <Label>{t('label.mergePdf')}</Label>
+                  <Description>{t('settings.mergePdf')}</Description>
+                </SwitchField>
+              </SwitchGroup>
+            </div>
+          </FieldGroup>
         </div>
-      </div>
+      </Fieldset>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button type="submit" className="btn btn-primary">
+        <Button color="blue" type="submit" disabled={!isValid}>
           {t('button.save')}
-        </button>
+        </Button>
       </div>
     </form>
   )

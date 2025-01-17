@@ -1,13 +1,16 @@
-import { useNavigate }            from 'react-router-dom'
-import { useFieldArray, useForm } from 'react-hook-form'
-import { useTranslation }         from 'react-i18next'
-import { TrashIcon }              from '@heroicons/react/20/solid'
-import { ChevronLeftIcon }        from '@heroicons/react/24/solid'
-import { usePublisherState }      from '@renderer/store/publisherStore'
-import type { PublisherModel }    from 'src/types/models'
-import { Field }                  from '@renderer/components/Field'
-import classNames                 from '@renderer/utils/classNames'
-import ROUTES                     from '../../constants/routes.json'
+import { useNavigate }                                  from 'react-router-dom'
+import { useFieldArray, useForm }                       from 'react-hook-form'
+import { useTranslation }                               from 'react-i18next'
+import { TrashIcon }                                    from '@heroicons/react/20/solid'
+import { ChevronLeftIcon }                              from '@heroicons/react/24/solid'
+import { usePublisherState }                            from '@renderer/store/publisherStore'
+import type { PublisherModel }                          from 'src/types/models'
+import { ErrorMessage, Field, Fieldset, Label, Legend } from '@renderer/components/catalyst/fieldset'
+import { Heading }                                      from '@renderer/components/catalyst/heading'
+import { Button }                                       from '@renderer/components/catalyst/button'
+import { Textarea }                                     from '@renderer/components/catalyst/textarea'
+import ROUTES                                           from '../../constants/routes.json'
+import Progress                                         from './components/progress'
 
 export default function PublisherOtherForm(): JSX.Element {
   const { t }          = useTranslation()
@@ -59,84 +62,73 @@ export default function PublisherOtherForm(): JSX.Element {
   return (
     <div>
       <div className="flex justify-between">
-        <h1>
+        <Heading>
           {publisherState.publisher._id
             ? t('publishers.editHeadline')
             : t('publishers.addHeadline')}
-        </h1>
+        </Heading>
       </div>
-      <div className="w-full">
-        <ul className="steps w-full">
-          <li className="step step-primary">{t('publishers.step.personal')}</li>
-          <li className="step step-primary">{t('publishers.step.contact')}</li>
-          <li className="step step-primary">{t('publishers.step.appointments')}</li>
-          <li className="step step-primary">{t('publishers.step.other')}</li>
-        </ul>
-      </div>
+      <Progress step="OTHER" />
       <form onSubmit={handleSubmit(saveData)}>
         <div className="mx-auto grid w-10/12 grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
           {/* OTHER */}
-          <div className="sm:col-span-6">
-            <Field label={t('label.other')} error={errors.other?.message}>
-              <textarea
-                id="other"
-                placeholder={t('label.other')}
-                rows={5}
-                className={classNames(
-                  errors.firstname ? 'textarea-error' : '',
-                  'textarea w-full textarea-bordered dark:placeholder:text-slate-500',
-                )}
-                {...register('other')}
-              />
-            </Field>
-          </div>
+          <Field className="sm:col-span-6">
+            <Label>{t('label.other')}</Label>
+            <Textarea
+              id="other"
+              placeholder={t('label.other')}
+              rows={5}
+              {...register('other')}
+            />
+            {errors.other && <ErrorMessage>{errors.other.message}</ErrorMessage>}
+          </Field>
+
           <div className="sm:col-span-6">
             {fields.length > 0 && (
-              <fieldset className="fieldset col-span-6 mb-2">
-                <legend className="bg-white px-1 text-sm font-bold text-gray-700 dark:bg-slate-900 dark:text-slate-400">
-                  {t('label.events')}
-                </legend>
+              <Fieldset className="col-span-6 my-4 border border-zinc-950/10 p-4 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20">
+                <Legend className="-mt-7 mb-2 w-fit bg-white px-1 dark:bg-zinc-900">{t('label.events')}</Legend>
+
                 {fields.map((item, index) => {
                   return (
-                    <div key={item.id} className="mb-2 grid grid-cols-12 gap-6">
-                      <div className="col-span-3">
+                    <div key={item.id} className="mb-2 grid grid-cols-12 gap-6 text-sm text-zinc-950 dark:text-white">
+                      <div className="col-span-3 my-auto">
                         {item.date}
                       </div>
-                      <div className="col-span-8 leading-tight">
+                      <div className="col-span-8 my-auto leading-tight">
                         {t(`event.${item.type.toLowerCase()}`)}
                         <span className="text-xs">
                           <br />
                           {item.information}
                         </span>
                       </div>
-                      <div className="col-span-1 flex justify-end">
-                        <button
-                          className="btn btn-circle btn-outline btn-xs"
+                      <div className="col-span-1 flex items-center justify-end">
+                        <Button
+                          outline
                           onClick={(): void => {
                             remove(index)
                           }}
                         >
                           <TrashIcon className="size-4" />
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   )
                 })}
-              </fieldset>
+              </Fieldset>
             )}
           </div>
 
           <div className="col-span-6 col-start-1 mt-2 flex justify-between">
-            <button
-              className="btn btn-secondary"
+            <Button
+              outline
               onClick={(): void => navigate(ROUTES.PUBLISHER_APPOINTMENTS_FORM)}
             >
               <ChevronLeftIcon className="size-5" />
               {t('button.back')}
-            </button>
-            <button className="btn btn-primary" type="submit">
+            </Button>
+            <Button color="blue" type="submit">
               {t('button.save')}
-            </button>
+            </Button>
           </div>
         </div>
       </form>

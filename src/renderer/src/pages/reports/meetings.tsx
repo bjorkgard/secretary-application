@@ -2,6 +2,7 @@ import { useState }               from 'react'
 import { useTranslation }         from 'react-i18next'
 import { useEffectOnce }          from '@renderer/hooks/useOnMountUnsafe'
 import type { ServiceMonthModel } from 'src/types/models'
+import { Heading, Subheading }    from '@renderer/components/catalyst/heading'
 import { MeetingsTable }          from './components/meetingsTable'
 
 export default function ReportsMeetings(): JSX.Element {
@@ -25,9 +26,9 @@ export default function ReportsMeetings(): JSX.Element {
   return (
     <div>
       <div>
-        <h1>{t('meeting.headline')}</h1>
+        <Heading>{t('meeting.headline')}</Heading>
       </div>
-      <div className="-mt-4">
+      <div>
         {activeServiceMonth
           ? (
               serviceMonth?.meetings?.map((meeting, index) => {
@@ -48,7 +49,7 @@ export default function ReportsMeetings(): JSX.Element {
               })
             )
           : (
-              <h2>{t('reports.noActive')}</h2>
+              <Subheading>{t('reports.noActive')}</Subheading>
             )}
       </div>
     </div>

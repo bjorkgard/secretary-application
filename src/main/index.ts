@@ -88,12 +88,6 @@ import ExportAuxiliariesList          from './functions/exportAuxiliariesList'
 import importS21                      from './functions/importS21'
 import importExcel                    from './functions/importExcel'
 
-// Bugsnag.start({
-//  apiKey:               import.meta.env.MAIN_VITE_BUGSNAG,
-//  appVersion:           import.meta.env.MAIN_VITE_APP_VERSION || 'dev',
-//  enabledReleaseStages: ['production', 'staging'],
-// })
-
 // Initialize services
 const circuitOverseerService = new CircuitOverseerService()
 const exportService          = new ExportService()

@@ -1,7 +1,11 @@
-import { Dialog, Transition } from '@headlessui/react'
-import { XMarkIcon }          from '@heroicons/react/24/outline'
-import { Fragment, useState } from 'react'
-import { useTranslation }     from 'react-i18next'
+import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
+import { XMarkIcon }                                                     from '@heroicons/react/24/outline'
+import { Fragment, useState }                                            from 'react'
+import { useTranslation }                                                from 'react-i18next'
+import { Text }                                                          from './catalyst/text'
+import { Button }                                                        from './catalyst/button'
+import { Fieldset, Label }                                               from './catalyst/fieldset'
+import { Checkbox, CheckboxField }                                       from './catalyst/checkbox'
 
 export interface iInactive {
   id:   string
@@ -18,9 +22,9 @@ export function ShowInactive({ show, inactives, handleClose }: { show: boolean, 
   }
 
   return (
-    <Transition.Root show={show} as={Fragment}>
+    <Transition show={show} as={Fragment}>
       <Dialog className="relative z-10" onClose={handleClose}>
-        <Transition.Child
+        <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
           enterFrom="opacity-0"
@@ -30,11 +34,11 @@ export function ShowInactive({ show, inactives, handleClose }: { show: boolean, 
           leaveTo="opacity-0"
         >
           <div className="fixed inset-0 bg-gray-500/75 transition-opacity" />
-        </Transition.Child>
+        </TransitionChild>
 
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
               enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -43,11 +47,11 @@ export function ShowInactive({ show, inactives, handleClose }: { show: boolean, 
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative rounded-xl bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl sm:p-6 dark:bg-slate-900">
+              <DialogPanel className="relative rounded-xl bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl sm:p-6 dark:bg-zinc-900">
                 <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
                   <button
                     type="button"
-                    className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-slate-900 dark:ring-offset-slate-900"
+                    className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-zinc-900 dark:ring-offset-zinc-900"
                     onClick={handleClose}
                   >
                     <span className="sr-only">Close</span>
@@ -56,58 +60,58 @@ export function ShowInactive({ show, inactives, handleClose }: { show: boolean, 
                 </div>
                 <div className="w-full sm:flex sm:items-start">
                   <div className="mt-3 w-full text-center sm:mt-0 sm:text-left">
-                    <Dialog.Title
+                    <DialogTitle
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900 dark:text-slate-300"
                     >
                       {t('serviceGroups.inactivePublishers')}
-                    </Dialog.Title>
+                    </DialogTitle>
                     <div className="mt-2 flex w-full flex-col">
-                      <div>{t('serviceGroups.selectInactivePublishers')}</div>
-                      <div className="mt-2 grid grid-cols-3 gap-y-2">
+                      <Text>{t('serviceGroups.selectInactivePublishers')}</Text>
+                      <Fieldset className="mt-2 grid grid-cols-3 gap-y-2">
                         {inactives.map(inactive => (
-                          <label key={inactive.id} className="mr-2 flex items-center">
-                            <input
-                              type="checkbox"
+                          <CheckboxField key={inactive.id}>
+                            <Checkbox
+                              color="blue"
                               value={inactive.id}
-                              onChange={(e) => {
-                                if (e.target.checked)
-                                  setSelectedInactives([...selectedInactives, e.target.value])
+                              checked={selectedInactives.includes(inactive.id)}
+                              onChange={() => {
+                                if (!selectedInactives.includes(inactive.id))
+                                  setSelectedInactives([...selectedInactives, inactive.id])
                                 else
-                                  setSelectedInactives(selectedInactives.filter(selected => selected !== e.target.value))
+                                  setSelectedInactives(selectedInactives.filter(selected => selected !== inactive.id))
                               }}
                             />
-                            <span className="ml-2">{inactive.name}</span>
-                          </label>
+                            <Label>{inactive.name}</Label>
+                          </CheckboxField>
                         ))}
-
-                      </div>
+                      </Fieldset>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                  <button
+                <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse sm:space-x-4 sm:space-x-reverse">
+                  <Button
                     type="button"
-                    className="btn btn-primary inline-flex w-full sm:ml-3 sm:w-auto"
+                    color="blue"
                     onClick={() => onExport()}
                   >
                     {t('label.export')}
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="button"
-                    className="btn btn-accent mt-3 inline-flex w-full sm:mt-0 sm:w-auto"
+                    outline
                     onClick={handleClose}
                   >
                     {t('label.cancel')}
-                  </button>
+                  </Button>
                 </div>
 
-              </Dialog.Panel>
-            </Transition.Child>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </div>
       </Dialog>
-    </Transition.Root>
+    </Transition>
   )
 }

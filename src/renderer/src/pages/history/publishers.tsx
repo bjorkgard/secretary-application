@@ -1,10 +1,16 @@
-import { PencilIcon, TrashIcon }       from '@heroicons/react/16/solid'
-import { useEffect, useState }         from 'react'
-import { useTranslation }              from 'react-i18next'
-import type { PublisherModel, Report } from 'src/types/models'
-import { useConfirmationModalContext } from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
-import AddReportModal                  from './components/addReportModal'
-import EditReportModal                 from './components/editReportModal'
+import { CheckCircleIcon, PencilIcon, TrashIcon }                        from '@heroicons/react/16/solid'
+import { useEffect, useState }                                           from 'react'
+import { useTranslation }                                                from 'react-i18next'
+import type { PublisherModel, Report }                                   from 'src/types/models'
+import { useConfirmationModalContext }                                   from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import { Fieldset }                                                      from '@renderer/components/catalyst/fieldset'
+import { Heading }                                                       from '@renderer/components/catalyst/heading'
+import { Button }                                                        from '@renderer/components/catalyst/button'
+import { PlusIcon, XCircleIcon }                                         from '@heroicons/react/20/solid'
+import { Select }                                                        from '@renderer/components/catalyst/select'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@renderer/components/catalyst/table'
+import AddReportModal                                                    from './components/addReportModal'
+import EditReportModal                                                   from './components/editReportModal'
 
 export default function HistoryPublishers(): JSX.Element {
   const { t }                                         = useTranslation()
@@ -95,81 +101,95 @@ export default function HistoryPublishers(): JSX.Element {
         }}
       />
 
-      <div className="flex h-full flex-col">
-        <div className="flex justify-between">
-          <h1>{t('history.publisher')}</h1>
+      <div>
+        <Fieldset>
+          <div className="flex justify-between">
+            <Heading>{t('history.publisher')}</Heading>
 
-          <div className="flex space-x-4">
-            {selectedPublisher && (
-              <button className="btn btn-primary" onClick={() => addReport()}>
-                {t('label.addReport')}
-              </button>
-            )}
-
-            <select className="select select-bordered w-fit" onChange={selectPublisher}>
-              <option value="">{t('label.selectPublisher')}</option>
-              {publishers.map((p) => {
-                return (
-                  <option key={p._id} value={p._id}>
-                    {`${p.lastname}, ${p.firstname}`}
-                  </option>
-                )
-              })}
-            </select>
+            <div className="flex space-x-4">
+              {selectedPublisher && (
+                <div className="tooltip tooltip-left" data-tip={t('label.addReport')}>
+                  <Button
+                    onClick={() => addReport()}
+                    color="blue"
+                  >
+                    <PlusIcon className="size-6 text-white" />
+                    {t('label.addReport')}
+                  </Button>
+                </div>
+              )}
+              <div className="tooltip tooltip-left" data-tip={t('label.selectPublisher')}>
+                <Select onChange={selectPublisher}>
+                  <option value="">{t('label.selectPublisher')}</option>
+                  {publishers.map((p) => {
+                    return (
+                      <option key={p._id} value={p._id}>
+                        {`${p.lastname}, ${p.firstname}`}
+                      </option>
+                    )
+                  })}
+                </Select>
+              </div>
+            </div>
           </div>
-        </div>
 
-        {selectedPublisher && reports && (
-          <>
-            <div className="w-full">
-              <table className="table -mt-2 w-full">
-                <thead>
-                  <tr>
-                    <th>{t('label.month')}</th>
-                    <th>{t('label.hasBeenInService')}</th>
-                    <th>{t('label.studies')}</th>
-                    <th>{t('label.auxiliary')}</th>
-                    <th>{t('label.hours')}</th>
-                    <th>{t('label.remarks')}</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
+          <div>
+            {selectedPublisher && reports && (
+              <Table dense bleed grid sticky striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
+                <TableHead>
+                  <TableRow>
+                    <TableHeader>{t('label.month')}</TableHeader>
+                    <TableHeader>{t('label.hasBeenInService')}</TableHeader>
+                    <TableHeader>{t('label.studies')}</TableHeader>
+                    <TableHeader>{t('label.auxiliary')}</TableHeader>
+                    <TableHeader>{t('label.hours')}</TableHeader>
+                    <TableHeader>{t('label.remarks')}</TableHeader>
+                    <TableHeader>&nbsp;</TableHeader>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
                   {reports.map((report) => {
                     return (
-                      <tr key={report.identifier}>
-                        <th>{report.serviceMonth}</th>
-                        <td>{report.hasBeenInService ? 'X' : ''}</td>
-                        <td>{report.studies}</td>
-                        <td>{report.auxiliary ? 'X' : ''}</td>
-                        <td>{report.hours}</td>
-                        <td>{report.remarks}</td>
-                        <td>
+                      <TableRow key={report.identifier} className="hover">
+                        <TableCell>{report.serviceMonth}</TableCell>
+                        <TableCell>
+                          {
+                            report.hasBeenInService
+                              ? <CheckCircleIcon className="size-5 text-green-500" />
+                              : <XCircleIcon className="size-5 text-red-500" />
+                          }
+                        </TableCell>
+                        <TableCell>{report.studies}</TableCell>
+                        <TableCell>{report.auxiliary ? <CheckCircleIcon className="size-5 text-green-500" /> : ''}</TableCell>
+                        <TableCell>{report.hours}</TableCell>
+                        <TableCell>{report.remarks}</TableCell>
+                        <TableCell className="flex justify-end">
                           <div className="tooltip tooltip-left" data-tip={t('label.editReport')}>
-                            <button
-                              className="btn btn-circle btn-ghost btn-sm"
+                            <Button
+                              plain
                               onClick={() => editReport(report.identifier)}
                             >
                               <PencilIcon className="size-4" />
-                            </button>
+                            </Button>
                           </div>
                           <div className="tooltip tooltip-left" data-tip={t('label.deleteReport')}>
-                            <button
-                              className="btn btn-circle btn-ghost btn-sm"
+                            <Button
+                              plain
                               onClick={() => deleteReport(report.identifier)}
                             >
                               <TrashIcon className="size-4" />
-                            </button>
+                            </Button>
                           </div>
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     )
                   })}
-                </tbody>
-              </table>
-            </div>
-          </>
-        )}
+                </TableBody>
+              </Table>
+            )}
+          </div>
+
+        </Fieldset>
       </div>
     </>
   )

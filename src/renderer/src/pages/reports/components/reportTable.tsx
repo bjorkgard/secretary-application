@@ -1,9 +1,14 @@
-import type { ChangeEvent }       from 'react'
-import { useFieldArray, useForm } from 'react-hook-form'
-import { useTranslation }         from 'react-i18next'
-import type { Report }            from 'src/types/models'
-import { useSettingsState }       from '@renderer/store/settingsStore'
-import classNames                 from '@renderer/utils/classNames'
+import { Controller, useFieldArray, useForm }                            from 'react-hook-form'
+import { useTranslation }                                                from 'react-i18next'
+import type { Report }                                                   from 'src/types/models'
+import { useSettingsState }                                              from '@renderer/store/settingsStore'
+import classNames                                                        from '@renderer/utils/classNames'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@renderer/components/catalyst/table'
+import { Button }                                                        from '@renderer/components/catalyst/button'
+import { Input }                                                         from '@renderer/components/catalyst/input'
+import { Switch, SwitchField, SwitchGroup }                              from '@renderer/components/catalyst/switch'
+import { Checkbox, CheckboxField, CheckboxGroup }                        from '@renderer/components/catalyst/checkbox'
+import { Label }                                                         from '@renderer/components/catalyst/fieldset'
 
 interface ComponentProps {
   reports:        Report[]
@@ -54,8 +59,10 @@ export function ReportsTable({ month, reports, serviceGroupId }: ComponentProps)
     saveReport(index)
   }
 
-  const handleAuxiliary = (index: number, e: ChangeEvent<HTMLInputElement>): void => {
-    if (!e.target.checked) {
+  const handleAuxiliary = (index: number): void => {
+    const report = getValues(`reports.${index}`)
+
+    if (report.auxiliary) {
       // Save the report if the auxiliary checkbox is unchecked otherwise we need hours to be filled before saving
       setValue(`reports.${index}.auxiliary`, false)
       setValue(`reports.${index}.hours`, undefined)
@@ -85,34 +92,24 @@ export function ReportsTable({ month, reports, serviceGroupId }: ComponentProps)
     saveReport(index)
   }
 
-  const handleHasBeenInService = (index: number, e: ChangeEvent<HTMLInputElement>): void => {
+  const handleHasBeenInService = (index: number): void => {
     const report = getValues(`reports.${index}`)
 
-    if (e.target.checked) {
-      setValue(`reports.${index}.hasBeenInService`, true)
-      setValue(`reports.${index}.hasNotBeenInService`, false)
-    }
-    else {
-      setValue(`reports.${index}.hasBeenInService`, true)
-    }
+    setValue(`reports.${index}.hasBeenInService`, true)
+    setValue(`reports.${index}.hasNotBeenInService`, false)
 
     if (report.type === 'PUBLISHER' && !report.auxiliary)
       saveReport(index)
   }
 
-  const handleHasNotBeenInService = (index: number, e: ChangeEvent<HTMLInputElement>): void => {
+  const handleHasNotBeenInService = (index: number): void => {
     const report = getValues(`reports.${index}`)
 
-    if (e.target.checked) {
-      setValue(`reports.${index}.hasBeenInService`, false)
-      setValue(`reports.${index}.hasNotBeenInService`, true)
-      setValue(`reports.${index}.studies`, undefined)
-      setValue(`reports.${index}.hours`, undefined)
-      setValue(`reports.${index}.auxiliary`, false)
-    }
-    else {
-      setValue(`reports.${index}.hasNotBeenInService`, true)
-    }
+    setValue(`reports.${index}.hasBeenInService`, false)
+    setValue(`reports.${index}.hasNotBeenInService`, true)
+    setValue(`reports.${index}.studies`, undefined)
+    setValue(`reports.${index}.hours`, undefined)
+    setValue(`reports.${index}.auxiliary`, false)
 
     if (report.type === 'PUBLISHER' && !report.auxiliary)
       saveReport(index)
@@ -133,21 +130,21 @@ export function ReportsTable({ month, reports, serviceGroupId }: ComponentProps)
   return (
     <div className="overflow-x-auto">
       <form>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>{t('label.name')}</th>
-              <th>{t('label.attended')}</th>
-              <th>{t('label.studies')}</th>
-              <th>{t('label.aux')}</th>
-              <th>{t('label.hours')}</th>
-              <th>{t('label.remarks')}</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table dense bleed grid sticky striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]" margin={255}>
+          <TableHead>
+            <TableRow>
+              <TableHeader>{t('label.name')}</TableHeader>
+              <TableHeader>{t('label.attended')}</TableHeader>
+              <TableHeader>{t('label.studies')}</TableHeader>
+              <TableHeader>{t('label.aux')}</TableHeader>
+              <TableHeader>{t('label.hours')}</TableHeader>
+              <TableHeader>{t('label.remarks')}</TableHeader>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {fields.map((report, index) => (
-              <tr key={report.identifier}>
-                <td>
+              <TableRow key={report.identifier}>
+                <TableCell>
                   {report.publisherName}
                   {month !== report.name
                     ? (
@@ -157,77 +154,95 @@ export function ReportsTable({ month, reports, serviceGroupId }: ComponentProps)
                         </>
                       )
                     : null}
-                </td>
-                <td>
-                  <div className="form-control">
-                    <label className="label cursor-pointer">
-                      <input
-                        {...register(`reports.${index}.hasBeenInService`)}
-                        type="checkbox"
-                        className="checkbox-primary checkbox checkbox-xs"
-                        onChange={(e): void => handleHasBeenInService(index, e)}
+                </TableCell>
+                <TableCell>
+                  <CheckboxGroup>
+                    <CheckboxField>
+                      <Controller
+                        name={`reports.${index}.hasBeenInService`}
+                        control={control}
+                        render={({ field: { value } }) => (
+                          <Checkbox
+                            color="blue"
+                            onChange={() => {
+                              handleHasBeenInService(index)
+                            }}
+                            checked={value}
+                          />
+                        )}
                       />
-                      <span className="label-text text-xs">{t('label.yes')}</span>
-                    </label>
-                  </div>
-                  <div className="form-control">
-                    <label className="label cursor-pointer">
-                      <input
-                        {...register(`reports.${index}.hasNotBeenInService`)}
-                        type="checkbox"
-                        className="checkbox-primary checkbox checkbox-xs"
-                        onChange={(e): void => handleHasNotBeenInService(index, e)}
+                      <Label>{t('label.yes')}</Label>
+                    </CheckboxField>
+                    <CheckboxField>
+                      <Controller
+                        name={`reports.${index}.hasNotBeenInService`}
+                        control={control}
+                        render={({ field: { value } }) => (
+                          <Checkbox
+                            color="blue"
+                            onChange={() => {
+                              handleHasNotBeenInService(index)
+                            }}
+                            checked={value}
+                          />
+                        )}
                       />
-                      <span className="label-text text-xs">{t('label.no')}</span>
-                    </label>
-                  </div>
-                </td>
-                <td>
-                  <input
+                      <Label>{t('label.no')}</Label>
+                    </CheckboxField>
+                  </CheckboxGroup>
+                </TableCell>
+                <TableCell>
+                  <Input
                     type="number"
-                    className="input input-md input-bordered w-full"
                     {...register(`reports.${index}.studies`)}
                     min={0}
                     onBlur={(): void => handleBibleStudies(index)}
                   />
-                </td>
-                <td>
-                  <input
-                    type="checkbox"
-                    className="checkbox-primary checkbox checkbox-sm"
-                    {...register(`reports.${index}.auxiliary`)}
-                    onChange={(e): void => handleAuxiliary(index, e)}
-                    disabled={
-                      fields[index].type !== 'PUBLISHER'
-                      || fields[index].publisherStatus === 'INACTIVE'
-                    }
-                  />
-                </td>
-                <td>
-                  <input
+                </TableCell>
+                <TableCell>
+                  <SwitchGroup>
+                    <SwitchField>
+                      <Controller
+                        name={`reports.${index}.auxiliary`}
+                        control={control}
+                        render={({ field: { value } }) => (
+                          <Switch
+                            color="blue"
+                            onChange={() => { handleAuxiliary(index) }}
+                            checked={value}
+                            disabled={
+                              fields[index].type !== 'PUBLISHER'
+                              || fields[index].publisherStatus === 'INACTIVE'
+                            }
+                          />
+                        )}
+                      />
+                    </SwitchField>
+                  </SwitchGroup>
+                </TableCell>
+                <TableCell>
+                  <Input
                     type="number"
-                    className="input input-md input-bordered w-full"
                     {...register(`reports.${index}.hours`)}
                     disabled={fields[index].type === 'PUBLISHER' && !watchReports[index].auxiliary}
                     min={0}
                     onBlur={(): void => handleHours(index)}
                   />
-                </td>
-                <td>
-                  <input
+                </TableCell>
+                <TableCell>
+                  <Input
                     type="text"
-                    className="input input-md input-bordered w-full"
                     {...register(`reports.${index}.remarks`)}
                     onBlur={(): void => handleRemarks(index)}
                   />
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </form>
-      <div className="flex w-full justify-end">
-        <button className={classNames(!settingsState.online.send_report_group ? 'invisible' : '', 'btn btn-primary')} onClick={() => resendReportForm(serviceGroupId)}>{t('label.resendServiceGroupReports')}</button>
+      <div className="mt-4 flex w-full justify-end">
+        <Button color="blue" className={classNames(!settingsState.online.send_report_group ? 'invisible' : '')} onClick={() => resendReportForm(serviceGroupId)}>{t('label.resendServiceGroupReports')}</Button>
       </div>
     </div>
   )

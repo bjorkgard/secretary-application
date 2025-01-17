@@ -53,7 +53,7 @@ export default function Reports({ serviceMonths, type }: Props): JSX.Element | n
   }
 
   return (
-    <div className="rounded-md bg-gray-200 p-4 dark:bg-slate-800">
+    <div className="rounded-md bg-gray-200 p-4 dark:border dark:border-white/10 dark:bg-transparent">
       <div className="px-4 sm:px-0">
         <h3 className="mt-0 text-base font-semibold text-gray-900 dark:text-white">{t(`label.${type.toLowerCase()}`)}</h3>
       </div>

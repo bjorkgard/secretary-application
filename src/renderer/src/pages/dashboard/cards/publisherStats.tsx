@@ -3,7 +3,8 @@ import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js'
 import { Doughnut }                                      from 'react-chartjs-2'
 import { useTranslation }                                from 'react-i18next'
 import colors                                            from 'tailwindcss/colors'
-import { Card }                                          from '@renderer/components/Card'
+import { DashboardCard }                                 from '@renderer/components/DashboardCard'
+import { Heading, Subheading }                           from '@renderer/components/catalyst/heading'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -49,18 +50,16 @@ export default function PublisherStats(): JSX.Element {
   }
 
   return (
-    <Card
-      title={t('label.publishers')}
-      footer={t('label.numberActivePublishers', { amount: stats.active + stats.irregular })}
-      loading={loading}
-    >
+    <DashboardCard className="col-span-2 sm:col-span-1 xl:col-span-4 2xl:col-span-3">
+      <Heading className="mb-4">{t('label.publishers')}</Heading>
       {loading
         ? (
-            <div className="aspect-square w-full rounded-full bg-slate-200" />
+            <div className="aspect-square w-full animate-pulse rounded-full bg-slate-200" />
           )
         : (
             <Doughnut data={data} options={options} />
           )}
-    </Card>
+      <Subheading className="mt-4 w-full text-right">{t('label.numberActivePublishers', { amount: stats.active + stats.irregular })}</Subheading>
+    </DashboardCard>
   )
 }

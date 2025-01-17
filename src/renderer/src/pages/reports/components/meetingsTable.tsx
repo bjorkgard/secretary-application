@@ -1,5 +1,9 @@
-import { useForm }        from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
+import { Divider }                                                       from '@renderer/components/catalyst/divider'
+import { Subheading }                                                    from '@renderer/components/catalyst/heading'
+import { Input }                                                         from '@renderer/components/catalyst/input'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@renderer/components/catalyst/table'
+import { useForm }                                                       from 'react-hook-form'
+import { useTranslation }                                                from 'react-i18next'
 
 interface ComponentProps {
   meetings: {
@@ -34,111 +38,100 @@ export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps
   }
 
   return (
-    <form
-      onBlur={useFormAttributes.handleSubmit(handleBlur)}
-      className="border-b border-gray-300 dark:border-slate-600"
-    >
-      <h4>{name}</h4>
-      <table className="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>{t('label.week1')}</th>
-            <th>{t('label.week2')}</th>
-            <th>{t('label.week3')}</th>
-            <th>{t('label.week4')}</th>
-            <th>{t('label.week5')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>{t('label.midweekMeeting')}</th>
-            <td>
-              <input
+    <form onBlur={useFormAttributes.handleSubmit(handleBlur)}>
+      <Subheading>{name}</Subheading>
+      <Table dense bleed grid sticky striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
+        <TableHead>
+          <TableRow>
+            <TableHeader></TableHeader>
+            <TableHeader>{t('label.week1')}</TableHeader>
+            <TableHeader>{t('label.week2')}</TableHeader>
+            <TableHeader>{t('label.week3')}</TableHeader>
+            <TableHeader>{t('label.week4')}</TableHeader>
+            <TableHeader>{t('label.week5')}</TableHeader>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            <TableCell>{t('label.midweekMeeting')}</TableCell>
+            <TableCell>
+              <Input
                 {...useFormAttributes.register('meetings.midweek.0')}
                 type="number"
                 className="input input-md input-bordered w-full"
                 min={0}
               />
-            </td>
-            <td>
-              <input
+            </TableCell>
+            <TableCell>
+              <Input
                 {...useFormAttributes.register('meetings.midweek.1')}
                 type="number"
-                className="input input-md input-bordered w-full"
                 min={0}
               />
-            </td>
-            <td>
-              <input
+            </TableCell>
+            <TableCell>
+              <Input
                 {...useFormAttributes.register('meetings.midweek.2')}
                 type="number"
-                className="input input-md input-bordered w-full"
                 min={0}
               />
-            </td>
-            <td>
-              <input
+            </TableCell>
+            <TableCell>
+              <Input
                 {...useFormAttributes.register('meetings.midweek.3')}
                 type="number"
-                className="input input-md input-bordered w-full"
                 min={0}
               />
-            </td>
-            <td>
-              <input
+            </TableCell>
+            <TableCell>
+              <Input
                 {...useFormAttributes.register('meetings.midweek.4')}
                 type="number"
-                className="input input-md input-bordered w-full"
                 min={0}
               />
-            </td>
-          </tr>
-          <tr>
-            <th>{t('label.weekendMeeting')}</th>
-            <td>
-              <input
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>{t('label.weekendMeeting')}</TableCell>
+            <TableCell>
+              <Input
                 {...useFormAttributes.register('meetings.weekend.0')}
                 type="number"
-                className="input input-md input-bordered w-full"
                 min={0}
               />
-            </td>
-            <td>
-              <input
+            </TableCell>
+            <TableCell>
+              <Input
                 {...useFormAttributes.register('meetings.weekend.1')}
                 type="number"
-                className="input input-md input-bordered w-full"
                 min={0}
               />
-            </td>
-            <td>
-              <input
+            </TableCell>
+            <TableCell>
+              <Input
                 {...useFormAttributes.register('meetings.weekend.2')}
                 type="number"
-                className="input input-md input-bordered w-full"
                 min={0}
               />
-            </td>
-            <td>
-              <input
+            </TableCell>
+            <TableCell>
+              <Input
                 {...useFormAttributes.register('meetings.weekend.3')}
                 type="number"
-                className="input input-md input-bordered w-full"
                 min={0}
               />
-            </td>
-            <td>
-              <input
+            </TableCell>
+            <TableCell>
+              <Input
                 {...useFormAttributes.register('meetings.weekend.4')}
                 type="number"
-                className="input input-md input-bordered w-full"
                 min={0}
               />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+      <Divider className="my-8" />
     </form>
   )
 }

@@ -1,6 +1,11 @@
 import { useEffect, useState }                      from 'react'
 import { useTranslation }                           from 'react-i18next'
 import type { ServiceMonthModel, ServiceYearModel } from 'src/types/models'
+import { Fieldset }                                 from '@renderer/components/catalyst/fieldset'
+import { Heading }                                  from '@renderer/components/catalyst/heading'
+import { Button }                                   from '@renderer/components/catalyst/button'
+import { PlusIcon }                                 from '@heroicons/react/24/solid'
+import { Select }                                   from '@renderer/components/catalyst/select'
 import LastMonth                                    from './components/lastMonth'
 import Meetings                                     from './components/meetings'
 import HistoryTable                                 from './components/history'
@@ -48,37 +53,48 @@ export default function StatsAnalysis(): JSX.Element {
   }
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex justify-between">
-        <h1>{t('analysis.headline')}</h1>
-
-        <div className="flex space-x-4">
-          <button className="btn btn-primary invisible" onClick={() => {}}>{t('label.add')}</button>
-
-          <select className="select select-bordered w-fit" onChange={selectServiceYear}>
-            <option value="">{t('label.selectServiceYear')}</option>
-            {serviceYears.map((sy) => {
-              return (
-                <option key={sy._id} value={sy._id}>
-                  {sy.name}
-                </option>
-              )
-            })}
-          </select>
+    <div>
+      <Fieldset>
+        <div className="flex justify-between">
+          <Heading>{t('analysis.headline')}</Heading>
+          <div className="flex space-x-4">
+            <div className="tooltip tooltip-left invisible" data-tip={t('label.add')}>
+              <Button
+                onClick={() => {}}
+                color="blue"
+              >
+                <PlusIcon className="size-6 text-white" />
+                {t('label.add')}
+              </Button>
+            </div>
+            <div className="tooltip tooltip-left" data-tip={t('label.selectServiceYear')}>
+              <Select onChange={selectServiceYear}>
+                <option value="">{t('label.selectServiceYear')}</option>
+                {serviceYears.map((sy) => {
+                  return (
+                    <option key={sy._id} value={sy._id}>
+                      {sy.name}
+                    </option>
+                  )
+                })}
+              </Select>
+            </div>
+          </div>
         </div>
-      </div>
-      {selectedServiceYear && (
-        <div className="grid grid-cols-2 gap-8">
-          <HistoryTable serviceYear={selectedServiceYear} serviceMonths={serviceMonths} />
-          <LastMonth serviceMonth={serviceMonths[getLastDoneIndex()]} />
-          <Meetings serviceMonths={serviceMonths} />
-          <Reports serviceMonths={serviceMonths} type="PIONEER" />
-          <Reports serviceMonths={serviceMonths} type="PUBLISHER" />
-          <Reports serviceMonths={serviceMonths} type="AUXILIARY" />
-          <Reports serviceMonths={serviceMonths} type="SPECIALPIONEER" />
-          <Reports serviceMonths={serviceMonths} type="MISSIONARY" />
-        </div>
-      )}
+
+        {selectedServiceYear && (
+          <div className="mt-2 grid grid-cols-2 gap-8">
+            <HistoryTable serviceYear={selectedServiceYear} serviceMonths={serviceMonths} />
+            <LastMonth serviceMonth={serviceMonths[getLastDoneIndex()]} />
+            <Meetings serviceMonths={serviceMonths} />
+            <Reports serviceMonths={serviceMonths} type="PIONEER" />
+            <Reports serviceMonths={serviceMonths} type="PUBLISHER" />
+            <Reports serviceMonths={serviceMonths} type="AUXILIARY" />
+            <Reports serviceMonths={serviceMonths} type="SPECIALPIONEER" />
+            <Reports serviceMonths={serviceMonths} type="MISSIONARY" />
+          </div>
+        )}
+      </Fieldset>
     </div>
   )
 }

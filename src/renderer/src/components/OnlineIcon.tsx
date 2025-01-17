@@ -20,7 +20,7 @@ export function OnlineIcon(): JSX.Element {
         isOnline
           ? 'text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-500'
           : 'text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500',
-        '-m-2.5 p-2.5',
+        'flex h-full items-center',
       )}
       onClick={(): void => navigate('/settings')}
     >

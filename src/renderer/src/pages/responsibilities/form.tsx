@@ -1,11 +1,14 @@
-import { useForm }                  from 'react-hook-form'
-import { useTranslation }           from 'react-i18next'
-import { useNavigate, useParams }   from 'react-router-dom'
-import type { ResponsibilityModel } from 'src/types/models'
-import { Field }                    from '@renderer/components/Field'
-import classNames                   from '@renderer/utils/classNames'
-import { useEffect, useState }      from 'react'
-import ROUTES                       from '../../constants/routes.json'
+import { useEffect, useState }                              from 'react'
+import { useForm }                                          from 'react-hook-form'
+import { useTranslation }                                   from 'react-i18next'
+import { useNavigate, useParams }                           from 'react-router-dom'
+import type { ResponsibilityModel }                         from 'src/types/models'
+import { ErrorMessage, Field, FieldGroup, Fieldset, Label } from '@renderer/components/catalyst/fieldset'
+import { Heading }                                          from '@renderer/components/catalyst/heading'
+import { Text }                                             from '@renderer/components/catalyst/text'
+import { Input }                                            from '@renderer/components/catalyst/input'
+import { Button }                                           from '@renderer/components/catalyst/button'
+import ROUTES                                               from '../../constants/routes.json'
 
 export default function ResponsibilityForm(): JSX.Element {
   const { t }    = useTranslation()
@@ -17,9 +20,9 @@ export default function ResponsibilityForm(): JSX.Element {
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
-  } = useForm<ResponsibilityModel>({ defaultValues: {}, mode: 'onSubmit' })
+  } = useForm<ResponsibilityModel>({ defaultValues: {}, mode: 'onChange' })
 
   const onSubmit = (data: ResponsibilityModel): void => {
     if (data._id) {
@@ -53,43 +56,32 @@ export default function ResponsibilityForm(): JSX.Element {
   }
 
   return (
-    <div>
-      <div className="flex justify-between">
-        <h1>{id ? t('responisbilities.editHeadline') : t('responisbilities.addHeadline')}</h1>
-      </div>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mx-auto grid w-10/12 grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
-          {/* Name */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.name')} error={errors.name?.message}>
-              <input
-                id="name"
-                placeholder={t('label.name')}
-                className={classNames(
-                  errors.name ? 'input-error' : '',
-                  'input w-full input-bordered dark:placeholder:text-slate-500',
-                )}
-                {...register('name', {
-                  required: t('errors.name.required'),
-                })}
-              />
-            </Field>
-          </div>
-
-          <div className="col-span-6 col-start-1 mt-2 flex justify-between">
-            <button
-              className="btn btn-secondary"
-              onClick={(): void => navigate(ROUTES.RESPONSIBILITIES)}
-            >
-              {t('button.abort')}
-            </button>
-            <button className="btn btn-primary" type="submit">
-              {t('button.save')}
-            </button>
-          </div>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Fieldset>
+        <Heading>{id ? t('responisbilities.editHeadline') : t('responisbilities.addHeadline')}</Heading>
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
+          <Text></Text>
+          <FieldGroup className="sm:col-span-2">
+            <div className="grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-6 md:col-span-2">
+              <Field className="sm:col-span-3">
+                <Label>{t('label.name')}</Label>
+                <Input
+                  {...register('name', {
+                    required: t('errors.name.required'),
+                  })}
+                  invalid={!!errors.name}
+                  autoFocus
+                />
+                {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
+              </Field>
+              <div className="sm:col-span-6 sm:flex sm:justify-between">
+                <Button outline onClick={(): void => navigate(ROUTES.RESPONSIBILITIES)}>{t('button.abort')}</Button>
+                <Button color="blue" type="submit" disabled={!isValid}>{t('button.save')}</Button>
+              </div>
+            </div>
+          </FieldGroup>
         </div>
-      </form>
-    </div>
+      </Fieldset>
+    </form>
   )
 }

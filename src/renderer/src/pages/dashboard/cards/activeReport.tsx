@@ -3,9 +3,11 @@ import { useTranslation }                                from 'react-i18next'
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js'
 import { Doughnut }                                      from 'react-chartjs-2'
 import colors                                            from 'tailwindcss/colors'
-import { Card }                                          from '@renderer/components/Card'
 import type { ServiceMonthModel }                        from 'src/types/models'
 import { useConfirmationModalContext }                   from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import { DashboardCard }                                 from '@renderer/components/DashboardCard'
+import { Heading, Subheading }                           from '@renderer/components/catalyst/heading'
+import { Button }                                        from '@renderer/components/catalyst/button'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -87,35 +89,32 @@ export default function ActiveReport(): JSX.Element | null {
     return null
 
   return (
-    <Card
-      title={t('label.reporting')}
-      footer={
-        serviceMonth
-          ? t('label.reports.missing', {
-            missing: stats.waiting,
-            total:   stats.done + stats.waiting,
-          })
-          : ''
-      }
-      loading={loading}
-    >
+    <DashboardCard className="col-span-2 sm:col-span-1 xl:col-span-4 2xl:col-span-3">
+      <Heading className="mb-4">{t('label.reporting')}</Heading>
       {loading
         ? (
-            <div className="mt-2 aspect-square w-full rounded-full bg-slate-200" />
+            <div className="aspect-square w-full animate-pulse rounded-full bg-slate-200" />
           )
         : serviceMonth
           ? (
               <Doughnut data={data} options={options} />
             )
           : (
-              <button
+              <Button
                 type="button"
                 onClick={startReporting}
-                className="btn btn-accent btn-lg m-12 leading-6"
+                className="m-12 leading-6"
+                color="blue"
               >
                 {t('label.startReporting')}
-              </button>
+              </Button>
             )}
-    </Card>
+      <Subheading className="mt-4 w-full text-right">
+        {t('label.reports.missing', {
+          missing: stats.waiting,
+          total:   stats.done + stats.waiting,
+        })}
+      </Subheading>
+    </DashboardCard>
   )
 }

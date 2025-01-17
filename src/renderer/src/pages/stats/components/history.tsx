@@ -1,6 +1,7 @@
-import { useEffect, useState }                      from 'react'
-import { useTranslation }                           from 'react-i18next'
-import type { ServiceMonthModel, ServiceYearModel } from 'src/types/models'
+import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@renderer/components/catalyst/description-list'
+import { useEffect, useState }                                  from 'react'
+import { useTranslation }                                       from 'react-i18next'
+import type { ServiceMonthModel, ServiceYearModel }             from 'src/types/models'
 
 interface Props {
   serviceYear:   ServiceYearModel
@@ -31,54 +32,42 @@ export default function HistoryTable({ serviceYear, serviceMonths }: Props): JSX
   }
 
   return (
-    <div className="row-span-2 rounded-md bg-gray-200 p-4 dark:bg-slate-800">
+    <div className="row-span-2 rounded-md bg-gray-200 p-4 dark:border dark:border-white/10 dark:bg-transparent">
       <div className="px-4 sm:px-0">
         <h3 className="mt-0 text-base font-semibold text-gray-900 dark:text-white">{t('label.happendInYear')}</h3>
       </div>
       <div className="border-t border-gray-100 dark:border-white/10">
-        <dl className="my-0 divide-y divide-gray-100 dark:divide-white/10">
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2 sm:mt-0 dark:text-white">{t('analysis.newPublishers')}</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-0 dark:text-gray-400">{getHistoryDataNumber('PUBLISHER')}</dd>
-          </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2 sm:mt-0 dark:text-white">{t('analysis.baptised')}</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-0 dark:text-gray-400">{getHistoryDataNumber('BAPTISED')}</dd>
-          </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2 sm:mt-0 dark:text-white">{t('analysis.auxiliaries')}</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-0 dark:text-gray-400">{auxiliaryMonths}</dd>
-          </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2 sm:mt-0 dark:text-white">{t('analysis.movedIn')}</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-0 dark:text-gray-400">{getHistoryDataNumber('MOVED_IN')}</dd>
-          </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2 sm:mt-0 dark:text-white">{t('analysis.movedOut')}</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-0 dark:text-gray-400">{getHistoryDataNumber('MOVED_OUT')}</dd>
-          </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2 sm:mt-0 dark:text-white">{t('analysis.active')}</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-0 dark:text-gray-400">{getHistoryDataNumber('ACTIVE')}</dd>
-          </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2 sm:mt-0 dark:text-white">{t('analysis.inactive')}</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-0 dark:text-gray-400">{getHistoryDataNumber('INACTIVE')}</dd>
-          </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2 sm:mt-0 dark:text-white">{t('analysis.disassociation')}</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-0 dark:text-gray-400">{getHistoryDataNumber('DISASSOCIATION')}</dd>
-          </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2 sm:mt-0 dark:text-white">{t('analysis.disfellowshipped')}</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-0 dark:text-gray-400">{getHistoryDataNumber('DISFELLOWSHIPPED')}</dd>
-          </div>
-          <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2 sm:mt-0 dark:text-white">{t('analysis.reinstated')}</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-0 dark:text-gray-400">{getHistoryDataNumber('REINSTATED')}</dd>
-          </div>
+        <DescriptionList>
+          <DescriptionTerm>{t('analysis.newPublishers')}</DescriptionTerm>
+          <DescriptionDetails>{getHistoryDataNumber('PUBLISHER')}</DescriptionDetails>
 
-        </dl>
+          <DescriptionTerm>{t('analysis.baptised')}</DescriptionTerm>
+          <DescriptionDetails>{getHistoryDataNumber('BAPTISED')}</DescriptionDetails>
+
+          <DescriptionTerm>{t('analysis.auxiliaries')}</DescriptionTerm>
+          <DescriptionDetails>{auxiliaryMonths}</DescriptionDetails>
+
+          <DescriptionTerm>{t('analysis.movedIn')}</DescriptionTerm>
+          <DescriptionDetails>{getHistoryDataNumber('MOVED_IN')}</DescriptionDetails>
+
+          <DescriptionTerm>{t('analysis.movedOut')}</DescriptionTerm>
+          <DescriptionDetails>{getHistoryDataNumber('MOVED_OUT')}</DescriptionDetails>
+
+          <DescriptionTerm>{t('analysis.active')}</DescriptionTerm>
+          <DescriptionDetails>{getHistoryDataNumber('ACTIVE')}</DescriptionDetails>
+
+          <DescriptionTerm>{t('analysis.inactive')}</DescriptionTerm>
+          <DescriptionDetails>{getHistoryDataNumber('INACTIVE')}</DescriptionDetails>
+
+          <DescriptionTerm>{t('analysis.disassociation')}</DescriptionTerm>
+          <DescriptionDetails>{getHistoryDataNumber('DISASSOCIATION')}</DescriptionDetails>
+
+          <DescriptionTerm>{t('analysis.disfellowshipped')}</DescriptionTerm>
+          <DescriptionDetails>{getHistoryDataNumber('DISFELLOWSHIPPED')}</DescriptionDetails>
+
+          <DescriptionTerm>{t('analysis.reinstated')}</DescriptionTerm>
+          <DescriptionDetails>{getHistoryDataNumber('REINSTATED')}</DescriptionDetails>
+        </DescriptionList>
       </div>
     </div>
   )

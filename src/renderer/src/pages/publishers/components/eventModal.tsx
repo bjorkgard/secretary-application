@@ -1,10 +1,13 @@
-import { useEffect, useState }                          from 'react'
-import { useForm }                                      from 'react-hook-form'
-import { useTranslation }                               from 'react-i18next'
-import type { PublicCongregationModel, PublisherModel } from 'src/types/models'
-import { Modal }                                        from '@renderer/components/Modal'
-import { Field }                                        from '@renderer/components/Field'
-import classNames                                       from '@renderer/utils/classNames'
+import { useEffect, useState }                                 from 'react'
+import { useForm }                                             from 'react-hook-form'
+import { useTranslation }                                      from 'react-i18next'
+import type { PublicCongregationModel, PublisherModel }        from 'src/types/models'
+import { Modal }                                               from '@renderer/components/Modal'
+import { Input }                                               from '@renderer/components/catalyst/input'
+import { Description, ErrorMessage, Field, FieldGroup, Label } from '@renderer/components/catalyst/fieldset'
+import { Text }                                                from '@renderer/components/catalyst/text'
+import { Select }                                              from '@renderer/components/catalyst/select'
+import { Button }                                              from '@renderer/components/catalyst/button'
 
 interface EventModalProps {
   open:                boolean
@@ -111,65 +114,72 @@ export default function EventModal(props: EventModalProps): JSX.Element {
       title={`${props.publisher?.firstname} ${props.publisher?.lastname}`}
     >
       <form className="relative" onSubmit={handleSubmit(storeEvent)}>
-        <p className="text-sm">{t('event.description')}</p>
+        <Text>{t('event.description')}</Text>
 
-        <input type="hidden" {...register('publisherId')} />
-        <input type="hidden" {...register('command')} />
-        <Field label={t('event.selectDate')} error={errors.date?.message}>
-          <input
-            type="date"
-            className="input input-bordered w-full"
-            {...register('date', { required: t('errors.date.required') })}
-          />
-        </Field>
-
-        <Field label={t('event.selectEvent')} error={errors.command?.message}>
-          <select
-            className={classNames(
-              errors.command ? 'select-error' : '',
-              'select select-bordered w-full',
-            )}
-            {...register('command', {
-              onChange: (e) => { handleChange(e) },
-            })}
-          >
-            {events.map(event => (
-              <option key={event.command} value={event.command}>{event.name}</option>
-            ))}
-          </select>
-        </Field>
-
-        {showCongregationSelector && props.publicCongregations && (
-          <Field label={t('event.transferToNewCongregation')} info={t('event.selectCongregation')} error={errors.newCongregation?.message}>
-            <select
-              className={classNames(
-                errors.command ? 'select-error' : '',
-                'select select-bordered w-full',
-              )}
-              {...register('newCongregation')}
-            >
-              <option value="">
-                {t('event.doNotTransfer')}
-              </option>
-              {props.publicCongregations.map(congregation => (
-                <option key={congregation.identifier} value={congregation.identifier}>
-                  {congregation.congregation}
-                </option>
-              ))}
-            </select>
+        <Input type="hidden" {...register('publisherId')} />
+        <Input type="hidden" {...register('command')} />
+        <FieldGroup>
+          <Field>
+            <Label>{t('event.selectDate')}</Label>
+            <Input
+              type="date"
+              {...register('date', { required: t('errors.date.required') })}
+              invalid={!!errors.date}
+              autoFocus
+            />
+            {errors.date && <ErrorMessage>{errors.date.message}</ErrorMessage>}
           </Field>
-        )}
 
-        <Field label={t('event.information')} error={errors.description?.message}>
-          <input
-            className="input input-bordered w-full"
-            {...register('description')}
-          />
-        </Field>
+          <Field>
+            <Label>{t('event.selectEvent')}</Label>
+            <Select
+              {...register('command', {
+                onChange: (e) => { handleChange(e) },
+              })}
+              invalid={!!errors.command}
+            >
+              {events.map(event => (
+                <option key={event.command} value={event.command}>{event.name}</option>
+              ))}
+            </Select>
+            {errors.command && <ErrorMessage>{errors.command.message}</ErrorMessage>}
+          </Field>
 
-        <button type="submit" className="btn btn-primary mt-4 justify-items-end">
-          {t('button.save')}
-        </button>
+          {showCongregationSelector && (
+            <Field>
+              <Label>{t('event.transferToNewCongregation')}</Label>
+              <Select {...register('newCongregation')}>
+                <option value="">
+                  {t('event.doNotTransfer')}
+                </option>
+                {props.publicCongregations?.map(congregation => (
+                  <option key={congregation.identifier} value={congregation.identifier}>
+                    {congregation.congregation}
+                  </option>
+                ))}
+              </Select>
+              <Description>{t('event.selectCongregation')}</Description>
+            </Field>
+          )}
+
+          <Field>
+            <Label>{t('event.information')}</Label>
+            <Input {...register('description')} invalid={!!errors.description} />
+            {errors.description && <ErrorMessage>{errors.description.message}</ErrorMessage>}
+          </Field>
+        </FieldGroup>
+
+        <div className="mt-8 flex w-full justify-between">
+          <Button
+            outline
+            onClick={() => props.setOpen(false)}
+          >
+            {t('button.abort')}
+          </Button>
+          <Button type="submit" color="blue">
+            {t('button.save')}
+          </Button>
+        </div>
       </form>
     </Modal>
   )

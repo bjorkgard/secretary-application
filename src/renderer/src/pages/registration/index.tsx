@@ -1,15 +1,20 @@
-import { useEffect, useState } from 'react'
-import { useNavigate }         from 'react-router-dom'
-import { useTranslation }      from 'react-i18next'
-import type { SubmitHandler }  from 'react-hook-form'
-import { useForm }             from 'react-hook-form'
-import { v4 as uuidv4 }        from 'uuid'
-import { getCountries }        from 'react-phone-number-input/input'
-import countryLabels           from 'react-phone-number-input/locale/en.json'
-import classNames              from '@renderer/utils/classNames'
-import { useSettingsState }    from '@renderer/store/settingsStore'
-import type { SettingsModel }  from '../../../../types/models'
-import ROUTES                  from '../../constants/routes.json'
+import { useEffect, useState }           from 'react'
+import { useNavigate }                   from 'react-router-dom'
+import { useTranslation }                from 'react-i18next'
+import type { SubmitHandler }            from 'react-hook-form'
+import { useForm }                       from 'react-hook-form'
+import { v4 as uuidv4 }                  from 'uuid'
+import { getCountries }                  from 'react-phone-number-input/input'
+import countryLabels                     from 'react-phone-number-input/locale/en.json'
+import { useSettingsState }              from '@renderer/store/settingsStore'
+import { Heading, Subheading }           from '@renderer/components/catalyst/heading'
+import { Text }                          from '@renderer/components/catalyst/text'
+import { ErrorMessage, Field, Fieldset } from '@renderer/components/catalyst/fieldset'
+import { Input }                         from '@renderer/components/catalyst/input'
+import { Select }                        from '@renderer/components/catalyst/select'
+import { Button }                        from '@renderer/components/catalyst/button'
+import type { SettingsModel }            from '../../../../types/models'
+import ROUTES                            from '../../constants/routes.json'
 
 function abortApplication(): void {
   window.electron.ipcRenderer.send('app-quit')
@@ -79,227 +84,155 @@ function Registration(): JSX.Element {
   return (
     <div
       id="registration"
-      className="grid h-screen content-center bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-300"
+      className="grid h-screen content-center bg-white lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950"
     >
-      <h1 className="text-center text-3xl font-black leading-tight">
-        {t('registration.headline')}
-      </h1>
-      <p className="text-center">
+      <Heading className="text-center !text-3xl !font-black !leading-tight">{t('registration.headline')}</Heading>
+      <Text className="text-center">
         {t('registration.p1')}
         <br />
         {t('registration.p2')}
-      </p>
+      </Text>
       <form
         className="max-w-4xl space-y-6 justify-self-center pt-6"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6 dark:border dark:border-slate-500 dark:bg-slate-900">
+        <Fieldset className="col-span-6 my-4 border border-zinc-950/10 p-4 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20">
           <div className="md:grid md:grid-cols-3 md:gap-6">
             <div className="md:col-span-1">
-              <h3 className="text-lg font-medium leading-6 text-slate-900 dark:text-slate-400">
+              <Subheading>
                 {t('registration.congregation.headline')}
-              </h3>
-              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              </Subheading>
+              <Text>
                 {t('registration.congregation.information')}
-              </p>
+              </Text>
             </div>
             <div className="mt-5 space-y-6 md:col-span-2 md:mt-0 ">
               <div className="grid grid-cols-6 gap-6">
-                <div className="col-span-6">
-                  <div className="form-control w-full">
-                    <input
-                      type="text"
-                      placeholder={t('label.congregationName')}
-                      className={classNames(
-                        errors.congregationName ? 'input-error' : '',
-                        'input w-full input-bordered',
-                      )}
-                      {...register('congregationName', {
-                        required: t('errors.congregationName.required'),
-                      })}
-                      aria-invalid={errors.congregationName ? 'true' : 'false'}
-                    />
-                    <label className="label" htmlFor="congregationName">
-                      {errors.congregationName && (
-                        <span className="label-text-alt text-red-400">
-                          {errors.congregationName.message}
-                        </span>
-                      )}
-                    </label>
-                  </div>
-                </div>
+                <Field className="col-span-6">
+                  <Input
+                    type="text"
+                    placeholder={t('label.congregationName')}
+                    invalid={!!errors.congregationName}
+                    {...register('congregationName', {
+                      required: t('errors.congregationName.required'),
+                    })}
+                    aria-invalid={errors.congregationName ? 'true' : 'false'}
+                  />
+                  {errors.congregationName && <ErrorMessage>{errors.congregationName.message}</ErrorMessage>}
 
-                <div className="col-span-6">
-                  <div className="form-control w-full">
-                    <input
-                      id="congregationNumber"
-                      type="text"
-                      placeholder={t('label.congregationNumber')}
-                      className={classNames(
-                        errors.congregationNumber ? 'input-error' : '',
-                        'input w-full input-bordered',
-                      )}
-                      {...register('congregationNumber', {
-                        required: t('errors.congregationNumber.required'),
-                      })}
-                      aria-invalid={errors.congregationNumber ? 'true' : 'false'}
-                    />
-                    <label className="label" htmlFor="congregationNumber">
-                      {errors.congregationNumber && (
-                        <span className="label-text-alt text-red-400">
-                          {errors.congregationNumber.message}
-                        </span>
-                      )}
-                    </label>
-                  </div>
-                </div>
+                </Field>
 
-                <div className="col-span-6">
-                  <div className="form-control w-full">
-                    <select
-                      className="select select-bordered w-full"
-                      {...register('congregationCountry', {
-                        required: t('errors.congregationCountry.required'),
-                      })}
-                    >
-                      {countries.map((country) => {
-                        return (
-                          <option key={country.code} value={country.code}>
-                            {country.name}
-                          </option>
-                        )
-                      })}
-                    </select>
+                <Field className="col-span-6">
+                  <Input
+                    id="congregationNumber"
+                    type="text"
+                    placeholder={t('label.congregationNumber')}
+                    invalid={!!errors.congregationNumber}
+                    {...register('congregationNumber', {
+                      required: t('errors.congregationNumber.required'),
+                    })}
+                    aria-invalid={errors.congregationNumber ? 'true' : 'false'}
+                  />
+                  {errors.congregationNumber && <ErrorMessage>{errors.congregationNumber.message}</ErrorMessage>}
+                </Field>
 
-                    <label className="label" htmlFor="congregationCountry">
-                      {errors.congregationCountry && (
-                        <span className="label-text-alt text-red-400">
-                          {errors.congregationCountry.message}
-                        </span>
-                      )}
-                    </label>
-                  </div>
-                </div>
+                <Field className="col-span-6">
+                  <Select
+                    {...register('congregationCountry', {
+                      required: t('errors.congregationCountry.required'),
+                    })}
+                  >
+                    {countries.map((country) => {
+                      return (
+                        <option key={country.code} value={country.code}>
+                          {country.name}
+                        </option>
+                      )
+                    })}
+                  </Select>
 
-                <div className="col-span-6">
-                  <div className="form-control w-full">
-                    <select
-                      className="select select-bordered w-full"
-                      {...register('congregationLocale', {
-                        required: t('errors.congregationLocale.required'),
-                      })}
-                    >
-                      <option value="en">English</option>
-                      <option value="sv">Svenska</option>
-                    </select>
+                  {errors.congregationCountry && <ErrorMessage>{errors.congregationCountry.message}</ErrorMessage>}
+                </Field>
 
-                    <label className="label" htmlFor="congregationLocale">
-                      {errors.congregationLocale && (
-                        <span className="label-text-alt text-red-400">
-                          {errors.congregationLocale.message}
-                        </span>
-                      )}
-                    </label>
-                  </div>
-                </div>
+                <Field className="col-span-6">
+                  <Select
+                    {...register('congregationLocale', {
+                      required: t('errors.congregationLocale.required'),
+                    })}
+                  >
+                    <option value="en">English</option>
+                    <option value="sv">Svenska</option>
+                  </Select>
+
+                  {errors.congregationLocale && <ErrorMessage>{errors.congregationLocale.message}</ErrorMessage>}
+                </Field>
               </div>
             </div>
           </div>
-        </div>
+        </Fieldset>
 
-        <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6 dark:border dark:border-slate-500 dark:bg-slate-900">
+        <Fieldset className="col-span-6 my-4 border border-zinc-950/10 p-4 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20">
           <div className="md:grid md:grid-cols-3 md:gap-6">
             <div className="md:col-span-1">
-              <h3 className="text-lg font-medium leading-6 text-slate-900 dark:text-slate-400">
+              <Subheading>
                 {t('registration.personal.headline')}
-              </h3>
-              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              </Subheading>
+              <Text>
                 {t('registration.personal.information')}
-              </p>
+              </Text>
             </div>
             <div className="mt-5 space-y-6 md:col-span-2 md:mt-0">
               <div className="grid grid-cols-6 gap-6">
-                <div className="col-span-6">
-                  <div className="form-control w-full">
-                    <input
-                      id="firstname"
-                      type="text"
-                      placeholder={t('label.firstname')}
-                      className={classNames(
-                        errors.firstname ? 'input-error' : '',
-                        'input w-full input-bordered',
-                      )}
-                      {...register('firstname', { required: t('errors.firstname.required') })}
-                      aria-invalid={errors.firstname ? 'true' : 'false'}
-                    />
-                    <label className="label" htmlFor="firstname">
-                      {errors.firstname && (
-                        <span className="label-text-alt text-red-400">
-                          {errors.firstname.message}
-                        </span>
-                      )}
-                    </label>
-                  </div>
-                </div>
+                <Field className="col-span-6">
+                  <Input
+                    id="firstname"
+                    type="text"
+                    placeholder={t('label.firstname')}
+                    invalid={!!errors.firstname}
+                    {...register('firstname', { required: t('errors.firstname.required') })}
+                    aria-invalid={errors.firstname ? 'true' : 'false'}
+                  />
+                  {errors.firstname && <ErrorMessage>{errors.firstname.message}</ErrorMessage>}
+                </Field>
 
-                <div className="col-span-6">
-                  <div className="form-control w-full">
-                    <input
-                      id="lastname"
-                      type="text"
-                      placeholder={t('label.lastname')}
-                      className={classNames(
-                        errors.lastname ? 'input-error' : '',
-                        'input w-full input-bordered',
-                      )}
-                      {...register('lastname', { required: t('errors.lastname.required') })}
-                      aria-invalid={errors.lastname ? 'true' : 'false'}
-                    />
-                    <label className="label" htmlFor="lastname">
-                      {errors.lastname && (
-                        <span className="label-text-alt text-red-400">
-                          {errors.lastname.message}
-                        </span>
-                      )}
-                    </label>
-                  </div>
-                </div>
+                <Field className="col-span-6">
+                  <Input
+                    id="lastname"
+                    type="text"
+                    placeholder={t('label.lastname')}
+                    {...register('lastname', { required: t('errors.lastname.required') })}
+                    invalid={!!errors.lastname}
+                    aria-invalid={errors.lastname ? 'true' : 'false'}
+                  />
+                  {errors.lastname && <ErrorMessage>{errors.lastname.message}</ErrorMessage>}
+                </Field>
 
-                <div className="col-span-6">
-                  <div className="form-control w-full">
-                    <input
-                      id="email"
-                      type="email"
-                      placeholder={t('label.email')}
-                      className={classNames(
-                        errors.email ? 'input-error' : '',
-                        'input w-full input-bordered',
-                      )}
-                      {...register('email', {
-                        required: t('errors.email.required'),
-                        validate: value => !value.includes('jwpub.org') || t('errors.email.jwpub'),
-                      })}
-                      aria-invalid={errors.email ? 'true' : 'false'}
-                    />
-                    <label className="label" htmlFor="email">
-                      {errors.email && (
-                        <span className="label-text-alt text-red-400">{errors.email.message}</span>
-                      )}
-                    </label>
-                  </div>
-                </div>
+                <Field className="col-span-6">
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder={t('label.email')}
+                    {...register('email', {
+                      required: t('errors.email.required'),
+                      validate: value => !value.includes('jwpub.org') || t('errors.email.jwpub'),
+                    })}
+                    invalid={!!errors.email}
+                    aria-invalid={errors.email ? 'true' : 'false'}
+                  />
+                  {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+                </Field>
               </div>
             </div>
           </div>
-        </div>
+        </Fieldset>
 
         <div className="flex justify-end space-x-6">
-          <button type="button" className="btn btn-secondary" onClick={abortApplication}>
+          <Button type="button" outline onClick={abortApplication}>
             {t('button.quit')}
-          </button>
-          <button type="submit" className="btn btn-primary">
+          </Button>
+          <Button type="submit" color="blue">
             {t('button.save')}
-          </button>
+          </Button>
         </div>
       </form>
     </div>
