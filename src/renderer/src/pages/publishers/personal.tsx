@@ -1,13 +1,19 @@
 import { useNavigate, useParams }                 from 'react-router-dom'
-import { useForm }                                from 'react-hook-form'
+import { Controller, useForm }                    from 'react-hook-form'
 import { useTranslation }                         from 'react-i18next'
 import { ChevronRightIcon }                       from '@heroicons/react/24/solid'
 import { usePublisherState }                      from '@renderer/store/publisherStore'
 import type { PublisherModel, ServiceGroupModel } from 'src/types/models'
-import { Field }                                  from '@renderer/components/Field'
-import classNames                                 from '@renderer/utils/classNames'
 import { useEffect, useState }                    from 'react'
+import { Heading }                                from '@renderer/components/catalyst/heading'
+import { ErrorMessage, Field, Fieldset, Label }   from '@renderer/components/catalyst/fieldset'
+import { Input }                                  from '@renderer/components/catalyst/input'
+import { Select }                                 from '@renderer/components/catalyst/select'
+import { Button }                                 from '@renderer/components/catalyst/button'
+import * as Headless                              from '@headlessui/react'
+import { Switch }                                 from '@renderer/components/catalyst/switch'
 import ROUTES                                     from '../../constants/routes.json'
+import Progress                                   from './components/progress'
 
 export default function PublisherPersonalForm(): JSX.Element {
   const { t }          = useTranslation()
@@ -19,6 +25,7 @@ export default function PublisherPersonalForm(): JSX.Element {
   const [serviceGroups, setServiceGroups] = useState<ServiceGroupModel[]>([])
 
   const {
+    control,
     handleSubmit,
     register,
     reset,
@@ -76,237 +83,158 @@ export default function PublisherPersonalForm(): JSX.Element {
   return (
     <div>
       <div className="flex justify-between">
-        <h1>
+        <Heading>
           {publisherState.publisher._id
             ? t('publishers.editHeadline')
             : t('publishers.addHeadline')}
-        </h1>
+        </Heading>
       </div>
-      <div className="w-full">
-        <ul className="steps w-full">
-          <li className="step step-primary">{t('publishers.step.personal')}</li>
-          <li className="step">{t('publishers.step.contact')}</li>
-          <li className="step">{t('publishers.step.appointments')}</li>
-          <li className="step">{t('publishers.step.other')}</li>
-        </ul>
-      </div>
+      <Progress step="PERSONAL" />
       <form onSubmit={handleSubmit(saveData)}>
-        <div className="mx-auto grid w-10/12 grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
-          {/* FIRSTNAME */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.firstname')} error={errors.firstname?.message}>
-              <input
-                id="firstname"
+        <Fieldset>
+          <div className="mx-auto grid w-10/12 grid-cols-1 gap-6 sm:grid-cols-6">
+            {/* FIRSTNAME */}
+            <Field className="sm:col-span-3">
+              <Label>{t('label.firstname')}</Label>
+              <Input
                 placeholder={t('label.firstname')}
-                className={classNames(
-                  errors.firstname ? 'input-error' : '',
-                  'input w-full input-bordered dark:placeholder:text-slate-500',
-                )}
                 {...register('firstname', {
                   required: t('errors.firstname.required'),
                 })}
+                invalid={!!errors.firstname}
+                autoFocus
               />
+              {errors.firstname && <ErrorMessage>{errors.firstname.message}</ErrorMessage>}
             </Field>
-          </div>
 
-          {/* LASTNAME */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.lastname')} error={errors.lastname?.message}>
-              <input
-                id="lastname"
+            {/* LASTNAME */}
+            <Field className="sm:col-span-3">
+              <Label>{t('label.lastname')}</Label>
+              <Input
                 placeholder={t('label.lastname')}
-                className={classNames(
-                  errors.lastname ? 'input-error' : '',
-                  'input w-full input-bordered dark:placeholder:text-slate-500',
-                )}
                 {...register('lastname', {
                   required: t('errors.lastname.required'),
                 })}
+                invalid={!!errors.lastname}
               />
+              {errors.lastname && <ErrorMessage>{errors.lastname.message}</ErrorMessage>}
             </Field>
-          </div>
 
-          {/* BIRTDAY */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.birthday')}>
-              <input
-                id="birthday"
+            {/* BIRTDAY */}
+            <Field className="sm:col-span-3">
+              <Label>{t('label.birthday')}</Label>
+              <Input
                 type="date"
                 placeholder={t('label.birthday')}
-                className={classNames(
-                  errors.birthday ? 'input-error' : '',
-                  'input w-full input-bordered dark:placeholder:text-slate-500',
-                )}
                 {...register('birthday', { required: false })}
+                invalid={!!errors.birthday}
               />
+              {errors.birthday && <ErrorMessage>{errors.birthday.message}</ErrorMessage>}
             </Field>
-          </div>
 
-          {/* GENDER */}
-          <div className="sm:col-span-2">
-            <Field label={t('label.gender')}>
-              <div className="flex h-12 items-center space-x-4">
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <input
-                      {...register('gender')}
-                      type="radio"
-                      value="MAN"
-                      className="radio-primary radio"
-                      name="gender"
-                    />
-
-                    <span className="label-text ml-2">{t('label.man')}</span>
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <input
-                      {...register('gender')}
-                      type="radio"
-                      value="WOMAN"
-                      className="radio-primary radio"
-                      name="gender"
-                    />
-                    <span className="label-text ml-2">{t('label.woman')}</span>
-                  </label>
-                </div>
-              </div>
+            {/* GENDER */}
+            <Field className="sm:col-span-1">
+              <Label>{t('label.gender')}</Label>
+              <Select
+                {...register('gender', { required: true })}
+                invalid={!!errors.gender}
+              >
+                <option value="">{t('gender.select')}</option>
+                <option value="MAN">{t('label.man')}</option>
+                <option value="WOMAN">{t('label.woman')}</option>
+              </Select>
+              {errors.gender && <ErrorMessage>{errors.gender.message}</ErrorMessage>}
             </Field>
-          </div>
 
-          {/* RESIDENT */}
-          <div className="sm:col-span-1">
-            <Field label={t('label.resident')}>
-              <div className="flex h-12 items-center space-x-4">
-                <select
-                  className={classNames(
-                    errors.resident ? 'select-error' : '',
-                    'select select-bordered w-full',
-                  )}
-                  {...register('resident', { required: true })}
-                >
-                  <option value="">{t('resident.select')}</option>
-                  <option value="SWEDEN">{t('resident.sweden')}</option>
-                  <option value="OTHER">{t('resident.other')}</option>
-                </select>
-              </div>
+            {/* RESIDENT */}
+            <Field className="sm:col-span-1">
+              <Label>{t('label.resident')}</Label>
+              <Select
+                {...register('resident', { required: true })}
+                invalid={!!errors.resident}
+              >
+                <option value="">{t('resident.select')}</option>
+                <option value="SWEDEN">{t('resident.sweden')}</option>
+                <option value="OTHER">{t('resident.other')}</option>
+              </Select>
+              {errors.resident && <ErrorMessage>{errors.resident.message}</ErrorMessage>}
             </Field>
-          </div>
 
-          {/* BAPTSED */}
-          <div className="sm:col-span-2">
-            <Field label={t('label.baptised')}>
-              <input
+            {/* BAPTSED */}
+            <Field className="sm:col-span-2">
+              <Label>{t('label.baptised')}</Label>
+              <Input
                 {...register('baptised', { required: false })}
-                id="baptised"
                 type="date"
                 placeholder={t('label.baptised')}
-                className={classNames(
-                  errors.baptised ? 'input-error' : '',
-                  'input w-full input-bordered dark:placeholder:text-slate-500',
-                )}
+                invalid={!!errors.baptised}
               />
+              {errors.baptised && <ErrorMessage>{errors.baptised.message}</ErrorMessage>}
             </Field>
-          </div>
 
-          {/* UNKNOWN BAPTSED */}
-          <div className="sm:col-span-1">
-            <Field label="&nbsp;">
-              <div className="flex h-12 items-center space-x-4">
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <input
-                      {...register('unknown_baptised')}
-                      type="checkbox"
-                      className="checkbox-primary checkbox"
-                    />
-                    <span className="label-text ml-2">{t('label.unknown_baptised')}</span>
-                  </label>
-                </div>
+            {/* UNKNOWN BAPTSED */}
+            <Headless.Field className="flex flex-col">
+              <Label>&nbsp;</Label>
+              <div className="flex h-12 items-center gap-2">
+                <Controller
+                  name="unknown_baptised"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} />)}
+                />
+                <Label>{t('label.unknown_baptised')}</Label>
               </div>
+
+            </Headless.Field>
+
+            {/* HOPE */}
+            <Field className="sm:col-span-1">
+              <Label>{t('label.hope')}</Label>
+              <Select
+                {...register('hope', { required: true })}
+                invalid={!!errors.hope}
+              >
+                <option value="">{t('hope.select')}</option>
+                <option value="OTHER_SHEEP">{t('label.other_sheep')}</option>
+                <option value="ANOINTED">{t('label.anointed')}</option>
+              </Select>
+              {errors.hope && <ErrorMessage>{errors.hope.message}</ErrorMessage>}
             </Field>
-          </div>
 
-          {/* HOPE */}
-          <div className="sm:col-span-2">
-            <Field label={t('label.hope')}>
-              <div className="flex h-12 items-center space-x-4">
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <input
-                      {...register('hope')}
-                      type="radio"
-                      value="OTHER_SHEEP"
-                      className="radio-primary radio"
-                      name="hope"
-                    />
-
-                    <span className="label-text ml-2">{t('label.other_sheep')}</span>
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <input
-                      {...register('hope')}
-                      type="radio"
-                      value="ANOINTED"
-                      className="radio-primary radio"
-                      name="hope"
-                    />
-                    <span className="label-text ml-2">{t('label.anointed')}</span>
-                  </label>
-                </div>
-              </div>
-            </Field>
-          </div>
-
-          {/* STATUS */}
-          <div className="sm:col-span-1">
-            <Field label={t('label.status')}>
-              <select
-                className={classNames(
-                  errors.status ? 'select-error' : '',
-                  'select select-bordered w-full',
-                )}
+            {/* STATUS */}
+            <Field className="sm:col-span-1">
+              <Label>{t('label.status')}</Label>
+              <Select
                 {...register('status')}
+                invalid={!!errors.status}
               >
                 <option value="ACTIVE">{t('status.active')}</option>
                 <option value="IRREGULAR">{t('status.irregular')}</option>
                 <option value="INACTIVE">{t('status.inactive')}</option>
-              </select>
+              </Select>
+              {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
             </Field>
-          </div>
 
-          {/* S290 */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.forms')}>
-              <div className="flex h-12 items-center space-x-4">
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <input
-                      {...register('s290')}
-                      type="checkbox"
-                      className="checkbox-primary checkbox"
-                    />
-                    <span className="label-text ml-2">{t('label.s290')}</span>
-                  </label>
-                </div>
+            {/* FORMS */}
+            <Headless.Field className="flex flex-col sm:col-span-3">
+              <Label>{t('label.forms')}</Label>
+              <div className="flex h-12 items-center gap-2">
+                <Controller
+                  name="s290"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} />)}
+                />
+                <Label>{t('label.s290')}</Label>
               </div>
-            </Field>
-          </div>
+            </Headless.Field>
 
-          {/* Service groups */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.serviceGroup')} error={errors.serviceGroupId?.message}>
-              <select
-                className={classNames(
-                  errors.serviceGroupId ? 'select-error' : '',
-                  'select select-bordered w-full',
-                )}
+            {/* Service groups */}
+            <Field className="sm:col-span-3">
+              <Label>{t('label.serviceGroup')}</Label>
+              <Select
                 {...register('serviceGroupId', {
                   required: t('errors.serviceGroupId.required'),
                 })}
+                invalid={!!errors.serviceGroupId}
               >
                 <option value="">{t('label.selectServiceGroup')}</option>
                 {serviceGroups.map((sg) => {
@@ -316,74 +244,66 @@ export default function PublisherPersonalForm(): JSX.Element {
                     </option>
                   )
                 })}
-              </select>
+              </Select>
+              {errors.serviceGroupId && <ErrorMessage>{errors.serviceGroupId.message}</ErrorMessage>}
             </Field>
-          </div>
 
-          {/* DISABILITY */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.disabilities')}>
-              <div className="flex h-12 items-center space-x-4">
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <input
-                      {...register('deaf')}
-                      type="checkbox"
-                      className="checkbox-primary checkbox"
-                    />
-                    <span className="label-text ml-2">{t('label.deaf')}</span>
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <input
-                      {...register('blind')}
-                      type="checkbox"
-                      className="checkbox-primary checkbox"
-                    />
-                    <span className="label-text ml-2">{t('label.blind')}</span>
-                  </label>
-                </div>
+            {/* DISABILITY */}
+            <Field className="sm:col-span-3">
+              <Label>{t('label.disabilities')}</Label>
+              <div className="flex h-12 w-full items-center space-x-4">
+                <Headless.Field className="flex items-center gap-2">
+                  <Controller
+                    name="deaf"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} />)}
+                  />
+                  <Label>{t('label.deaf')}</Label>
+                </Headless.Field>
+                <Headless.Field className="flex items-center gap-2">
+                  <Controller
+                    name="blind"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} />)}
+                  />
+                  <Label>{t('label.blind')}</Label>
+                </Headless.Field>
               </div>
             </Field>
-          </div>
 
-          {/* SEND REPORTS */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.report')}>
-              <div className="flex h-12 items-center space-x-4">
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <input
-                      {...register('sendReports')}
-                      type="checkbox"
-                      className="checkbox-primary checkbox"
-                    />
-                    <span className="label-text ml-2">{t('label.sendEmailReports')}</span>
-                  </label>
-                </div>
+            {/* SEND REPORTS */}
+            <Headless.Field className="flex flex-col sm:col-span-3">
+              <Label>{t('label.other')}</Label>
+              <div className="flex h-12 items-center gap-2">
+                <Controller
+                  name="sendReports"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} />)}
+                />
+                <Label>{t('label.sendEmailReports')}</Label>
               </div>
-            </Field>
-          </div>
+            </Headless.Field>
 
-          <div className="col-span-6 col-start-1 mt-2 flex justify-between">
-            <button className="btn btn-secondary" onClick={(): void => abort()}>
-              {t('button.abort')}
-            </button>
-            {
-              publisher._id
-              && (
-                <button className="btn btn-accent" onClick={(): void => quickSave()}>
-                  {t('button.save')}
-                </button>
-              )
-            }
-            <button className="btn btn-primary" type="submit">
-              {t('button.next')}
-              <ChevronRightIcon className="size-5" />
-            </button>
+            <div className="col-span-6 col-start-1 mt-2 flex justify-between">
+              <Button outline onClick={(): void => abort()}>
+                {t('button.abort')}
+              </Button>
+              {
+                publisher._id
+                && (
+                  <Button color="indigo" onClick={(): void => quickSave()}>
+                    {t('button.save')}
+                  </Button>
+                )
+              }
+              <Button color="blue" type="submit">
+                {t('button.next')}
+                <ChevronRightIcon className="size-5" />
+              </Button>
+            </div>
+
           </div>
-        </div>
+        </Fieldset>
       </form>
     </div>
   )

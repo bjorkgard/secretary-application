@@ -1,11 +1,16 @@
-import { useEffect, useState }         from 'react'
-import { useTranslation }              from 'react-i18next'
-import { useNavigate }                 from 'react-router-dom'
-import { PlusIcon }                    from '@heroicons/react/24/solid'
-import { PencilIcon, TrashIcon }       from '@heroicons/react/20/solid'
-import type { ResponsibilityModel }    from 'src/types/models'
-import { useConfirmationModalContext } from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
-import ROUTES                          from '../../constants/routes.json'
+import { useEffect, useState }                                           from 'react'
+import { useTranslation }                                                from 'react-i18next'
+import { useNavigate }                                                   from 'react-router-dom'
+import { PlusIcon }                                                      from '@heroicons/react/24/solid'
+import { PencilIcon, TrashIcon }                                         from '@heroicons/react/20/solid'
+import type { ResponsibilityModel }                                      from 'src/types/models'
+import { useConfirmationModalContext }                                   from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import { Fieldset }                                                      from '@renderer/components/catalyst/fieldset'
+import { Heading }                                                       from '@renderer/components/catalyst/heading'
+import { Button }                                                        from '@renderer/components/catalyst/button'
+import { Text }                                                          from '@renderer/components/catalyst/text'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@renderer/components/catalyst/table'
+import ROUTES                                                            from '../../constants/routes.json'
 
 export default function Responsibilities(): JSX.Element {
   const { t }          = useTranslation()
@@ -53,79 +58,76 @@ export default function Responsibilities(): JSX.Element {
 
   return (
     <div>
-      <div className="flex justify-between">
-        <h1>{t('responsibilities.headline')}</h1>
-        <div className="tooltip tooltip-left" data-tip={t('label.addResponsibility')}>
-          <button
-            className="btn btn-circle btn-outline"
-            onClick={(): void => navigate(`${ROUTES.RESPONSIBILITIES}/add`)}
-          >
-            <PlusIcon className="size-6" />
-          </button>
-        </div>
-      </div>
-
-      <div className="space-y-12">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-3">
-          <div>
-            <p className="text-sm text-gray-900 dark:text-slate-300">
-              {t('responsibilities.description')}
-            </p>
+      <Fieldset>
+        <div className="flex justify-between">
+          <Heading>{t('responsibilities.headline')}</Heading>
+          <div className="tooltip tooltip-left" data-tip={t('label.addResponsibility')}>
+            <Button
+              onClick={(): void => navigate(`${ROUTES.RESPONSIBILITIES}/add`)}
+              color="blue"
+            >
+              <PlusIcon className="size-6 text-white" />
+              Lägg till
+            </Button>
           </div>
-          <div className="w-full md:col-span-2">
-            <table className="table table-zebra mt-0">
-              <thead>
-                <tr>
-                  <th>{t('responsibilities.header.name')}</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
+        </div>
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
+          <Text>{t('responsibilities.description')}</Text>
+          <div className="col-span-2">
+            <Table dense grid sticky striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
+              <TableHead>
+                <TableRow>
+                  <TableHeader>{t('responsibilities.header.name')}</TableHeader>
+                  <TableHeader>&nbsp;</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {responsibilities.map((resp) => {
                   return (
-                    <tr key={resp._id} className="hover">
-                      <td>{resp.name}</td>
-
-                      <td>
+                    <TableRow key={resp._id}>
+                      <TableCell>{resp.name}</TableCell>
+                      <TableCell>
                         <div className="flex justify-end space-x-4">
                           <div
                             className="tooltip tooltip-left"
                             data-tip={t('tooltip.editResponsibility')}
                           >
-                            <button
-                              className="btn btn-circle btn-outline btn-xs"
+                            <Button
+                              outline
                               onClick={(): void => {
                                 editResponsibility(resp._id)
                               }}
                               disabled={resp.default}
+                              className="disabled:cursor-not-allowed"
                             >
                               <PencilIcon className="size-4" />
-                            </button>
+                            </Button>
                           </div>
                           <div
                             className="tooltip tooltip-left"
-                            data-tip={t('tooltip.deleteServiceGroup')}
+                            data-tip={t('tooltip.deleteResponsibility')}
                           >
-                            <button
-                              className="btn btn-circle btn-outline btn-xs"
+                            <Button
+                              outline
                               onClick={(): void => {
                                 deleteResponsibility(resp._id)
                               }}
                               disabled={resp.default}
+                              className="disabled:cursor-not-allowed"
                             >
                               <TrashIcon className="size-4" />
-                            </button>
+                            </Button>
                           </div>
                         </div>
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                   )
                 })}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         </div>
-      </div>
+      </Fieldset>
     </div>
   )
 }

@@ -40,7 +40,7 @@ export function Field({ className, ...props }: { className?: string } & Omit<Hea
       {...props}
       className={clsx(
         className,
-        '[&>[data-slot=label]+[data-slot=control]]:mt-3',
+        '[&>[data-slot=label]+[data-slot=control]]:mt-2',
         '[&>[data-slot=label]+[data-slot=description]]:mt-1',
         '[&>[data-slot=description]+[data-slot=control]]:mt-3',
         '[&>[data-slot=control]+[data-slot=description]]:mt-3',
@@ -58,7 +58,7 @@ export function Label({ className, ...props }: { className?: string } & Omit<Hea
       {...props}
       className={clsx(
         className,
-        'select-none text-base/6 text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white',
+        'ml-1 select-none text-base/6 text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white',
       )}
     />
   )

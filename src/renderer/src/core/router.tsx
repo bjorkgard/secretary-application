@@ -1,5 +1,5 @@
-import type { FC }        from 'react'
-import { Suspense, lazy } from 'react'
+import type { FC }  from 'react'
+import { Suspense } from 'react'
 import {
   Outlet,
   Route,
@@ -9,34 +9,32 @@ import {
 } from 'react-router-dom'
 import StatsAnalysis                  from '@renderer/pages/stats/analysis'
 import StatsDiary                     from '@renderer/pages/stats/diary'
-import ROUTES                         from '../constants/routes.json'
-import { PageTracker, UmamiProvider } from '../providers/umami'
-import Layout                         from './Layout'
+import { PageTracker, UmamiProvider } from '@renderer/providers/umami'
+import ROUTES                         from '@renderer/constants/routes.json'
+import CircuitOverseer                from '@renderer/pages/circuitOverseer'
+import Dashboard                      from '@renderer/pages/dashboard'
+import HistoryCongregation            from '@renderer/pages/history/congregation'
+import HistoryPublishers              from '@renderer/pages/history/publishers'
+import Loading                        from '@renderer/pages/loading'
+import Publishers                     from '@renderer/pages/publishers'
+import PublisherContactForm           from '@renderer/pages/publishers/contact'
+import PublisherPersonalForm          from '@renderer/pages/publishers/personal'
+import PublisherAppointmentForm       from '@renderer/pages/publishers/appointment'
+import PublisherOtherForm             from '@renderer/pages/publishers/other'
+import ReportsCompletion              from '@renderer/pages/reports/completion'
+import ReportsForm                    from '@renderer/pages/reports/form'
+import ReportsMeetings                from '@renderer/pages/reports/meetings'
+import Registration                   from '@renderer/pages/registration'
+import Responsibilities               from '@renderer/pages/responsibilities'
+import ResponibilityForm              from '@renderer/pages/responsibilities/form'
+import Settings                       from '@renderer/pages/settings'
+import ServiceGroups                  from '@renderer/pages/serviceGroups'
+import ServiceGroupForm               from '@renderer/pages/serviceGroups/form'
+import Tasks                          from '@renderer/pages/tasks'
+import TaskForm                       from '@renderer/pages/tasks/form'
+import Templates                      from '@renderer/pages/uploadedTemplates'
 import LoadingPage                    from './LoadingPage'
-
-// Lazy load pages
-const Loading                  = lazy(() => import('../pages/loading'))
-const Dashboard                = lazy(() => import('../pages/dashboard'))
-const HistoryCongregation      = lazy(() => import('../pages/history/congregation'))
-const HistoryPublishers        = lazy(() => import('../pages/history/publishers'))
-const Publishers               = lazy(() => import('../pages/publishers'))
-const PublisherPersonalForm    = lazy(() => import('../pages/publishers/personal'))
-const PublisherContactForm     = lazy(() => import('../pages/publishers/contact'))
-const PublisherAppointmentForm = lazy(() => import('../pages/publishers/appointment'))
-const PublisherOtherForm       = lazy(() => import('../pages/publishers/other'))
-const Settings                 = lazy(() => import('../pages/settings'))
-const ServiceGroups            = lazy(() => import('../pages/serviceGroups'))
-const ServiceGroupForm         = lazy(() => import('../pages/serviceGroups/form'))
-const Responsibilities         = lazy(() => import('../pages/responsibilities'))
-const ResponibilityForm        = lazy(() => import('../pages/responsibilities/form'))
-const Tasks                    = lazy(() => import('../pages/tasks'))
-const TaskForm                 = lazy(() => import('../pages/tasks/form'))
-const Registration             = lazy(() => import('../pages/registration'))
-const ReportsForm              = lazy(() => import('../pages/reports/form'))
-const ReportsMeetings          = lazy(() => import('../pages/reports/meetings'))
-const ReportsCompletion        = lazy(() => import('../pages/reports/completion'))
-const CircuitOverseer          = lazy(() => import('../pages/circuitOverseer'))
-const Templates                = lazy(() => import('../pages/uploadedTemplates'))
+import Layout                         from './Layout'
 
 const UMAMI_CONFIG = {
   apiUrl:         'https://stats.jwapp.info/',

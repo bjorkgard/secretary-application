@@ -1,12 +1,13 @@
-import { useTranslation }           from 'react-i18next'
-import { ExclamationTriangleIcon }  from '@heroicons/react/20/solid'
-import { inAuxiliaryService }       from '@renderer/utils/inAuxiliaryService'
-import { inPioneerService }         from '@renderer/utils/inPioneerService'
-import { inActivePublisherService } from '@renderer/utils/inActivePublisherService'
-import { inSpecialPioneerService }  from '@renderer/utils/inSpecialPioneerService'
-import { inMissionaryService }      from '@renderer/utils/inMissionaryService'
-import { inCircuitOverseerService } from '@renderer/utils/inCircuitOverseerService'
-import type { Report }              from 'src/types/models'
+import { useTranslation }                                                                        from 'react-i18next'
+import { ExclamationTriangleIcon }                                                               from '@heroicons/react/20/solid'
+import { inAuxiliaryService }                                                                    from '@renderer/utils/inAuxiliaryService'
+import { inPioneerService }                                                                      from '@renderer/utils/inPioneerService'
+import { inActivePublisherService }                                                              from '@renderer/utils/inActivePublisherService'
+import { inSpecialPioneerService }                                                               from '@renderer/utils/inSpecialPioneerService'
+import { inMissionaryService }                                                                   from '@renderer/utils/inMissionaryService'
+import { inCircuitOverseerService }                                                              from '@renderer/utils/inCircuitOverseerService'
+import type { Report }                                                                           from 'src/types/models'
+import { Table, TableBody, TableCell, TableFoot, TableFooter, TableHead, TableHeader, TableRow } from '@renderer/components/catalyst/table'
 
 interface ComponentProps {
   reports:      Report[]
@@ -36,169 +37,163 @@ export default function ReportsComplilation({
   ).length
 
   return (
-    <div className="border-b border-gray-300 dark:border-slate-600">
-      <table className="table">
-        <thead>
-          <tr>
-            <th className="text-lg">{t('reports.headline')}</th>
-            <th>{t('label.noReports')}</th>
-            <th>{t('label.studies')}</th>
-            <th>{t('label.hours')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>{t('label.publishers')}</th>
-            <td>{reports.filter(report => inActivePublisherService(report)).length}</td>
-            <td>
-              {reports
-                .filter(report => inActivePublisherService(report))
-                .reduce((acc, report) => acc + (report.studies || 0), 0)}
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <th>{t('label.auxiliaries')}</th>
-            <td>{reports.filter(report => inAuxiliaryService(report)).length}</td>
-            <td>
-              {reports
-                .filter(report => inAuxiliaryService(report))
-                .reduce((acc, report) => acc + (report.studies || 0), 0)}
-            </td>
-            <td>
-              {reports
-                .filter(report => inAuxiliaryService(report))
-                .reduce((acc, report) => acc + (report.hours || 0), 0)
-                .toLocaleString()}
-            </td>
-          </tr>
-          <tr>
-            <th>{t('label.pioneers')}</th>
-            <td>{reports.filter(report => inPioneerService(report)).length}</td>
-            <td>
-              {reports
-                .filter(report => inPioneerService(report))
-                .reduce((acc, report) => acc + (report.studies || 0), 0)}
-            </td>
-            <td>
-              {reports
-                .filter(report => inPioneerService(report))
-                .reduce((acc, report) => acc + (report.hours || 0), 0)
-                .toLocaleString()}
-            </td>
-          </tr>
-          {reports.filter(report => inSpecialPioneerService(report)).length
-            ? (
-                <tr>
-                  <th>{t('label.specialPioneers')}</th>
-                  <td>{reports.filter(report => inSpecialPioneerService(report)).length}</td>
-                  <td>
-                    {reports
-                      .filter(report => inSpecialPioneerService(report))
-                      .reduce((acc, report) => acc + (report.studies || 0), 0)}
-                  </td>
-                  <td>
-                    {reports
-                      .filter(report => inSpecialPioneerService(report))
-                      .reduce((acc, report) => acc + (report.hours || 0), 0)
-                      .toLocaleString()}
-                  </td>
-                </tr>
-              )
-            : null}
+    <Table dense bleed grid striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
+      <TableHead>
+        <TableRow>
+          <TableHeader>{t('reports.headline')}</TableHeader>
+          <TableHeader>{t('label.noReports')}</TableHeader>
+          <TableHeader>{t('label.studies')}</TableHeader>
+          <TableHeader>{t('label.hours')}</TableHeader>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        <TableRow>
+          <TableCell>{t('label.publishers')}</TableCell>
+          <TableCell>{reports.filter(report => inActivePublisherService(report)).length}</TableCell>
+          <TableCell>
+            {reports
+              .filter(report => inActivePublisherService(report))
+              .reduce((acc, report) => acc + (report.studies || 0), 0)}
+          </TableCell>
+          <TableCell></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>{t('label.auxiliaries')}</TableCell>
+          <TableCell>{reports.filter(report => inAuxiliaryService(report)).length}</TableCell>
+          <TableCell>
+            {reports
+              .filter(report => inAuxiliaryService(report))
+              .reduce((acc, report) => acc + (report.studies || 0), 0)}
+          </TableCell>
+          <TableCell>
+            {reports
+              .filter(report => inAuxiliaryService(report))
+              .reduce((acc, report) => acc + (report.hours || 0), 0)
+              .toLocaleString()}
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>{t('label.pioneers')}</TableCell>
+          <TableCell>{reports.filter(report => inPioneerService(report)).length}</TableCell>
+          <TableCell>
+            {reports
+              .filter(report => inPioneerService(report))
+              .reduce((acc, report) => acc + (report.studies || 0), 0)}
+          </TableCell>
+          <TableCell>
+            {reports
+              .filter(report => inPioneerService(report))
+              .reduce((acc, report) => acc + (report.hours || 0), 0)
+              .toLocaleString()}
+          </TableCell>
+        </TableRow>
+        {reports.filter(report => inSpecialPioneerService(report)).length
+          ? (
+              <TableRow>
+                <TableCell>{t('label.specialPioneers')}</TableCell>
+                <TableCell>{reports.filter(report => inSpecialPioneerService(report)).length}</TableCell>
+                <TableCell>
+                  {reports
+                    .filter(report => inSpecialPioneerService(report))
+                    .reduce((acc, report) => acc + (report.studies || 0), 0)}
+                </TableCell>
+                <TableCell>
+                  {reports
+                    .filter(report => inSpecialPioneerService(report))
+                    .reduce((acc, report) => acc + (report.hours || 0), 0)
+                    .toLocaleString()}
+                </TableCell>
+              </TableRow>
+            )
+          : null}
 
-          {reports.filter(report => inMissionaryService(report)).length
-            ? (
-                <tr>
-                  <th>{t('label.missionaries')}</th>
-                  <td>{reports.filter(report => inMissionaryService(report)).length}</td>
-                  <td>
-                    {reports
-                      .filter(report => inMissionaryService(report))
-                      .reduce((acc, report) => acc + (report.studies || 0), 0)}
-                  </td>
-                  <td>
-                    {reports
-                      .filter(report => inMissionaryService(report))
-                      .reduce((acc, report) => acc + (report.hours || 0), 0)
-                      .toLocaleString()}
-                  </td>
-                </tr>
-              )
-            : null}
+        {reports.filter(report => inMissionaryService(report)).length
+          ? (
+              <TableRow>
+                <TableCell>{t('label.missionaries')}</TableCell>
+                <TableCell>{reports.filter(report => inMissionaryService(report)).length}</TableCell>
+                <TableCell>
+                  {reports
+                    .filter(report => inMissionaryService(report))
+                    .reduce((acc, report) => acc + (report.studies || 0), 0)}
+                </TableCell>
+                <TableCell>
+                  {reports
+                    .filter(report => inMissionaryService(report))
+                    .reduce((acc, report) => acc + (report.hours || 0), 0)
+                    .toLocaleString()}
+                </TableCell>
+              </TableRow>
+            )
+          : null}
 
-          {reports.filter(report => inCircuitOverseerService(report)).length
-            ? (
-                <tr>
-                  <th>{t('label.circuitOverseers')}</th>
-                  <td>{reports.filter(report => inCircuitOverseerService(report)).length}</td>
-                  <td>
-                    {reports
-                      .filter(report => inCircuitOverseerService(report))
-                      .reduce((acc, report) => acc + (report.studies || 0), 0)}
-                  </td>
-                  <td>
-                    {reports
-                      .filter(report => inCircuitOverseerService(report))
-                      .reduce((acc, report) => acc + (report.hours || 0), 0)
-                      .toLocaleString()}
-                  </td>
-                </tr>
-              )
-            : null}
-        </tbody>
-        <tfoot>
-          <tr>
-            <th>{t('label.sum')}</th>
-            <th className="flex justify-items-center">
-              {totalReports}
-              {missingReports > 0
-                ? (
-                    <div
-                      className="tooltip ml-2"
-                      data-tip={t('label.missingReports', { count: missingReports })}
-                    >
-                      <ExclamationTriangleIcon className="size-5 text-red-500" />
-                    </div>
-                  )
-                : null}
-            </th>
-            <th>
-              {reports
-                .filter(report => inActivePublisherService(report))
+        {reports.filter(report => inCircuitOverseerService(report)).length
+          ? (
+              <TableRow>
+                <TableCell>{t('label.circuitOverseers')}</TableCell>
+                <TableCell>{reports.filter(report => inCircuitOverseerService(report)).length}</TableCell>
+                <TableCell>
+                  {reports
+                    .filter(report => inCircuitOverseerService(report))
+                    .reduce((acc, report) => acc + (report.studies || 0), 0)}
+                </TableCell>
+                <TableCell>
+                  {reports
+                    .filter(report => inCircuitOverseerService(report))
+                    .reduce((acc, report) => acc + (report.hours || 0), 0)
+                    .toLocaleString()}
+                </TableCell>
+              </TableRow>
+            )
+          : null}
+      </TableBody>
+      <TableFoot>
+        <TableRow>
+          <TableFooter>{t('label.sum')}</TableFooter>
+          <TableFooter className="flex justify-items-center">
+            {totalReports}
+            {missingReports > 0
+              ? (
+                  <div
+                    className="tooltip ml-2"
+                    data-tip={t('label.missingReports', { count: missingReports })}
+                  >
+                    <ExclamationTriangleIcon className="size-5 text-red-500" />
+                  </div>
+                )
+              : null}
+          </TableFooter>
+          <TableFooter>
+            {reports
+              .filter(report => inActivePublisherService(report))
+              .reduce((acc, report) => acc + (report.studies || 0), 0)
+              + reports
+                .filter(report => inAuxiliaryService(report))
                 .reduce((acc, report) => acc + (report.studies || 0), 0)
                 + reports
-                  .filter(report => inAuxiliaryService(report))
-                  .reduce((acc, report) => acc + (report.studies || 0), 0)
-                  + reports
-                    .filter(report => inPioneerService(report))
-                    .reduce((acc, report) => acc + (report.studies || 0), 0)}
-            </th>
-            <th>
-              {(
-                reports
-                  .filter(report => inAuxiliaryService(report))
+                  .filter(report => inPioneerService(report))
+                  .reduce((acc, report) => acc + (report.studies || 0), 0)}
+          </TableFooter>
+          <TableFooter>
+            {(
+              reports
+                .filter(report => inAuxiliaryService(report))
+                .reduce((acc, report) => acc + (report.hours || 0), 0)
+                + reports
+                  .filter(report => inPioneerService(report))
                   .reduce((acc, report) => acc + (report.hours || 0), 0)
-                  + reports
-                    .filter(report => inPioneerService(report))
-                    .reduce((acc, report) => acc + (report.hours || 0), 0)
-              ).toLocaleString()}
-            </th>
-          </tr>
-          <tr>
-            <th>{t('label.activePublishers')}</th>
-            <th>{activePublishers}</th>
-            <th></th>
-            <th></th>
-          </tr>
-          <tr>
-            <th>{t('label.missingReports')}</th>
-            <th>{missingReports}</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
+            ).toLocaleString()}
+          </TableFooter>
+        </TableRow>
+        <TableRow>
+          <TableFooter>{t('label.activePublishers')}</TableFooter>
+          <TableFooter colSpan={3}>{activePublishers}</TableFooter>
+        </TableRow>
+        <TableRow>
+          <TableFooter>{t('label.missingReports')}</TableFooter>
+          <TableFooter colSpan={3}>{missingReports}</TableFooter>
+        </TableRow>
+      </TableFoot>
+    </Table>
   )
 }

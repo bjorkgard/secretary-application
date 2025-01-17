@@ -40,7 +40,7 @@ export default function Dashboard(): JSX.Element {
   })
 
   return (
-    <div className="-mt-2 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+    <div className="relative grid grid-cols-2 gap-[17px] xl:grid-cols-[repeat(12,_minmax(0,_1fr))]">
       {!correctTemplates ? <TemplateWarning /> : null}
       <PublisherStats />
       <ActiveReport key={time + 1} />
@@ -48,8 +48,8 @@ export default function Dashboard(): JSX.Element {
       <Auxiliaries />
       <WithoutServiceGroup />
       <OldApplications />
-      <MailResponses />
       <CommonExports />
+      <MailResponses />
     </div>
   )
 }

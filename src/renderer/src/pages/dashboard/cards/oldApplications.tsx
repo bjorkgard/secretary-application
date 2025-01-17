@@ -1,21 +1,21 @@
-import { useEffect, useState }           from 'react'
-import { useTranslation }                from 'react-i18next'
-import { ArrowPathIcon, TrashIcon }      from '@heroicons/react/16/solid'
-import { Card2 }                         from '@renderer/components/Card2'
-import { useConfirmationModalContext }   from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
-import type { PublisherWithApplication } from 'src/types/models'
+import { useEffect, useState }                                           from 'react'
+import { useTranslation }                                                from 'react-i18next'
+import { ArrowPathIcon, TrashIcon }                                      from '@heroicons/react/16/solid'
+import { useConfirmationModalContext }                                   from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import type { PublisherWithApplication }                                 from 'src/types/models'
+import { DashboardCard }                                                 from '@renderer/components/DashboardCard'
+import { Heading }                                                       from '@renderer/components/catalyst/heading'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@renderer/components/catalyst/table'
 
 export default function OldApplications(): JSX.Element | null {
   const { t }                       = useTranslation()
   const [publishers, setPublishers] = useState<PublisherWithApplication[]>([])
-  const [loading, setLoading]       = useState(true)
   const [reload, setReload]         = useState(true)
   const confirmContext              = useConfirmationModalContext()
 
   useEffect(() => {
     window.electron.ipcRenderer.invoke('get-inactive-applications').then((result) => {
       setPublishers(result)
-      setLoading(false)
       setReload(false)
     })
   }, [reload])
@@ -48,58 +48,45 @@ export default function OldApplications(): JSX.Element | null {
     return null
 
   return (
-    <Card2 title={t('label.wthOldApplications')} loading={loading}>
-      {loading
-        ? (
-            <div className="aspect-square w-full rounded-md bg-slate-200" />
-          )
-        : (
-            <div className="w-full">
-              <table className="table table-zebra -mt-2 w-full">
-                <thead>
-                  <tr>
-                    <th>{t('label.name')}</th>
-                    <th>{t('label.application')}</th>
-                    <th>{t('label.latestApprovalDate')}</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {publishers.map((publisherModel, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{publisherModel.name}</td>
-                        <td>{publisherModel.applicationType}</td>
-                        <td>{publisherModel.applicationDate}</td>
-                        <td className="flex justify-end space-x-4">
-                          <div className="tooltip" data-tip={t('tooltip.renewApplication')}>
-                            <button
-                              className="btn btn-circle btn-outline btn-xs"
-                              onClick={(): void => {
-                                renewApplication(publisherModel.id, publisherModel.applicationType)
-                              }}
-                            >
-                              <ArrowPathIcon className="size-4" />
-                            </button>
-                          </div>
-                          <div className="tooltip" data-tip={t('tooltip.deleteApplication')}>
-                            <button
-                              className="btn btn-circle btn-outline btn-xs"
-                              onClick={(): void => {
-                                deleteApplication(publisherModel.id, publisherModel.applicationType)
-                              }}
-                            >
-                              <TrashIcon className="size-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-    </Card2>
+    <DashboardCard className="col-span-2 xl:col-span-12 2xl:col-span-6">
+      <Heading>{t('label.wthOldApplications')}</Heading>
+      <Table dense striped grid>
+        <TableHead>
+          <TableRow>
+            <TableHeader>{t('label.name')}</TableHeader>
+            <TableHeader>{t('label.application')}</TableHeader>
+            <TableHeader>{t('label.latestApprovalDate')}</TableHeader>
+            <TableHeader></TableHeader>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {publishers.map((publisherModel, index) => {
+            return (
+              <TableRow key={index}>
+                <TableCell>{publisherModel.name}</TableCell>
+                <TableCell>{publisherModel.applicationType}</TableCell>
+                <TableCell>{publisherModel.applicationDate}</TableCell>
+                <TableCell className="flex justify-end space-x-4">
+                  <span
+                    onClick={(): void => {
+                      renewApplication(publisherModel.id, publisherModel.applicationType)
+                    }}
+                  >
+                    <ArrowPathIcon className="size-4" />
+                  </span>
+                  <span
+                    onClick={(): void => {
+                      deleteApplication(publisherModel.id, publisherModel.applicationType)
+                    }}
+                  >
+                    <TrashIcon className="size-4" />
+                  </span>
+                </TableCell>
+              </TableRow>
+            )
+          })}
+        </TableBody>
+      </Table>
+    </DashboardCard>
   )
 }

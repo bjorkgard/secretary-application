@@ -1,21 +1,22 @@
-import { useEffect, useState }               from 'react'
-import { useTranslation }                    from 'react-i18next'
-import { BoltIcon, SparklesIcon, TrashIcon } from '@heroicons/react/16/solid'
-import { Card2 }                             from '@renderer/components/Card2'
-import { useConfirmationModalContext }       from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
-import type { MailResponse }                 from 'src/types/models'
+import { useEffect, useState }                                           from 'react'
+import { useTranslation }                                                from 'react-i18next'
+import { BoltIcon, SparklesIcon, TrashIcon }                             from '@heroicons/react/16/solid'
+import { useConfirmationModalContext }                                   from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import type { MailResponse }                                             from 'src/types/models'
+import { DashboardCard }                                                 from '@renderer/components/DashboardCard'
+import { Heading }                                                       from '@renderer/components/catalyst/heading'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@renderer/components/catalyst/table'
+import { Badge }                                                         from '@renderer/components/catalyst/badge'
 
 export default function MailResponses(): JSX.Element | null {
   const { t }                     = useTranslation()
   const [responses, setResponses] = useState<MailResponse[]>([])
-  const [loading, setLoading]     = useState(true)
   const [reload, setReload]       = useState(true)
   const confirmContext            = useConfirmationModalContext()
 
   useEffect(() => {
     window.electron.ipcRenderer.invoke('get-mail-responses').then((result) => {
       setResponses(result)
-      setLoading(false)
       setReload(false)
     })
   }, [reload])
@@ -48,67 +49,59 @@ export default function MailResponses(): JSX.Element | null {
     return null
 
   return (
-    <Card2 title={t('label.mailResponses')} loading={loading}>
-      {loading
-        ? (
-            <div className="aspect-square w-full rounded-md bg-slate-200" />
-          )
-        : (
-            <div className="w-full">
-              <table className="table table-zebra -mt-2 w-full">
-                <thead>
-                  <tr>
-                    <th>{t('label.email')}</th>
-                    <th>{t('label.event')}</th>
-                    <th>{t('label.description')}</th>
-                    <th>{t('label.createdAt')}</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {responses.map((response, index) => {
-                    const date = new Date(response.created_at).toLocaleDateString('sv')
-                    const time = new Date(response.created_at).toLocaleTimeString('sv')
-                    return (
-                      <tr key={index}>
-                        <td>{response.publisher_email}</td>
-                        <td>{response.event}</td>
-                        <td>{response.description}</td>
-                        <td>{`${date} ${time}`}</td>
-                        <td className="flex justify-end space-x-4">
-                          <div className="tooltip" data-tip={t('tooltip.waitingForFix')}>
-                            <SparklesIcon className="size-4 text-yellow-600" />
-                          </div>
-                          <div className="tooltip" data-tip={t('tooltip.fixWarning')}>
-                            <button
-                              className="btn btn-circle btn-outline btn-xs"
-                              onClick={(): void => {
-                                fixResponse(response.publisher_email)
-                              }}
-                              disabled={response.fix}
-                            >
-                              <BoltIcon className="size-4" />
-                            </button>
-                          </div>
-                          <div className="tooltip" data-tip={t('tooltip.deleteWarning')}>
-                            <button
-                              className="btn btn-circle btn-outline btn-xs"
-                              onClick={(): void => {
-                                deleteResponse(response.publisher_email)
-                              }}
-                              disabled={response.fix}
-                            >
-                              <TrashIcon className="size-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-    </Card2>
+    <DashboardCard className="col-span-full">
+      <Heading>{t('label.mailResponses')}</Heading>
+      <Table dense grid striped className="max-w-full">
+        <TableHead>
+          <TableRow>
+            <TableHeader>{t('label.email')}</TableHeader>
+            <TableHeader>{t('label.event')}</TableHeader>
+            <TableHeader>{t('label.description')}</TableHeader>
+            <TableHeader>{t('label.createdAt')}</TableHeader>
+            <TableHeader></TableHeader>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {responses.map((response, index) => {
+            const date = new Date(response.created_at).toLocaleDateString('sv')
+            const time = new Date(response.created_at).toLocaleTimeString('sv')
+            return (
+              <TableRow key={index}>
+                <TableCell className="items-center">{response.publisher_email}</TableCell>
+                <TableCell className="items-center"><Badge color="red">{response.event}</Badge></TableCell>
+                <TableCell className="items-center text-wrap">{response.description}</TableCell>
+                <TableCell className="items-center">{`${date} ${time}`}</TableCell>
+                <TableCell className="items-center">
+                  <div className="flex w-full justify-end space-x-4">
+                    <div title={t('tooltip.waitingForFix')} className={response.fix ? 'block' : 'hidden'}>
+                      <SparklesIcon className="size-4 text-yellow-600" />
+                    </div>
+                    <button
+                      className="cursor-default"
+                      onClick={(): void => {
+                        fixResponse(response.publisher_email)
+                      }}
+                      disabled={response.fix}
+                    >
+                      <BoltIcon className="size-4" />
+                    </button>
+                    <button
+                      className="cursor-default"
+                      onClick={(): void => {
+                        deleteResponse(response.publisher_email)
+                      }}
+                      disabled={response.fix}
+                    >
+                      <TrashIcon className="size-4" />
+                    </button>
+                  </div>
+
+                </TableCell>
+              </TableRow>
+            )
+          })}
+        </TableBody>
+      </Table>
+    </DashboardCard>
   )
 }

@@ -1,11 +1,12 @@
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
+import { DashboardCard }           from '@renderer/components/DashboardCard'
 import { useTranslation }          from 'react-i18next'
 
 export default function TemplateWarning(): JSX.Element {
   const { t } = useTranslation()
 
   return (
-    <div className="col-span-4 flex items-center justify-between gap-x-6 rounded-md bg-red-600 px-6 py-2.5 sm:pr-3.5 lg:pl-8">
+    <DashboardCard warning={true} className="col-span-full">
       <p className="text-sm leading-6 text-white">
         <ExclamationTriangleIcon className="mr-2 inline size-5" aria-hidden="true" />
         <strong className="font-semibold uppercase">{t('templates.headline')}</strong>
@@ -14,6 +15,6 @@ export default function TemplateWarning(): JSX.Element {
         </svg>
         {t('templates.warning')}
       </p>
-    </div>
+    </DashboardCard>
   )
 }

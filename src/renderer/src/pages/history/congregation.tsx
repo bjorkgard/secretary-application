@@ -1,6 +1,13 @@
-import { useEffect, useState }             from 'react'
-import { useTranslation }                  from 'react-i18next'
-import type { Meeting, ServiceMonthModel } from 'src/types/models'
+import { PlusIcon }                                                                              from '@heroicons/react/24/solid'
+import { Button }                                                                                from '@renderer/components/catalyst/button'
+import { Divider }                                                                               from '@renderer/components/catalyst/divider'
+import { Fieldset }                                                                              from '@renderer/components/catalyst/fieldset'
+import { Heading }                                                                               from '@renderer/components/catalyst/heading'
+import { Select }                                                                                from '@renderer/components/catalyst/select'
+import { Table, TableBody, TableCell, TableFoot, TableFooter, TableHead, TableHeader, TableRow } from '@renderer/components/catalyst/table'
+import { useEffect, useState }                                                                   from 'react'
+import { useTranslation }                                                                        from 'react-i18next'
+import type { Meeting, ServiceMonthModel }                                                       from 'src/types/models'
 
 interface ReportData {
   type:    string
@@ -170,154 +177,159 @@ export default function HistoryCongregation(): JSX.Element {
   }
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex justify-between">
-        <h1>{t('history.congregation')}</h1>
+    <div>
+      <Fieldset>
+        <div className="flex justify-between">
+          <Heading>{t('history.congregation')}</Heading>
+          <div className="flex space-x-4">
+            <div className="tooltip tooltip-left invisible" data-tip={t('label.add')}>
+              <Button
+                onClick={() => {}}
+                color="blue"
+              >
+                <PlusIcon className="size-6 text-white" />
+                {t('label.add')}
+              </Button>
+            </div>
+            <div className="tooltip tooltip-left" data-tip={t('label.selectServiceMonth')}>
+              <Select onChange={selectServiceMonth}>
+                <option value="">{t('label.selectServiceMonth')}</option>
+                {serviceMonths.map((sm) => {
+                  if (sm.status === 'ACTIVE')
+                    return null
 
-        <div className="flex space-x-4">
-          <button className="btn btn-primary invisible" onClick={() => {}}>{t('label.add')}</button>
-
-          <select className="select select-bordered w-fit" onChange={selectServiceMonth}>
-            <option value="">{t('label.selectServiceMonth')}</option>
-            {serviceMonths.map((sm) => {
-              if (sm.status === 'ACTIVE')
-                return null
-
-              return (
-                <option key={sm._id} value={sm._id}>
-                  {sm.serviceMonth}
-                </option>
-              )
-            })}
-          </select>
-        </div>
-
-      </div>
-
-      {selectedServiceMonth && (
-        <>
-          <div className="w-full">
-            <table className="table -mt-2 w-full">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>{t('label.noReports')}</th>
-                  <th>{t('label.studies')}</th>
-                  <th>{t('label.hours')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th>{publisherReport.type}</th>
-                  <td>{Math.round(publisherReport.reports)}</td>
-                  <td>{Math.round(publisherReport.studies)}</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th>{auxiliaryReport.type}</th>
-                  <td>{Math.round(auxiliaryReport.reports)}</td>
-                  <td>{Math.round(auxiliaryReport.studies)}</td>
-                  <td>{Math.round(auxiliaryReport.hours)}</td>
-                </tr>
-                <tr>
-                  <th>{pioneerReport.type}</th>
-                  <td>{Math.round(pioneerReport.reports)}</td>
-                  <td>{Math.round(pioneerReport.studies)}</td>
-                  <td>{Math.round(pioneerReport.hours)}</td>
-                </tr>
-                <tr>
-                  <th>{specialPioneerReport.type}</th>
-                  <td>{Math.round(specialPioneerReport.reports)}</td>
-                  <td>{Math.round(specialPioneerReport.studies)}</td>
-                  <td>{Math.round(specialPioneerReport.hours)}</td>
-                </tr>
-                <tr>
-                  <th>{missionaryReport.type}</th>
-                  <td>{Math.round(missionaryReport.reports)}</td>
-                  <td>{Math.round(missionaryReport.studies)}</td>
-                  <td>{Math.round(missionaryReport.hours)}</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>{t('label.total')}</th>
-                  <td>{Math.round(publisherReport.reports + auxiliaryReport.reports + pioneerReport.reports + specialPioneerReport.reports + missionaryReport.reports)}</td>
-                  <td>{Math.round(publisherReport.studies + auxiliaryReport.studies + pioneerReport.studies + specialPioneerReport.studies + missionaryReport.studies)}</td>
-                  <td>{Math.round(auxiliaryReport.hours + pioneerReport.hours + specialPioneerReport.hours + missionaryReport.hours)}</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-
-          <div className="divider mb-6"></div>
-
-          <div className="w-full">
-            <table className="table -mt-2 w-full">
-              <thead>
-                <tr>
-                  <th>{t('label.publishers')}</th>
-                  <th>{t('label.amount')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="w-56">{t('label.actives')}</td>
-                  <td>{selectedServiceMonth.stats.activePublishers}</td>
-                </tr>
-                <tr>
-                  <td className="w-56">{`- ${t('label.regulars')}`}</td>
-                  <td>{selectedServiceMonth.stats.regularPublishers}</td>
-                </tr>
-                <tr>
-                  <td className="w-56">{`- ${t('label.irregulars')}`}</td>
-                  <td>{selectedServiceMonth.stats.irregularPublishers}</td>
-                </tr>
-                <tr>
-                  <td className="w-56">{t('label.inactives')}</td>
-                  <td>{selectedServiceMonth.stats.inactivePublishers}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div className="divider mb-6"></div>
-
-          <div className="w-full">
-            <table className="table -mt-2 w-full">
-              <thead>
-                <tr>
-                  {meetingHeadlines.map((headline, index) => {
-                    return (
-                      <th key={`headline-${index}`}>{headline}</th>
-                    )
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {meetingRows.map((row, rowIndex) => {
                   return (
-                    <tr key={`row-${rowIndex}`}>
-                      {row.map((cell, index) => {
-                        return (
-                          <td key={`cell-${rowIndex}-${index}`}>{cell}</td>
-                        )
-                      })}
-                    </tr>
+                    <option key={sm._id} value={sm._id}>
+                      {sm.serviceMonth}
+                    </option>
                   )
                 })}
-              </tbody>
-            </table>
+              </Select>
+            </div>
           </div>
-          <div className="flex justify-between">
-            {selectedServiceMonth && (
-              <button className="btn btn-primary invisible" onClick={() => {}}>{t('label.edit')}</button>
-            )}
-            {selectedServiceMonth && (
-              <button className="btn btn-primary" onClick={() => exportSummary(selectedServiceMonth?.serviceMonth || '')}>{t('label.export')}</button>
-            )}
+        </div>
+
+        {selectedServiceMonth && (
+          <div>
+            <Table dense bleed grid striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
+              <TableHead>
+                <TableRow>
+                  <TableHeader></TableHeader>
+                  <TableHeader>{t('label.noReports')}</TableHeader>
+                  <TableHeader>{t('label.studies')}</TableHeader>
+                  <TableHeader>{t('label.hours')}</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>{publisherReport.type}</TableCell>
+                  <TableCell>{Math.round(publisherReport.reports)}</TableCell>
+                  <TableCell>{Math.round(publisherReport.studies)}</TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>{auxiliaryReport.type}</TableCell>
+                  <TableCell>{Math.round(auxiliaryReport.reports)}</TableCell>
+                  <TableCell>{Math.round(auxiliaryReport.studies)}</TableCell>
+                  <TableCell>{Math.round(auxiliaryReport.hours)}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>{pioneerReport.type}</TableCell>
+                  <TableCell>{Math.round(pioneerReport.reports)}</TableCell>
+                  <TableCell>{Math.round(pioneerReport.studies)}</TableCell>
+                  <TableCell>{Math.round(pioneerReport.hours)}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>{specialPioneerReport.type}</TableCell>
+                  <TableCell>{Math.round(specialPioneerReport.reports)}</TableCell>
+                  <TableCell>{Math.round(specialPioneerReport.studies)}</TableCell>
+                  <TableCell>{Math.round(specialPioneerReport.hours)}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>{missionaryReport.type}</TableCell>
+                  <TableCell>{Math.round(missionaryReport.reports)}</TableCell>
+                  <TableCell>{Math.round(missionaryReport.studies)}</TableCell>
+                  <TableCell>{Math.round(missionaryReport.hours)}</TableCell>
+                </TableRow>
+              </TableBody>
+              <TableFoot>
+                <TableRow>
+                  <TableFooter>{t('label.total')}</TableFooter>
+                  <TableFooter>{Math.round(publisherReport.reports + auxiliaryReport.reports + pioneerReport.reports + specialPioneerReport.reports + missionaryReport.reports)}</TableFooter>
+                  <TableFooter>{Math.round(publisherReport.studies + auxiliaryReport.studies + pioneerReport.studies + specialPioneerReport.studies + missionaryReport.studies)}</TableFooter>
+                  <TableFooter>{Math.round(auxiliaryReport.hours + pioneerReport.hours + specialPioneerReport.hours + missionaryReport.hours)}</TableFooter>
+                </TableRow>
+              </TableFoot>
+            </Table>
+
+            <Divider className="my-6" />
+
+            <Table dense bleed grid striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
+              <TableHead>
+                <TableRow>
+                  <TableHeader className="w-56">{t('label.publishers')}</TableHeader>
+                  <TableHeader>{t('label.amount')}</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>{t('label.actives')}</TableCell>
+                  <TableCell>{selectedServiceMonth.stats.activePublishers}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>{`- ${t('label.regulars')}`}</TableCell>
+                  <TableCell>{selectedServiceMonth.stats.regularPublishers}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>{`- ${t('label.irregulars')}`}</TableCell>
+                  <TableCell>{selectedServiceMonth.stats.irregularPublishers}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>{t('label.inactives')}</TableCell>
+                  <TableCell>{selectedServiceMonth.stats.inactivePublishers}</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+
+            <Divider className="my-6" />
+
+            <Table dense bleed grid striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
+              <TableHead>
+                <TableRow>
+                  {meetingHeadlines.map((headline, index) => {
+                    return (
+                      <TableHeader key={`headline-${index}`}>{headline}</TableHeader>
+                    )
+                  })}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {meetingRows.map((row, rowIndex) => {
+                  return (
+                    <TableRow key={`row-${rowIndex}`}>
+                      {row.map((cell, index) => {
+                        return (
+                          <TableCell key={`cell-${rowIndex}-${index}`}>{cell}</TableCell>
+                        )
+                      })}
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+
+            <div className="flex justify-between">
+              {selectedServiceMonth && (
+                <Button color="blue" className="invisible" onClick={() => {}}>{t('label.edit')}</Button>
+              )}
+              {selectedServiceMonth && (
+                <Button color="blue" onClick={() => exportSummary(selectedServiceMonth?.serviceMonth || '')}>{t('label.export')}</Button>
+              )}
+            </div>
           </div>
-        </>
-      )}
+        )}
+
+      </Fieldset>
     </div>
   )
 }

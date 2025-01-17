@@ -1,20 +1,26 @@
-import { useEffect, useState }                                 from 'react'
-import { useNavigate }                                         from 'react-router-dom'
-import { useFieldArray, useForm }                              from 'react-hook-form'
-import { useTranslation }                                      from 'react-i18next'
-import { ChevronLeftIcon, ChevronRightIcon }                   from '@heroicons/react/24/solid'
-import { usePublisherState }                                   from '@renderer/store/publisherStore'
-import { Field }                                               from '@renderer/components/Field'
-import type { PublisherModel, ResponsibilityModel, TaskModel } from 'src/types/models'
-import ROUTES                                                  from '../../constants/routes.json'
+import { useEffect, useState }                                  from 'react'
+import { useNavigate }                                          from 'react-router-dom'
+import { Controller, useFieldArray, useForm }                   from 'react-hook-form'
+import { useTranslation }                                       from 'react-i18next'
+import { ChevronLeftIcon, ChevronRightIcon }                    from '@heroicons/react/24/solid'
+import { usePublisherState }                                    from '@renderer/store/publisherStore'
+import type { PublisherModel, ResponsibilityModel, TaskModel }  from 'src/types/models'
+import { Field, Label }                                         from '@renderer/components/catalyst/fieldset'
+import { Heading }                                              from '@renderer/components/catalyst/heading'
+import { Button }                                               from '@renderer/components/catalyst/button'
+import { Checkbox, CheckboxField, CheckboxGroup }               from '@renderer/components/catalyst/checkbox'
+import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@renderer/components/catalyst/description-list'
+import { Input }                                                from '@renderer/components/catalyst/input'
+import ROUTES                                                   from '../../constants/routes.json'
+import Progress                                                 from './components/progress'
 
 export default function PublisherAppointmentForm(): JSX.Element {
   const { t }          = useTranslation()
   const navigate       = useNavigate()
   const publisherState = usePublisherState()
 
-  const [responsibilities, setResponsibilities] = useState<ResponsibilityModel[]>([])
-  const [tasks, setTasks]                       = useState<TaskModel[]>([])
+  const [dbResponsibilities, setResponsibilities] = useState<ResponsibilityModel[]>([])
+  const [tasks, setTasks]                         = useState<TaskModel[]>([])
 
   useEffect(() => {
     window.electron.ipcRenderer
@@ -38,7 +44,7 @@ export default function PublisherAppointmentForm(): JSX.Element {
     })
   }, [])
 
-  const { control, handleSubmit, register, watch } = useForm<PublisherModel>({
+  const { control, handleSubmit, register, setValue, watch } = useForm<PublisherModel>({
     defaultValues: publisherState.publisher,
   })
 
@@ -75,239 +81,331 @@ export default function PublisherAppointmentForm(): JSX.Element {
   return (
     <div>
       <div className="flex justify-between">
-        <h1>
+        <Heading>
           {publisherState.publisher._id
             ? t('publishers.editHeadline')
             : t('publishers.addHeadline')}
-        </h1>
+        </Heading>
       </div>
-      <div className="w-full">
-        <ul className="steps w-full">
-          <li className="step step-primary">{t('publishers.step.personal')}</li>
-          <li className="step step-primary">{t('publishers.step.contact')}</li>
-          <li className="step step-primary">{t('publishers.step.appointments')}</li>
-          <li className="step">{t('publishers.step.other')}</li>
-        </ul>
-      </div>
+      <Progress step="APPOINTMENTS" />
       <form onSubmit={handleSubmit(saveData)}>
-        <div className="mx-auto grid w-10/12 grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
+        <div className="mx-auto grid w-10/12 grid-cols-1 gap-y-6 sm:grid-cols-6">
           {/* RESPONSIBILITIES */}
-          <div className="sm:col-span-6">
-            <Field label={t('label.responsibilities')}>
-              <div className="flex flex-wrap items-center">
-                {responsibilities.map((responsibility) => {
-                  return (
-                    <label key={responsibility._id} className="label mr-4 cursor-pointer">
-                      <input
-                        {...register('responsibilities')}
-                        type="checkbox"
-                        value={responsibility._id}
-                        className="checkbox-primary checkbox"
-                        name="responsibilities"
-                      />
-                      <span className="label-text ml-2">{responsibility.name}</span>
-                    </label>
-                  )
-                })}
+          <Field className="sm:col-span-6">
+            <Label>{t('label.responsibilities')}</Label>
+            <CheckboxGroup className="flex items-center">
+              <div className="flex flex-wrap gap-x-6 gap-y-2">
+                {dbResponsibilities.map(responsibility => (
+                  <Controller
+                    name="responsibilities"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <CheckboxField className="!gap-x-2">
+                        <Checkbox
+                          color="blue"
+                          checked={value.includes(responsibility._id || '')}
+                          onChange={() => {
+                            if (value.includes(responsibility._id || '')) {
+                              onChange(value.filter((v: string) => v !== responsibility._id))
+                            }
+                            else {
+                              onChange([...value, responsibility._id || ''])
+                            }
+                          }}
+                        />
+                        <Label>
+                          {responsibility.name}
+                        </Label>
+                      </CheckboxField>
+                    )}
+                  />
+                ))}
               </div>
-            </Field>
-          </div>
+            </CheckboxGroup>
+          </Field>
 
           {/* TASKS */}
-          <div className="sm:col-span-6">
-            <Field label={t('label.tasks')}>
-              <div className="flex flex-wrap items-center">
-                {tasks.map((task) => {
-                  return (
-                    <label key={task._id} className="label mr-4 cursor-pointer">
-                      <input
-                        {...register('tasks')}
-                        type="checkbox"
-                        value={task._id}
-                        className="checkbox-primary checkbox"
-                        name="tasks"
-                      />
-                      <span className="label-text ml-2">{task.name}</span>
-                    </label>
-                  )
-                })}
+          <Field className="sm:col-span-6">
+            <Label>{t('label.tasks')}</Label>
+            <CheckboxGroup className="flex items-center">
+              <div className="flex flex-wrap gap-x-6 gap-y-2">
+                {tasks.map(task => (
+                  <Controller
+                    name="tasks"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <CheckboxField className="!gap-x-2">
+                        <Checkbox
+                          color="blue"
+                          checked={value.includes(task._id || '')}
+                          onChange={() => {
+                            if (value.includes(task._id || '')) {
+                              onChange(value.filter((v: string) => v !== task._id))
+                            }
+                            else {
+                              onChange([...value, task._id || ''])
+                            }
+                          }}
+                        />
+                        <Label>{task.name}</Label>
+                      </CheckboxField>
+                    )}
+                  />
+                ))}
               </div>
-            </Field>
-          </div>
+            </CheckboxGroup>
+          </Field>
 
           {!publisherState.publisher._id && (
-            <div className="sm:col-span-6">
-              <Field label={t('label.appointments')}>
-                <dl className="my-0 py-0">
-                  <div className="mb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="mt-0">
-                      <label className="label mr-4 cursor-pointer justify-start">
-                        <input
-                          {...register('appointments.0.type' as const)}
-                          type="checkbox"
-                          value="PIONEER"
-                          className="checkbox-primary checkbox"
+            <Field className="col-span-6 xl:col-span-2">
+              <Label>{t('label.appointments')}</Label>
+              <DescriptionList>
+                <DescriptionTerm>
+                  <Controller
+                    name="appointments.0.type"
+                    control={control}
+                    render={({ field: { value } }) => (
+                      <CheckboxField>
+                        <Checkbox
+                          color="blue"
+                          value={value}
+                          checked={!!watchAppointments?.find(a => a.type === 'PIONEER')}
+                          onChange={() => {
+                            if (watchAppointments?.find(a => a.type === 'PIONEER')) {
+                              setValue('appointments.0.type', '')
+                            }
+                            else {
+                              setValue('appointments.0.type', 'PIONEER')
+                            }
+                          }}
                         />
-
-                        <span className="label-text ml-2">{t('appointment.pioneer')}</span>
-                      </label>
-                    </dt>
-                    <dd className="sm:col-span-2 sm:mt-0">
-                      <input
-                        {...register('appointments.0.date' as const, { required: false })}
-                        type="date"
-                        className="input input-bordered w-48"
-                        disabled={
-                          !watchAppointments?.find(a => a.type === 'PIONEER')
-                        }
-                      />
-                    </dd>
-                  </div>
-                  <div className="mb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="mt-0">
-                      <label className="label mr-4 cursor-pointer justify-start">
-                        <input
-                          {...register('appointments.1.type' as const)}
-                          type="checkbox"
-                          value="SPECIALPIONEER"
-                          className="checkbox-primary checkbox"
+                        <Label>{t('appointment.pioneer')}</Label>
+                      </CheckboxField>
+                    )}
+                  />
+                </DescriptionTerm>
+                <DescriptionDetails>
+                  <Input
+                    className="w-44"
+                    type="date"
+                    {...register('appointments.0.date')}
+                    disabled={
+                      !watchAppointments?.find(a => a.type === 'PIONEER')
+                    }
+                    onChange={(e) => {
+                      setValue('appointments.0.date', e.target.value)
+                    }}
+                  />
+                </DescriptionDetails>
+                <DescriptionTerm>
+                  <Controller
+                    name="appointments.1.type"
+                    control={control}
+                    render={({ field: { value } }) => (
+                      <CheckboxField>
+                        <Checkbox
+                          color="blue"
+                          value={value}
+                          checked={!!watchAppointments?.find(a => a.type === 'SPECIALPIONEER')}
+                          onChange={() => {
+                            if (watchAppointments?.find(a => a.type === 'SPECIALPIONEER')) {
+                              setValue('appointments.1.type', '')
+                            }
+                            else {
+                              setValue('appointments.1.type', 'SPECIALPIONEER')
+                            }
+                          }}
                         />
-
-                        <span className="label-text ml-2">{t('appointment.specialpioneer')}</span>
-                      </label>
-                    </dt>
-                    <dd className="sm:col-span-2 sm:mt-0">
-                      <input
-                        {...register('appointments.1.date' as const, { required: false })}
-                        type="date"
-                        className="input input-bordered w-48"
-                        disabled={
-                          !watchAppointments?.find(a => a.type === 'SPECIALPIONEER')
-                        }
-                      />
-                    </dd>
-                  </div>
-                  <div className="mb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="mt-0">
-                      <label className="label mr-4 cursor-pointer justify-start">
-                        <input
-                          {...register('appointments.2.type' as const)}
-                          type="checkbox"
-                          value="MISSIONARY"
-                          className="checkbox-primary checkbox"
+                        <Label>{t('appointment.specialpioneer')}</Label>
+                      </CheckboxField>
+                    )}
+                  />
+                </DescriptionTerm>
+                <DescriptionDetails>
+                  <Input
+                    className="w-44"
+                    type="date"
+                    {...register('appointments.1.date' as const)}
+                    disabled={
+                      !watchAppointments?.find(a => a.type === 'SPECIALPIONEER')
+                    }
+                    onChange={(e) => {
+                      setValue('appointments.1.date', e.target.value)
+                    }}
+                  />
+                </DescriptionDetails>
+                <DescriptionTerm>
+                  <Controller
+                    name="appointments.2.type"
+                    control={control}
+                    render={({ field: { value } }) => (
+                      <CheckboxField>
+                        <Checkbox
+                          color="blue"
+                          value={value}
+                          checked={!!watchAppointments?.find(a => a.type === 'MISSIONARY')}
+                          onChange={() => {
+                            if (watchAppointments?.find(a => a.type === 'MISSIONARY')) {
+                              setValue('appointments.2.type', '')
+                            }
+                            else {
+                              setValue('appointments.2.type', 'MISSIONARY')
+                            }
+                          }}
                         />
-
-                        <span className="label-text ml-2">{t('appointment.missionary')}</span>
-                      </label>
-                    </dt>
-                    <dd className="sm:col-span-2 sm:mt-0">
-                      <input
-                        {...register('appointments.2.date' as const, { required: false })}
-                        type="date"
-                        className="input input-bordered w-48"
-                        disabled={
-                          !watchAppointments?.find(a => a.type === 'MISSIONARY')
-                        }
-                      />
-                    </dd>
-                  </div>
-                  <div className="mb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="mt-0">
-                      <label className="label mr-4 cursor-pointer justify-start">
-                        <input
-                          {...register('appointments.3.type' as const)}
-                          type="checkbox"
-                          value="CIRCUITOVERSEER"
-                          className="checkbox-primary checkbox"
+                        <Label>{t('appointment.missionary')}</Label>
+                      </CheckboxField>
+                    )}
+                  />
+                </DescriptionTerm>
+                <DescriptionDetails>
+                  <Input
+                    className="w-44"
+                    type="date"
+                    {...register('appointments.2.date' as const)}
+                    disabled={
+                      !watchAppointments?.find(a => a.type === 'MISSIONARY')
+                    }
+                    onChange={(e) => {
+                      setValue('appointments.2.date', e.target.value)
+                    }}
+                  />
+                </DescriptionDetails>
+                <DescriptionTerm>
+                  <Controller
+                    name="appointments.3.type"
+                    control={control}
+                    render={({ field: { value } }) => (
+                      <CheckboxField>
+                        <Checkbox
+                          color="blue"
+                          value={value}
+                          checked={!!watchAppointments?.find(a => a.type === 'CIRCUITOVERSEER')}
+                          onChange={() => {
+                            if (watchAppointments?.find(a => a.type === 'CIRCUITOVERSEER')) {
+                              setValue('appointments.3.type', '')
+                            }
+                            else {
+                              setValue('appointments.3.type', 'CIRCUITOVERSEER')
+                            }
+                          }}
                         />
-
-                        <span className="label-text ml-2">{t('appointment.circuitoverseer')}</span>
-                      </label>
-                    </dt>
-                    <dd className="sm:col-span-2 sm:mt-0">
-                      <input
-                        {...register('appointments.3.date' as const, { required: false })}
-                        type="date"
-                        className="input input-bordered w-48"
-                        disabled={
-                          !watchAppointments?.find(a => a.type === 'CIRCUITOVERSEER')
-                        }
-                      />
-                    </dd>
-                  </div>
-                  <div className="mb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="mt-0">
-                      <label className="label mr-4 cursor-pointer justify-start">
-                        <input
-                          {...register('appointments.4.type' as const)}
-                          type="checkbox"
-                          value="ELDER"
-                          className="checkbox-primary checkbox"
+                        <Label>{t('appointment.circuitoverseer')}</Label>
+                      </CheckboxField>
+                    )}
+                  />
+                </DescriptionTerm>
+                <DescriptionDetails>
+                  <Input
+                    className="w-44"
+                    type="date"
+                    {...register('appointments.3.date' as const)}
+                    disabled={
+                      !watchAppointments?.find(a => a.type === 'CIRCUITOVERSEER')
+                    }
+                    onChange={(e) => {
+                      setValue('appointments.3.date', e.target.value)
+                    }}
+                  />
+                </DescriptionDetails>
+                <DescriptionTerm>
+                  <Controller
+                    name="appointments.4.type"
+                    control={control}
+                    render={({ field: { value } }) => (
+                      <CheckboxField>
+                        <Checkbox
+                          color="blue"
+                          value={value}
+                          checked={!!watchAppointments?.find(a => a.type === 'ELDER')}
+                          onChange={() => {
+                            if (watchAppointments?.find(a => a.type === 'ELDER')) {
+                              setValue('appointments.4.type', '')
+                            }
+                            else {
+                              setValue('appointments.4.type', 'ELDER')
+                            }
+                          }}
                         />
-
-                        <span className="label-text ml-2">{t('appointment.elder')}</span>
-                      </label>
-                    </dt>
-                    <dd className="sm:col-span-2 sm:mt-0">
-                      <input
-                        {...register('appointments.4.date' as const, { required: false })}
-                        type="date"
-                        className="input input-bordered w-48"
-                        disabled={!watchAppointments?.find(a => a.type === 'ELDER')}
-                      />
-                    </dd>
-                  </div>
-                  <div className="mb-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="mt-0">
-                      <label className="label mr-4 cursor-pointer justify-start">
-                        <input
-                          {...register('appointments.5.type' as const)}
-                          type="checkbox"
-                          value="MINISTERIALSERVANT"
-                          className="checkbox-primary checkbox"
+                        <Label>{t('appointment.elder')}</Label>
+                      </CheckboxField>
+                    )}
+                  />
+                </DescriptionTerm>
+                <DescriptionDetails>
+                  <Input
+                    className="w-44"
+                    type="date"
+                    {...register('appointments.4.date' as const)}
+                    disabled={
+                      !watchAppointments?.find(a => a.type === 'ELDER')
+                    }
+                    onChange={(e) => {
+                      setValue('appointments.4.date', e.target.value)
+                    }}
+                  />
+                </DescriptionDetails>
+                <DescriptionTerm>
+                  <Controller
+                    name="appointments.5.type"
+                    control={control}
+                    render={({ field: { value } }) => (
+                      <CheckboxField>
+                        <Checkbox
+                          color="blue"
+                          value={value}
+                          checked={!!watchAppointments?.find(a => a.type === 'MINISTERIALSERVANT')}
+                          onChange={() => {
+                            if (watchAppointments?.find(a => a.type === 'MINISTERIALSERVANT')) {
+                              setValue('appointments.5.type', '')
+                            }
+                            else {
+                              setValue('appointments.5.type', 'MINISTERIALSERVANT')
+                            }
+                          }}
                         />
-
-                        <span className="label-text ml-2">
-                          {t('appointment.ministerialservant')}
-                        </span>
-                      </label>
-                    </dt>
-                    <dd className="sm:col-span-2 sm:mt-0">
-                      <input
-                        {...register('appointments.5.date' as const, { required: false })}
-                        type="date"
-                        className="input input-bordered w-48"
-                        disabled={
-                          !watchAppointments?.find(a => a.type === 'MINISTERIALSERVANT')
-                        }
-                      />
-                    </dd>
-                  </div>
-                </dl>
-              </Field>
-            </div>
+                        <Label>{t('appointment.ministerialservant')}</Label>
+                      </CheckboxField>
+                    )}
+                  />
+                </DescriptionTerm>
+                <DescriptionDetails>
+                  <Input
+                    className="w-44"
+                    type="date"
+                    {...register('appointments.5.date' as const)}
+                    disabled={
+                      !watchAppointments?.find(a => a.type === 'MINISTERIALSERVANT')
+                    }
+                    onChange={(e) => {
+                      setValue('appointments.5.date', e.target.value)
+                    }}
+                  />
+                </DescriptionDetails>
+              </DescriptionList>
+            </Field>
           )}
 
           <div className="col-span-6 col-start-1 mt-2 flex justify-between">
-            <button
-              className="btn btn-accent"
+            <Button
+              outline
               onClick={(): void => navigate(ROUTES.PUBLISHER_CONTACT_FORM)}
             >
               <ChevronLeftIcon className="size-5" />
               {t('button.back')}
-            </button>
+            </Button>
             {
               publisherState.publisher._id
               && (
-                <button className="btn btn-accent" onClick={(): void => quickSave()}>
+                <Button color="indigo" onClick={(): void => quickSave()}>
                   {t('button.save')}
-                </button>
+                </Button>
               )
             }
-            <button className="btn btn-primary" type="submit">
+            <Button color="blue" type="submit">
               {t('button.next')}
               <ChevronRightIcon className="size-5" />
-            </button>
+            </Button>
           </div>
         </div>
       </form>

@@ -1,20 +1,34 @@
-import { useEffect, useState }               from 'react'
-import { useNavigate }                       from 'react-router-dom'
-import { useFieldArray, useForm }            from 'react-hook-form'
-import { useTranslation }                    from 'react-i18next'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
-import PhoneInputWithCountry                 from 'react-phone-number-input/react-hook-form'
-import type { Country }                      from 'react-phone-number-input'
-import { isPossiblePhoneNumber }             from 'react-phone-number-input'
-import { usePublisherState }                 from '@renderer/store/publisherStore'
-import { useSettingsState }                  from '@renderer/store/settingsStore'
-import { Field }                             from '@renderer/components/Field'
-import classNames                            from '@renderer/utils/classNames'
-import type { PublisherModel }               from 'src/types/models'
+import { useEffect, useState }                from 'react'
+import { useNavigate }                        from 'react-router-dom'
+import { Controller, useFieldArray, useForm } from 'react-hook-form'
+import { useTranslation }                     from 'react-i18next'
+import { ChevronLeftIcon, ChevronRightIcon }  from '@heroicons/react/24/solid'
+import PhoneInputWithCountry                  from 'react-phone-number-input/react-hook-form'
+import type { Country }                       from 'react-phone-number-input'
+import { isPossiblePhoneNumber }              from 'react-phone-number-input'
+import { usePublisherState }                  from '@renderer/store/publisherStore'
+import { useSettingsState }                   from '@renderer/store/settingsStore'
+import type { PublisherModel }                from 'src/types/models'
 import 'react-phone-number-input/style.css'
-import { TrashIcon }                         from '@heroicons/react/20/solid'
-import generateIdentifier                    from '@renderer/utils/generateIdentifier'
-import ROUTES                                from '../../constants/routes.json'
+import { TrashIcon }                          from '@heroicons/react/20/solid'
+import generateIdentifier                     from '@renderer/utils/generateIdentifier'
+import { Input, InputGroup }                  from '@renderer/components/catalyst/input'
+import { EnvelopeIcon }                       from '@heroicons/react/16/solid'
+import * as Headless                          from '@headlessui/react'
+import { Switch }                             from '@renderer/components/catalyst/switch'
+import { Select }                             from '@renderer/components/catalyst/select'
+import { Heading }                            from '@renderer/components/catalyst/heading'
+import { Button }                             from '@renderer/components/catalyst/button'
+import clsx                                   from 'clsx'
+import {
+  ErrorMessage,
+  Field,
+  Fieldset,
+  Label,
+  Legend,
+} from '@renderer/components/catalyst/fieldset'
+import ROUTES   from '../../constants/routes.json'
+import Progress from './components/progress'
 
 export default function PublisherContactForm(): JSX.Element {
   const { t }          = useTranslation()
@@ -88,318 +102,265 @@ export default function PublisherContactForm(): JSX.Element {
   return (
     <div>
       <div className="flex justify-between">
-        <h1>
+        <Heading>
           {publisherState.publisher._id
             ? t('publishers.editHeadline')
             : t('publishers.addHeadline')}
-        </h1>
+        </Heading>
       </div>
-      <div className="w-full">
-        <ul className="steps w-full">
-          <li className="step step-primary">{t('publishers.step.personal')}</li>
-          <li className="step step-primary">{t('publishers.step.contact')}</li>
-          <li className="step">{t('publishers.step.appointments')}</li>
-          <li className="step">{t('publishers.step.other')}</li>
-        </ul>
-      </div>
+      <Progress step="CONTACT" />
       <form onSubmit={handleSubmit(saveData)}>
-        <div className="mx-auto grid w-10/12 grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
+        <div className="mx-auto grid w-10/12 grid-cols-1 gap-6 sm:grid-cols-6">
           {/* PHONE */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.phone')} error={errors.phone?.message}>
-              <PhoneInputWithCountry
-                name="phone"
-                defaultCountry={settingsState.congregation.country as Country}
-                countrySelectProps={{ unicodeFlags: true }}
-                placeholder={t('label.phone')}
-                control={control}
-                className={classNames(
-                  errors.phone ? 'input-error' : '',
-                  'input input-bordered w-full',
-                )}
-                rules={{
-                  validate: {
-                    test: (v: string | null): string | null => {
-                      let result = ''
-                      if (v)
-                        result = isPossiblePhoneNumber(v) ? '' : t('errors.phone.invalid')
+          <Field className="sm:col-span-3">
+            <Label>{t('label.phone')}</Label>
+            <PhoneInputWithCountry
+              name="phone"
+              defaultCountry={settingsState.congregation.country as Country}
+              countrySelectProps={{ unicodeFlags: true }}
+              placeholder={t('label.phone')}
+              control={control}
+              rules={{
+                validate: {
+                  test: (v: string | null): string | null => {
+                    let result = ''
+                    if (v)
+                      result = isPossiblePhoneNumber(v) ? '' : t('errors.phone.invalid')
 
-                      return result !== '' ? result : null
-                    },
+                    return result !== '' ? result : null
                   },
-                }}
-              />
-            </Field>
-          </div>
+                },
+              }}
+            />
+            {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
+          </Field>
 
           {/* MOBILE */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.mobile')} error={errors.mobile?.message}>
-              <PhoneInputWithCountry
-                name="mobile"
-                defaultCountry={settingsState.congregation.country as Country}
-                countrySelectProps={{ unicodeFlags: true }}
-                placeholder={t('label.mobile')}
-                control={control}
-                className={classNames(
-                  errors.mobile ? 'input-error' : '',
-                  'input input-bordered w-full',
-                )}
-                rules={{
-                  validate: {
-                    test: (v: string | null): string | null => {
-                      let result = ''
-                      if (v)
-                        result = isPossiblePhoneNumber(v) ? '' : t('errors.mobile.invalid')
+          <Field className="sm:col-span-3">
+            <Label>{t('label.mobile')}</Label>
+            <PhoneInputWithCountry
+              name="mobile"
+              defaultCountry={settingsState.congregation.country as Country}
+              countrySelectProps={{ unicodeFlags: true }}
+              placeholder={t('label.mobile')}
+              control={control}
+              rules={{
+                validate: {
+                  test: (v: string | null): string | null => {
+                    let result = ''
+                    if (v)
+                      result = isPossiblePhoneNumber(v) ? '' : t('errors.mobile.invalid')
 
-                      return result !== '' ? result : null
-                    },
+                    return result !== '' ? result : null
                   },
-                }}
-              />
-            </Field>
-          </div>
+                },
+              }}
+            />
+            {errors.mobile && <ErrorMessage>{errors.mobile.message}</ErrorMessage>}
+          </Field>
 
           {/* E-MAIL */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.email')} error={errors.email?.message}>
-              <input
-                id="email"
+          <Field className="sm:col-span-3">
+            <Label>{t('label.email')}</Label>
+            <InputGroup>
+              <EnvelopeIcon />
+              <Input
                 type="email"
                 placeholder={t('label.email')}
-                className={classNames(
-                  errors.email ? 'input-error' : '',
-                  'input input-bordered w-full dark:placeholder:text-slate-500',
-                )}
-                {...register('email')}
+                {...register('email', { required: false, pattern:  {
+                  value:   /^[\w.%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: t('errors.email.invalid'),
+                } })}
+                invalid={!!errors.email}
               />
-            </Field>
-          </div>
+            </InputGroup>
+            {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+          </Field>
 
           {/* CONTACT */}
-          <div className="!col-start-1 sm:col-span-2">
-            <Field label={t('label.family')}>
-              <div className="flex h-12 items-center space-x-4">
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <input
-                      {...register('contact')}
-                      type="checkbox"
-                      className="checkbox-primary checkbox"
-                    />
-                    <span className="label-text ml-2">{t('label.contact')}</span>
-                  </label>
-                </div>
-              </div>
-            </Field>
-          </div>
+          <Field className="!col-start-1 sm:col-span-2">
+            <Label>{t('label.family')}</Label>
+            <div className="flex h-12 w-full items-center space-x-4">
+              <Headless.Field className="flex items-center gap-2">
+                <Controller
+                  name="contact"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} />)}
+                />
+                <Label>{t('label.contact')}</Label>
+              </Headless.Field>
+            </div>
+          </Field>
 
           {/* Family */}
-          <div className="sm:col-span-4">
-            <Field label="&nbsp;" error={errors.familyId?.message}>
-              <select
-                className={classNames(
-                  errors.familyId ? 'select-error' : '',
-                  'select select-bordered w-full',
-                )}
-                {...register('familyId', {
-                  required: {
-                    value:   !watchContact,
-                    message: t('errors.familyId.required'),
-                  },
-                })}
-                disabled={watchContact}
-                onChange={(e): void => {
-                  setAddress(e.target.value)
-                }}
-              >
-                <option value="">{t('label.selectFamily')}</option>
-                {contacts.map((contact) => {
-                  return (
-                    <option key={contact._id} value={contact._id}>
-                      {contact.lastname}
-                      ,
-                      {' '}
-                      {contact.firstname}
-                    </option>
-                  )
-                })}
-              </select>
-            </Field>
-          </div>
+          <Field className="sm:col-span-4">
+            <Label>&nbsp;</Label>
+            <Select
+              {...register('familyId', {
+                required: {
+                  value:   !watchContact,
+                  message: t('errors.familyId.required'),
+                },
+              })}
+              disabled={watchContact}
+              onChange={(e): void => {
+                setAddress(e.target.value)
+              }}
+              invalid={!!errors.familyId}
+            >
+              <option value="">{t('label.selectFamily')}</option>
+              {contacts.map((contact) => {
+                return (
+                  <option key={contact._id} value={contact._id}>
+                    {contact.lastname}
+                    ,
+                    {' '}
+                    {contact.firstname}
+                  </option>
+                )
+              })}
+            </Select>
+          </Field>
 
           {/* ADDRESS */}
-          <div className="sm:col-span-6">
-            <Field label={t('label.address')} error={errors.address?.message}>
-              <input
-                id="address"
-                placeholder={t('label.address')}
-                className={classNames(
-                  errors.address ? 'input-error' : '',
-                  'input w-full input-bordered dark:placeholder:text-slate-500',
-                )}
-                {...register('address', {
-                  required: {
-                    value:   watchContact,
-                    message: t('errors.address.required'),
-                  },
-                })}
-                readOnly={!watchContact}
-              />
-            </Field>
-          </div>
+          <Field className="sm:col-span-6">
+            <Label>{t('label.address')}</Label>
+            <Input
+              placeholder={t('label.address')}
+              {...register('address', {
+                required: {
+                  value:   watchContact,
+                  message: t('errors.zip.required'),
+                },
+              })}
+              invalid={!!errors.address}
+              readOnly={!watchContact}
+            />
+            {errors.address && <ErrorMessage>{errors.address.message}</ErrorMessage>}
+          </Field>
 
           {/* ZIP */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.zip')} error={errors.zip?.message}>
-              <input
-                id="zip"
-                placeholder={t('label.zip')}
-                className={classNames(
-                  errors.zip ? 'input-error' : '',
-                  'input w-full input-bordered dark:placeholder:text-slate-500',
-                )}
-                {...register('zip', {
-                  required: {
-                    value:   watchContact,
-                    message: t('errors.zip.required'),
-                  },
-                })}
-                readOnly={!watchContact}
-              />
-            </Field>
-          </div>
+          <Field className="sm:col-span-3">
+            <Label>{t('label.zip')}</Label>
+            <Input
+              placeholder={t('label.zip')}
+              {...register('zip', {
+                required: {
+                  value:   watchContact,
+                  message: t('errors.zip.required'),
+                },
+              })}
+              invalid={!!errors.zip}
+              readOnly={!watchContact}
+            />
+            {errors.zip && <ErrorMessage>{errors.zip.message}</ErrorMessage>}
+          </Field>
 
           {/* CITY */}
-          <div className="sm:col-span-3">
-            <Field label={t('label.city')} error={errors.city?.message}>
-              <input
-                id="city"
-                placeholder={t('label.city')}
-                className={classNames(
-                  errors.city ? 'input-error' : '',
-                  'input w-full input-bordered dark:placeholder:text-slate-500',
-                )}
-                {...register('city', {
-                  required: {
-                    value:   watchContact,
-                    message: t('errors.city.required'),
-                  },
-                })}
-                readOnly={!watchContact}
-              />
-            </Field>
-          </div>
+          <Field className="sm:col-span-3">
+            <Label>{t('label.city')}</Label>
+            <Input
+              placeholder={t('label.city')}
+              {...register('city', {
+                required: {
+                  value:   watchContact,
+                  message: t('errors.city.required'),
+                },
+              })}
+              invalid={!!errors.city}
+              readOnly={!watchContact}
+            />
+            {errors.city && <ErrorMessage>{errors.city.message}</ErrorMessage>}
+          </Field>
 
           {watchContact && (
             <div className="!col-start-1 sm:col-span-4">
               <>
                 {fields.length > 0 && (
-                  <fieldset className="fieldset col-span-6 mb-2">
-                    <legend className="bg-white px-1 text-sm font-bold text-gray-700 dark:bg-slate-900 dark:text-slate-400">
-                      {t('label.children')}
-                    </legend>
+                  <Fieldset className="col-span-6 my-4 border border-zinc-950/10 p-4 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20">
+                    <Legend className="-mt-7 mb-2 w-fit bg-white px-1 dark:bg-zinc-900">{t('label.children')}</Legend>
                     {fields.map((item, index) => {
                       return (
                         <div key={item.id} className="grid grid-cols-6 gap-6">
-                          <div className="sm:col-span-3">
-                            <Field
-                              label={t('label.firstname')}
-                              error={errors.children?.[index]?.name?.message}
+                          <Field className="sm:col-span-3">
+                            <Label className={clsx(index === 0 ? 'block' : 'hidden')}>{t('label.firstname')}</Label>
+                            <Input
+                              {...register(`children.${index}.name` as const, {
+                                required: t('errors.children.name.required'),
+                              })}
+                              invalid={!!errors.children?.[index]?.name}
+                            />
+                            {errors.children?.[index]?.name && <ErrorMessage>{errors.children?.[index]?.name?.message}</ErrorMessage>}
+                          </Field>
+                          <Field className="sm:col-span-2">
+                            <Label className={clsx(index === 0 ? 'block' : 'hidden')}>{t('label.birthday')}</Label>
+                            <Input
+                              type="date"
+                              {...register(`children.${index}.birthday` as const, {
+                                required: t('errors.children.birthday.required'),
+                              })}
+                              invalid={!!errors.children?.[index]?.birthday}
+                            />
+                            {errors.children?.[index]?.birthday && <ErrorMessage>{errors.children?.[index]?.birthday?.message}</ErrorMessage>}
+                          </Field>
+                          <Field className="flex items-end justify-end sm:col-span-1">
+                            <Label>&nbsp;</Label>
+                            <Button
+                              outline
+                              onClick={(): void => {
+                                remove(index)
+                              }}
                             >
-                              <input
-                                {...register(`children.${index}.name` as const, {
-                                  required: t('errors.children.name.required'),
-                                })}
-                                className="input input-bordered w-full dark:placeholder:text-slate-500"
-                              />
-                            </Field>
-                          </div>
-                          <div className="sm:col-span-2">
-                            <Field label={t('label.birthday')}>
-                              <input
-                                {...register(`children.${index}.birthday` as const)}
-                                type="date"
-                                className="input input-bordered w-full dark:placeholder:text-slate-500"
-                              />
-                            </Field>
-                          </div>
-                          <div className="flex w-full items-center justify-end pt-4 sm:col-span-1">
-                            <div className="tooltip" data-tip={t('tooltip.deleteChild')}>
-                              <button
-                                className="btn btn-circle btn-outline btn-xs"
-                                onClick={(): void => {
-                                  remove(index)
-                                }}
-                              >
-                                <TrashIcon className="size-4" />
-                              </button>
-                            </div>
-                          </div>
+                              <TrashIcon className="size-4" />
+                            </Button>
+                          </Field>
                         </div>
                       )
                     })}
-                  </fieldset>
+                  </Fieldset>
                 )}
 
-                <button
-                  className="btn btn-secondary btn-sm"
+                <Button
+                  color="indigo"
                   onClick={(): void =>
                     append({ name: '', birthday: '', identifier: generateIdentifier() })}
                   type="button"
                 >
                   {t('button.addChild')}
-                </button>
+                </Button>
               </>
             </div>
           )}
 
-          <fieldset className="fieldset col-span-6 mb-2 mt-4 grid grid-cols-6 gap-4">
-            <legend className="bg-white px-1 text-sm font-bold text-gray-700 dark:bg-slate-900 dark:text-slate-400">
-              {t('label.emergencyContact')}
-            </legend>
-            {/* EMERGENCY CONTACT NAME */}
-            <div className="!col-start-1 sm:col-span-2">
-              <Field label={t('label.name')} error={errors.emergencyContact?.name?.message}>
-                <input
+          <Fieldset className="col-span-6 mb-2 mt-4 border border-zinc-950/10 p-4 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20">
+            <Legend className="-mt-7 mb-2 w-fit bg-white px-1 dark:bg-zinc-900">{t('label.emergencyContact')}</Legend>
+            <div className="grid w-full grid-cols-6 gap-4">
+              <Field className="col-span-2">
+                <Label>{t('label.name')}</Label>
+                <Input
                   placeholder={t('label.name')}
-                  className={classNames(
-                    errors.emergencyContact?.name ? 'input-error' : '',
-                    'input w-full input-bordered dark:placeholder:text-slate-500',
-                  )}
                   {...register('emergencyContact.name')}
+                  invalid={!!errors.emergencyContact?.name}
                 />
+                {errors.emergencyContact?.name && <ErrorMessage>{errors.emergencyContact?.name?.message}</ErrorMessage>}
               </Field>
-            </div>
-
-            {/* EMERGENCY CONTACT EMAIL */}
-            <div className="sm:col-span-2">
-              <Field label={t('label.email')} error={errors.emergencyContact?.email?.message}>
-                <input
-                  type="email"
+              <Field className="col-span-2">
+                <Label>{t('label.email')}</Label>
+                <Input
                   placeholder={t('label.email')}
-                  className={classNames(
-                    errors.emergencyContact?.email ? 'input-error' : '',
-                    'input w-full input-bordered dark:placeholder:text-slate-500',
-                  )}
                   {...register('emergencyContact.email')}
+                  invalid={!!errors.emergencyContact?.email}
                 />
+                {errors.emergencyContact?.email && <ErrorMessage>{errors.emergencyContact?.email?.message}</ErrorMessage>}
               </Field>
-            </div>
-
-            {/* EMERGENCY CONTACT PHONE */}
-            <div className="sm:col-span-2">
-              <Field label={t('label.phone')} error={errors.emergencyContact?.phone?.message}>
+              <Field className="col-span-2">
+                <Label>{t('label.phone')}</Label>
                 <PhoneInputWithCountry
                   name="emergencyContact.phone"
                   defaultCountry={settingsState.congregation.country as Country}
                   countrySelectProps={{ unicodeFlags: true }}
                   placeholder={t('label.phone')}
                   control={control}
-                  className={classNames(
-                    errors.emergencyContact?.phone ? 'input-error' : '',
-                    'input input-bordered w-full',
-                  )}
                   rules={{
                     validate: {
                       test: (v: string | null): string | null => {
@@ -412,30 +373,31 @@ export default function PublisherContactForm(): JSX.Element {
                     },
                   }}
                 />
+                {errors.emergencyContact?.phone && <ErrorMessage>{errors.emergencyContact?.phone?.message}</ErrorMessage>}
               </Field>
             </div>
-          </fieldset>
+          </Fieldset>
 
           <div className="col-span-6 col-start-1 mt-2 flex justify-between">
-            <button
-              className="btn btn-accent"
+            <Button
+              outline
               onClick={(): void => navigate(ROUTES.PUBLISHER_PERSONAL_FORM)}
             >
               <ChevronLeftIcon className="size-5" />
               {t('button.back')}
-            </button>
+            </Button>
             {
               publisherState.publisher._id
               && (
-                <button className="btn btn-accent" onClick={(): void => quickSave()}>
+                <Button color="indigo" onClick={(): void => quickSave()}>
                   {t('button.save')}
-                </button>
+                </Button>
               )
             }
-            <button className="btn btn-primary" type="submit">
+            <Button color="blue" type="submit">
               {t('button.next')}
               <ChevronRightIcon className="size-5" />
-            </button>
+            </Button>
           </div>
         </div>
       </form>

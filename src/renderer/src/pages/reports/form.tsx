@@ -1,10 +1,12 @@
 import { Fragment, useEffect, useState }                     from 'react'
 import { useTranslation }                                    from 'react-i18next'
-import { Tab }                                               from '@headlessui/react'
+import { Tab, TabGroup, TabList, TabPanel, TabPanels }       from '@headlessui/react'
 import type { Report, ServiceGroupModel, ServiceMonthModel } from 'src/types/models'
 import classNames                                            from '@renderer/utils/classNames'
 import generateIdentifier                                    from '@renderer/utils/generateIdentifier'
 import { ArrowDownTrayIcon, ArrowUpTrayIcon }                from '@heroicons/react/24/solid'
+import { Heading, Subheading }                               from '@renderer/components/catalyst/heading'
+import { Button }                                            from '@renderer/components/catalyst/button'
 import { ReportsTable }                                      from './components/reportTable'
 
 interface iTab {
@@ -97,29 +99,29 @@ export default function ReportsForm(): JSX.Element {
   return (
     <div>
       <div className="flex justify-between">
-        <h1>{t('reports.headline')}</h1>
+        <Heading>{t('reports.headline')}</Heading>
         {activeServiceMonth
           ? (
-              <div className="space-x-4">
+              <div className="flex space-x-4">
                 <div className="tooltip tooltip-left" data-tip={t('reports.uploadExcelFiles')}>
-                  <button className="btn btn-circle btn-outline" onClick={importExcelFile}>
+                  <Button outline onClick={importExcelFile}>
                     <ArrowUpTrayIcon className="size-6" />
-                  </button>
+                  </Button>
                 </div>
                 <div className="tooltip tooltip-left" data-tip={t('reports.downloadExcelFiles')}>
-                  <button className="btn btn-circle btn-outline" onClick={generateExcelFiles}>
+                  <Button outline onClick={generateExcelFiles}>
                     <ArrowDownTrayIcon className="size-6" />
-                  </button>
+                  </Button>
                 </div>
               </div>
             )
           : null}
       </div>
-      <div className="-mt-4">
+      <div>
         {activeServiceMonth
           ? (
-              <Tab.Group>
-                <Tab.List className="-mb-px flex border-b border-gray-200 dark:border-slate-200">
+              <TabGroup>
+                <TabList className="-mb-px flex border-b border-gray-200 dark:border-slate-200">
                   {tabs.map((tab) => {
                     return (
                       <Tab as={Fragment} key={tab.id}>
@@ -139,18 +141,18 @@ export default function ReportsForm(): JSX.Element {
                       </Tab>
                     )
                   })}
-                </Tab.List>
-                <Tab.Panels className="mt-2">
+                </TabList>
+                <TabPanels className="mt-2">
                   {tabs.map(tab => (
-                    <Tab.Panel key={tab.id}>
+                    <TabPanel key={tab.id}>
                       <ReportsTable serviceGroupId={tab.id} reports={tab.reports} month={serviceMonthName || ''} />
-                    </Tab.Panel>
+                    </TabPanel>
                   ))}
-                </Tab.Panels>
-              </Tab.Group>
+                </TabPanels>
+              </TabGroup>
             )
           : (
-              <h2>{t('reports.noActive')}</h2>
+              <Subheading>{t('reports.noActive')}</Subheading>
             )}
       </div>
     </div>

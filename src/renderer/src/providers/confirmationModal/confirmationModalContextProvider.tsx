@@ -2,6 +2,8 @@ import React, { Fragment, createContext, useContext, useRef, useState }  from 'r
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { ExclamationTriangleIcon }                                       from '@heroicons/react/24/outline'
 import { useTranslation }                                                from 'react-i18next'
+import { Button }                                                        from '@renderer/components/catalyst/button'
+import { Text }                                                          from '@renderer/components/catalyst/text'
 
 interface UseModalShowReturnType {
   show:    boolean
@@ -90,7 +92,7 @@ const ConfirmationModalContextProvider: React.FC<ConfirmationModalContextProvide
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-gray-500/75 transition-opacity dark:bg-slate-700/75" />
+              <div className="fixed inset-0 bg-gray-500/75 transition-opacity dark:bg-zinc-700/75" />
             </TransitionChild>
 
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -104,7 +106,7 @@ const ConfirmationModalContextProvider: React.FC<ConfirmationModalContextProvide
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <DialogPanel className="relative overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6 dark:bg-slate-900">
+                  <DialogPanel className="relative overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6 dark:bg-zinc-900">
                     <div className="sm:flex sm:items-start">
                       <div className="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10 dark:bg-red-600">
                         <ExclamationTriangleIcon
@@ -120,24 +122,24 @@ const ConfirmationModalContextProvider: React.FC<ConfirmationModalContextProvide
                           {content.title}
                         </DialogTitle>
                         <div className="mt-2">
-                          <p className="text-sm text-gray-500 dark:text-slate-400">
+                          <Text>
                             {content.message}
-                          </p>
+                          </Text>
                         </div>
                       </div>
                     </div>
                     <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                      <button type="button" className="btn btn-secondary ml-4" onClick={handleOk}>
+                      <Button color="blue" type="button" className="ml-4" onClick={handleOk}>
                         {t('button.ok')}
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         type="button"
-                        className="btn btn-primary"
+                        outline
                         onClick={handleCancel}
                         ref={cancelButtonRef}
                       >
                         {t('button.abort')}
-                      </button>
+                      </Button>
                     </div>
                   </DialogPanel>
                 </TransitionChild>

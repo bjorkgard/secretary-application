@@ -3,13 +3,15 @@
 import clsx                                    from 'clsx'
 import type React                              from 'react'
 import { createContext, useContext, useState } from 'react'
+import useWindowDimensions                     from '@renderer/hooks/useWindowDimensions'
 import { Link }                                from './link'
 
-const TableContext = createContext<{ bleed: boolean, dense: boolean, grid: boolean, striped: boolean }>({
+const TableContext = createContext<{ bleed: boolean, dense: boolean, grid: boolean, striped: boolean, sticky: boolean }>({
   bleed:   false,
   dense:   false,
   grid:    false,
   striped: false,
+  sticky:  false,
 })
 
 export function Table({
@@ -17,15 +19,19 @@ export function Table({
   dense = false,
   grid = false,
   striped = false,
+  sticky = false,
+  margin = 140,
   className,
   children,
   ...props
-}: { bleed?: boolean, dense?: boolean, grid?: boolean, striped?: boolean } & React.ComponentPropsWithoutRef<'div'>) {
+}: { bleed?: boolean, dense?: boolean, grid?: boolean, striped?: boolean, sticky?: boolean, margin?: number } & React.ComponentPropsWithoutRef<'div'>) {
+  const { height } = useWindowDimensions()
+
   return (
-    <TableContext.Provider value={{ bleed, dense, grid, striped } as React.ContextType<typeof TableContext>}>
+    <TableContext.Provider value={{ bleed, dense, grid, striped, sticky } as React.ContextType<typeof TableContext>}>
       <div className="flow-root">
-        <div {...props} className={clsx(className, '-mx-[--gutter] overflow-x-auto whitespace-nowrap')}>
-          <div className={clsx('inline-block min-w-full align-middle', !bleed && 'sm:px-[--gutter]')}>
+        <div {...props} className={clsx(className, 'overflow-x-auto whitespace-nowrap')}>
+          <div style={{ maxHeight: sticky ? height - margin : undefined }} className={clsx('inline-block min-w-full align-middle', !bleed && 'sm:px-[--gutter]', sticky && 'overflow-y-auto')}>
             <table className="min-w-full text-left text-sm/6 text-zinc-950 dark:text-white">{children}</table>
           </div>
         </div>
@@ -36,6 +42,10 @@ export function Table({
 
 export function TableHead({ className, ...props }: React.ComponentPropsWithoutRef<'thead'>) {
   return <thead {...props} className={clsx(className, 'text-zinc-500 dark:text-zinc-400')} />
+}
+
+export function TableFoot({ className, ...props }: React.ComponentPropsWithoutRef<'thead'>) {
+  return <tfoot {...props} className={clsx(className, 'text-zinc-500 dark:text-zinc-400')} />
 }
 
 export function TableBody(props: React.ComponentPropsWithoutRef<'tbody'>) {
@@ -75,7 +85,7 @@ export function TableRow({
 }
 
 export function TableHeader({ className, ...props }: React.ComponentPropsWithoutRef<'th'>) {
-  const { bleed, grid } = useContext(TableContext)
+  const { bleed, grid, sticky } = useContext(TableContext)
 
   return (
     <th
@@ -83,6 +93,23 @@ export function TableHeader({ className, ...props }: React.ComponentPropsWithout
       className={clsx(
         className,
         'border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10',
+        grid && 'border-l border-l-zinc-950/5 first:border-l-0 dark:border-l-white/5',
+        !bleed && 'sm:first:pl-1 sm:last:pr-1',
+        sticky && 'sticky top-0 z-50 bg-white dark:bg-zinc-900',
+      )}
+    />
+  )
+}
+
+export function TableFooter({ className, ...props }: React.ComponentPropsWithoutRef<'th'>) {
+  const { bleed, grid } = useContext(TableContext)
+
+  return (
+    <th
+      {...props}
+      className={clsx(
+        className,
+        'border-t border-t-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-t-white/10',
         grid && 'border-l border-l-zinc-950/5 first:border-l-0 dark:border-l-white/5',
         !bleed && 'sm:first:pl-1 sm:last:pr-1',
       )}

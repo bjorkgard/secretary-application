@@ -41,16 +41,16 @@ export default function Meetings({ serviceMonths }: Props): JSX.Element | null {
   }, [serviceMonths])
 
   return (
-    <div className="rounded-md bg-gray-200 p-4 dark:bg-slate-800">
+    <div className="rounded-md bg-gray-200 p-4 dark:border dark:border-white/10 dark:bg-transparent">
       <div className="px-4 sm:px-0">
         <h3 className="mt-0 text-base font-semibold text-gray-900 dark:text-white">{t('label.meetingAttendees')}</h3>
       </div>
       <div className="border-t border-gray-100 dark:border-white/10">
         <dl className="my-0 divide-y divide-gray-100 dark:divide-white/10">
           <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900 sm:mt-0 dark:text-white"></dt>
-            <dd className="text-sm font-medium leading-6 text-gray-900 sm:mt-0 dark:text-white">{t('analysis.total')}</dd>
-            <dd className="text-sm font-medium leading-6 text-gray-900 sm:mt-0 dark:text-white">{t('analysis.average')}</dd>
+            <dt></dt>
+            <dd>{t('analysis.total')}</dd>
+            <dd>{t('analysis.average')}</dd>
           </div>
 
           <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">

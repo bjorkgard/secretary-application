@@ -1,10 +1,15 @@
-import { useTranslation }      from 'react-i18next'
-import { Modal }               from '@renderer/components/Modal'
-import type { PublisherModel } from 'src/types/models'
-import { useForm }             from 'react-hook-form'
-import { Field }               from '@renderer/components/Field'
-import classNames              from '@renderer/utils/classNames'
-import { useEffect }           from 'react'
+import { useTranslation }                       from 'react-i18next'
+import { Modal }                                from '@renderer/components/Modal'
+import type { PublisherModel }                  from 'src/types/models'
+import { Controller, useForm }                  from 'react-hook-form'
+import { useEffect }                            from 'react'
+import { Button }                               from '@renderer/components/catalyst/button'
+import { ErrorMessage, Field, Fieldset, Label } from '@renderer/components/catalyst/fieldset'
+import { Text }                                 from '@renderer/components/catalyst/text'
+import { Input }                                from '@renderer/components/catalyst/input'
+import { Select }                               from '@renderer/components/catalyst/select'
+import { Switch }                               from '@renderer/components/catalyst/switch'
+import * as Headless                            from '@headlessui/react'
 
 interface EventModalProps {
   open:       boolean
@@ -43,6 +48,7 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
 
   const {
     clearErrors,
+    control,
     handleSubmit,
     register,
     setError,
@@ -96,118 +102,111 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
       onClose={() => props.setOpen(false)}
       title={props.publisher ? `${t('label.addReport')}: ${props.publisher?.firstname} ${props.publisher?.lastname}` : ''}
     >
-      <form className="relative" onSubmit={handleSubmit(saveReport)}>
-        <p className="text-sm">{t('report.description')}</p>
-        <Field label={t('label.serviceMonth')} error={errors.serviceMonth?.message}>
-          <input
-            type="month"
-            className="input input-bordered w-full"
-            max={`${today.getFullYear()}-${today.getMonth() < 10 ? '0' : ''}${today.getMonth()}`}
-            {...register('serviceMonth', {
-              required: t('errors.required'),
-              onChange(event) {
-                clearErrors('serviceMonth')
-                const exists = props.publisher?.reports.find(r => r.serviceMonth === event.target.value)
+      <form onSubmit={handleSubmit(saveReport)}>
+        <Fieldset>
+          <div className="grid grid-cols-1 gap-y-4">
+            <Text>{t('report.description')}</Text>
+            <Field>
+              <Label>{t('label.serviceMonth')}</Label>
+              <Input
+                {...register('serviceMonth', {
+                  required: t('errors.required'),
+                  onChange(event) {
+                    clearErrors('serviceMonth')
+                    const exists = props.publisher?.reports.find(r => r.serviceMonth === event.target.value)
 
-                if (exists) {
-                  setError('serviceMonth', {
-                    type:    'unique',
-                    message: t('errors.serviceMonthExists'),
-                  })
-                }
-              },
-            })}
-          />
-        </Field>
-        <Field label={t('label.hasBeenInService')} error={errors.hasBeenInService?.message}>
-          <select
-            className={classNames(
-              errors.hasBeenInService ? 'select-error' : '',
-              'select select-bordered w-full',
-            )}
-            {...register('hasBeenInService', { required: t('errors.hasBeenInService.required') })}
-          >
-            <option value={undefined}>{t('label.select')}</option>
-            <option value="YES">{t('label.yes')}</option>
-            <option value="NO">{t('label.no')}</option>
-          </select>
-        </Field>
-
-        <Field label={t('label.pioneerService')}>
-          <div className="grid grid-cols-3">
-            <div className="form-control col-span-3 text-left">
-              <label className="label cursor-pointer justify-start">
-                <input
-                  {...register('auxiliary')}
-                  type="checkbox"
-                  className="checkbox-primary checkbox"
-                  disabled={watch('hasBeenInService') === 'NO'}
-                />
-                <span className="label-text ml-2">{t('label.auxiliary')}</span>
-              </label>
-            </div>
-            <div className="form-control">
-              <label className="label cursor-pointer justify-start">
-                <input
-                  {...register('pioneer')}
-                  type="checkbox"
-                  className="checkbox-primary checkbox"
-                  disabled={watch('hasBeenInService') === 'NO'}
-                />
-                <span className="label-text ml-2">{t('label.pioneer')}</span>
-              </label>
-            </div>
-            <div className="form-control">
-              <label className="label cursor-pointer justify-start">
-                <input
-                  {...register('specialPioneer')}
-                  type="checkbox"
-                  className="checkbox-primary checkbox"
-                  disabled={watch('hasBeenInService') === 'NO'}
-                />
-                <span className="label-text ml-2">{t('label.specialPioneer')}</span>
-              </label>
-            </div>
-            <div className="form-control">
-              <label className="label cursor-pointer justify-start">
-                <input
-                  {...register('missionary')}
-                  type="checkbox"
-                  className="checkbox-primary checkbox"
-                  disabled={watch('hasBeenInService') === 'NO'}
-                />
-                <span className="label-text ml-2">{t('label.missionary')}</span>
-              </label>
-            </div>
+                    if (exists) {
+                      setError('serviceMonth', {
+                        type:    'unique',
+                        message: t('errors.serviceMonthExists'),
+                      })
+                    }
+                  },
+                })}
+                type="month"
+                max={`${today.getFullYear()}-${today.getMonth() < 10 ? '0' : ''}${today.getMonth()}`}
+                invalid={!!errors.serviceMonth?.message}
+                autoFocus
+              />
+              {errors.serviceMonth && <ErrorMessage>{errors.serviceMonth.message}</ErrorMessage>}
+            </Field>
+            <Field>
+              <Label>{t('label.hasBeenInService')}</Label>
+              <Select {...register('hasBeenInService', { required: t('errors.hasBeenInService.required') })}>
+                <option value={undefined}>{t('label.select')}</option>
+                <option value="YES">{t('label.yes')}</option>
+                <option value="NO">{t('label.no')}</option>
+              </Select>
+            </Field>
+            <Field>
+              <Label>{t('label.pioneerService')}</Label>
+              <div className="grid grid-cols-3">
+                <div className="col-span-3 mb-2 text-left">
+                  <Headless.Field className="flex items-center gap-2">
+                    <Controller
+                      name="auxiliary"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} disabled={watch('hasBeenInService') === 'NO'} />)}
+                    />
+                    <Label>{t('label.auxiliary')}</Label>
+                  </Headless.Field>
+                </div>
+                <Headless.Field className="flex items-center gap-2">
+                  <Controller
+                    name="pioneer"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} disabled={watch('hasBeenInService') === 'NO'} />)}
+                  />
+                  <Label>{t('label.pioneer')}</Label>
+                </Headless.Field>
+                <Headless.Field className="flex items-center gap-2">
+                  <Controller
+                    name="specialPioneer"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} disabled={watch('hasBeenInService') === 'NO'} />)}
+                  />
+                  <Label>{t('label.specialPioneer')}</Label>
+                </Headless.Field>
+                <Headless.Field className="flex items-center gap-2">
+                  <Controller
+                    name="missionary"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} disabled={watch('hasBeenInService') === 'NO'} />)}
+                  />
+                  <Label>{t('label.missionary')}</Label>
+                </Headless.Field>
+              </div>
+            </Field>
+            <Field>
+              <Label>{t('label.studies')}</Label>
+              <Input
+                {...register('studies')}
+                disabled={watch('hasBeenInService') === 'NO'}
+              />
+            </Field>
+            <Field>
+              <Label>{t('label.hours')}</Label>
+              <Input
+                {...register('hours')}
+                disabled={watch('hasBeenInService') === 'NO' || (!watch('pioneer') && !watch('specialPioneer') && !watch('missionary') && !watch('auxiliary'))}
+              />
+            </Field>
+            <Field>
+              <Label>{t('label.remarks')}</Label>
+              <Input {...register('remarks')} />
+            </Field>
           </div>
-        </Field>
+        </Fieldset>
 
-        <Field label={t('label.studies')} error={errors.studies?.message}>
-          <input
-            className="input input-bordered w-full"
-            {...register('studies')}
-            disabled={watch('hasBeenInService') === 'NO'}
-          />
-        </Field>
+        <div className="mt-4 flex justify-between">
+          <Button outline onClick={() => props.setOpen(false)}>
+            {t('button.abort')}
+          </Button>
+          <Button color="blue" type="submit" disabled={!isValid}>
+            {t('button.save')}
+          </Button>
+        </div>
 
-        <Field label={t('label.hours')} error={errors.hours?.message}>
-          <input
-            {...register('hours')}
-            className="input input-bordered w-full"
-            disabled={watch('hasBeenInService') === 'NO' || (!watch('pioneer') && !watch('specialPioneer') && !watch('missionary') && !watch('auxiliary'))}
-          />
-        </Field>
-
-        <Field label={t('label.remarks')} error={errors.remarks?.message}>
-          <input
-            {...register('remarks')}
-            className="input input-bordered w-full"
-          />
-        </Field>
-
-        <button type="submit" className="btn btn-primary mt-4 justify-items-end" disabled={!isValid}>
-          {t('button.save')}
-        </button>
       </form>
     </Modal>
   )
