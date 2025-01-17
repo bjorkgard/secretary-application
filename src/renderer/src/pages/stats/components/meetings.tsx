@@ -49,8 +49,8 @@ export default function Meetings({ serviceMonths }: Props): JSX.Element | null {
         <dl className="my-0 divide-y divide-gray-100 dark:divide-white/10">
           <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt></dt>
-            <dd>{t('analysis.total')}</dd>
-            <dd>{t('analysis.average')}</dd>
+            <dd className="text-sm font-medium leading-6 text-gray-900 sm:mt-0 dark:text-white">{t('analysis.total')}</dd>
+            <dd className="text-sm font-medium leading-6 text-gray-900 sm:mt-0 dark:text-white">{t('analysis.average')}</dd>
           </div>
 
           <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
