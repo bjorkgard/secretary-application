@@ -65,7 +65,6 @@ export default function Templates(): JSX.Element {
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
           <div>
             <Text>{t('templates.description')}</Text>
-            <Text className="pt-2">{t('templates.description2')}</Text>
             {!templates || templates?.length < 1
               ? (
                   <Text className="font-bold uppercase text-red-500">

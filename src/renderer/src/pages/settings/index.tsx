@@ -265,7 +265,9 @@ export default function Settings(): JSX.Element {
             <Subheading>{t('settings.experimental.headline')}</Subheading>
             <Text>{t('settings.experimental.information')}</Text>
           </div>
-          <FieldGroup className="sm:col-span-2">
+          {
+            /*
+            <FieldGroup className="sm:col-span-2">
             <div className="grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-6 md:col-span-2">
               <SwitchGroup className="sm:col-span-6">
                 <SwitchField>
@@ -280,6 +282,8 @@ export default function Settings(): JSX.Element {
               </SwitchGroup>
             </div>
           </FieldGroup>
+            */
+          }
         </div>
       </Fieldset>
 
