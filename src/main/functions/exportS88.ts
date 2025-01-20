@@ -1,9 +1,9 @@
-import type { BrowserWindow }     from 'electron'
-import { app, dialog }            from 'electron'
-import log                        from 'electron-log'
-import fs                         from 'fs-extra'
-import JSZip                      from 'jszip'
-import { PDFDocument }            from 'pdf-lib'
+import type { BrowserWindow } from 'electron'
+import { app, dialog }        from 'electron'
+import log                    from 'electron-log'
+import fs                     from 'fs-extra'
+// import type JSZip                 from 'jszip'
+// import { PDFDocument }            from 'pdf-lib'
 import i18n                       from '../../localization/i18next.config'
 import SettingsService            from '../services/settingsService'
 import ServiceYearService         from '../services/serviceYearService'
@@ -34,9 +34,9 @@ export default async function exportS88(
   mainWindow: BrowserWindow,
   serviceYears: number[],
 ): Promise<void> {
-  const mergedPdf                                          = await PDFDocument.create()
-  const zip                                                = new JSZip()
-  const fileName                                           = `S-88_${firstAndLast(serviceYears)}_${new Date().toLocaleDateString('sv')}`
+  // const mergedPdf                                          = await PDFDocument.create()
+  // const zip                                                = new JSZip()
+  const fileName                                           = `S-88_${firstAndLast(serviceYears)}.pdf`
   const meetingAttendanceExport: MeetingAttendanceExport[] = []
 
   const settings       = await settingsService.find()
@@ -53,6 +53,11 @@ export default async function exportS88(
   }
 
   try {
+    await generateS88(meetingAttendanceExport, languageGroups).then((pdfBytes) => {
+      savePdfFile(mainWindow, pdfBytes, fileName)
+    })
+
+    /*
     // every meetingAttendanceExport has 2 years
     for (let index = 0; index < meetingAttendanceExport.length; index += 2) {
       await generateS88(
@@ -112,6 +117,7 @@ export default async function exportS88(
     else {
       saveZipFile(mainWindow, zip, `${fileName}.zip`)
     }
+      */
   }
   catch (err) {
     log.error(err)
@@ -154,6 +160,7 @@ function savePdfFile(mainWindow: BrowserWindow, data: Uint8Array, name: string) 
   mainWindow?.webContents.send('show-spinner', { status: false })
 }
 
+/*
 function saveZipFile(mainWindow: BrowserWindow, zip: JSZip, name: string) {
   const dialogOptions = {
     title:       i18n.t('export.saveAs'),
@@ -180,3 +187,4 @@ function saveZipFile(mainWindow: BrowserWindow, zip: JSZip, name: string) {
 
   mainWindow?.webContents.send('show-spinner', { status: false })
 }
+  */
