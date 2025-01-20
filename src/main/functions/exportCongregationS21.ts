@@ -1,14 +1,14 @@
 import { type BrowserWindow, app, dialog } from 'electron'
 import log                                 from 'electron-log'
 import fs                                  from 'fs-extra'
-import JSZip                               from 'jszip'
-import { PDFDocument }                     from 'pdf-lib'
-import i18n                                from '../../localization/i18next.config'
-import ServiceYearService                  from '../services/serviceYearService'
-import SettingsService                     from '../services/settingsService'
-import ServiceMonthService                 from '../services/serviceMonthService'
-import PublisherService                    from '../services/publisherService'
-import generateCongregationS21             from './generateCongregationS21'
+// import JSZip                               from 'jszip'
+// import { PDFDocument }                     from 'pdf-lib'
+import i18n                    from '../../localization/i18next.config'
+import ServiceYearService      from '../services/serviceYearService'
+import SettingsService         from '../services/settingsService'
+import ServiceMonthService     from '../services/serviceMonthService'
+import PublisherService        from '../services/publisherService'
+import generateCongregationS21 from './generateCongregationS21'
 
 const publisherService    = new PublisherService()
 const settingsService     = new SettingsService()
@@ -32,13 +32,18 @@ export default async function exportCongregationS21(
     return months
   })
 
-  const fileName = `S-21_${settings?.congregation.name}_${new Date().toLocaleDateString('sv')}`
+  const fileName = `S-21_${settings?.congregation.name}_${serviceYearName}`
 
   if (serviceMonths && settings) {
     try {
-      const mergedPdf = await PDFDocument.create()
-      const zip       = new JSZip()
+      // const mergedPdf = await PDFDocument.create()
+      // const zip       = new JSZip()
 
+      await generateCongregationS21(settings.congregation.name, serviceMonths, publishers).then(async (pdfBytes) => {
+        savePdfFile(mainWindow, pdfBytes, `${fileName}.pdf`)
+      })
+
+      /*
       if (publishers.some(p => p.appointments.some(a => a.type === 'SPECIALPIONEER'))) {
         await generateCongregationS21(settings, serviceMonths, 'SPECIALPIONEER').then(async (pdfBytes) => {
           if (settings.mergePdf) {
@@ -118,6 +123,7 @@ export default async function exportCongregationS21(
       else {
         saveZipFile(mainWindow, zip, `${fileName}.zip`)
       }
+        */
     }
     catch (err) {
       log.error(err)
@@ -163,6 +169,7 @@ function savePdfFile(mainWindow: BrowserWindow, data: Uint8Array, name: string) 
   mainWindow?.webContents.send('show-spinner', { status: false })
 }
 
+/*
 function saveZipFile(mainWindow: BrowserWindow, zip: JSZip, name: string) {
   const dialogOptions = {
     title:       i18n.t('export.saveAs'),
@@ -189,3 +196,4 @@ function saveZipFile(mainWindow: BrowserWindow, zip: JSZip, name: string) {
 
   mainWindow?.webContents.send('show-spinner', { status: false })
 }
+  */

@@ -1,24 +1,26 @@
-import type { PDFForm } from 'pdf-lib'
-import { PDFDocument }  from 'pdf-lib'
-import fs               from 'fs-extra'
-import log              from 'electron-log'
+// import type { PDFForm } from 'pdf-lib'
+// import { PDFDocument }  from 'pdf-lib'
+// import fs               from 'fs-extra'
+import log from 'electron-log'
 
 export default async function confirmTemplete(code: string, path: string): Promise<boolean> {
-  const pdfBytes = fs.readFileSync(path)
-  const pdfDoc   = await PDFDocument.load(new Uint8Array(pdfBytes))
-  const form     = pdfDoc.getForm()
+  // const pdfBytes = fs.readFileSync(path)
+  // const pdfDoc   = await PDFDocument.load(new Uint8Array(pdfBytes))
+  // const form     = pdfDoc.getForm()
+  log.info(path)
 
   switch (code) {
     case 'S-21':
-      return confirmS21(form)
+      return true
     case 'S-88':
-      return confirmS88(form)
+      return true
 
     default:
       return false
   }
 }
 
+/*
 async function confirmS21(form: PDFForm): Promise<boolean> {
   try {
     const fields = form.getFields()
@@ -42,3 +44,4 @@ async function confirmS88(form: PDFForm): Promise<boolean> {
     return false
   }
 }
+  */
