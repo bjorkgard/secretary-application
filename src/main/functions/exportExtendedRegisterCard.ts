@@ -15,7 +15,7 @@ export default async function exportExtendedRegisterCard(
 ): Promise<void> {
   const mergedPdf = await PDFDocument.create()
   const publisher = await publisherService.findOneById(publisherId)
-  const fileName  = `${publisher.lastname}_${publisher.firstname}_${new Date().toLocaleDateString('sv')}`
+  const fileName  = `${publisher.lastname}_${publisher.firstname}`
 
   try {
     await GenerateExtendedRegisterCard(publisher).then(async (pdfBytes) => {

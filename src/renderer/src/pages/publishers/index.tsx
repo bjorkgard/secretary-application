@@ -106,7 +106,7 @@ export default function Publishers(): JSX.Element {
               <InputSmall name="search" placeholder={t('search')} aria-label="Search" onChange={onChange} type="search" />
             </InputGroupSmall>
           </div>
-          <div className="tooltip tooltip-left" data-tip={t('label.addPublisher')}>
+          <div title={t('label.addPublisher')}>
             <Button
               onClick={(): void => navigate(ROUTES.PUBLISHER_PERSONAL_FORM)}
               color="blue"
@@ -122,8 +122,8 @@ export default function Publishers(): JSX.Element {
             <TableRow>
               <TableHeader></TableHeader>
               <TableHeader>{t('publishers.header.group')}</TableHeader>
-              <TableHeader>{t('publishers.header.firstname')}</TableHeader>
               <TableHeader>{t('publishers.header.lastname')}</TableHeader>
+              <TableHeader>{t('publishers.header.firstname')}</TableHeader>
               <TableHeader>{t('publishers.header.mobile')}</TableHeader>
               <TableHeader>{t('publishers.header.email')}</TableHeader>
               <TableHeader></TableHeader>
@@ -155,8 +155,8 @@ export default function Publishers(): JSX.Element {
                     })}
                   </TableCell>
                   <TableCell>{serviceGroup?.name || '-'}</TableCell>
-                  <TableCell>{publisher.firstname}</TableCell>
                   <TableCell>{publisher.lastname}</TableCell>
+                  <TableCell>{publisher.firstname}</TableCell>
                   <TableCell>
                     <TextLink href={`sms:${publisher.mobile}`}>{publisher.mobile ? formatPhoneNumber(publisher.mobile) : ''}</TextLink>
                   </TableCell>
