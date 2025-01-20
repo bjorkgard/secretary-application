@@ -140,7 +140,7 @@ export default async function GenerateExtendedRegisterCard(publisher: PublisherM
     body: [
       [
         { content: i18n.t('label.name'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
-        `${publisher.firstname} ${publisher.lastname}`,
+        `${publisher.lastname}, ${publisher.firstname}`,
         { content: i18n.t('label.family'), styles: { cellWidth: 30, fontStyle: 'bold', halign: 'left' } },
         `${familyMembers.join(', ')}`,
       ],
