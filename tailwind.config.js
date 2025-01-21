@@ -1,7 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/renderer/**/*.{js,jsx,ts,tsx,html}'],
-  theme:   {
+  content: [
+    './src/renderer/**/*.{js,jsx,ts,tsx,html}',
+    './node_modules/react-tailwindcss-select/dist/index.esm.{js,ts}',
+  ],
+  theme: {
     extend: {},
   },
   plugins: [
