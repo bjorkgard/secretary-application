@@ -22,11 +22,22 @@ export default function Dashboard(): JSX.Element {
         setCorrectTemplates(false)
       }
       else {
-        Object.keys(TEMPLATES).forEach((key) => {
+        Object.keys(TEMPLATES).forEach(async (key) => {
           if (!templates.find(template => template.code === key)) {
             setCorrectTemplates(false)
           }
           else {
+            for (const template of templates) {
+              const response = await window.electron.ipcRenderer.invoke('template-exists', { path: template.path }).then((response: boolean) => {
+                return response
+              })
+
+              setCorrectTemplates(response)
+              if (!response) {
+                break
+              }
+            }
+
             if (templates.find(template => template.code === key)?.date !== TEMPLATES[key])
               setCorrectTemplates(false)
           }

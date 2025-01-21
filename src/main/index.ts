@@ -6,6 +6,7 @@ import { autoUpdater }                                           from 'electron-
 import windowStateKeeper                                         from 'electron-window-state'
 import prompt                                                    from 'electron-prompt'
 import log                                                       from 'electron-log'
+import fs                                                        from 'fs-extra'
 // import Bugsnag                                        from '@bugsnag/electron'
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer'
 import icon                                        from '../../resources/icon.png?asset'
@@ -1195,6 +1196,10 @@ ipcMain.on('export-s21', async (_, publisherId) => {
   mainWindow?.webContents.send('show-spinner', { status: true })
 
   exportPublisherS21(mainWindow, publisherId)
+})
+
+ipcMain.handle('template-exists', async (_, args) => {
+  return fs.existsSync(args.path)
 })
 
 ipcMain.handle('get-templates', async () => {
