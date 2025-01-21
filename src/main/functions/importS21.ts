@@ -13,7 +13,15 @@ const isDevelopment       = import.meta.env.MAIN_VITE_NODE_ENV !== 'production'
 const publisherService    = new PublisherService()
 const serviceGroupService = new ServiceGroupService()
 
-export default function importS21(mainWindow: BrowserWindow): void {
+export default async function importS21(mainWindow: BrowserWindow, publisherId: string | null): Promise<void> {
+  let publisher: PublisherModel
+
+  if (publisherId) {
+    await publisherService.findOneById(publisherId).then((response) => {
+      publisher = response
+    })
+  }
+
   const options: OpenDialogOptions = {
     title:       i18n.t('importS21.title'),
     buttonLabel: i18n.t('label.import'),
@@ -102,120 +110,163 @@ export default function importS21(mainWindow: BrowserWindow): void {
         error.message = i18n.t('importS21.errorTooManyPages')
       }
       else {
-        const form      = pdfDoc.getForm()
-        const nameField = form.getTextField('900_1_Text_SanSerif')
+        try {
+          const form      = pdfDoc.getForm()
+          const nameField = form.getTextField('900_1_Text_SanSerif')
 
-        if (!nameField) {
+          if (!nameField) {
           // PDF must have a field named '900_1_Text_SanSerif'
-          error.title   = i18n.t('importS21.errorFields')
-          error.message = i18n.t('importS21.errorNameField')
-        }
-        else {
-          const publisher: PublisherModel = {
-            address:          '',
-            appointments:     [],
-            blind:            false,
-            children:         [],
-            city:             '',
-            contact:          false,
-            deaf:             false,
-            firstname:        '',
-            gender:           'MAN',
-            histories:        [],
-            hope:             'OTHER_SHEEP',
-            lastname:         '',
-            reports:          [],
-            responsibilities: [],
-            s290:             false,
-            sendReports:      false,
-            status:           'ACTIVE',
-            tasks:            [],
-            unknown_baptised: false,
-            zip:              '',
-            resident:         '',
-            emergencyContact: {},
-            serviceGroupId:   serviceGroup?._id,
+            error.title   = i18n.t('importS21.errorFields')
+            error.message = i18n.t('importS21.errorNameField')
           }
+          else {
+            if (!publisherId) {
+              publisher = {
+                address:          '',
+                appointments:     [],
+                blind:            false,
+                children:         [],
+                city:             '',
+                contact:          false,
+                deaf:             false,
+                firstname:        '',
+                gender:           'MAN',
+                histories:        [],
+                hope:             'OTHER_SHEEP',
+                lastname:         '',
+                reports:          [],
+                responsibilities: [],
+                s290:             false,
+                sendReports:      false,
+                status:           'ACTIVE',
+                tasks:            [],
+                unknown_baptised: false,
+                zip:              '',
+                resident:         '',
+                emergencyContact: {},
+                serviceGroupId:   serviceGroup?._id,
+              }
 
-          const reports: Report[] = []
-          const fullName          = form.getTextField('900_1_Text_SanSerif').getText()?.split(' ')
-          publisher.firstname     = fullName ? fullName[0] : ''
-          publisher.lastname      = fullName ? fullName.slice(-(fullName.length - 1)).join(' ') : ''
-          publisher.birthday      = form.getTextField('900_2_Text_SanSerif').getText() || ''
-          publisher.baptised      = form.getTextField('900_5_Text_SanSerif').getText() || ''
-          publisher.gender        = form.getCheckBox('900_3_CheckBox').isChecked() ? 'MAN' : 'WOMAN'
-          publisher.hope          = form.getCheckBox('900_6_CheckBox').isChecked() ? 'OTHER_SHEEP' : 'ANOINTED'
-          if (form.getCheckBox('900_8_CheckBox').isChecked()) {
-            publisher.appointments.push({
-              type: 'ELDER',
-            })
-          }
-          if (form.getCheckBox('900_9_CheckBox').isChecked()) {
-            publisher.appointments.push({
-              type: 'MINISTERIALSERVANT',
-            })
-          }
-          if (form.getCheckBox('900_10_CheckBox').isChecked()) {
-            publisher.appointments.push({
-              type: 'PIONEER',
-            })
-          }
-          if (form.getCheckBox('900_11_CheckBox').isChecked()) {
-            publisher.appointments.push({
-              type: 'SPECIALPIONEER',
-            })
-          }
-          if (form.getCheckBox('900_12_CheckBox').isChecked()) {
-            publisher.appointments.push({
-              type: 'MISSIONARY',
-            })
-          }
-          const serviceYear = form.getTextField('900_13_Text_C_SanSerif').getText()
+              const name    = form.getTextField('900_1_Text_SanSerif').getText()
+              let splitName: string[]
+              let firstName = ''
+              let lastName  = ''
 
-          if (serviceYear && serviceYear !== '') {
-            log.info('serviceYear', serviceYear)
-            const serviceYearName = Number.parseInt(serviceYear)
-            let counter           = 0
-            const type            = form.getCheckBox('900_10_CheckBox').isChecked()
-              ? 'PIONEER'
-              : form.getCheckBox('900_11_CheckBox').isChecked()
-                ? 'SPECIALPIONEER'
-                : form.getCheckBox('900_12_CheckBox').isChecked()
-                  ? 'MISSIONARY'
-                  : 'PUBLISHER'
+              if (name) {
+              // if name contains ',' we asume name are "Lastname, Firstname"
+                if (name.includes(',')) {
+                  splitName = name.split(',')
+                  lastName  = splitName[0]
+                  firstName = splitName[1]
+                }
+                else {
+                  splitName = name.split(' ')
+                  firstName = splitName[0]
+                  lastName  = splitName.slice(-(splitName.length - 1)).join(' ')
+                }
+              }
 
-            for (let index = 20; index < 32; index++) {
-              if (form.getCheckBox(`901_${index}_CheckBox`).isChecked()) {
-                reports.push({
-                  hasBeenInService:    form.getCheckBox(`901_${index}_CheckBox`).isChecked(),
-                  hasNotBeenInService: !form.getCheckBox(`901_${index}_CheckBox`).isChecked(),
-                  identifier:          generateIdentifier(),
-                  type,
-                  serviceMonth:        generateServiceMonthName(serviceYearName, index),
-                  serviceYear:         serviceYearName,
-                  sortOrder:           counter,
-                  name:                generateMonthName(index),
-                  auxiliary:           form.getCheckBox(`903_${index}_CheckBox`).isChecked(),
-                  studies:             Number.parseInt(form.getTextField(`902_${index}_Text_C_SanSerif`).getText() || '') || undefined,
-                  hours:               Number.parseInt(form.getTextField(`904_${index}_S21_Value`).getText() || '') || undefined,
-                  remarks:             form.getTextField(`905_${index}_Text_SanSerif`).getText(),
+              publisher.firstname = firstName
+              publisher.lastname  = lastName
+              publisher.birthday  = form.getTextField('900_2_Text_SanSerif').getText() || ''
+              publisher.baptised  = form.getTextField('900_5_Text_SanSerif').getText() || ''
+              publisher.gender    = form.getCheckBox('900_3_CheckBox').isChecked() ? 'MAN' : 'WOMAN'
+              publisher.hope      = form.getCheckBox('900_6_CheckBox').isChecked() ? 'OTHER_SHEEP' : 'ANOINTED'
+              if (form.getCheckBox('900_8_CheckBox').isChecked()) {
+                publisher.appointments.push({
+                  type: 'ELDER',
                 })
               }
-              counter++
+              if (form.getCheckBox('900_9_CheckBox').isChecked()) {
+                publisher.appointments.push({
+                  type: 'MINISTERIALSERVANT',
+                })
+              }
+              if (form.getCheckBox('900_10_CheckBox').isChecked()) {
+                publisher.appointments.push({
+                  type: 'PIONEER',
+                })
+              }
+              if (form.getCheckBox('900_11_CheckBox').isChecked()) {
+                publisher.appointments.push({
+                  type: 'SPECIALPIONEER',
+                })
+              }
+              if (form.getCheckBox('900_12_CheckBox').isChecked()) {
+                publisher.appointments.push({
+                  type: 'MISSIONARY',
+                })
+              }
+
+              publisher.reports = []
+            }
+
+            const reports: Report[] = publisher.reports
+            const serviceYear       = form.getTextField('900_13_Text_C_SanSerif').getText()
+
+            if (serviceYear && serviceYear !== '') {
+              const serviceYearName = Number.parseInt(serviceYear)
+              let counter           = 0
+              const type            = form.getCheckBox('900_10_CheckBox').isChecked()
+                ? 'PIONEER'
+                : form.getCheckBox('900_11_CheckBox').isChecked()
+                  ? 'SPECIALPIONEER'
+                  : form.getCheckBox('900_12_CheckBox').isChecked()
+                    ? 'MISSIONARY'
+                    : 'PUBLISHER'
+
+              for (let index = 20; index < 32; index++) {
+                if (form.getCheckBox(`901_${index}_CheckBox`).isChecked()) {
+                  reports.push({
+                    hasBeenInService:    form.getCheckBox(`901_${index}_CheckBox`).isChecked(),
+                    hasNotBeenInService: !form.getCheckBox(`901_${index}_CheckBox`).isChecked(),
+                    identifier:          generateIdentifier(),
+                    type,
+                    serviceMonth:        generateServiceMonthName(serviceYearName, index),
+                    serviceYear:         serviceYearName,
+                    sortOrder:           counter,
+                    name:                generateMonthName(index),
+                    auxiliary:           form.getCheckBox(`903_${index}_CheckBox`).isChecked(),
+                    studies:             Number.parseInt(form.getTextField(`902_${index}_Text_C_SanSerif`).getText() || '') || undefined,
+                    hours:               Number.parseInt(form.getTextField(`904_${index}_S21_Value`).getText() || '') || undefined,
+                    remarks:             form.getTextField(`905_${index}_Text_SanSerif`).getText(),
+                  })
+                }
+                counter++
+              }
+            }
+
+            publisher.reports = reports
+            if (!publisherId) {
+              publisherService.create(publisher).then(() => {
+                dialog.showMessageBox(mainWindow, {
+                  type:      'info' as const,
+                  buttons:   ['OK'],
+                  defaultId: 0,
+                  title:     i18n.t('importS21.imported'),
+                  message:   i18n.t('importS21.importDone'),
+                  detail:    '',
+                })
+              })
+            }
+            else {
+              publisherService.update(publisherId, publisher).then(() => {
+                dialog.showMessageBox(mainWindow, {
+                  type:      'info' as const,
+                  buttons:   ['OK'],
+                  defaultId: 0,
+                  title:     i18n.t('importS21.imported'),
+                  message:   i18n.t('importS21.importDone'),
+                  detail:    '',
+                })
+              })
             }
           }
-
-          publisher.reports = reports
-          publisherService.create(publisher).then(() => {
-            dialog.showMessageBox(mainWindow, {
-              type:      'info' as const,
-              buttons:   ['OK'],
-              defaultId: 0,
-              title:     i18n.t('importS21.imported'),
-              message:   i18n.t('importS21.importDone'),
-              detail:    '',
-            })
-          })
+        }
+        catch (e) {
+          log.error(e)
+          error.title   = i18n.t('importS21.errorFields')
+          error.message = i18n.t('importS21.errorNameField')
         }
       }
 
