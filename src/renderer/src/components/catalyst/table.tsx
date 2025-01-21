@@ -31,7 +31,7 @@ export function Table({
     <TableContext.Provider value={{ bleed, dense, grid, striped, sticky } as React.ContextType<typeof TableContext>}>
       <div className="flow-root">
         <div {...props} className={clsx(className, 'overflow-x-auto whitespace-nowrap')}>
-          <div style={{ maxHeight: sticky ? height - margin : undefined }} className={clsx('inline-block min-w-full align-middle', !bleed && 'sm:px-[--gutter]', sticky && 'overflow-y-auto')}>
+          <div style={{ minHeight: sticky ? height - margin : undefined, maxHeight: sticky ? height - margin : undefined }} className={clsx('inline-block min-w-full align-middle', !bleed && 'sm:px-[--gutter]', sticky && 'overflow-y-auto')}>
             <table className="min-w-full text-left text-sm/6 text-zinc-950 dark:text-white">{children}</table>
           </div>
         </div>
