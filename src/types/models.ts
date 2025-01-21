@@ -237,3 +237,12 @@ export interface MailResponse {
   fix:             boolean
   created_at:      string
 }
+
+export interface InformationResponse {
+  id:         number
+  identifier: string
+  version?:   string
+  headline:   string
+  data:       string
+  created_at: string
+}

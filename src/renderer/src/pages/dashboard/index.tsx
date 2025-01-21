@@ -10,6 +10,7 @@ import TemplateWarning         from './cards/templateWarning'
 import WithoutServiceGroup     from './cards/withoutServiceGroup'
 import OldApplications         from './cards/oldApplications'
 import MailResponses           from './cards/mailResponses'
+import Information             from './cards/information'
 
 export default function Dashboard(): JSX.Element {
   const [time, setTime]                         = useState<number>(new Date().getTime())
@@ -22,11 +23,22 @@ export default function Dashboard(): JSX.Element {
         setCorrectTemplates(false)
       }
       else {
-        Object.keys(TEMPLATES).forEach((key) => {
+        Object.keys(TEMPLATES).forEach(async (key) => {
           if (!templates.find(template => template.code === key)) {
             setCorrectTemplates(false)
           }
           else {
+            for (const template of templates) {
+              const response = await window.electron.ipcRenderer.invoke('template-exists', { path: template.path }).then((response: boolean) => {
+                return response
+              })
+
+              setCorrectTemplates(response)
+              if (!response) {
+                break
+              }
+            }
+
             if (templates.find(template => template.code === key)?.date !== TEMPLATES[key])
               setCorrectTemplates(false)
           }
@@ -42,6 +54,7 @@ export default function Dashboard(): JSX.Element {
   return (
     <div className="relative grid grid-cols-2 gap-[17px] xl:grid-cols-[repeat(12,_minmax(0,_1fr))]">
       {!correctTemplates ? <TemplateWarning /> : null}
+      <Information />
       <PublisherStats />
       <ActiveReport key={time + 1} />
       <MissingReports key={time + 2} />
