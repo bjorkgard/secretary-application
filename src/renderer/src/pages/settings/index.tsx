@@ -16,6 +16,7 @@ import { Divider }                                                       from '@
 import { Select }                                                        from '@renderer/components/catalyst/select'
 import { Button }                                                        from '@renderer/components/catalyst/button'
 import { Switch, SwitchField, SwitchGroup }                              from '@renderer/components/catalyst/switch'
+import { Textarea }                                                      from '@renderer/components/catalyst/textarea'
 
 interface Country {
   code: string
@@ -156,7 +157,7 @@ export default function Settings(): JSX.Element {
                         })}
                       />
                     </Field>
-                    <div className="tooltip flex justify-start pb-1.5" data-tip={t('tooltip.deleteLanguageGroup')}>
+                    <div className="flex justify-start pb-1.5" title={t('tooltip.deleteLanguageGroup')}>
                       <Button outline onClick={(): void => remove(index)}>
                         <TrashIcon className="size-4" />
                       </Button>
@@ -256,6 +257,24 @@ export default function Settings(): JSX.Element {
                   <Description>{t('settings.online.send_report_publisher')}</Description>
                 </SwitchField>
               </SwitchGroup>
+            </div>
+          </FieldGroup>
+        </div>
+        <Divider className="my-4" />
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
+          <div>
+            <Subheading>{t('settings.sms.headline')}</Subheading>
+            <Text>{t('settings.sms.information')}</Text>
+          </div>
+          <FieldGroup className="sm:col-span-2">
+            <div className="grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-6 md:col-span-2">
+              <Field className="col-span-6">
+                <Label>{t('label.message')}</Label>
+                <Textarea
+                  {...register('smsMessage')}
+                />
+                {errors.smsMessage && <ErrorMessage>{errors.smsMessage.message}</ErrorMessage>}
+              </Field>
             </div>
           </FieldGroup>
         </div>
