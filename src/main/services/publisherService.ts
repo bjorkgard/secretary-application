@@ -1,4 +1,3 @@
-import Logger                                         from 'electron-log'
 import type { History, PublisherModel }               from '../../types/models'
 import type { Publisher, Report }                     from '../databases/schemas'
 import { PublisherSchema }                            from '../databases/schemas'
@@ -187,8 +186,6 @@ export default class PublisherService implements IPublisherService {
 
   async update(id: string, data: PublisherModel): Promise<number> {
     const publisher = parsePublisherModel(data)
-
-    Logger.info('Updating publisher', publisher)
 
     return (await publisherStore.update(id, publisher)) as number
   }

@@ -296,11 +296,29 @@ ipcMain.on('import', () => {
   )
 })
 
-ipcMain.on('import-s21', () => {
+ipcMain.on('import-s21', async () => {
   if (!mainWindow)
     return
 
-  importS21(mainWindow)
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  const publishers = (await publisherService.find('lastname')).map((pub) => {
+    return (
+      {
+        id:   pub._id,
+        name: `${pub.lastname}, ${pub.firstname}`,
+      }
+    )
+  })
+
+  mainWindow?.webContents.send('show-publishers-for-import', { publishers })
+})
+
+ipcMain.on('import-s21-complete', async (_, args: { publisher: string | null }) => {
+  if (!mainWindow)
+    return
+
+  importS21(mainWindow, args.publisher)
 })
 
 ipcMain.on('import-excel', () => {
