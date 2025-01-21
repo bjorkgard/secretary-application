@@ -88,6 +88,8 @@ import getSortOrder                   from './utils/getSortOrder'
 import ExportAuxiliariesList          from './functions/exportAuxiliariesList'
 import importS21                      from './functions/importS21'
 import importExcel                    from './functions/importExcel'
+import GetInformationResponses        from './functions/getInformation'
+import DeleteInformation              from './functions/deleteInformation'
 
 // Initialize services
 const circuitOverseerService = new CircuitOverseerService()
@@ -1394,6 +1396,14 @@ ipcMain.on('export-inactive-list', async () => {
 
   exportService.upsert('INACTIVE_LIST', 'PDF', 'export-inactive-list')
   exportPublishersList(mainWindow, publisherService, 'INACTIVE')
+})
+
+ipcMain.handle('get-information', async () => {
+  return GetInformationResponses()
+})
+
+ipcMain.handle('delete-information', async (_, args) => {
+  return DeleteInformation(args.id)
 })
 
 ipcMain.handle('get-mail-responses', async () => {
