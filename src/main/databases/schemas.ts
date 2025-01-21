@@ -50,6 +50,7 @@ export interface Settings extends Base {
   user:         User
   online:       Online
   mergePdf:     boolean
+  smsMessage:   string
 }
 
 export interface ServiceGroup extends Base {
@@ -293,6 +294,7 @@ export const SettingsSchema: JSONSchemaType<Settings> = {
     congregation: CongregationSchema,
     user:         UserSchema,
     online:       OnlineSchema,
+    smsMessage:   { type: 'string' },
     mergePdf:     { type: 'boolean' },
     createdAt:    { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
     updatedAt:    { type: 'object', format: 'custom-date-time', nullable: true, required: [] },

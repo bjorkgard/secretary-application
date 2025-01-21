@@ -70,9 +70,10 @@ function Registration(): JSX.Element {
         locale:         data.congregationLocale,
         languageGroups: [],
       },
-      user:     { firstname: data.firstname, lastname: data.lastname, email: data.email },
-      online:   { send_report_group: false, send_report_publisher: false, public: false },
-      mergePdf: false,
+      user:       { firstname: data.firstname, lastname: data.lastname, email: data.email },
+      online:     { send_report_group: false, send_report_publisher: false, public: false },
+      mergePdf:   false,
+      smsMessage: '',
     }
 
     window.electron.ipcRenderer.invoke('registration', settings).then(() => {

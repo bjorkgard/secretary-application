@@ -98,12 +98,12 @@ export default function MissingReports(): JSX.Element | null {
                     {report.email
                       ? settingsState.online.send_report_publisher
                         ? (
-                            <span className="tooltip tooltip-left" data-tip={t('tooltip.resendReport')} onClick={() => resendPublisherReport(report.identifier)}>
+                            <span title={t('tooltip.resendReport')} onClick={() => resendPublisherReport(report.identifier)}>
                               <EnvelopeIcon className="size-4" />
                             </span>
                           )
                         : (
-                            <a className="tooltip tooltip-left cursor-default" data-tip={t('tooltip.sendEmail')} href={`mailto:${report.email}`}>
+                            <a className="cursor-default" title={t('tooltip.sendEmail')} href={`mailto:${report.email}`}>
                               <EnvelopeIcon className="size-4" />
                             </a>
                           )
@@ -111,7 +111,11 @@ export default function MissingReports(): JSX.Element | null {
 
                     {report.mobile
                       ? (
-                          <a className="tooltip tooltip-left cursor-default" data-tip={t('tooltip.sendReportMessage')} href={`sms:${report.mobile}?body=${t('sms.missingReport')}`}>
+                          <a
+                            className="cursor-default"
+                            title={t('tooltip.sendReportMessage')}
+                            href={`sms:${report.mobile}?body=${settingsState.complete.smsMessage ? settingsState.complete.smsMessage : t('sms.missingReport')}`}
+                          >
                             <DevicePhoneMobileIcon className="size-4" />
                           </a>
                         )
@@ -119,7 +123,7 @@ export default function MissingReports(): JSX.Element | null {
 
                     {settingsState.online.send_report_publisher
                       ? (
-                          <span className="tooltip tooltip-left" data-tip={t('tooltip.copyReportUrl')} onClick={() => { getReportUrl(report.identifier) }}>
+                          <span title={t('tooltip.copyReportUrl')} onClick={() => { getReportUrl(report.identifier) }}>
                             <ClipboardIcon className="size-4" />
                           </span>
                         )

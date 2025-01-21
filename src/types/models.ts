@@ -48,6 +48,7 @@ export interface SettingsModel extends Base {
   online:       OnlineModel
   user:         UserModel
   mergePdf:     boolean
+  smsMessage:   string
 }
 
 export interface ServiceGroupModel extends Base {

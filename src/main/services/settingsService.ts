@@ -13,6 +13,7 @@ function parseSettingsModel(data: SettingsModel): Settings {
     congregation: { name: '', number: '', country: '', locale: '', languageGroups: [] },
     user:         { firstname: '', lastname: '', email: '' },
     online:       { send_report_group: false, send_report_publisher: false, public: false },
+    smsMessage:   '',
     mergePdf:     false,
   }
 
@@ -30,6 +31,7 @@ function parseSettingsModel(data: SettingsModel): Settings {
   settings.online.send_report_publisher = data.online.send_report_publisher
   settings.online.public                = data.online.public
   settings.mergePdf                     = data.mergePdf
+  settings.smsMessage                   = data.smsMessage
 
   return settings
 }
@@ -42,6 +44,7 @@ function parseSettings(data: Settings): SettingsModel {
     user:         { firstname: '', lastname: '', email: '' },
     online:       { send_report_group: false, send_report_publisher: false, public: false },
     mergePdf:     false,
+    smsMessage:   '',
   }
 
   settingsModel._id                          = data._id
@@ -59,6 +62,7 @@ function parseSettings(data: Settings): SettingsModel {
   settingsModel.online.send_report_publisher = data.online.send_report_publisher
   settingsModel.online.public                = data.online.public
   settingsModel.mergePdf                     = data.mergePdf
+  settingsModel.smsMessage                   = data.smsMessage
   settingsModel.createdAt                    = data.createdAt?.toLocaleString('sv-SE')
   settingsModel.updatedAt                    = data.updatedAt?.toLocaleString('sv-SE')
 
