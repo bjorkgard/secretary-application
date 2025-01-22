@@ -97,6 +97,7 @@ export default function PublisherAppointmentForm(): JSX.Element {
               <div className="flex flex-wrap gap-x-6 gap-y-2">
                 {dbResponsibilities.map(responsibility => (
                   <Controller
+                    key={responsibility._id}
                     name="responsibilities"
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -131,6 +132,7 @@ export default function PublisherAppointmentForm(): JSX.Element {
               <div className="flex flex-wrap gap-x-6 gap-y-2">
                 {tasks.map(task => (
                   <Controller
+                    key={task._id}
                     name="tasks"
                     control={control}
                     render={({ field: { onChange, value } }) => (

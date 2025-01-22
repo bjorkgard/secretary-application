@@ -212,6 +212,78 @@ export interface CircuitOverseer extends Base {
   city:      string
 }
 
+export interface OrganizationResponsibility {
+  active:    boolean
+  type:      string
+  sortOrder: number
+}
+
+export interface OrganizationTask {
+  type:       string
+  manager:    string
+  assistant?: string
+  sortOrder:  number
+}
+
+export interface OrganizationAppointment {
+  active:    boolean
+  type:      string
+  sortOrder: number
+}
+
+export interface Organization extends Base {
+  identifier:       string
+  responsibilities: OrganizationResponsibility[]
+  tasks:            OrganizationTask[]
+  appointments:     OrganizationAppointment[]
+}
+
+const OrganizationResponsibilitySchema: JSONSchemaType<OrganizationResponsibility> = {
+  type:       'object',
+  properties: {
+    active:    { type: 'boolean' },
+    type:      { type: 'string' },
+    sortOrder: { type: 'number' },
+  },
+  required: ['active', 'type', 'sortOrder'],
+}
+
+const OrganizationTaskSchema: JSONSchemaType<OrganizationTask> = {
+  type:       'object',
+  properties: {
+    type:      { type: 'string' },
+    manager:   { type: 'string' },
+    assistant: { type: 'string', nullable: true },
+    sortOrder: { type: 'number' },
+  },
+  required: ['type', 'manager', 'sortOrder'],
+}
+
+const OrganizationAppointmentSchema: JSONSchemaType<OrganizationAppointment> = {
+  type:       'object',
+  properties: {
+    active:    { type: 'boolean' },
+    type:      { type: 'string' },
+    sortOrder: { type: 'number' },
+  },
+  required: ['active', 'type', 'sortOrder'],
+}
+
+export const OrganizationSchema: JSONSchemaType<Organization> = {
+  type:       'object',
+  properties: {
+    _id:              { type: 'string', nullable: true },
+    identifier:       { type: 'string' },
+    responsibilities: { type: 'array', items: OrganizationResponsibilitySchema },
+    tasks:            { type: 'array', items: OrganizationTaskSchema },
+    appointments:     { type: 'array', items: OrganizationAppointmentSchema },
+    createdAt:        { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
+    updatedAt:        { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
+  },
+  required:             ['identifier'],
+  additionalProperties: false,
+}
+
 export const CircuitOverseerSchema: JSONSchemaType<CircuitOverseer> = {
   type:       'object',
   properties: {

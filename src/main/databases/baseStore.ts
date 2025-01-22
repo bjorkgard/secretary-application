@@ -9,6 +9,7 @@ import type {
   CircuitOverseer,
   Export,
   ImportantDate,
+  Organization,
   Publisher,
   Responsibility,
   ServiceGroup,
@@ -34,7 +35,8 @@ export default class BaseStore<
   | ServiceGroup
   | ServiceYear
   | Settings
-  | Template,
+  | Template
+  | Organization,
 > {
   filePath:         string = ''
   databaseInstance: Datastore<T>

@@ -1,24 +1,26 @@
-import type { BrowserWindow }          from 'electron'
-import { app, dialog }                 from 'electron'
-import { jsPDF }                       from 'jspdf'
-import type { CellDef, UserOptions }   from 'jspdf-autotable'
-import fs                              from 'fs-extra'
-import log                             from 'electron-log'
-import ResponsibilityService           from '../services/responsibilityService'
-import SettingsService                 from '../services/settingsService'
-import TaskService                     from '../services/taskService'
-import getPublishersWithResponsibility from '../utils/getPublishersWithResponsibility'
-import i18n                            from '../../localization/i18next.config'
-import type { PublisherModel }         from '../../types/models'
-import type { PublisherService }       from '../../types/type'
+import type { BrowserWindow }                     from 'electron'
+import { app, dialog }                            from 'electron'
+import { jsPDF }                                  from 'jspdf'
+import type { CellDef, UserOptions }              from 'jspdf-autotable'
+import fs                                         from 'fs-extra'
+import log                                        from 'electron-log'
+import ResponsibilityService                      from '../services/responsibilityService'
+import SettingsService                            from '../services/settingsService'
+import TaskService                                from '../services/taskService'
+import getPublishersWithResponsibility            from '../utils/getPublishersWithResponsibility'
+import i18n                                       from '../../localization/i18next.config'
+import type { OrganizationModel, PublisherModel } from '../../types/models'
+import type { PublisherService }                  from '../../types/type'
 import 'jspdf-autotable'
-import getPublishersWithTask           from '../utils/getPublishersWithTask'
-import getPublishersWithAppointment    from '../utils/getPublishersWithAppointment'
+import getPublishersWithTask                      from '../utils/getPublishersWithTask'
+import getPublishersWithAppointment               from '../utils/getPublishersWithAppointment'
+import OrganizationService                        from '../services/organizationService'
 
 interface jsPDFWithPlugin extends jsPDF {
   autoTable: (options: UserOptions) => jsPDF
 }
 
+const organizationService   = new OrganizationService()
 const responsibilityService = new ResponsibilityService()
 const settingsService       = new SettingsService()
 const taskService           = new TaskService()
@@ -45,203 +47,82 @@ function savePdfFile(mainWindow: BrowserWindow, name: string, data: ArrayBuffer)
 
   mainWindow?.webContents.send('show-spinner', { status: false })
 }
-async function createAppointmentsRows(publishers: PublisherModel[]): Promise<CellDef[][]> {
+async function createAppointmentsRows(publishers: PublisherModel[], organization?: OrganizationModel): Promise<CellDef[][]> {
   const rows: CellDef[][] = []
 
-  const elders = getPublishersWithAppointment(publishers, 'ELDER')
-  if (elders.length > 0) {
-    rows.push([{ content: i18n.t('label.elders'), styles: { cellWidth: 50, fontStyle: 'bold', valign: 'top' } }, { content: elders.map(c => `${c.firstname} ${c.lastname}`).join(', ') }])
-  }
+  organization?.appointments.forEach((a) => {
+    if (!a.active) {
+      return
+    }
 
-  const ministerialServants = getPublishersWithAppointment(publishers, 'MINISTERIALSERVANT')
-  if (ministerialServants.length > 0) {
-    rows.push([{ content: i18n.t('label.ministerialServants'), styles: { cellWidth: 50, fontStyle: 'bold', valign: 'top' } }, { content: ministerialServants.map(c => `${c.firstname} ${c.lastname}`).join(', ') }])
-  }
-
-  const specialPioneers = getPublishersWithAppointment(publishers, 'SPECIALPIONEER')
-  if (specialPioneers.length > 0) {
-    rows.push([{ content: i18n.t('label.specialPioneers'), styles: { cellWidth: 50, fontStyle: 'bold', valign: 'top' } }, { content: specialPioneers.map(c => `${c.firstname} ${c.lastname}`).join(', ') }])
-  }
-
-  const pioneers = getPublishersWithAppointment(publishers, 'PIONEER')
-  if (pioneers.length > 0) {
-    rows.push([{ content: i18n.t('label.pioneers'), styles: { cellWidth: 50, fontStyle: 'bold', valign: 'top' } }, { content: pioneers.map(c => `${c.firstname} ${c.lastname}`).join(', ') }])
-  }
-
-  const auxiliaries = getPublishersWithAppointment(publishers, 'AUXILIARY')
-  if (auxiliaries.length > 0) {
-    rows.push([{ content: i18n.t('label.continousAuxiliaries'), styles: { cellWidth: 50, fontStyle: 'bold', valign: 'top' } }, { content: auxiliaries.map(c => `${c.firstname} ${c.lastname}`).join(', ') }])
-  }
+    const names = getPublishersWithAppointment(publishers, a.type)
+    if (names.length > 0) {
+      rows.push([
+        { content: i18n.t(`appointment.${a.type.toLowerCase()}`), styles: { cellWidth: 50, fontStyle: 'bold' } },
+        { content: names.map(c => `${c.firstname} ${c.lastname}`).join(', ') },
+      ])
+    }
+  })
 
   return rows
 }
 
-async function createResponsibilityRows(publishers: PublisherModel[]): Promise<CellDef[][]> {
+async function createResponsibilityRows(publishers: PublisherModel[], organization?: OrganizationModel): Promise<CellDef[][]> {
   const rows: CellDef[][] = []
   const responsibilities  = await responsibilityService.find()
 
-  const coordinator = getPublishersWithResponsibility(publishers, responsibilities.find(r => r.name === 'responsibility.coordinator')?._id)
-  if (coordinator.length > 0) {
-    rows.push([{ content: i18n.t('responsibility.coordinator'), styles: { cellWidth: 50, fontStyle: 'bold' } }, { content: coordinator.map(c => `${c.firstname} ${c.lastname}`).join(', ') }])
-  }
+  organization?.responsibilities.forEach((r) => {
+    if (!r.active) {
+      return
+    }
 
-  const secretary = getPublishersWithResponsibility(publishers, responsibilities.find(r => r.name === 'responsibility.secretary')?._id)
-  if (secretary.length > 0) {
-    rows.push([{ content: i18n.t('responsibility.secretary'), styles: { cellWidth: 50, fontStyle: 'bold' } }, { content: secretary.map(c => `${c.firstname} ${c.lastname}`).join(', ') }])
-  }
-
-  const serviceOverseer = getPublishersWithResponsibility(publishers, responsibilities.find(r => r.name === 'responsibility.serviceOverseer')?._id)
-  if (serviceOverseer.length > 0) {
-    rows.push([{ content: i18n.t('responsibility.serviceOverseer'), styles: { cellWidth: 50, fontStyle: 'bold' } }, { content: serviceOverseer.map(c => `${c.firstname} ${c.lastname}`).join(', ') }])
-  }
-
-  const wtStudy = getPublishersWithResponsibility(publishers, responsibilities.find(r => r.name === 'responsibility.wtStudy')?._id)
-  if (wtStudy.length > 0) {
-    rows.push([{ content: i18n.t('responsibility.wtStudy'), styles: { cellWidth: 50, fontStyle: 'bold' } }, { content: wtStudy.map(c => `${c.firstname} ${c.lastname}`).join(', ') }])
-  }
-
-  const meetingOverseer = getPublishersWithResponsibility(publishers, responsibilities.find(r => r.name === 'responsibility.meetingOverseer')?._id)
-  if (meetingOverseer.length > 0) {
-    rows.push([{ content: i18n.t('responsibility.meetingOverseer'), styles: { cellWidth: 50, fontStyle: 'bold' } }, { content: meetingOverseer.map(c => `${c.firstname} ${c.lastname}`).join(', ') }])
-  }
-
-  const advisor = getPublishersWithResponsibility(publishers, responsibilities.find(r => r.name === 'responsibility.advisor')?._id)
-  if (advisor.length > 0) {
-    rows.push([{ content: i18n.t('responsibility.advisor'), styles: { cellWidth: 50, fontStyle: 'bold' } }, { content: advisor.map(c => `${c.firstname} ${c.lastname}`).join(', ') }])
-  }
+    const names = getPublishersWithResponsibility(publishers, responsibilities.find(resp => resp.name === r.type)?._id)
+    if (names.length > 0) {
+      rows.push([
+        { content: i18n.t(r.type), styles: { cellWidth: 50, fontStyle: 'bold' } },
+        { content: names.map(c => `${c.firstname} ${c.lastname}`).join(', ') },
+      ])
+    }
+  })
 
   return rows
 }
 
-async function createTaskRows(publishers: PublisherModel[], pageSize: { width: number, height: number }): Promise<CellDef[][]> {
-  const rows: CellDef[][]              = []
-  const tasks                          = await taskService.find()
-  let manager: PublisherModel[]        = []
-  let responsibility: PublisherModel[] = []
-  let assistant: PublisherModel[]      = []
+async function createTaskRows(publishers: PublisherModel[], pageSize: { width: number, height: number }, organization?: OrganizationModel): Promise<CellDef[][]> {
+  const rows: CellDef[][]          = []
+  const tasks                      = await taskService.find()
+  let managers: PublisherModel[]   = []
+  let assistants: PublisherModel[] = []
 
-  manager        = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.districtOverseer')?._id)
-  responsibility = getPublishersWithResponsibility(publishers, tasks.find(r => r.name === 'task.districtOverseer')?.responsibilityId)
-  assistant      = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.district')?._id)
-  if (manager.length > 0) {
-    rows.push([
-      { content: i18n.t('label.district'), styles: { fontStyle: 'bold', valign: 'top' } },
-      { content: responsibility.map(r => `${r.firstname} ${r.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: manager.map(m => `${m.firstname} ${m.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: assistant.map(a => `${a.firstname} ${a.lastname}`).join(', '), styles: { cellWidth: pageSize.width / 2, valign: 'top' } },
-    ])
-  }
+  organization?.tasks.forEach((task) => {
+    if (task.manager) {
+      managers = getPublishersWithTask(publishers, task.manager)
+    }
+    if (task.assistant) {
+      assistants = getPublishersWithTask(publishers, task.assistant)
+    }
 
-  manager        = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.operationGroup')?._id)
-  responsibility = getPublishersWithResponsibility(publishers, tasks.find(r => r.name === 'task.operationGroup')?.responsibilityId)
-  if (manager.length > 0) {
-    rows.push([
-      { content: i18n.t('task.operationGroup'), styles: { fontStyle: 'bold', valign: 'top' } },
-      { content: responsibility.map(r => `${r.firstname} ${r.lastname}`).join(', '), styles: { valign: 'top' }  },
-      { content: manager.map(m => `${m.firstname} ${m.lastname}`).join(', '), colSpan: 2, styles: { valign: 'top' } },
-    ])
-  }
-
-  manager        = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.lecture')?._id)
-  responsibility = getPublishersWithResponsibility(publishers, tasks.find(r => r.name === 'task.lecture')?.responsibilityId)
-  if (manager.length > 0) {
-    rows.push([
-      { content: i18n.t('task.lecture'), styles: { fontStyle: 'bold', valign: 'top' } },
-      { content: responsibility.map(r => `${r.firstname} ${r.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: manager.map(m => `${m.firstname} ${m.lastname}`).join(', '), colSpan: 2, styles: { valign: 'top' } },
-    ])
-  }
-
-  manager        = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.literatureOverseer')?._id)
-  responsibility = getPublishersWithResponsibility(publishers, tasks.find(r => r.name === 'task.literatureOverseer')?.responsibilityId)
-  assistant      = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.literature')?._id)
-  if (manager.length > 0) {
-    rows.push([
-      { content: i18n.t('task.literature'), styles: { fontStyle: 'bold', valign: 'top' } },
-      { content: responsibility.map(r => `${r.firstname} ${r.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: manager.map(m => `${m.firstname} ${m.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: assistant.map(a => `${a.firstname} ${a.lastname}`).join(', '), styles: { cellWidth: pageSize.width / 2, valign: 'top' } },
-    ])
-  }
-
-  manager        = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.soundStageOverseer')?._id)
-  responsibility = getPublishersWithResponsibility(publishers, tasks.find(r => r.name === 'task.soundStageOverseer')?.responsibilityId)
-  assistant      = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.soundStage')?._id)
-  if (manager.length > 0) {
-    rows.push([
-      { content: i18n.t('label.soundStage'), styles: { fontStyle: 'bold', valign: 'top' } },
-      { content: responsibility.map(r => `${r.firstname} ${r.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: manager.map(m => `${m.firstname} ${m.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: assistant.map(a => `${a.firstname} ${a.lastname}`).join(', '), styles: { cellWidth: pageSize.width / 2, valign: 'top' } },
-    ])
-  }
-
-  manager        = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.hostOverseer')?._id)
-  responsibility = getPublishersWithResponsibility(publishers, tasks.find(r => r.name === 'task.hostOverseer')?.responsibilityId)
-  assistant      = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.host')?._id)
-  if (manager.length > 0) {
-    rows.push([
-      { content: i18n.t('task.host'), styles: { fontStyle: 'bold', valign: 'top' } },
-      { content: responsibility.map(r => `${r.firstname} ${r.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: manager.map(m => `${m.firstname} ${m.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: assistant.map(a => `${a.firstname} ${a.lastname}`).join(', '), styles: { cellWidth: pageSize.width / 2, valign: 'top' } },
-    ])
-  }
-
-  manager        = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.accountant')?._id)
-  responsibility = getPublishersWithResponsibility(publishers, tasks.find(r => r.name === 'task.accountant')?.responsibilityId)
-  assistant      = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.accountantAlternate')?._id)
-  if (manager.length > 0) {
-    rows.push([
-      { content: i18n.t('task.accountant'), styles: { fontStyle: 'bold', valign: 'top' } },
-      { content: responsibility.map(r => `${r.firstname} ${r.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: manager.map(m => `${m.firstname} ${m.lastname}`).join(', '), styles: { valign: 'top' }  },
-      { content: assistant.map(a => `${a.firstname} ${a.lastname}`).join(', '), styles: { cellWidth: pageSize.width / 2, valign: 'top' } },
-    ])
-  }
-
-  manager        = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.accounting')?._id)
-  responsibility = getPublishersWithResponsibility(publishers, tasks.find(r => r.name === 'task.accounting')?.responsibilityId)
-  assistant      = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.accountingAssistant')?._id)
-  if (manager.length > 0) {
-    rows.push([
-      { content: i18n.t('task.accounting'), styles: { fontStyle: 'bold', valign: 'top' } },
-      { content: responsibility.map(r => `${r.firstname} ${r.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: manager.map(m => `${m.firstname} ${m.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: assistant.map(a => `${a.firstname} ${a.lastname}`).join(', '), styles: { cellWidth: pageSize.width / 2, valign: 'top' } },
-    ])
-  }
-
-  manager        = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.cleaning')?._id)
-  responsibility = getPublishersWithResponsibility(publishers, tasks.find(r => r.name === 'task.cleaning')?.responsibilityId)
-  if (manager.length > 0) {
-    rows.push([
-      { content: i18n.t('label.cleaning'), styles: { fontStyle: 'bold', valign: 'top' } },
-      { content: responsibility.map(r => `${r.firstname} ${r.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: manager.map(m => `${m.firstname} ${m.lastname}`).join(', '), colSpan: 2, styles: { valign: 'top' } },
-    ])
-  }
-
-  manager        = getPublishersWithTask(publishers, tasks.find(r => r.name === 'task.technicalSupport')?._id)
-  responsibility = getPublishersWithResponsibility(publishers, tasks.find(r => r.name === 'task.technicalSupport')?.responsibilityId)
-  if (manager.length > 0) {
-    rows.push([
-      { content: i18n.t('label.technicalSupport'), styles: { fontStyle: 'bold', valign: 'top' } },
-      { content: responsibility.map(r => `${r.firstname} ${r.lastname}`).join(', '), styles: { valign: 'top' } },
-      { content: manager.map(m => `${m.firstname} ${m.lastname}`).join(', '), colSpan: 2, styles: { valign: 'top' } },
-    ])
-  }
+    if (managers.length > 0) {
+      rows.push([
+        { content: i18n.t(tasks.find(resp => resp._id === task.type)?.name || ''), styles: { fontStyle: 'bold', valign: 'top' } },
+        { content: managers.map(m => `${m.firstname} ${m.lastname}`).join(', '), colSpan: assistants.length ? 1 : 2, styles: { valign: 'top' } },
+        { content: assistants.map(a => `${a.firstname} ${a.lastname}`).join(', '), colSpan: assistants.length ? 1 : 0, styles: { cellWidth: pageSize.width / 2, valign: 'top' } },
+      ])
+    }
+  })
 
   return rows
 }
 
 async function generate_PDF(mainWindow: BrowserWindow, publishers: PublisherModel[], name: string): Promise<void> {
   const congregationSettings = await settingsService.find()
+  const organization         = await organizationService.find()
 
   // eslint-disable-next-line new-cap
   const pdfDoc = new jsPDF() as jsPDFWithPlugin & { autoTable: { previous?: { finalY: number } } }
+
   pdfDoc.setProperties({
-    title:    'Name List',
+    title:    'Organization schema',
     creator:  `${congregationSettings?.user.firstname} ${congregationSettings?.user.lastname}`,
     keywords: 'name, list, publisher, congregation',
   })
@@ -270,12 +151,12 @@ async function generate_PDF(mainWindow: BrowserWindow, publishers: PublisherMode
   pdfDoc.text(i18n.t('export.congregationNumber', { number: congregationSettings?.congregation.number }), pageSize.getWidth() / 2, 17, { align: 'center' })
 
   // Responsibility Table
-  const responsibilityRows = await createResponsibilityRows(publishers)
+  const responsibilityRows = await createResponsibilityRows(publishers, organization)
   if (responsibilityRows.length) {
     pdfDoc.autoTable({
       body:         responsibilityRows,
       margin,
-      startY:       pdfDoc.autoTable.previous ? pdfDoc.autoTable.previous.finalY + 5 : 20,
+      startY:       20,
       rowPageBreak: 'avoid',
       theme:        'plain',
       styles:       {
@@ -304,10 +185,10 @@ async function generate_PDF(mainWindow: BrowserWindow, publishers: PublisherMode
   }
 
   // Tasks Table
-  const taskRows = await createTaskRows(publishers, pageSize)
+  const taskRows = await createTaskRows(publishers, pageSize, organization)
   if (taskRows.length) {
     pdfDoc.autoTable({
-      head:         [[i18n.t('label.task'), i18n.t('label.responsible'), i18n.t('label.manager'), i18n.t('label.assistant')]],
+      head:         [[i18n.t('label.task'), i18n.t('label.manager'), i18n.t('label.assistant')]],
       body:         taskRows,
       margin,
       startY:       pdfDoc.autoTable.previous ? pdfDoc.autoTable.previous.finalY + 5 : 20,
@@ -323,7 +204,7 @@ async function generate_PDF(mainWindow: BrowserWindow, publishers: PublisherMode
   }
 
   // Appointments Table
-  const appointmentsTable = await createAppointmentsRows(publishers)
+  const appointmentsTable = await createAppointmentsRows(publishers, organization)
   if (taskRows.length) {
     pdfDoc.autoTable({
       body:         appointmentsTable,
@@ -350,7 +231,7 @@ export default async function ExportOrganizationSchema(
 ): Promise<void> {
   const publishers = await publisherService.find('lastname')
 
-  const name = `OrganizationSchema_${new Date().toLocaleDateString('sv')}`
+  const name = `OrganizationSchema`
 
   generate_PDF(mainWindow, publishers, name)
 }

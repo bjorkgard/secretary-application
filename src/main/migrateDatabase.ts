@@ -1,9 +1,12 @@
 import type { ResponsibilityModel, TaskModel } from '../types/models'
+import OrganizationService                     from './services/organizationService'
 import ResponsibilityService                   from './services/responsibilityService'
 import TaskService                             from './services/taskService'
+import generateIdentifier                      from './utils/generateIdentifier'
 
 // import log from 'electron-log'
 
+const organizationService  = new OrganizationService()
 const responsibiltyService = new ResponsibilityService()
 const taskService          = new TaskService()
 
@@ -224,6 +227,90 @@ async function migrateDatabase(): Promise<void> {
 
   oldTasks.map(async (task) => {
     await taskService.remove(task)
+  })
+
+  const newTasks = await taskService.find()
+
+  // Upsert Organization
+  organizationService.find().then((response) => {
+    if (!response) {
+      organizationService.upsert({
+        identifier:       generateIdentifier(),
+        responsibilities: [
+          { active: true, type: 'responsibility.coordinator', sortOrder: 0 },
+          { active: true, type: 'responsibility.secretary', sortOrder: 1 },
+          { active: true, type: 'responsibility.serviceOverseer', sortOrder: 2 },
+          { active: true, type: 'responsibility.wtStudy', sortOrder: 3 },
+          { active: true, type: 'responsibility.meetingOverseer', sortOrder: 4 },
+          { active: true, type: 'responsibility.advisor', sortOrder: 5 },
+        ],
+        tasks: [
+          {
+            type:      newTasks.find(nt => nt.name === 'task.district')?._id || '',
+            manager:   newTasks.find(nt => nt.name === 'task.districtOverseer')?._id || '',
+            assistant: newTasks.find(nt => nt.name === 'task.district')?._id,
+            sortOrder: 0,
+          },
+          {
+            type:      newTasks.find(nt => nt.name === 'task.operationGroup')?._id || '',
+            manager:   newTasks.find(nt => nt.name === 'task.operationGroup')?._id || '',
+            sortOrder: 1,
+          },
+          {
+            type:      newTasks.find(nt => nt.name === 'task.lecture')?._id || '',
+            manager:   newTasks.find(nt => nt.name === 'task.lecture')?._id || '',
+            sortOrder: 2,
+          },
+          {
+            type:      newTasks.find(nt => nt.name === 'task.literature')?._id || '',
+            manager:   newTasks.find(nt => nt.name === 'task.literatureOverseer')?._id || '',
+            assistant: newTasks.find(nt => nt.name === 'task.literature')?._id,
+            sortOrder: 3,
+          },
+          {
+            type:      newTasks.find(nt => nt.name === 'task.soundStage')?._id || '',
+            manager:   newTasks.find(nt => nt.name === 'task.soundStageOverseer')?._id || '',
+            assistant: newTasks.find(nt => nt.name === 'task.soundStage')?._id,
+            sortOrder: 4,
+          },
+          {
+            type:      newTasks.find(nt => nt.name === 'task.host')?._id || '',
+            manager:   newTasks.find(nt => nt.name === 'task.hostOverseer')?._id || '',
+            assistant: newTasks.find(nt => nt.name === 'task.host')?._id,
+            sortOrder: 5,
+          },
+          {
+            type:      newTasks.find(nt => nt.name === 'task.accountant')?._id || '',
+            manager:   newTasks.find(nt => nt.name === 'task.accountant')?._id || '',
+            assistant: newTasks.find(nt => nt.name === 'task.accountantAlternate')?._id,
+            sortOrder: 6,
+          },
+          {
+            type:      newTasks.find(nt => nt.name === 'task.accounting')?._id || '',
+            manager:   newTasks.find(nt => nt.name === 'task.accounting')?._id || '',
+            assistant: newTasks.find(nt => nt.name === 'task.accountingAssistant')?._id,
+            sortOrder: 7,
+          },
+          {
+            type:      newTasks.find(nt => nt.name === 'task.cleaning')?._id || '',
+            manager:   newTasks.find(nt => nt.name === 'task.cleaning')?._id || '',
+            sortOrder: 8,
+          },
+          {
+            type:      newTasks.find(nt => nt.name === 'task.technicalSupport')?._id || '',
+            manager:   newTasks.find(nt => nt.name === 'task.technicalSupport')?._id || '',
+            sortOrder: 9,
+          },
+        ],
+        appointments: [
+          { active: true, type: 'ELDER', sortOrder: 0 },
+          { active: true, type: 'MINISTERIALSERVANT', sortOrder: 1 },
+          { active: true, type: 'SPECIALPIONEER', sortOrder: 2 },
+          { active: true, type: 'PIONEER', sortOrder: 3 },
+          { active: true, type: 'AUXILIARY', sortOrder: 4 },
+        ],
+      })
+    }
   })
 }
 

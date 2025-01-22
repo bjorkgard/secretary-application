@@ -72,7 +72,7 @@ export default function Tasks(): JSX.Element {
       <Fieldset>
         <div className="flex justify-between">
           <Heading>{t('tasks.headline')}</Heading>
-          <div className="tooltip tooltip-left" data-tip={t('label.addTask')}>
+          <div title={t('label.addTask')}>
             <Button
               onClick={(): void => navigate(`${ROUTES.TASKS}/add`)}
               color="blue"
@@ -102,10 +102,7 @@ export default function Tasks(): JSX.Element {
                       <TableCell>{responsibility?.name}</TableCell>
                       <TableCell>
                         <div className="flex justify-end space-x-4">
-                          <div
-                            className="tooltip tooltip-left"
-                            data-tip={t('tooltip.editResponsibility')}
-                          >
+                          <div title={t('tooltip.editResponsibility')}>
                             <Button
                               outline
                               onClick={(): void => {
@@ -117,10 +114,7 @@ export default function Tasks(): JSX.Element {
                               <PencilIcon className="size-4" />
                             </Button>
                           </div>
-                          <div
-                            className="tooltip tooltip-left"
-                            data-tip={t('tooltip.deleteServiceGroup')}
-                          >
+                          <div title={t('tooltip.deleteServiceGroup')}>
                             <Button
                               outline
                               onClick={(): void => {

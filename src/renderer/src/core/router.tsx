@@ -33,6 +33,7 @@ import ServiceGroupForm               from '@renderer/pages/serviceGroups/form'
 import Tasks                          from '@renderer/pages/tasks'
 import TaskForm                       from '@renderer/pages/tasks/form'
 import Templates                      from '@renderer/pages/uploadedTemplates'
+import Organization                   from '@renderer/pages/organization'
 import LoadingPage                    from './LoadingPage'
 import Layout                         from './Layout'
 
@@ -100,6 +101,7 @@ const router = createMemoryRouter(
         </Route>
 
         <Route path={ROUTES.SETTINGS} element={<Settings />} />
+        <Route path={ROUTES.ORGANIZATION} element={<Organization />} />
 
         <Route path={ROUTES.SERVICE_GROUPS}>
           <Route index element={<ServiceGroups />} />
