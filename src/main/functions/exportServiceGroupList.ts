@@ -189,11 +189,11 @@ export default async function ExportServiceGroupList(
       },
       rowPageBreak: 'avoid',
       theme:        'plain',
-      startY:       pdfDoc.autoTable.previous ? pdfDoc.autoTable.previous.finalY + 1 : 20,
+      startY:       index !== 0 ? pdfDoc.autoTable.previous ? pdfDoc.autoTable.previous.finalY + 1 : 20 : 20,
     })
   }
 
-  const name = `ServiceGroups_${new Date().toLocaleDateString('sv')}`
+  const name = `ServiceGroups`
 
   savePdfFile(mainWindow, `${name}.pdf`, pdfDoc.output('arraybuffer'))
 }

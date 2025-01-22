@@ -31,7 +31,6 @@ function renderText(doc: jsPDF, cell: Cell, text: CellInput | HTMLTableCellEleme
   let textPosY   = y + paddHV
   const gfs      = (cell.styles.fontSize / doc.internal.scaleFactor) * 1.15
 
-  log.info(paddHV)
   doc.setFont('helvetica', 'normal')
 
   parts.forEach((part) => {
@@ -196,11 +195,11 @@ export default async function ExportServiceGroupInternalList(
       },
       rowPageBreak: 'avoid',
       theme:        'plain',
-      startY:       pdfDoc.autoTable.previous ? pdfDoc.autoTable.previous.finalY + 1 : 20,
+      startY:       index !== 0 ? pdfDoc.autoTable.previous ? pdfDoc.autoTable.previous.finalY + 1 : 20 : 20,
     })
   }
 
-  const name = `ServiceGroups_${new Date().toLocaleDateString('sv')}`
+  const name = `ServiceGroups_internal`
 
   savePdfFile(mainWindow, `${name}.pdf`, pdfDoc.output('arraybuffer'))
 }
