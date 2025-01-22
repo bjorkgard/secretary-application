@@ -262,7 +262,7 @@ export default async function ExportSpiritualStatusLst(
       },
       rowPageBreak: 'avoid',
       theme:        'plain',
-      startY:       pdfDoc.autoTable.previous ? pdfDoc.autoTable.previous.finalY + 1 : 20,
+      startY:       index !== 0 ? pdfDoc.autoTable.previous ? pdfDoc.autoTable.previous.finalY + 1 : 20 : 20,
     })
   }
   pdfDoc.setFontSize(8)
@@ -270,7 +270,7 @@ export default async function ExportSpiritualStatusLst(
   pdfDoc.text([`${i18n.t('short.child')}: ${i18n.t('label.child')}; ${i18n.t('short.unbaptised')}: ${i18n.t('label.unbaptised')}; ${i18n.t('short.irregular')}: ${i18n.t('label.irregular')}; ${i18n.t('short.inactive')}: ${i18n.t('label.inactive')};`, `${i18n.t('short.elder')}: ${i18n.t('label.elder')}; ${i18n.t('short.ministerialservant')}: ${i18n.t('label.ministerialservant')}; ${i18n.t('short.auxiliary')}: ${i18n.t('label.auxiliary')}; ${i18n.t('short.pioneer')}: ${i18n.t('label.pioneer')}; ${i18n.t('short.specialpioneer')}: ${i18n.t('label.specialpioneer')};`], pageSize.getWidth() / 2, pdfDoc.autoTable.previous ? pdfDoc.autoTable.previous.finalY + 10 : 20, { align: 'center' })
   pdfDoc.setLineHeightFactor(1.2)
 
-  const name = `SpiritualStatus_${new Date().toLocaleDateString('sv')}`
+  const name = `SpiritualStatus`
 
   savePdfFile(mainWindow, `${name}.pdf`, pdfDoc.output('arraybuffer'))
 }
