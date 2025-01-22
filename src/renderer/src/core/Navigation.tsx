@@ -11,6 +11,7 @@ import {
   IdentificationIcon,
   RectangleGroupIcon,
   RectangleStackIcon,
+  TableCellsIcon,
   UserGroupIcon,
   UserIcon,
   UsersIcon,
@@ -139,6 +140,10 @@ export function Navigation(): JSX.Element {
           <SidebarItem onClick={(): void => navigate(ROUTES.TASKS)} current={location.pathname.includes(ROUTES.TASKS)}>
             <RectangleStackIcon />
             <SidebarLabel>{t('menu.tasks')}</SidebarLabel>
+          </SidebarItem>
+          <SidebarItem onClick={(): void => navigate(ROUTES.ORGANIZATION)} current={location.pathname.includes(ROUTES.ORGANIZATION)}>
+            <TableCellsIcon />
+            <SidebarLabel>{t('menu.organizationSchema')}</SidebarLabel>
           </SidebarItem>
           <SidebarItem onClick={(): void => navigate(ROUTES.TEMPLATES)} current={location.pathname.includes(ROUTES.TEMPLATES)}>
             <DocumentTextIcon />

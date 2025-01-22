@@ -5,6 +5,7 @@ import type {
   History,
   ImportantDateModel,
   Meeting,
+  OrganizationModel,
   PublisherModel,
   Report,
   ResponsibilityModel,
@@ -23,6 +24,11 @@ export interface BaseService<T> {
   delete?:     (id: string) => Promise<number>
   findOneById: (id: string) => Promise<T>
   drop:        () => void
+}
+
+export interface OrganizationService extends BaseService<OrganizationModel> {
+  find:   () => Promise<OrganizationModel | undefined>
+  upsert: (data: OrganizationModel) => Promise<number>
 }
 
 export interface SettingsService extends BaseService<SettingsModel> {

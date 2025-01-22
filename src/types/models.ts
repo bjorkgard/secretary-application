@@ -4,6 +4,32 @@ interface Base {
   updatedAt?: string
 }
 
+export interface OrganizationResponsibilityModel {
+  active:    boolean
+  type:      string
+  sortOrder: number
+}
+
+export interface OrganizationTaskModel {
+  type:       string
+  manager:    string
+  assistant?: string
+  sortOrder:  number
+}
+
+export interface OrganizationAppointmentModel {
+  active:    boolean
+  type:      string
+  sortOrder: number
+}
+
+export interface OrganizationModel extends Base {
+  identifier:       string
+  responsibilities: OrganizationResponsibilityModel[]
+  tasks:            OrganizationTaskModel[]
+  appointments:     OrganizationAppointmentModel[]
+}
+
 export interface AuxiliaryModel extends Base {
   serviceMonth: string
   name:         string

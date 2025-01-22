@@ -91,7 +91,6 @@ async function getReportUpdates(mainWindow: BrowserWindow | null): Promise<void>
   const serviceMonth = await serviceMonthService.findByServiceMonth(
     `${date.getFullYear()}-${monthString < 10 ? '0' : ''}${monthString}`,
   )
-  log.info('Get report updates for', `${date.getFullYear()}-${monthString < 10 ? '0' : ''}${monthString}`)
 
   // check if there is a service month and if it is not done
   if (settings && serviceMonth && serviceMonth.status !== 'DONE') {

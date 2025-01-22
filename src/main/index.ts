@@ -14,6 +14,7 @@ import i18n                                        from '../localization/i18next
 import type {
   AuxiliaryModel,
   CircuitOverseerModel,
+  OrganizationModel,
   PublicCongregationModel,
   PublisherModel,
   Report,
@@ -90,6 +91,7 @@ import importS21                      from './functions/importS21'
 import importExcel                    from './functions/importExcel'
 import GetInformationResponses        from './functions/getInformation'
 import DeleteInformation              from './functions/deleteInformation'
+import OrganizationService            from './services/organizationService'
 
 // Initialize services
 const circuitOverseerService = new CircuitOverseerService()
@@ -104,6 +106,7 @@ const taskService            = new TaskService()
 const auxiliaryService       = new AuxiliaryService()
 const templateService        = new TemplateService()
 const importantDateService   = new ImportantDateService()
+const organizationService    = new OrganizationService()
 
 const isDebug
   // eslint-disable-next-line node/prefer-global/process
@@ -370,6 +373,14 @@ ipcMain.handle('registration', async (_, param: SettingsModel) => {
     })
 
   return await settingsService.create(param)
+})
+
+ipcMain.handle('get-organization', async () => {
+  return await organizationService.find()
+})
+
+ipcMain.handle('update-organization', async (_, data: OrganizationModel) => {
+  return await organizationService.update(data._id || '', data)
 })
 
 ipcMain.handle('get-settings', async () => {

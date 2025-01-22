@@ -25,5 +25,6 @@
   "TEMPLATES": "/templates",
   "HISTORY": "/history",
   "HISTORY_PUBLISHERS": "/history/history-publishers",
-  "HISTORY_CONGREGATION": "/history/history-congregation"
+  "HISTORY_CONGREGATION": "/history/history-congregation",
+  "ORGANIZATION": "/organization"
 }
