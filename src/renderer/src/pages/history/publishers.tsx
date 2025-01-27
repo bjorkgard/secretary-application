@@ -121,10 +121,10 @@ export default function HistoryPublishers(): JSX.Element {
               <div title={t('label.selectPublisher')}>
                 <Select onChange={selectPublisher}>
                   <option value="">{t('label.selectPublisher')}</option>
-                  {publishers.map((p, index) => {
+                  {publishers.map((p) => {
                     return (
                       <option key={p._id} value={p._id}>
-                        {`${index + 1} ${p.lastname}, ${p.firstname}`}
+                        {`${p.lastname}, ${p.firstname}`}
                       </option>
                     )
                   })}
