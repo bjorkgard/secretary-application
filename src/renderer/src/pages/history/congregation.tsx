@@ -1,4 +1,3 @@
-import { PlusIcon }                                                                              from '@heroicons/react/24/solid'
 import { Button }                                                                                from '@renderer/components/catalyst/button'
 import { Divider }                                                                               from '@renderer/components/catalyst/divider'
 import { Fieldset }                                                                              from '@renderer/components/catalyst/fieldset'
@@ -182,16 +181,7 @@ export default function HistoryCongregation(): JSX.Element {
         <div className="flex justify-between">
           <Heading>{t('history.congregation')}</Heading>
           <div className="flex space-x-4">
-            <div className="tooltip tooltip-left invisible" data-tip={t('label.add')}>
-              <Button
-                onClick={() => {}}
-                color="blue"
-              >
-                <PlusIcon className="size-6 text-white" />
-                {t('label.add')}
-              </Button>
-            </div>
-            <div className="tooltip tooltip-left" data-tip={t('label.selectServiceMonth')}>
+            <div title={t('label.selectServiceMonth')}>
               <Select onChange={selectServiceMonth}>
                 <option value="">{t('label.selectServiceMonth')}</option>
                 {serviceMonths.map((sm) => {

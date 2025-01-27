@@ -13,8 +13,8 @@ import exportReportSummary    from './exportReportSummary'
 import clearAuxiliaryTable    from './clearAuxiliaryTable'
 
 function cleanUpReport(report: Report): Report {
-  delete report.publisherId
-  delete report.publisherName
+  // delete report.publisherId
+  // delete report.publisherName
   delete report.publisherEmail
   delete report.publisherMobile
   delete report.publisherServiceGroupId

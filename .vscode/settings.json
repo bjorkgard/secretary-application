@@ -1,6 +1,6 @@
 {
   // Enable the ESlint flat config support
-  "eslint.experimental.useFlatConfig": true,
+  "eslint.useFlatConfig": true,
 
   // Disable the default formatter, use eslint instead
   "prettier.enable": false,
@@ -37,5 +37,14 @@
     "json",
     "jsonc",
     "yaml"
-  ]
+  ],
+  "i18n-ally.keystyle": "flat",
+  "i18n-ally.localesPaths": [
+    "src/localization/locales"
+  ],
+  "i18n-ally.localeCountryMap": {
+    "sv": "se",
+    "da": "dk"
+  },
+  "i18n-ally.displayLanguage": "sv"
 }
