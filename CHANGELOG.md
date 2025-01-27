@@ -1,5 +1,34 @@
 # CHANGELOG
 
+## [v1.7.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.7.0) - 2025-01-27 22:06:02
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.7.0 -->
+
+## What's Changed
+### Other Changes
+* Remove events by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/933
+* Update HeadlessUI by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/937
+* Update tailwind-scrollbar-hide by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/955
+* compress exported s 21 by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/959
+* Use same order on last and first name by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/960
+* Sort publishers by column by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/961
+* Fix: Check if template exists by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/964
+* Update SMS default message by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/966
+* Update Import S-21 by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/967
+* Create an organization schema and use this schema when generating the… by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/970
+* Fix marginal on first table by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/971
+* Mark irregular and inactive publishers by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/981
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.11...v1.7.0
+
+### Bug Fixes
+
+- deps:
+  - bump fs-extra from 11.2.0 to 11.3.0 (#974) ([a934a40](https://github.com/bjorkgard/secretary-application/commit/a934a40d6be865f9f3d34e5110e421c5eb218fab)) ([#974](https://github.com/bjorkgard/secretary-application/pull/974))
+  - bump cross-spawn in the npm_and_yarn group (#956) ([4e01bdb](https://github.com/bjorkgard/secretary-application/commit/4e01bdb69107ca470f847a1a5573a880e4fe11f8)) ([#956](https://github.com/bjorkgard/secretary-application/pull/956))
+  - bump react-phone-number-input from 3.4.10 to 3.4.11 (#946) ([54161e4](https://github.com/bjorkgard/secretary-application/commit/54161e4a466f042e7777b77d50cbdbc4fc0181d1)) ([#946](https://github.com/bjorkgard/secretary-application/pull/946))
+
 ## [v1.6.11](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.11) - 2025-01-10 09:03:24
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.6.11 -->
