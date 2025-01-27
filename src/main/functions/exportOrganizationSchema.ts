@@ -11,10 +11,10 @@ import getPublishersWithResponsibility            from '../utils/getPublishersWi
 import i18n                                       from '../../localization/i18next.config'
 import type { OrganizationModel, PublisherModel } from '../../types/models'
 import type { PublisherService }                  from '../../types/type'
-import 'jspdf-autotable'
 import getPublishersWithTask                      from '../utils/getPublishersWithTask'
 import getPublishersWithAppointment               from '../utils/getPublishersWithAppointment'
 import OrganizationService                        from '../services/organizationService'
+import 'jspdf-autotable'
 
 interface jsPDFWithPlugin extends jsPDF {
   autoTable: (options: UserOptions) => jsPDF
@@ -89,12 +89,13 @@ async function createResponsibilityRows(publishers: PublisherModel[], organizati
 }
 
 async function createTaskRows(publishers: PublisherModel[], pageSize: { width: number, height: number }, organization?: OrganizationModel): Promise<CellDef[][]> {
-  const rows: CellDef[][]          = []
-  const tasks                      = await taskService.find()
-  let managers: PublisherModel[]   = []
-  let assistants: PublisherModel[] = []
+  const rows: CellDef[][] = []
+  const tasks             = await taskService.find()
 
   organization?.tasks.forEach((task) => {
+    let managers: PublisherModel[]   = []
+    let assistants: PublisherModel[] = []
+
     if (task.manager) {
       managers = getPublishersWithTask(publishers, task.manager)
     }
