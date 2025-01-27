@@ -440,6 +440,8 @@ export default function Publishers(): JSX.Element {
                         return null
                       }
                     })}
+                    {publisher.status === 'INACTIVE' ? <Badge color="red" title={t('label.inactive')}>{t('short.inactive')}</Badge> : null}
+                    {publisher.status === 'IRREGULAR' ? <Badge color="red" title={t('label.irregular')}>{t('short.irregular')}</Badge> : null}
                   </TableCell>
                   <TableCell>{serviceGroup?.name || '-'}</TableCell>
                   <TableCell>{publisher.lastname}</TableCell>
