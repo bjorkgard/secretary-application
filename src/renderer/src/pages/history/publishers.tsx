@@ -108,7 +108,7 @@ export default function HistoryPublishers(): JSX.Element {
 
             <div className="flex space-x-4">
               {selectedPublisher && (
-                <div className="tooltip tooltip-left" data-tip={t('label.addReport')}>
+                <div title={t('label.addReport')}>
                   <Button
                     onClick={() => addReport()}
                     color="blue"
@@ -118,13 +118,13 @@ export default function HistoryPublishers(): JSX.Element {
                   </Button>
                 </div>
               )}
-              <div className="tooltip tooltip-left" data-tip={t('label.selectPublisher')}>
+              <div title={t('label.selectPublisher')}>
                 <Select onChange={selectPublisher}>
                   <option value="">{t('label.selectPublisher')}</option>
-                  {publishers.map((p) => {
+                  {publishers.map((p, index) => {
                     return (
                       <option key={p._id} value={p._id}>
-                        {`${p.lastname}, ${p.firstname}`}
+                        {`${index + 1} ${p.lastname}, ${p.firstname}`}
                       </option>
                     )
                   })}
@@ -164,7 +164,7 @@ export default function HistoryPublishers(): JSX.Element {
                         <TableCell>{report.hours}</TableCell>
                         <TableCell>{report.remarks}</TableCell>
                         <TableCell className="flex justify-end">
-                          <div className="tooltip tooltip-left" data-tip={t('label.editReport')}>
+                          <div title={t('label.editReport')}>
                             <Button
                               plain
                               onClick={() => editReport(report.identifier)}
@@ -172,7 +172,7 @@ export default function HistoryPublishers(): JSX.Element {
                               <PencilIcon className="size-4" />
                             </Button>
                           </div>
-                          <div className="tooltip tooltip-left" data-tip={t('label.deleteReport')}>
+                          <div title={t('label.deleteReport')}>
                             <Button
                               plain
                               onClick={() => deleteReport(report.identifier)}
