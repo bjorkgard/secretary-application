@@ -777,5 +777,8 @@
   "transfer.success": "Överföringen är klar",
   "transfer.transferPublisherDone": "Förkunnaren är nu överförd till den nya församlingen. Glöm inte att skicka ett introduktionsbrev till den nya församlingen.",
   "updates.newVersion": "Det finns en ny version, {{tag}}!",
-  "Ångra": "Ångra"
+  "Ångra": "Ångra",
+  "reports.forceUploadReports": "Tvinga uppladdning av rapporter till online-servern.",
+  "report.confirmUpdateReports.headline": "Uppdatera rapporter online",
+  "report.confirmUpdateReports.body": "Varning! Det här kommer att skriva över eventuella rapporter som finns online."
 }

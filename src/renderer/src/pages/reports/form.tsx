@@ -1,13 +1,15 @@
-import { Fragment, useEffect, useState }                     from 'react'
-import { useTranslation }                                    from 'react-i18next'
-import { Tab, TabGroup, TabList, TabPanel, TabPanels }       from '@headlessui/react'
-import type { Report, ServiceGroupModel, ServiceMonthModel } from 'src/types/models'
-import classNames                                            from '@renderer/utils/classNames'
-import generateIdentifier                                    from '@renderer/utils/generateIdentifier'
-import { ArrowDownTrayIcon, ArrowUpTrayIcon }                from '@heroicons/react/24/solid'
-import { Heading, Subheading }                               from '@renderer/components/catalyst/heading'
-import { Button }                                            from '@renderer/components/catalyst/button'
-import { ReportsTable }                                      from './components/reportTable'
+import { Fragment, useEffect, useState }                        from 'react'
+import { useTranslation }                                       from 'react-i18next'
+import { Tab, TabGroup, TabList, TabPanel, TabPanels }          from '@headlessui/react'
+import type { Report, ServiceGroupModel, ServiceMonthModel }    from 'src/types/models'
+import classNames                                               from '@renderer/utils/classNames'
+import generateIdentifier                                       from '@renderer/utils/generateIdentifier'
+import { ArrowDownTrayIcon, ArrowUpTrayIcon, CloudArrowUpIcon } from '@heroicons/react/24/solid'
+import { Heading, Subheading }                                  from '@renderer/components/catalyst/heading'
+import { Button }                                               from '@renderer/components/catalyst/button'
+import { useSettingsState }                                     from '@renderer/store/settingsStore'
+import { useConfirmationModalContext }                          from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
+import { ReportsTable }                                         from './components/reportTable'
 
 interface iTab {
   id:      string
@@ -16,7 +18,9 @@ interface iTab {
 }
 
 export default function ReportsForm(): JSX.Element {
-  const { t } = useTranslation()
+  const { t }          = useTranslation()
+  const settingsState  = useSettingsState()
+  const confirmContext = useConfirmationModalContext()
 
   const [activeServiceMonth, setActiveServiceMonth] = useState<boolean>(true)
   const [tabs, setTabs]                             = useState<iTab[]>([])
@@ -96,6 +100,17 @@ export default function ReportsForm(): JSX.Element {
     window.electron.ipcRenderer.invoke('import-service-reports')
   }
 
+  const forceUploadReports = async (): Promise<void> => {
+    const result = await confirmContext.showConfirmation(
+      t('report.confirmUpdateReports.headline'),
+      t('report.confirmUpdateReports.body'),
+    )
+
+    if (result) {
+      window.electron.ipcRenderer.invoke('force-update-reports')
+    }
+  }
+
   return (
     <div>
       <div className="flex justify-between">
@@ -103,12 +118,17 @@ export default function ReportsForm(): JSX.Element {
         {activeServiceMonth
           ? (
               <div className="flex space-x-4">
-                <div className="tooltip tooltip-left" data-tip={t('reports.uploadExcelFiles')}>
+                <div title={t('reports.forceUploadReports')}>
+                  <Button outline onClick={forceUploadReports} disabled={!settingsState.online.send_report_group && !settingsState.online.send_report_publisher}>
+                    <CloudArrowUpIcon className="size-6" />
+                  </Button>
+                </div>
+                <div title={t('reports.uploadExcelFiles')}>
                   <Button outline onClick={importExcelFile}>
                     <ArrowUpTrayIcon className="size-6" />
                   </Button>
                 </div>
-                <div className="tooltip tooltip-left" data-tip={t('reports.downloadExcelFiles')}>
+                <div title={t('reports.downloadExcelFiles')}>
                   <Button outline onClick={generateExcelFiles}>
                     <ArrowDownTrayIcon className="size-6" />
                   </Button>
