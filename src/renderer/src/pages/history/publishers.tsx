@@ -151,7 +151,9 @@ export default function HistoryPublishers(): JSX.Element {
                   {reports.map((report) => {
                     return (
                       <TableRow key={report.identifier} className="hover">
-                        <TableCell>{report.serviceMonth}</TableCell>
+                        <TableCell>
+                          {report.serviceMonth}
+                        </TableCell>
                         <TableCell>
                           {
                             report.hasBeenInService
