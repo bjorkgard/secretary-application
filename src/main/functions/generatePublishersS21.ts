@@ -159,23 +159,23 @@ export default async function generatePublishersS21(
       for await (const report of reports) {
         switch (report.sortOrder) {
           case 0:
-            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-0-hasBeenInService`)
+            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-0-hasBeenInService`)
             hasBeenInServiceCheckbox.addToPage(page, { x: 113.228, y: 625.593, width: 12.747, height: 12.747 })
 
-            studiesField = form.createTextField(`${serviceYear}-${publisher._id}-0-studies`)
+            studiesField = form.createTextField(`${serviceYear}-${report.identifier}-0-studies`)
             studiesField.setAlignment(TextAlignment.Center)
             studiesField.setText(report.studies?.toString() || '')
             studiesField.addToPage(page, { font: customFont, x: 156.448, y: 623.502, width: 67.618, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-0-auxiliary`)
+            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-0-auxiliary`)
             auxiliaryCheckbox.addToPage(page, { x: 254.44, y: 625.593, width: 12.747, height: 12.747 })
 
-            hoursField = form.createTextField(`${serviceYear}-${publisher._id}-0-hours`)
+            hoursField = form.createTextField(`${serviceYear}-${report.identifier}-0-hours`)
             hoursField.setAlignment(TextAlignment.Center)
             hoursField.setText(report.hours?.toString() || '')
             hoursField.addToPage(page, { font: customFont, x: 297.759, y: 623.502, width: 87.436, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            remarksField = form.createTextField(`${serviceYear}-${publisher._id}-0-remarks`)
+            remarksField = form.createTextField(`${serviceYear}-${report.identifier}-0-remarks`)
             remarksField.setAlignment(TextAlignment.Center)
             remarksField.setText(report.remarks?.toString() || '')
             remarksField.addToPage(page, { font: customFont, x: 387.884, y: 623.502, width: 187.817, height: 17.029, borderColor: rgb(1, 1, 1) })
@@ -193,23 +193,23 @@ export default async function generatePublishersS21(
             sumHours += report.hours || 0
             break
           case 1:
-            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-1-hasBeenInService`)
+            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-1-hasBeenInService`)
             hasBeenInServiceCheckbox.addToPage(page, { x: 113.228, y: 605.876, width: 12.747, height: 12.747 })
 
-            studiesField = form.createTextField(`${serviceYear}-${publisher._id}-1-studies`)
+            studiesField = form.createTextField(`${serviceYear}-${report.identifier}-1-studies`)
             studiesField.setAlignment(TextAlignment.Center)
             studiesField.setText(report.studies?.toString() || '')
             studiesField.addToPage(page, { font: customFont, x: 156.448, y: 603.685, width: 67.618, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-1-auxiliary`)
+            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-1-auxiliary`)
             auxiliaryCheckbox.addToPage(page, { x: 254.44, y: 605.876, width: 12.747, height: 12.747 })
 
-            hoursField = form.createTextField(`${serviceYear}-${publisher._id}-1-hours`)
+            hoursField = form.createTextField(`${serviceYear}-${report.identifier}-1-hours`)
             hoursField.setAlignment(TextAlignment.Center)
             hoursField.setText(report.hours?.toString() || '')
             hoursField.addToPage(page, { font: customFont, x: 297.759, y: 603.685, width: 87.436, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            remarksField = form.createTextField(`${serviceYear}-${publisher._id}-1-remarks`)
+            remarksField = form.createTextField(`${serviceYear}-${report.identifier}-1-remarks`)
             remarksField.setAlignment(TextAlignment.Center)
             remarksField.setText(report.remarks?.toString() || '')
             remarksField.addToPage(page, { font: customFont, x: 387.884, y: 603.685, width: 187.817, height: 17.029, borderColor: rgb(1, 1, 1) })
@@ -227,23 +227,23 @@ export default async function generatePublishersS21(
             sumHours += report.hours || 0
             break
           case 2:
-            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-2-hasBeenInService`)
+            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-2-hasBeenInService`)
             hasBeenInServiceCheckbox.addToPage(page, { x: 113.228, y: 586.058, width: 12.747, height: 12.747 })
 
-            studiesField = form.createTextField(`${serviceYear}-${publisher._id}-2-studies`)
+            studiesField = form.createTextField(`${serviceYear}-${report.identifier}-2-studies`)
             studiesField.setAlignment(TextAlignment.Center)
             studiesField.setText(report.studies?.toString() || '')
             studiesField.addToPage(page, { font: customFont, x: 156.448, y: 583.768, width: 67.618, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-2-auxiliary`)
+            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-2-auxiliary`)
             auxiliaryCheckbox.addToPage(page, { x: 254.44, y: 586.058, width: 12.747, height: 12.747 })
 
-            hoursField = form.createTextField(`${serviceYear}-${publisher._id}-2-hours`)
+            hoursField = form.createTextField(`${serviceYear}-${report.identifier}-2-hours`)
             hoursField.setAlignment(TextAlignment.Center)
             hoursField.setText(report.hours?.toString() || '')
             hoursField.addToPage(page, { font: customFont, x: 297.759, y: 583.768, width: 87.436, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            remarksField = form.createTextField(`${serviceYear}-${publisher._id}-2-remarks`)
+            remarksField = form.createTextField(`${serviceYear}-${report.identifier}-2-remarks`)
             remarksField.setAlignment(TextAlignment.Center)
             remarksField.setText(report.remarks?.toString() || '')
             remarksField.addToPage(page, { font: customFont, x: 387.884, y: 583.768, width: 187.817, height: 17.029, borderColor: rgb(1, 1, 1) })
@@ -261,23 +261,23 @@ export default async function generatePublishersS21(
             sumHours += report.hours || 0
             break
           case 3:
-            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-3-hasBeenInService`)
+            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-3-hasBeenInService`)
             hasBeenInServiceCheckbox.addToPage(page, { x: 113.228, y: 566.34, width: 12.747, height: 12.747 })
 
-            studiesField = form.createTextField(`${serviceYear}-${publisher._id}-3-studies`)
+            studiesField = form.createTextField(`${serviceYear}-${report.identifier}-3-studies`)
             studiesField.setAlignment(TextAlignment.Center)
             studiesField.setText(report.studies?.toString() || '')
             studiesField.addToPage(page, { font: customFont, x: 156.448, y: 563.95, width: 67.618, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-3-auxiliary`)
+            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-3-auxiliary`)
             auxiliaryCheckbox.addToPage(page, { x: 254.44, y: 566.34, width: 12.747, height: 12.747 })
 
-            hoursField = form.createTextField(`${serviceYear}-${publisher._id}-3-hours`)
+            hoursField = form.createTextField(`${serviceYear}-${report.identifier}-3-hours`)
             hoursField.setAlignment(TextAlignment.Center)
             hoursField.setText(report.hours?.toString() || '')
             hoursField.addToPage(page, { font: customFont, x: 297.759, y: 563.95, width: 87.436, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            remarksField = form.createTextField(`${serviceYear}-${publisher._id}-3-remarks`)
+            remarksField = form.createTextField(`${serviceYear}-${report.identifier}-3-remarks`)
             remarksField.setAlignment(TextAlignment.Center)
             remarksField.setText(report.remarks?.toString() || '')
             remarksField.addToPage(page, { font: customFont, x: 387.884, y: 563.95, width: 187.817, height: 17.029, borderColor: rgb(1, 1, 1) })
@@ -295,23 +295,23 @@ export default async function generatePublishersS21(
             sumHours += report.hours || 0
             break
           case 4:
-            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-4-hasBeenInService`)
+            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-4-hasBeenInService`)
             hasBeenInServiceCheckbox.addToPage(page, { x: 113.228, y: 546.523, width: 12.747, height: 12.747 })
 
-            studiesField = form.createTextField(`${serviceYear}-${publisher._id}-4-studies`)
+            studiesField = form.createTextField(`${serviceYear}-${report.identifier}-4-studies`)
             studiesField.setAlignment(TextAlignment.Center)
             studiesField.setText(report.studies?.toString() || '')
             studiesField.addToPage(page, { font: customFont, x: 156.448, y: 544.133, width: 67.618, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-4-auxiliary`)
+            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-4-auxiliary`)
             auxiliaryCheckbox.addToPage(page, { x: 254.44, y: 546.523, width: 12.747, height: 12.747 })
 
-            hoursField = form.createTextField(`${serviceYear}-${publisher._id}-4-hours`)
+            hoursField = form.createTextField(`${serviceYear}-${report.identifier}-4-hours`)
             hoursField.setAlignment(TextAlignment.Center)
             hoursField.setText(report.hours?.toString() || '')
             hoursField.addToPage(page, { font: customFont, x: 297.759, y: 544.133, width: 87.436, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            remarksField = form.createTextField(`${serviceYear}-${publisher._id}-4-remarks`)
+            remarksField = form.createTextField(`${serviceYear}-${report.identifier}-4-remarks`)
             remarksField.setAlignment(TextAlignment.Center)
             remarksField.setText(report.remarks?.toString() || '')
             remarksField.addToPage(page, { font: customFont, x: 387.884, y: 544.133, width: 187.817, height: 17.029, borderColor: rgb(1, 1, 1) })
@@ -329,23 +329,23 @@ export default async function generatePublishersS21(
             sumHours += report.hours || 0
             break
           case 5:
-            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-5-hasBeenInService`)
+            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-5-hasBeenInService`)
             hasBeenInServiceCheckbox.addToPage(page, { x: 113.228, y: 526.705, width: 12.747, height: 12.747 })
 
-            studiesField = form.createTextField(`${serviceYear}-${publisher._id}-5-studies`)
+            studiesField = form.createTextField(`${serviceYear}-${report.identifier}-5-studies`)
             studiesField.setAlignment(TextAlignment.Center)
             studiesField.setText(report.studies?.toString() || '')
             studiesField.addToPage(page, { font: customFont, x: 156.448, y: 524.315, width: 67.618, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-5-auxiliary`)
+            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-5-auxiliary`)
             auxiliaryCheckbox.addToPage(page, { x: 254.44, y: 526.705, width: 12.747, height: 12.747 })
 
-            hoursField = form.createTextField(`${serviceYear}-${publisher._id}-5-hours`)
+            hoursField = form.createTextField(`${serviceYear}-${report.identifier}-5-hours`)
             hoursField.setAlignment(TextAlignment.Center)
             hoursField.setText(report.hours?.toString() || '')
             hoursField.addToPage(page, { font: customFont, x: 297.759, y: 524.315, width: 87.436, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            remarksField = form.createTextField(`${serviceYear}-${publisher._id}-5-remarks`)
+            remarksField = form.createTextField(`${serviceYear}-${report.identifier}-5-remarks`)
             remarksField.setAlignment(TextAlignment.Center)
             remarksField.setText(report.remarks?.toString() || '')
             remarksField.addToPage(page, { font: customFont, x: 387.884, y: 524.315, width: 187.817, height: 17.029, borderColor: rgb(1, 1, 1) })
@@ -363,23 +363,23 @@ export default async function generatePublishersS21(
             sumHours += report.hours || 0
             break
           case 6:
-            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-6-hasBeenInService`)
+            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-6-hasBeenInService`)
             hasBeenInServiceCheckbox.addToPage(page, { x: 113.228, y: 506.689, width: 12.747, height: 12.747 })
 
-            studiesField = form.createTextField(`${serviceYear}-${publisher._id}-6-studies`)
+            studiesField = form.createTextField(`${serviceYear}-${report.identifier}-6-studies`)
             studiesField.setAlignment(TextAlignment.Center)
             studiesField.setText(report.studies?.toString() || '')
             studiesField.addToPage(page, { font: customFont, x: 156.448, y: 504.398, width: 67.618, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-6-auxiliary`)
+            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-6-auxiliary`)
             auxiliaryCheckbox.addToPage(page, { x: 254.44, y: 506.689, width: 12.747, height: 12.747 })
 
-            hoursField = form.createTextField(`${serviceYear}-${publisher._id}-6-hours`)
+            hoursField = form.createTextField(`${serviceYear}-${report.identifier}-6-hours`)
             hoursField.setAlignment(TextAlignment.Center)
             hoursField.setText(report.hours?.toString() || '')
             hoursField.addToPage(page, { font: customFont, x: 297.759, y: 504.398, width: 87.436, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            remarksField = form.createTextField(`${serviceYear}-${publisher._id}-6-remarks`)
+            remarksField = form.createTextField(`${serviceYear}-${report.identifier}-6-remarks`)
             remarksField.setAlignment(TextAlignment.Center)
             remarksField.setText(report.remarks?.toString() || '')
             remarksField.addToPage(page, { font: customFont, x: 387.884, y: 504.398, width: 187.817, height: 17.029, borderColor: rgb(1, 1, 1) })
@@ -397,23 +397,23 @@ export default async function generatePublishersS21(
             sumHours += report.hours || 0
             break
           case 7:
-            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-7-hasBeenInService`)
+            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-7-hasBeenInService`)
             hasBeenInServiceCheckbox.addToPage(page, { x: 113.228, y: 486.971, width: 12.747, height: 12.747 })
 
-            studiesField = form.createTextField(`${serviceYear}-${publisher._id}-7-studies`)
+            studiesField = form.createTextField(`${serviceYear}-${report.identifier}-7-studies`)
             studiesField.setAlignment(TextAlignment.Center)
             studiesField.setText(report.studies?.toString() || '')
             studiesField.addToPage(page, { font: customFont, x: 156.448, y: 484.581, width: 67.618, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-7-auxiliary`)
+            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-7-auxiliary`)
             auxiliaryCheckbox.addToPage(page, { x: 254.44, y: 486.971, width: 12.747, height: 12.747 })
 
-            hoursField = form.createTextField(`${serviceYear}-${publisher._id}-7-hours`)
+            hoursField = form.createTextField(`${serviceYear}-${report.identifier}-7-hours`)
             hoursField.setAlignment(TextAlignment.Center)
             hoursField.setText(report.hours?.toString() || '')
             hoursField.addToPage(page, { font: customFont, x: 297.759, y: 484.581, width: 87.436, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            remarksField = form.createTextField(`${serviceYear}-${publisher._id}-7-remarks`)
+            remarksField = form.createTextField(`${serviceYear}-${report.identifier}-7-remarks`)
             remarksField.setAlignment(TextAlignment.Center)
             remarksField.setText(report.remarks?.toString() || '')
             remarksField.addToPage(page, { font: customFont, x: 387.884, y: 484.581, width: 187.817, height: 17.029, borderColor: rgb(1, 1, 1) })
@@ -431,23 +431,23 @@ export default async function generatePublishersS21(
             sumHours += report.hours || 0
             break
           case 8:
-            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-8-hasBeenInService`)
+            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-8-hasBeenInService`)
             hasBeenInServiceCheckbox.addToPage(page, { x: 113.228, y: 467.154, width: 12.747, height: 12.747 })
 
-            studiesField = form.createTextField(`${serviceYear}-${publisher._id}-8-studies`)
+            studiesField = form.createTextField(`${serviceYear}-${report.identifier}-8-studies`)
             studiesField.setAlignment(TextAlignment.Center)
             studiesField.setText(report.studies?.toString() || '')
             studiesField.addToPage(page, { font: customFont, x: 156.448, y: 464.763, width: 67.618, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-8-auxiliary`)
+            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-8-auxiliary`)
             auxiliaryCheckbox.addToPage(page, { x: 254.44, y: 467.154, width: 12.747, height: 12.747 })
 
-            hoursField = form.createTextField(`${serviceYear}-${publisher._id}-8-hours`)
+            hoursField = form.createTextField(`${serviceYear}-${report.identifier}-8-hours`)
             hoursField.setAlignment(TextAlignment.Center)
             hoursField.setText(report.hours?.toString() || '')
             hoursField.addToPage(page, { font: customFont, x: 297.759, y: 464.763, width: 87.436, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            remarksField = form.createTextField(`${serviceYear}-${publisher._id}-8-remarks`)
+            remarksField = form.createTextField(`${serviceYear}-${report.identifier}-8-remarks`)
             remarksField.setAlignment(TextAlignment.Center)
             remarksField.setText(report.remarks?.toString() || '')
             remarksField.addToPage(page, { font: customFont, x: 387.884, y: 464.763, width: 187.817, height: 17.029, borderColor: rgb(1, 1, 1) })
@@ -465,23 +465,23 @@ export default async function generatePublishersS21(
             sumHours += report.hours || 0
             break
           case 9:
-            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-9-hasBeenInService`)
+            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-9-hasBeenInService`)
             hasBeenInServiceCheckbox.addToPage(page, { x: 113.228, y: 447.336, width: 12.747, height: 12.747 })
 
-            studiesField = form.createTextField(`${serviceYear}-${publisher._id}-9-studies`)
+            studiesField = form.createTextField(`${serviceYear}-${report.identifier}-9-studies`)
             studiesField.setAlignment(TextAlignment.Center)
             studiesField.setText(report.studies?.toString() || '')
             studiesField.addToPage(page, { font: customFont, x: 156.448, y: 444.946, width: 67.618, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-9-auxiliary`)
+            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-9-auxiliary`)
             auxiliaryCheckbox.addToPage(page, { x: 254.44, y: 447.336, width: 12.747, height: 12.747 })
 
-            hoursField = form.createTextField(`${serviceYear}-${publisher._id}-9-hours`)
+            hoursField = form.createTextField(`${serviceYear}-${report.identifier}-9-hours`)
             hoursField.setAlignment(TextAlignment.Center)
             hoursField.setText(report.hours?.toString() || '')
             hoursField.addToPage(page, { font: customFont, x: 297.759, y: 444.946, width: 87.436, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            remarksField = form.createTextField(`${serviceYear}-${publisher._id}-9-remarks`)
+            remarksField = form.createTextField(`${serviceYear}-${report.identifier}-9-remarks`)
             remarksField.setAlignment(TextAlignment.Center)
             remarksField.setText(report.remarks?.toString() || '')
             remarksField.addToPage(page, { font: customFont, x: 387.884, y: 444.946, width: 187.817, height: 17.029, borderColor: rgb(1, 1, 1) })
@@ -499,23 +499,23 @@ export default async function generatePublishersS21(
             sumHours += report.hours || 0
             break
           case 10:
-            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-10-hasBeenInService`)
+            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-10-hasBeenInService`)
             hasBeenInServiceCheckbox.addToPage(page, { x: 113.228, y: 427.519, width: 12.747, height: 12.747 })
 
-            studiesField = form.createTextField(`${serviceYear}-${publisher._id}-10-studies`)
+            studiesField = form.createTextField(`${serviceYear}-${report.identifier}-10-studies`)
             studiesField.setAlignment(TextAlignment.Center)
             studiesField.setText(report.studies?.toString() || '')
             studiesField.addToPage(page, { font: customFont, x: 156.448, y: 425.029, width: 67.618, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-10-auxiliary`)
+            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-10-auxiliary`)
             auxiliaryCheckbox.addToPage(page, { x: 254.44, y: 427.519, width: 12.747, height: 12.747 })
 
-            hoursField = form.createTextField(`${serviceYear}-${publisher._id}-10-hours`)
+            hoursField = form.createTextField(`${serviceYear}-${report.identifier}-10-hours`)
             hoursField.setAlignment(TextAlignment.Center)
             hoursField.setText(report.hours?.toString() || '')
             hoursField.addToPage(page, { font: customFont, x: 297.759, y: 425.029, width: 87.436, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            remarksField = form.createTextField(`${serviceYear}-${publisher._id}-10-remarks`)
+            remarksField = form.createTextField(`${serviceYear}-${report.identifier}-10-remarks`)
             remarksField.setAlignment(TextAlignment.Center)
             remarksField.setText(report.remarks?.toString() || '')
             remarksField.addToPage(page, { font: customFont, x: 387.884, y: 425.029, width: 187.817, height: 17.029, borderColor: rgb(1, 1, 1) })
@@ -533,23 +533,23 @@ export default async function generatePublishersS21(
             sumHours += report.hours || 0
             break
           case 11:
-            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-11-hasBeenInService`)
+            hasBeenInServiceCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-11-hasBeenInService`)
             hasBeenInServiceCheckbox.addToPage(page, { x: 113.228, y: 407.602, width: 12.747, height: 12.747 })
 
-            studiesField = form.createTextField(`${serviceYear}-${publisher._id}-11-studies`)
+            studiesField = form.createTextField(`${serviceYear}-${report.identifier}-11-studies`)
             studiesField.setAlignment(TextAlignment.Center)
             studiesField.setText(report.studies?.toString() || '')
             studiesField.addToPage(page, { font: customFont, x: 156.448, y: 405.212, width: 67.618, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${publisher._id}-11-auxiliary`)
+            auxiliaryCheckbox = form.createCheckBox(`${serviceYear}-${report.identifier}-11-auxiliary`)
             auxiliaryCheckbox.addToPage(page, { x: 254.44, y: 407.602, width: 12.747, height: 12.747 })
 
-            hoursField = form.createTextField(`${serviceYear}-${publisher._id}-11-hours`)
+            hoursField = form.createTextField(`${serviceYear}-${report.identifier}-11-hours`)
             hoursField.setAlignment(TextAlignment.Center)
             hoursField.setText(report.hours?.toString() || '')
             hoursField.addToPage(page, { font: customFont, x: 297.759, y: 405.212, width: 87.436, height: 17.029, borderColor: rgb(1, 1, 1) })
 
-            remarksField = form.createTextField(`${serviceYear}-${publisher._id}-11-remarks`)
+            remarksField = form.createTextField(`${serviceYear}-${report.identifier}-11-remarks`)
             remarksField.setAlignment(TextAlignment.Center)
             remarksField.setText(report.remarks?.toString() || '')
             remarksField.addToPage(page, { font: customFont, x: 387.884, y: 405.212, width: 187.817, height: 17.029, borderColor: rgb(1, 1, 1) })
