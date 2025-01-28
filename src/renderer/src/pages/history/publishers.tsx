@@ -42,6 +42,7 @@ export default function HistoryPublishers(): JSX.Element {
   }, [])
 
   const selectPublisher = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setReports(undefined)
     if (e.target.value !== '') {
       setSelectedPublisher(publishers.find(p => p._id === e.target.value))
 
@@ -50,7 +51,6 @@ export default function HistoryPublishers(): JSX.Element {
 
     else {
       setSelectedPublisher(undefined)
-      setReports(undefined)
     }
   }
 
