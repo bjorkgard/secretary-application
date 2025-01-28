@@ -92,6 +92,7 @@ import importExcel                    from './functions/importExcel'
 import GetInformationResponses        from './functions/getInformation'
 import DeleteInformation              from './functions/deleteInformation'
 import OrganizationService            from './services/organizationService'
+import forceUpdateReport              from './functions/forceUpdateReport'
 
 // Initialize services
 const circuitOverseerService = new CircuitOverseerService()
@@ -1011,6 +1012,18 @@ ipcMain.handle('start-reporting', async () => {
     settingsService,
     serviceYearService,
     auxiliaryService,
+  )
+})
+
+ipcMain.handle('force-update-reports', async () => {
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  return forceUpdateReport(
+    mainWindow,
+    serviceGroupService,
+    serviceMonthService,
+    publisherService,
+    settingsService,
   )
 })
 
