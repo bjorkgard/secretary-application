@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [v1.7.2](https://github.com/bjorkgard/secretary-application/releases/tag/v1.7.2) - 2025-01-28 00:05:48
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.7.2 -->
+
+## What's Changed
+* Remove dev data by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/983
+* Fix: No assistant for some tasks by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/985
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.7.0...v1.7.2
+
 ## [v1.7.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.7.0) - 2025-01-27 22:06:02
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.7.0 -->
