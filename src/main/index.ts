@@ -1105,7 +1105,7 @@ ipcMain.handle('remove-auxiliary', async (_, props) => {
 })
 
 ipcMain.handle('delete-report', async (_, args) => {
-  return publisherService.deleteReport(args.publisherId, args.reportId)
+  return publisherService.deleteReport(args.publisherId, args.identifier)
 })
 
 ipcMain.handle('save-report', async (_, report) => {
