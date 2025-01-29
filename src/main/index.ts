@@ -93,6 +93,7 @@ import GetInformationResponses        from './functions/getInformation'
 import DeleteInformation              from './functions/deleteInformation'
 import OrganizationService            from './services/organizationService'
 import forceUpdateReport              from './functions/forceUpdateReport'
+import getAllReportsFromServer        from './functions/getAllReportFromServer'
 
 // Initialize services
 const circuitOverseerService = new CircuitOverseerService()
@@ -1470,6 +1471,10 @@ ipcMain.handle('renew-application', async (_, args) => {
 
 ipcMain.handle('delete-application', async (_, args) => {
   return deleteApplication(args.id, args.type)
+})
+
+ipcMain.handle('force-download-reports', async () => {
+  getAllReportsFromServer(mainWindow)
 })
 
 ipcMain.handle('get-latest-version', async () => {

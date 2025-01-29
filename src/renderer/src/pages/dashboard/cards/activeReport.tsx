@@ -8,11 +8,15 @@ import { useConfirmationModalContext }                   from '@renderer/provide
 import { DashboardCard }                                 from '@renderer/components/DashboardCard'
 import { Heading, Subheading }                           from '@renderer/components/catalyst/heading'
 import { Button }                                        from '@renderer/components/catalyst/button'
+import CloudArrowDownIcon                                from '@heroicons/react/16/solid/CloudArrowDownIcon'
+import clsx                                              from 'clsx'
+import { useSettingsState }                              from '@renderer/store/settingsStore'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export default function ActiveReport(): JSX.Element | null {
   const { t }          = useTranslation()
+  const settingsState  = useSettingsState()
   const confirmContext = useConfirmationModalContext()
 
   const [loading, setLoading]           = useState<boolean>(true)
@@ -55,6 +59,11 @@ export default function ActiveReport(): JSX.Element | null {
 
     setStats(reportStats)
   }, [serviceMonth])
+
+  const forceDownloadAllReports = () => {
+    // setServiceMonth(undefined)
+    window.electron.ipcRenderer.invoke('force-download-reports')
+  }
 
   const data = {
     labels:   [t('label.reports.done'), t('label.reports.waiting')],
@@ -109,12 +118,26 @@ export default function ActiveReport(): JSX.Element | null {
                 {t('label.startReporting')}
               </Button>
             )}
-      <Subheading className="mt-4 w-full text-right">
-        {t('label.reports.missing', {
-          missing: stats.waiting,
-          total:   stats.done + stats.waiting,
-        })}
-      </Subheading>
+      <div className="mt-4 flex w-full justify-between">
+        <Button
+          plain
+          title={t('tooltip.forceDownloadReports')}
+          onClick={forceDownloadAllReports}
+        >
+          <CloudArrowDownIcon
+            className={clsx([
+              (!settingsState.online.send_report_publisher && !settingsState.online.send_report_group) && 'hidden',
+              'size-6',
+            ])}
+          />
+        </Button>
+        <Subheading className="text-right">
+          {t('label.reports.missing', {
+            missing: stats.waiting,
+            total:   stats.done + stats.waiting,
+          })}
+        </Subheading>
+      </div>
     </DashboardCard>
   )
 }

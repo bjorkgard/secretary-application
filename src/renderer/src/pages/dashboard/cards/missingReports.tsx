@@ -1,12 +1,14 @@
-import { useEffect, useState }                                from 'react'
-import { ClipboardIcon, DevicePhoneMobileIcon, EnvelopeIcon } from '@heroicons/react/16/solid'
-import { useTranslation }                                     from 'react-i18next'
-import { useEffectOnce }                                      from '@renderer/hooks/useOnMountUnsafe'
-import { useSettingsState }                                   from '@renderer/store/settingsStore'
-import type { ServiceMonthModel }                             from 'src/types/models'
-import { DashboardCard }                                      from '@renderer/components/DashboardCard'
-import { Heading }                                            from '@renderer/components/catalyst/heading'
-import { Table, TableBody, TableCell, TableRow }              from '@renderer/components/catalyst/table'
+import { useEffect, useState }                                                    from 'react'
+import { ClipboardIcon, CloudArrowDownIcon, DevicePhoneMobileIcon, EnvelopeIcon } from '@heroicons/react/16/solid'
+import { useTranslation }                                                         from 'react-i18next'
+import { useEffectOnce }                                                          from '@renderer/hooks/useOnMountUnsafe'
+import { useSettingsState }                                                       from '@renderer/store/settingsStore'
+import type { ServiceMonthModel }                                                 from 'src/types/models'
+import { DashboardCard }                                                          from '@renderer/components/DashboardCard'
+import { Heading }                                                                from '@renderer/components/catalyst/heading'
+import { Table, TableBody, TableCell, TableRow }                                  from '@renderer/components/catalyst/table'
+import { Button }                                                                 from '@renderer/components/catalyst/button'
+import clsx                                                                       from 'clsx'
 
 interface missingReport {
   identifier: string
@@ -29,6 +31,7 @@ export default function MissingReports(): JSX.Element | null {
   })
 
   useEffect(() => {
+    setMissingReports([])
     serviceMonth?.reports.forEach((report) => {
       if (report.publisherStatus !== 'INACTIVE') {
         if (!report.hasBeenInService && !report.hasNotBeenInService) {
@@ -79,6 +82,11 @@ export default function MissingReports(): JSX.Element | null {
     })
   }
 
+  const forceDownloadAllReports = () => {
+    // setServiceMonth(undefined)
+    window.electron.ipcRenderer.invoke('force-download-reports')
+  }
+
   if (!serviceMonth || serviceMonth?.status === 'DONE') {
     // The report for this month is DONE, so there are no missing reports
     return null
@@ -86,7 +94,21 @@ export default function MissingReports(): JSX.Element | null {
 
   return (
     <DashboardCard className="col-span-2 sm:col-span-1 xl:col-span-4 2xl:col-span-3">
-      <Heading>{t('label.missingReports', { count: missingReports.length })}</Heading>
+      <div className="flex w-full justify-between">
+        <Heading>{t('label.missingReports', { count: missingReports.length })}</Heading>
+        <Button
+          plain
+          title={t('tooltip.forceDownloadReports')}
+          onClick={forceDownloadAllReports}
+        >
+          <CloudArrowDownIcon
+            className={clsx([
+              (!settingsState.online.send_report_publisher && !settingsState.online.send_report_group) && 'hidden',
+              'size-6',
+            ])}
+          />
+        </Button>
+      </div>
       <div className="h-48 w-full overflow-x-auto md:h-[416px] lg:h-64 xl:h-80 2xl:h-[28rem]">
         <Table dense striped grid>
           <TableBody>
