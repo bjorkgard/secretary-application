@@ -10,12 +10,14 @@ import { Input }                                from '@renderer/components/catal
 import { Select }                               from '@renderer/components/catalyst/select'
 import { Switch }                               from '@renderer/components/catalyst/switch'
 import * as Headless                            from '@headlessui/react'
+import clsx                                     from 'clsx'
 
 interface EventModalProps {
-  open:       boolean
-  setOpen:    (open: boolean) => void
-  publisher?: PublisherModel
-  refresh:    () => void
+  open:                  boolean
+  setOpen:               (open: boolean) => void
+  publisher?:            PublisherModel
+  refresh:               () => void
+  hasActiveServiceMonth: boolean
 }
 
 interface ReportForm {
@@ -34,6 +36,7 @@ interface ReportForm {
   sortOrder:        number
   type:             string
   publisherStatus:  string
+  addToActive:      boolean
 }
 
 export default function AddReportModal(props: EventModalProps): JSX.Element | null {
@@ -57,6 +60,7 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
     formState: { errors, isValid },
   } = useForm<ReportForm>({
     defaultValues: {
+      addToActive:      false,
       serviceYear:      0,
       serviceMonth:     '',
       name:             '',
@@ -79,6 +83,7 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
     if (props.open) {
       clearErrors()
 
+      setValue('addToActive', false)
       setValue('serviceYear', 0)
       setValue('serviceMonth', '')
       setValue('name', '')
@@ -106,6 +111,16 @@ export default function AddReportModal(props: EventModalProps): JSX.Element | nu
         <Fieldset>
           <div className="grid grid-cols-1 gap-y-4">
             <Text>{t('report.description')}</Text>
+            <div className={clsx([!props.hasActiveServiceMonth && 'hidden'])}>
+              <Headless.Field className="flex items-center gap-2">
+                <Controller
+                  name="addToActive"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} />)}
+                />
+                <Label>{t('label.addToCurrentReport')}</Label>
+              </Headless.Field>
+            </div>
             <Field>
               <Label>{t('label.serviceMonth')}</Label>
               <Input

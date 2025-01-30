@@ -146,6 +146,7 @@ export interface Report {
   publisherSendEmail?:      boolean
   auxiliary:                boolean
   updated?:                 Date
+  addToActive?:             boolean
 }
 
 export interface PublisherModel extends Base {

@@ -1,7 +1,7 @@
 import { CheckCircleIcon, PencilIcon, TrashIcon }                        from '@heroicons/react/16/solid'
 import { useEffect, useState }                                           from 'react'
 import { useTranslation }                                                from 'react-i18next'
-import type { PublisherModel, Report }                                   from 'src/types/models'
+import type { PublisherModel, Report, ServiceMonthModel }                from 'src/types/models'
 import { useConfirmationModalContext }                                   from '@renderer/providers/confirmationModal/confirmationModalContextProvider'
 import { Fieldset }                                                      from '@renderer/components/catalyst/fieldset'
 import { Heading }                                                       from '@renderer/components/catalyst/heading'
@@ -20,6 +20,7 @@ export default function HistoryPublishers(): JSX.Element {
   const [openAddReportModal, setOpenAddReportModal]   = useState<boolean>(false)
   const [openEditReportModal, setOpenEditReportModal] = useState<boolean>(false)
   const [selectedReport, setSelectedReport]           = useState<Report>()
+  const [activeServiceMonth, setActiveServiceMonth]   = useState<boolean>(false)
 
   const confirmContext = useConfirmationModalContext()
 
@@ -37,8 +38,15 @@ export default function HistoryPublishers(): JSX.Element {
       })
   }
 
+  const getActiveServiceMonth = () => {
+    window.electron.ipcRenderer.invoke('current-service-month').then((serviceMonth: ServiceMonthModel | null) => {
+      setActiveServiceMonth(!!serviceMonth)
+    })
+  }
+
   useEffect(() => {
     getPublishers()
+    getActiveServiceMonth()
   }, [])
 
   const selectPublisher = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -87,6 +95,7 @@ export default function HistoryPublishers(): JSX.Element {
           getPublishers(selectedPublisher?._id)
           setOpenAddReportModal(false)
         }}
+        hasActiveServiceMonth={activeServiceMonth}
       />
       <EditReportModal
         open={openEditReportModal}
