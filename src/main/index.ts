@@ -1145,6 +1145,9 @@ ipcMain.handle('save-report', async (_, report) => {
 ipcMain.handle('add-publisher-report', async (_, args) => {
   let newReport: Report = args.report
 
+  const sm   = newReport.serviceMonth.split('-')
+  const date = new Date(Number(sm[0]), Number(sm[1]) - 1, 1)  // -1 because months are 0-based
+
   newReport = { ...newReport, hasBeenInService: args.report.hasBeenInService === 'YES' }
   newReport = { ...newReport, hasNotBeenInService: args.report.hasBeenInService === 'NO' }
 
@@ -1171,14 +1174,40 @@ ipcMain.handle('add-publisher-report', async (_, args) => {
 
   newReport = { ...newReport, serviceYear: getServiceYear(newReport.serviceMonth) }
   newReport = { ...newReport, sortOrder: getSortOrder(newReport.serviceMonth) }
+  newReport = { ...newReport, name: date.toLocaleString('default', { month: 'long' }).toLowerCase() }
   newReport = { ...newReport, identifier: generateIdentifier() }
 
-  return publisherService.addReport(args.publisherId, newReport)
+  return publisherService.addReport(args.publisherId, newReport).then(async () => {
+    if (newReport.addToActive) {
+      const serviceMonth = await serviceMonthService.findActive()
+      log.info('serviceMonth', serviceMonth?._id)
+      if (serviceMonth && serviceMonth._id) {
+        await publisherService.findOneById(args.publisherId).then((publisher) => {
+          newReport.publisherId             = publisher._id
+          newReport.publisherName           = `${publisher.lastname}, ${publisher.firstname}`
+          newReport.publisherEmail          = publisher.email
+          newReport.publisherMobile         = publisher.mobile
+          newReport.publisherServiceGroupId = publisher.serviceGroupId
+          newReport.publisherStatus         = publisher.status
+          newReport.publisherSendEmail      = publisher.sendReports
+        })
+
+        delete newReport.addToActive
+
+        serviceMonth.reports.push(newReport)
+        await serviceMonthService.update(serviceMonth._id, serviceMonth)
+      }
+    }
+  })
 })
 
 ipcMain.handle('update-publisher-report', async (_, args) => {
   let newReport: Report = args.report
 
+  const sm   = newReport.serviceMonth.split('-')
+  const date = new Date(Number(sm[0]), Number(sm[1]) - 1, 1)  // -1 because months are 0-based
+
+  newReport = { ...newReport, name: date.toLocaleString('default', { month: 'long' }).toLowerCase() }
   newReport = { ...newReport, hasBeenInService: args.report.hasBeenInService === 'YES' }
   newReport = { ...newReport, hasNotBeenInService: args.report.hasBeenInService === 'NO' }
 

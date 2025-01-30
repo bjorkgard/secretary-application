@@ -785,5 +785,7 @@
   "transfer.success": "Överföringen är klar",
   "transfer.transferPublisherDone": "Förkunnaren är nu överförd till den nya församlingen. Glöm inte att skicka ett introduktionsbrev till den nya församlingen.",
   "updates.newVersion": "Det finns en ny version, {{tag}}!",
-  "Ångra": "Ångra"
+  "Ångra": "Ångra",
+  "errors.hasBeenInService.required": "Du måste ange om förkunnaren delatgit i tjänsten",
+  "label.addToCurrentReport": "Lägg till i den pågående rapporteringen"
 }
