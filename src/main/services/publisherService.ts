@@ -147,6 +147,8 @@ function parsePublisher(data: Publisher): PublisherModel {
   return publisherModel
 }
 
+const visiblePublisherStatus = ['ACTIVE', 'IRREGULAR', 'INACTIVE']
+
 export default class PublisherService implements IPublisherService {
   async findByIdentifier(identifier: string): Promise<PublisherModel | null> {
     const publisher = (await publisherStore.findByIdentifier(identifier)) as Publisher
@@ -156,19 +158,31 @@ export default class PublisherService implements IPublisherService {
   async find(sortField: string, queryString?: string): Promise<PublisherModel[]> {
     const publishers = (await publisherStore.find(sortField, queryString)) as Publisher[]
 
+    return publishers
+      .filter(publisher => visiblePublisherStatus.includes(publisher.status))
+      .map(publisher => parsePublisher(publisher))
+  }
+
+  async findAll(sortField: string, queryString?: string): Promise<PublisherModel[]> {
+    const publishers = (await publisherStore.find(sortField, queryString)) as Publisher[]
+
     return publishers.map(publisher => parsePublisher(publisher))
   }
 
   async findContacts(): Promise<PublisherModel[]> {
     const publishers = (await publisherStore.findContacts()) as Publisher[]
 
-    return publishers.map(publisher => parsePublisher(publisher))
+    return publishers
+      .filter(publisher => visiblePublisherStatus.includes(publisher.status))
+      .map(publisher => parsePublisher(publisher))
   }
 
   async findFamily(familyId: string): Promise<PublisherModel[]> {
     const publishers = (await publisherStore.findFamily(familyId)) as Publisher[]
 
-    return publishers.map(publisher => parsePublisher(publisher))
+    return publishers
+      .filter(publisher => visiblePublisherStatus.includes(publisher.status))
+      .map(publisher => parsePublisher(publisher))
   }
 
   async findByIds(ids: string[]): Promise<PublisherModel[]> {

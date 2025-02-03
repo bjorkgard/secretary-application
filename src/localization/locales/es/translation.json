@@ -73,7 +73,7 @@
   "event.delete": "Radera förkunnare",
   "event.description": "Välj datum för händelsen och klicka sedan på den aktuella händelsen. Vissa händelser kan kräva att ytterligare uppgifter kan fyllas i.",
   "event.disassociation": "Avståndstagande",
-  "event.disfellowshipped": "Utesluten",
+  "event.disfellowshipped": "Avlägsnad",
   "event.movedIn": "Nyinflyttad",
   "event.movedOut": "Flyttat",
   "event.pioneerStart": "Börjar som reguljär pionjär",

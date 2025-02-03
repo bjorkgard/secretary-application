@@ -102,7 +102,7 @@ export interface Report {
   publisherEmail?:          string
   publisherMobile?:         string
   publisherServiceGroupId?: string
-  publisherStatus?:         'ACTIVE' | 'INACTIVE' | 'IRREGULAR'
+  publisherStatus?:         'ACTIVE' | 'INACTIVE' | 'IRREGULAR' | 'DISASSOCIATION' | 'DISFELLOWSHIPPED'
   publisherSendEmail?:      boolean
 }
 
@@ -130,7 +130,7 @@ export interface Publisher extends Base {
   appointments?:     Appointment[]
   emergencyContact:  EmergencyContact
   other?:            string
-  status:            'ACTIVE' | 'INACTIVE' | 'IRREGULAR'
+  status:            'ACTIVE' | 'INACTIVE' | 'IRREGULAR' | 'DISASSOCIATION' | 'DISFELLOWSHIPPED'
   deaf:              boolean
   blind:             boolean
   sendReports:       boolean

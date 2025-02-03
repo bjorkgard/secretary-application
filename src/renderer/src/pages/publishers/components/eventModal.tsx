@@ -1,5 +1,5 @@
 import { useEffect, useState }                                 from 'react'
-import { useForm }                                             from 'react-hook-form'
+import { Controller, useForm }                                 from 'react-hook-form'
 import { useTranslation }                                      from 'react-i18next'
 import type { PublicCongregationModel, PublisherModel }        from 'src/types/models'
 import { Modal }                                               from '@renderer/components/Modal'
@@ -8,6 +8,7 @@ import { Description, ErrorMessage, Field, FieldGroup, Label } from '@renderer/c
 import { Text }                                                from '@renderer/components/catalyst/text'
 import { Select }                                              from '@renderer/components/catalyst/select'
 import { Button }                                              from '@renderer/components/catalyst/button'
+import { Switch, SwitchField }                                 from '@renderer/components/catalyst/switch'
 
 interface EventModalProps {
   open:                boolean
@@ -25,8 +26,9 @@ export type HeroIcon = React.ComponentType<
 >
 
 interface Event {
-  name:    string
-  command: string
+  name:       string
+  command:    string
+  restricted: boolean
 }
 
 interface EventForm {
@@ -34,6 +36,7 @@ interface EventForm {
   command:         string
   publisherId:     string
   newCongregation: string | null
+  keepPublisher:   boolean
   description:     string | null
 }
 
@@ -41,42 +44,53 @@ export default function EventModal(props: EventModalProps): JSX.Element {
   const { t } = useTranslation()
 
   const [showCongregationSelector, setShowCongregationSelector] = useState<boolean>(false)
+  const [showKeepPublisher, shetShowKeepPublisher]              = useState<boolean>(false)
 
   const events: Event[] = [
-    { name: t('event.a2'), command: 'A-2' },
-    { name: t('event.a8'), command: 'A-8' },
-    { name: t('event.a19'), command: 'A-19' },
-    { name: t('event.co5a'), command: 'CO-5A' },
-    { name: t('event.co4'), command: 'CO-4' },
-    { name: t('event.movedIn'), command: 'MOVED_IN' },
-    { name: t('event.movedOut'), command: 'MOVED_OUT' },
-    { name: t('event.publisher'), command: 'PUBLISHER' },
-    { name: t('event.baptised'), command: 'BAPTISED' },
-    { name: t('event.auxiliaryStart'), command: 'AUXILIARY_START' },
-    { name: t('event.pioneerStart'), command: 'PIONEER_START' },
-    { name: t('event.auxiliaryStop'), command: 'AUXILIARY_STOP' },
-    { name: t('event.pioneerStop'), command: 'PIONEER_STOP' },
-    { name: t('event.pioneerSchool'), command: 'PIONEER_SCHOOL' },
-    { name: t('event.ministerialServantStart'), command: 'START_MINISTERIAL_SERVANT' },
-    { name: t('event.ministerialServantStop'), command: 'STOP_MINISTERIAL_SERVANT' },
-    { name: t('event.elderStart'), command: 'START_ELDER' },
-    { name: t('event.elderStop'), command: 'STOP_ELDER' },
-    { name: t('event.startRestriction'), command: 'START_RESTRICTION' },
-    { name: t('event.stopRestriction'), command: 'STOP_RESTRICTION' },
-    { name: t('event.deceased'), command: 'DECEASED' },
-    { name: t('event.reinstated'), command: 'REINSTATED' },
-    { name: t('event.disassociation'), command: 'DISASSOCIATION' },
-    { name: t('event.disfellowshipped'), command: 'DISFELLOWSHIPPED' },
-    { name: t('event.delete'), command: 'DELETE' },
+    { restricted: true, name: t('event.a2'), command: 'A-2' },
+    { restricted: true, name: t('event.a8'), command: 'A-8' },
+    { restricted: true, name: t('event.a19'), command: 'A-19' },
+    { restricted: true, name: t('event.g8'), command: 'G-8' },
+    { restricted: true, name: t('event.co5a'), command: 'CO-5A' },
+    { restricted: true, name: t('event.co4'), command: 'CO-4' },
+    { restricted: true, name: t('event.movedIn'), command: 'MOVED_IN' },
+    { restricted: true, name: t('event.movedOut'), command: 'MOVED_OUT' },
+    { restricted: true, name: t('event.publisher'), command: 'PUBLISHER' },
+    { restricted: true, name: t('event.baptised'), command: 'BAPTISED' },
+    { restricted: true, name: t('event.auxiliaryStart'), command: 'AUXILIARY_START' },
+    { restricted: true, name: t('event.pioneerStart'), command: 'PIONEER_START' },
+    { restricted: true, name: t('event.auxiliaryStop'), command: 'AUXILIARY_STOP' },
+    { restricted: true, name: t('event.pioneerStop'), command: 'PIONEER_STOP' },
+    { restricted: true, name: t('event.pioneerSchool'), command: 'PIONEER_SCHOOL' },
+    { restricted: true, name: t('event.ministerialServantStart'), command: 'START_MINISTERIAL_SERVANT' },
+    { restricted: true, name: t('event.ministerialServantStop'), command: 'STOP_MINISTERIAL_SERVANT' },
+    { restricted: true, name: t('event.elderStart'), command: 'START_ELDER' },
+    { restricted: true, name: t('event.elderStop'), command: 'STOP_ELDER' },
+    { restricted: true, name: t('event.startRestriction'), command: 'START_RESTRICTION' },
+    { restricted: true, name: t('event.stopRestriction'), command: 'STOP_RESTRICTION' },
+    { restricted: false, name: t('event.visit'), command: 'VISIT' },
+    { restricted: false, name: t('event.reinstated'), command: 'REINSTATED' },
+    { restricted: true, name: t('event.disfellowshipped'), command: 'DISFELLOWSHIPPED' },
+    { restricted: true, name: t('event.disassociation'), command: 'DISASSOCIATION' },
+    { restricted: false, name: t('event.deceased'), command: 'DECEASED' },
+    { restricted: false, name: t('event.delete'), command: 'DELETE' },
   ]
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    shetShowKeepPublisher(false)
+    setShowCongregationSelector(false)
+
     switch (event.target.value) {
       case 'MOVED_OUT':
         setShowCongregationSelector(true)
         break
+      case 'DISFELLOWSHIPPED':
+      case 'DISASSOCIATION':
+        shetShowKeepPublisher(true)
+        break
 
       default:
+        shetShowKeepPublisher(false)
         setShowCongregationSelector(false)
         break
     }
@@ -89,6 +103,7 @@ export default function EventModal(props: EventModalProps): JSX.Element {
   }
 
   const {
+    control,
     handleSubmit,
     register,
     setValue,
@@ -99,6 +114,7 @@ export default function EventModal(props: EventModalProps): JSX.Element {
       publisherId:     '',
       command:         '',
       newCongregation: null,
+      keepPublisher:   false,
     },
   })
 
@@ -160,6 +176,18 @@ export default function EventModal(props: EventModalProps): JSX.Element {
               </Select>
               <Description>{t('event.selectCongregation')}</Description>
             </Field>
+          )}
+
+          {showKeepPublisher && (
+            <SwitchField>
+              <Controller
+                name="keepPublisher"
+                control={control}
+                render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} />)}
+              />
+              <Label>{t('event.keepPublisher')}</Label>
+              <Description>{t('event.keepPublisherDescription')}</Description>
+            </SwitchField>
           )}
 
           <Field>

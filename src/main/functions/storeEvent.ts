@@ -14,6 +14,7 @@ interface EventProps {
   publisherId:     string
   newCongregation: string | null
   description:     string | null
+  keepPublisher:   boolean
 }
 
 const publisherService    = new PublisherService()
@@ -40,6 +41,10 @@ async function storeEvent(mainWindow: BrowserWindow, event: EventProps): Promise
       addEventToServiceYear = false
       break
     case 'A-19':
+      information           = `${publisher?.firstname} ${publisher?.lastname}`
+      addEventToServiceYear = false
+      break
+    case 'G-8':
       information           = `${publisher?.firstname} ${publisher?.lastname}`
       addEventToServiceYear = false
       break
@@ -213,16 +218,27 @@ async function storeEvent(mainWindow: BrowserWindow, event: EventProps): Promise
     case 'REINSTATED':
       information = `${publisher?.firstname} ${publisher?.lastname}`
       break
+    case 'VISIT':
+      information = `${publisher?.firstname} ${publisher?.lastname}`
+      break
     case 'DISASSOCIATION':
       information = `${publisher?.firstname} ${publisher?.lastname}`
-      publisherService.delete(event.publisherId)
-      addEventToPublisher     = false
+      publisher   = { ...publisher, status: 'DISASSOCIATION' }
+
+      if (!event.keepPublisher) {
+        publisherService.delete(event.publisherId)
+        addEventToPublisher = false
+      }
       removeFromActiveReports = true
       break
     case 'DISFELLOWSHIPPED':
       information = `${publisher?.firstname} ${publisher?.lastname}`
-      publisherService.delete(event.publisherId)
-      addEventToPublisher     = false
+      publisher   = { ...publisher, status: 'DISFELLOWSHIPPED' }
+
+      if (!event.keepPublisher) {
+        publisherService.delete(event.publisherId)
+        addEventToPublisher = false
+      }
       removeFromActiveReports = true
       break
     case 'DELETE':

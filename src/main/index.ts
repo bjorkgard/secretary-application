@@ -417,6 +417,10 @@ ipcMain.handle('get-contacts', async () => {
   return await publisherService.findContacts()
 })
 
+ipcMain.handle('get-all-publishers', async (_, args: { sortfield: string, queryString: string }) => {
+  return await publisherService.findAll(args.sortfield, args.queryString)
+})
+
 ipcMain.handle('get-publishers', async (_, args: { sortfield: string, queryString: string }) => {
   return await publisherService.find(args.sortfield, args.queryString)
 })
@@ -1183,13 +1187,15 @@ ipcMain.handle('add-publisher-report', async (_, args) => {
       log.info('serviceMonth', serviceMonth?._id)
       if (serviceMonth && serviceMonth._id) {
         await publisherService.findOneById(args.publisherId).then((publisher) => {
-          newReport.publisherId             = publisher._id
-          newReport.publisherName           = `${publisher.lastname}, ${publisher.firstname}`
-          newReport.publisherEmail          = publisher.email
-          newReport.publisherMobile         = publisher.mobile
-          newReport.publisherServiceGroupId = publisher.serviceGroupId
-          newReport.publisherStatus         = publisher.status
-          newReport.publisherSendEmail      = publisher.sendReports
+          if (publisher.status === 'ACTIVE' || publisher.status === 'IRREGULAR' || publisher.status === 'INACTIVE') {
+            newReport.publisherId             = publisher._id
+            newReport.publisherName           = `${publisher.lastname}, ${publisher.firstname}`
+            newReport.publisherEmail          = publisher.email
+            newReport.publisherMobile         = publisher.mobile
+            newReport.publisherServiceGroupId = publisher.serviceGroupId
+            newReport.publisherStatus         = publisher.status
+            newReport.publisherSendEmail      = publisher.sendReports
+          }
         })
 
         delete newReport.addToActive

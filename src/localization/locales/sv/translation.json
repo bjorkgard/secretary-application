@@ -152,7 +152,7 @@
   "event.delete": "Radera förkunnare",
   "event.description": "Välj datum för händelsen och klicka sedan på den aktuella händelsen. Vissa händelser kan kräva att ytterligare uppgifter kan fyllas i.",
   "event.disassociation": "Avståndstagande",
-  "event.disfellowshipped": "Utesluten",
+  "event.disfellowshipped": "Avlägsnad",
   "event.doNotTransfer": "Ingen överföring",
   "event.elderStart": "Förordnad som äldste",
   "event.elderStop": "Avregistrerad som äldste",
@@ -787,5 +787,14 @@
   "updates.newVersion": "Det finns en ny version, {{tag}}!",
   "Ångra": "Ångra",
   "errors.hasBeenInService.required": "Du måste ange om förkunnaren delatgit i tjänsten",
-  "label.addToCurrentReport": "Lägg till i den pågående rapporteringen"
+  "label.addToCurrentReport": "Lägg till i den pågående rapporteringen",
+  "event.keepPublisher": "Behåll förkunnaren i databasen",
+  "event.keepPublisherDescription": "Om du väljer att behålla förkunnaren i databasen kommer du att kunna få ut denne på speciella listor. Personen kommer inte med på adresslista eller andra offentliga listor.",
+  "errors.date.required": "Du måste ange ett datum",
+  "event.g8": "Skolan för kristna förkunnare (G-8)",
+  "event.visit": "Fått besök",
+  "short.disfellowshipped": "AV",
+  "label.disfellowshipped": "Avlägsnad",
+  "short.disassociation": "AV",
+  "label.disassociation": "Avståndstagande"
 }
