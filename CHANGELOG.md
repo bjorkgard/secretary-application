@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [v1.7.4](https://github.com/bjorkgard/secretary-application/releases/tag/v1.7.4) - 2025-02-03 18:31:34
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.7.4 -->
+
+## What's Changed
+* Fix: Childrens birthday not required by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/1014
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.7.3...v1.7.4
+
 ## [v1.7.3](https://github.com/bjorkgard/secretary-application/releases/tag/v1.7.3) - 2025-01-30 15:37:18
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.7.3 -->
