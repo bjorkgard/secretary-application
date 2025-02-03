@@ -296,9 +296,7 @@ export default function PublisherContactForm(): JSX.Element {
                             <Label className={clsx(index === 0 ? 'block' : 'hidden')}>{t('label.birthday')}</Label>
                             <Input
                               type="date"
-                              {...register(`children.${index}.birthday` as const, {
-                                required: t('errors.children.birthday.required'),
-                              })}
+                              {...register(`children.${index}.birthday` as const)}
                               invalid={!!errors.children?.[index]?.birthday}
                             />
                             {errors.children?.[index]?.birthday && <ErrorMessage>{errors.children?.[index]?.birthday?.message}</ErrorMessage>}
