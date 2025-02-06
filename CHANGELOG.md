@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [v1.7.5](https://github.com/bjorkgard/secretary-application/releases/tag/v1.7.5) - 2025-02-06 08:53:26
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.7.5 -->
+
+## What's Changed
+* Fix design error on meeting report by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/1016
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.7.4...v1.7.5
+
 ## [v1.7.4](https://github.com/bjorkgard/secretary-application/releases/tag/v1.7.4) - 2025-02-03 18:31:34
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.7.4 -->
@@ -59,131 +69,6 @@
 
 
 **Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.11...v1.7.0
-
-### Bug Fixes
-
-- deps:
-  - bump fs-extra from 11.2.0 to 11.3.0 (#974) ([a934a40](https://github.com/bjorkgard/secretary-application/commit/a934a40d6be865f9f3d34e5110e421c5eb218fab)) ([#974](https://github.com/bjorkgard/secretary-application/pull/974))
-  - bump cross-spawn in the npm_and_yarn group (#956) ([4e01bdb](https://github.com/bjorkgard/secretary-application/commit/4e01bdb69107ca470f847a1a5573a880e4fe11f8)) ([#956](https://github.com/bjorkgard/secretary-application/pull/956))
-  - bump react-phone-number-input from 3.4.10 to 3.4.11 (#946) ([54161e4](https://github.com/bjorkgard/secretary-application/commit/54161e4a466f042e7777b77d50cbdbc4fc0181d1)) ([#946](https://github.com/bjorkgard/secretary-application/pull/946))
-
-## [v1.6.11](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.11) - 2025-01-10 09:03:24
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.6.11 -->
-
-## What's Changed
-### New things
-* Import S-21 by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/926
-* Import publishers from xlsx-file by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/931
-### Bug fixes
-* Headers on publisher list by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/932
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.10...v1.6.11
-
-## [v1.6.10](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.10) - 2025-01-08 17:08:16
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.6.10 -->
-
-## What's Changed
-### Bug fixes
-* Add missing secretary name on the member lists by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/924
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.9...v1.6.10
-
-## [v1.6.9](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.9) - 2025-01-08 15:29:48
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.6.9 -->
-
-## What's Changed
-### Bug fixes
-* Fix: Selection of publishers by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/921
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.8...v1.6.9
-
-## [v1.6.8](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.8) - 2025-01-08 12:24:44
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.6.8 -->
-
-## What's Changed
-### Updates
-* Updated members list
-* Quick save publisher by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/917
-* Select service year when exporting register card for service group by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/918
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.7...v1.6.8
-
-### Bug Fixes
-
-- deps:
-  - bump react-chartjs-2 from 5.2.0 to 5.3.0 (#912) ([2fe512a](https://github.com/bjorkgard/secretary-application/commit/2fe512a29ea3323100222e8225a5a4dc1e9724f7)) ([#912](https://github.com/bjorkgard/secretary-application/pull/912))
-  - bump react-hook-form from 7.54.1 to 7.54.2 (#899) ([57a5ae4](https://github.com/bjorkgard/secretary-application/commit/57a5ae40a05a69bc768589ce92527c725c31422a)) ([#899](https://github.com/bjorkgard/secretary-application/pull/899))
-  - bump react-hook-form from 7.54.0 to 7.54.1 (#890) ([fb951a8](https://github.com/bjorkgard/secretary-application/commit/fb951a808ceea1fdef13404e31b75c8fedb8b5ff)) ([#890](https://github.com/bjorkgard/secretary-application/pull/890))
-  - bump the npm_and_yarn group with 1 update (#884) ([5c0ef60](https://github.com/bjorkgard/secretary-application/commit/5c0ef60d70b4ff8b6fee25070f5610f3b7d4b9cd)) ([#884](https://github.com/bjorkgard/secretary-application/pull/884))
-  - bump react-hook-form from 7.53.2 to 7.54.0 (#881) ([9d8ac72](https://github.com/bjorkgard/secretary-application/commit/9d8ac7203683ac8fb5246d71772a9153494d060c)) ([#881](https://github.com/bjorkgard/secretary-application/pull/881))
-  - bump react-phone-number-input from 3.4.9 to 3.4.10 (#879) ([e5e1870](https://github.com/bjorkgard/secretary-application/commit/e5e187082422cf774fdae72d0a3297d2ee35f973)) ([#879](https://github.com/bjorkgard/secretary-application/pull/879))
-  - bump chart.js from 4.4.6 to 4.4.7 (#862) ([83ff33d](https://github.com/bjorkgard/secretary-application/commit/83ff33ddff0ab0a8fa1467cb92a1fceb64232115)) ([#862](https://github.com/bjorkgard/secretary-application/pull/862))
-  - bump i18next-fs-backend from 2.3.2 to 2.6.0 (#856) ([1b6b4dd](https://github.com/bjorkgard/secretary-application/commit/1b6b4dd064dc61925811016ee9e6505219a06b57)) ([#856](https://github.com/bjorkgard/secretary-application/pull/856))
-  - bump @heroicons/react from 2.1.5 to 2.2.0 (#852) ([8e50a46](https://github.com/bjorkgard/secretary-application/commit/8e50a46cfef9638d1427daba80e99dc8c29e0fd6)) ([#852](https://github.com/bjorkgard/secretary-application/pull/852))
-  - bump react-hook-form from 7.53.1 to 7.53.2 (#838) ([474a680](https://github.com/bjorkgard/secretary-application/commit/474a6809de54afafea204c05d3c1b6381c7435dd)) ([#838](https://github.com/bjorkgard/secretary-application/pull/838))
-  - bump react-router-dom from 6.27.0 to 6.28.0 (#847) ([0d69b00](https://github.com/bjorkgard/secretary-application/commit/0d69b0030f6a94b912d04f8fec6d48e280ab3018)) ([#847](https://github.com/bjorkgard/secretary-application/pull/847))
-  - bump i18next from 23.16.4 to 23.16.5 (#841) ([f93aadd](https://github.com/bjorkgard/secretary-application/commit/f93aaddcb1b94e4ced8f8d69ca3fd30773ca0e57)) ([#841](https://github.com/bjorkgard/secretary-application/pull/841))
-  - bump i18next from 23.16.2 to 23.16.4 (#830) ([3666515](https://github.com/bjorkgard/secretary-application/commit/3666515c6af0dc3aa9c2a4e8950a024387a89e97)) ([#830](https://github.com/bjorkgard/secretary-application/pull/830))
-  - bump chart.js from 4.4.5 to 4.4.6 (#826) ([2175755](https://github.com/bjorkgard/secretary-application/commit/217575519f97aa9f3a8d2551583e5849915ef49c)) ([#826](https://github.com/bjorkgard/secretary-application/pull/826))
-  - bump i18next from 23.16.0 to 23.16.2 (#818) ([7a66afe](https://github.com/bjorkgard/secretary-application/commit/7a66afe704909a5b4a67a16a352bfbde867ccf3b)) ([#818](https://github.com/bjorkgard/secretary-application/pull/818))
-  - bump react-phone-number-input from 3.4.8 to 3.4.9 (#814) ([bad476e](https://github.com/bjorkgard/secretary-application/commit/bad476e6d93240027acf43456817f8bc4ec69b6e)) ([#814](https://github.com/bjorkgard/secretary-application/pull/814))
-  - bump react-hook-form from 7.53.0 to 7.53.1 (#819) ([e077b47](https://github.com/bjorkgard/secretary-application/commit/e077b47206db0245cf1b341a00d5a632de3e6055)) ([#819](https://github.com/bjorkgard/secretary-application/pull/819))
-  - bump chart.js from 4.4.4 to 4.4.5 (#817) ([f1be663](https://github.com/bjorkgard/secretary-application/commit/f1be66333a6c4a5ea7a8052acfad70d24c1edf83)) ([#817](https://github.com/bjorkgard/secretary-application/pull/817))
-  - bump jspdf-autotable from 3.8.3 to 3.8.4 (#815) ([dad5c8e](https://github.com/bjorkgard/secretary-application/commit/dad5c8edc315dfb7b8765b73a940e262b4224bb8)) ([#815](https://github.com/bjorkgard/secretary-application/pull/815))
-  - bump i18next from 23.15.2 to 23.16.0 (#804) ([89131f8](https://github.com/bjorkgard/secretary-application/commit/89131f88b30e23a5e84c5a9186155aca0b5751d1)) ([#804](https://github.com/bjorkgard/secretary-application/pull/804))
-
-## [v1.6.7](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.7) - 2024-10-18 11:35:13
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.6.7 -->
-
-## What's Changed
-### Bug fixes
-* Do not show public congregations if not fetched
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.6...v1.6.7
-
-### Bug Fixes
-
-- deps:
-  - bump react-router-dom from 6.26.2 to 6.27.0 (#796) ([b03ead4](https://github.com/bjorkgard/secretary-application/commit/b03ead4b74cbc93d44dede8c54091930e0acb404)) ([#796](https://github.com/bjorkgard/secretary-application/pull/796))
-  - bump i18next from 23.15.1 to 23.15.2 (#784) ([6ae3cdf](https://github.com/bjorkgard/secretary-application/commit/6ae3cdfbe98208a48bc6a0beca846de232a625c2)) ([#784](https://github.com/bjorkgard/secretary-application/pull/784))
-  - bump electron-updater from 6.3.4 to 6.3.9 (#782) ([850d6db](https://github.com/bjorkgard/secretary-application/commit/850d6db7a45929c5df63935366bd78702d070124)) ([#782](https://github.com/bjorkgard/secretary-application/pull/782))
-  - bump rollup from 4.21.1 to 4.22.4 in the npm_and_yarn group (#775) ([482b042](https://github.com/bjorkgard/secretary-application/commit/482b0425ccd4417a66b5838de69a53028933e7c8)) ([#775](https://github.com/bjorkgard/secretary-application/pull/775))
-  - bump i18next from 23.15.0 to 23.15.1 (#761) ([e265924](https://github.com/bjorkgard/secretary-application/commit/e265924b91b84ef867ee4e8d09c860d34c791fa8)) ([#761](https://github.com/bjorkgard/secretary-application/pull/761))
-  - bump react-phone-number-input from 3.4.6 to 3.4.8 (#771) ([64774e0](https://github.com/bjorkgard/secretary-application/commit/64774e09d11e989c7f6b680cd1b10b8387d48ad8)) ([#771](https://github.com/bjorkgard/secretary-application/pull/771))
-  - bump jspdf from 2.5.1 to 2.5.2 (#767) ([ecbfda5](https://github.com/bjorkgard/secretary-application/commit/ecbfda50525402f8ecdb339539135b4ee27dede6)) ([#767](https://github.com/bjorkgard/secretary-application/pull/767))
-  - bump react-phone-number-input from 3.4.5 to 3.4.6 (#755) ([1553c62](https://github.com/bjorkgard/secretary-application/commit/1553c62dfcefab8df26fb446d1ac7366b0104e8e)) ([#755](https://github.com/bjorkgard/secretary-application/pull/755))
-
-## [v1.6.6](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.6) - 2024-09-11 17:06:15
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.6.6 -->
-
-## What's Changed
-### Bug fixes
-* Fix missing reports by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/747
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.5...v1.6.6
-
-## [v1.6.5](https://github.com/bjorkgard/secretary-application/releases/tag/v1.6.5) - 2024-09-11 08:02:34
-
-<!-- Release notes generated using configuration in .github/release.yml at v1.6.5 -->
-
-## What's Changed
-### Other Changes
-* Adjust log-file by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/745
-
-
-**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.6.4...v1.6.5
 
 ### Feature
 
@@ -312,6 +197,37 @@
 ### Bug Fixes
 
 - deps:
+  - bump fs-extra from 11.2.0 to 11.3.0 (#974) ([a934a40](https://github.com/bjorkgard/secretary-application/commit/a934a40d6be865f9f3d34e5110e421c5eb218fab)) ([#974](https://github.com/bjorkgard/secretary-application/pull/974))
+  - bump cross-spawn in the npm_and_yarn group (#956) ([4e01bdb](https://github.com/bjorkgard/secretary-application/commit/4e01bdb69107ca470f847a1a5573a880e4fe11f8)) ([#956](https://github.com/bjorkgard/secretary-application/pull/956))
+  - bump react-phone-number-input from 3.4.10 to 3.4.11 (#946) ([54161e4](https://github.com/bjorkgard/secretary-application/commit/54161e4a466f042e7777b77d50cbdbc4fc0181d1)) ([#946](https://github.com/bjorkgard/secretary-application/pull/946))
+  - bump react-chartjs-2 from 5.2.0 to 5.3.0 (#912) ([2fe512a](https://github.com/bjorkgard/secretary-application/commit/2fe512a29ea3323100222e8225a5a4dc1e9724f7)) ([#912](https://github.com/bjorkgard/secretary-application/pull/912))
+  - bump react-hook-form from 7.54.1 to 7.54.2 (#899) ([57a5ae4](https://github.com/bjorkgard/secretary-application/commit/57a5ae40a05a69bc768589ce92527c725c31422a)) ([#899](https://github.com/bjorkgard/secretary-application/pull/899))
+  - bump react-hook-form from 7.54.0 to 7.54.1 (#890) ([fb951a8](https://github.com/bjorkgard/secretary-application/commit/fb951a808ceea1fdef13404e31b75c8fedb8b5ff)) ([#890](https://github.com/bjorkgard/secretary-application/pull/890))
+  - bump the npm_and_yarn group with 1 update (#884) ([5c0ef60](https://github.com/bjorkgard/secretary-application/commit/5c0ef60d70b4ff8b6fee25070f5610f3b7d4b9cd)) ([#884](https://github.com/bjorkgard/secretary-application/pull/884))
+  - bump react-hook-form from 7.53.2 to 7.54.0 (#881) ([9d8ac72](https://github.com/bjorkgard/secretary-application/commit/9d8ac7203683ac8fb5246d71772a9153494d060c)) ([#881](https://github.com/bjorkgard/secretary-application/pull/881))
+  - bump react-phone-number-input from 3.4.9 to 3.4.10 (#879) ([e5e1870](https://github.com/bjorkgard/secretary-application/commit/e5e187082422cf774fdae72d0a3297d2ee35f973)) ([#879](https://github.com/bjorkgard/secretary-application/pull/879))
+  - bump chart.js from 4.4.6 to 4.4.7 (#862) ([83ff33d](https://github.com/bjorkgard/secretary-application/commit/83ff33ddff0ab0a8fa1467cb92a1fceb64232115)) ([#862](https://github.com/bjorkgard/secretary-application/pull/862))
+  - bump i18next-fs-backend from 2.3.2 to 2.6.0 (#856) ([1b6b4dd](https://github.com/bjorkgard/secretary-application/commit/1b6b4dd064dc61925811016ee9e6505219a06b57)) ([#856](https://github.com/bjorkgard/secretary-application/pull/856))
+  - bump @heroicons/react from 2.1.5 to 2.2.0 (#852) ([8e50a46](https://github.com/bjorkgard/secretary-application/commit/8e50a46cfef9638d1427daba80e99dc8c29e0fd6)) ([#852](https://github.com/bjorkgard/secretary-application/pull/852))
+  - bump react-hook-form from 7.53.1 to 7.53.2 (#838) ([474a680](https://github.com/bjorkgard/secretary-application/commit/474a6809de54afafea204c05d3c1b6381c7435dd)) ([#838](https://github.com/bjorkgard/secretary-application/pull/838))
+  - bump react-router-dom from 6.27.0 to 6.28.0 (#847) ([0d69b00](https://github.com/bjorkgard/secretary-application/commit/0d69b0030f6a94b912d04f8fec6d48e280ab3018)) ([#847](https://github.com/bjorkgard/secretary-application/pull/847))
+  - bump i18next from 23.16.4 to 23.16.5 (#841) ([f93aadd](https://github.com/bjorkgard/secretary-application/commit/f93aaddcb1b94e4ced8f8d69ca3fd30773ca0e57)) ([#841](https://github.com/bjorkgard/secretary-application/pull/841))
+  - bump i18next from 23.16.2 to 23.16.4 (#830) ([3666515](https://github.com/bjorkgard/secretary-application/commit/3666515c6af0dc3aa9c2a4e8950a024387a89e97)) ([#830](https://github.com/bjorkgard/secretary-application/pull/830))
+  - bump chart.js from 4.4.5 to 4.4.6 (#826) ([2175755](https://github.com/bjorkgard/secretary-application/commit/217575519f97aa9f3a8d2551583e5849915ef49c)) ([#826](https://github.com/bjorkgard/secretary-application/pull/826))
+  - bump i18next from 23.16.0 to 23.16.2 (#818) ([7a66afe](https://github.com/bjorkgard/secretary-application/commit/7a66afe704909a5b4a67a16a352bfbde867ccf3b)) ([#818](https://github.com/bjorkgard/secretary-application/pull/818))
+  - bump react-phone-number-input from 3.4.8 to 3.4.9 (#814) ([bad476e](https://github.com/bjorkgard/secretary-application/commit/bad476e6d93240027acf43456817f8bc4ec69b6e)) ([#814](https://github.com/bjorkgard/secretary-application/pull/814))
+  - bump react-hook-form from 7.53.0 to 7.53.1 (#819) ([e077b47](https://github.com/bjorkgard/secretary-application/commit/e077b47206db0245cf1b341a00d5a632de3e6055)) ([#819](https://github.com/bjorkgard/secretary-application/pull/819))
+  - bump chart.js from 4.4.4 to 4.4.5 (#817) ([f1be663](https://github.com/bjorkgard/secretary-application/commit/f1be66333a6c4a5ea7a8052acfad70d24c1edf83)) ([#817](https://github.com/bjorkgard/secretary-application/pull/817))
+  - bump jspdf-autotable from 3.8.3 to 3.8.4 (#815) ([dad5c8e](https://github.com/bjorkgard/secretary-application/commit/dad5c8edc315dfb7b8765b73a940e262b4224bb8)) ([#815](https://github.com/bjorkgard/secretary-application/pull/815))
+  - bump i18next from 23.15.2 to 23.16.0 (#804) ([89131f8](https://github.com/bjorkgard/secretary-application/commit/89131f88b30e23a5e84c5a9186155aca0b5751d1)) ([#804](https://github.com/bjorkgard/secretary-application/pull/804))
+  - bump react-router-dom from 6.26.2 to 6.27.0 (#796) ([b03ead4](https://github.com/bjorkgard/secretary-application/commit/b03ead4b74cbc93d44dede8c54091930e0acb404)) ([#796](https://github.com/bjorkgard/secretary-application/pull/796))
+  - bump i18next from 23.15.1 to 23.15.2 (#784) ([6ae3cdf](https://github.com/bjorkgard/secretary-application/commit/6ae3cdfbe98208a48bc6a0beca846de232a625c2)) ([#784](https://github.com/bjorkgard/secretary-application/pull/784))
+  - bump electron-updater from 6.3.4 to 6.3.9 (#782) ([850d6db](https://github.com/bjorkgard/secretary-application/commit/850d6db7a45929c5df63935366bd78702d070124)) ([#782](https://github.com/bjorkgard/secretary-application/pull/782))
+  - bump rollup from 4.21.1 to 4.22.4 in the npm_and_yarn group (#775) ([482b042](https://github.com/bjorkgard/secretary-application/commit/482b0425ccd4417a66b5838de69a53028933e7c8)) ([#775](https://github.com/bjorkgard/secretary-application/pull/775))
+  - bump i18next from 23.15.0 to 23.15.1 (#761) ([e265924](https://github.com/bjorkgard/secretary-application/commit/e265924b91b84ef867ee4e8d09c860d34c791fa8)) ([#761](https://github.com/bjorkgard/secretary-application/pull/761))
+  - bump react-phone-number-input from 3.4.6 to 3.4.8 (#771) ([64774e0](https://github.com/bjorkgard/secretary-application/commit/64774e09d11e989c7f6b680cd1b10b8387d48ad8)) ([#771](https://github.com/bjorkgard/secretary-application/pull/771))
+  - bump jspdf from 2.5.1 to 2.5.2 (#767) ([ecbfda5](https://github.com/bjorkgard/secretary-application/commit/ecbfda50525402f8ecdb339539135b4ee27dede6)) ([#767](https://github.com/bjorkgard/secretary-application/pull/767))
+  - bump react-phone-number-input from 3.4.5 to 3.4.6 (#755) ([1553c62](https://github.com/bjorkgard/secretary-application/commit/1553c62dfcefab8df26fb446d1ac7366b0104e8e)) ([#755](https://github.com/bjorkgard/secretary-application/pull/755))
   - bump react-router-dom from 6.26.1 to 6.26.2 (#735) ([cc34642](https://github.com/bjorkgard/secretary-application/commit/cc34642cc680c01fff1a9444cbaac0d5821bb40a)) ([#735](https://github.com/bjorkgard/secretary-application/pull/735))
   - bump i18next from 23.14.0 to 23.15.0 (#727) ([0ed2c83](https://github.com/bjorkgard/secretary-application/commit/0ed2c836a0f61aed7e31bb5feef47a00da9a1201)) ([#727](https://github.com/bjorkgard/secretary-application/pull/727))
   - bump electron-updater from 6.2.1 to 6.3.4 (#723) ([4af1d93](https://github.com/bjorkgard/secretary-application/commit/4af1d9359af3b38bd0455909d13b64d8317ecfa9)) ([#723](https://github.com/bjorkgard/secretary-application/pull/723))
