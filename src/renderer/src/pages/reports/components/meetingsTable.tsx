@@ -40,7 +40,7 @@ export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps
   return (
     <form onBlur={useFormAttributes.handleSubmit(handleBlur)}>
       <Subheading>{name}</Subheading>
-      <Table dense bleed grid sticky striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
+      <Table dense bleed grid striped className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
         <TableHead>
           <TableRow>
             <TableHeader></TableHeader>
@@ -58,7 +58,6 @@ export function MeetingsTable({ meetings, name, serviceMonthId }: ComponentProps
               <Input
                 {...useFormAttributes.register('meetings.midweek.0')}
                 type="number"
-                className="input input-md input-bordered w-full"
                 min={0}
               />
             </TableCell>
