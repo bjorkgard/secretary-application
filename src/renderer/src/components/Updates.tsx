@@ -17,7 +17,7 @@ export function Updates(): JSX.Element | null {
 
   return (
     <a
-      href="https://github.com/bjorkgard/secretary-application/releases/latest"
+      href="https://secretary.jwapp.info"
       target="_blank"
       className="flex cursor-pointer font-bold text-green-600 underline-offset-2 hover:underline"
     >
