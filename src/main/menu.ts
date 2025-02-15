@@ -241,6 +241,23 @@ export default class MenuBuilder {
                 },
               ],
             },
+            {
+              label:   i18n.t('mainMenu.addressListDisfellowshipped'),
+              submenu: [
+                {
+                  label: i18n.t('mainMenu.pdf'),
+                  click: (): void => {
+                    ipcMain.emit('export-addresslist-disfellowshipped-pdf')
+                  },
+                },
+                {
+                  label: i18n.t('mainMenu.xlsx'),
+                  click: (): void => {
+                    ipcMain.emit('export-addresslist-disfellowshipped-xlsx')
+                  },
+                },
+              ],
+            },
           ],
         },
         {
@@ -303,6 +320,12 @@ export default class MenuBuilder {
               label: i18n.t('mainMenu.exportServiceGroupRegisterCard'),
               click: (): void => {
                 ipcMain.emit('export-extended-register-cards-servicegroup')
+              },
+            },
+            {
+              label: i18n.t('mainMenu.exportDisfellowshippedRegisterCard'),
+              click: (): void => {
+                ipcMain.emit('export-extended-register-cards-disfellowshipped')
               },
             },
           ],
@@ -618,6 +641,23 @@ export default class MenuBuilder {
                   },
                 ],
               },
+              {
+                label:   i18n.t('mainMenu.addressListDisfellowshipped'),
+                submenu: [
+                  {
+                    label: i18n.t('mainMenu.pdf'),
+                    click: (): void => {
+                      ipcMain.emit('export-addresslist-disfellowshipped-pdf')
+                    },
+                  },
+                  {
+                    label: i18n.t('mainMenu.xlsx'),
+                    click: (): void => {
+                      ipcMain.emit('export-addresslist-disfellowshipped-xlsx')
+                    },
+                  },
+                ],
+              },
             ],
           },
           {
@@ -680,6 +720,12 @@ export default class MenuBuilder {
                 label: i18n.t('mainMenu.exportServiceGroupRegisterCard'),
                 click: (): void => {
                   ipcMain.emit('export-extended-register-cards-servicegroup')
+                },
+              },
+              {
+                label: i18n.t('mainMenu.exportDisfellowshippedRegisterCard'),
+                click: (): void => {
+                  ipcMain.emit('export-extended-register-cards-disfellowshipped')
                 },
               },
             ],

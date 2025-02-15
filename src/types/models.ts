@@ -142,7 +142,7 @@ export interface Report {
   publisherEmail?:          string
   publisherMobile?:         string
   publisherServiceGroupId?: string
-  publisherStatus?:         'ACTIVE' | 'INACTIVE' | 'IRREGULAR'
+  publisherStatus?:         'ACTIVE' | 'INACTIVE' | 'IRREGULAR' | 'DISASSOCIATION' | 'DISFELLOWSHIPPED'
   publisherSendEmail?:      boolean
   auxiliary:                boolean
   updated?:                 Date
@@ -175,7 +175,7 @@ export interface PublisherModel extends Base {
   s290:             boolean
   sendReports:      boolean
   serviceGroupId?:  string
-  status:           'ACTIVE' | 'INACTIVE' | 'IRREGULAR'
+  status:           'ACTIVE' | 'INACTIVE' | 'IRREGULAR' | 'DISASSOCIATION' | 'DISFELLOWSHIPPED'
   tasks:            string[]
   unknown_baptised: boolean
   zip:              string

@@ -105,7 +105,7 @@ export default function Publishers(): JSX.Element {
 
   const getPublishers = (sortField = 'lastname', queryString = ''): void => {
     window.electron.ipcRenderer
-      .invoke('get-publishers', { sortField, queryString })
+      .invoke('get-all-publishers', { sortField, queryString })
       .then((result: PublisherModel[]) => {
         setPublishers(result)
       })
@@ -428,7 +428,13 @@ export default function Publishers(): JSX.Element {
                   }) || []
 
               return (
-                <TableRow key={publisher._id}>
+                <TableRow
+                  key={publisher._id}
+                  className={clsx([
+                    publisher.status === 'DISASSOCIATION' && 'text-red-400',
+                    publisher.status === 'DISFELLOWSHIPPED' && 'text-red-400',
+                  ])}
+                >
                   <TableCell className="flex gap-1">
                     {appointments.map((appointment) => {
                       if (appointment) {
@@ -442,6 +448,8 @@ export default function Publishers(): JSX.Element {
                     })}
                     {publisher.status === 'INACTIVE' ? <Badge color="red" title={t('label.inactive')}>{t('short.inactive')}</Badge> : null}
                     {publisher.status === 'IRREGULAR' ? <Badge color="red" title={t('label.irregular')}>{t('short.irregular')}</Badge> : null}
+                    {publisher.status === 'DISASSOCIATION' ? <Badge color="red" title={t('label.disassociation')}>{t('short.disassociation')}</Badge> : null}
+                    {publisher.status === 'DISFELLOWSHIPPED' ? <Badge color="red" title={t('label.disfellowshipped')}>{t('short.disfellowshipped')}</Badge> : null}
                   </TableCell>
                   <TableCell>{serviceGroup?.name || '-'}</TableCell>
                   <TableCell>{publisher.lastname}</TableCell>

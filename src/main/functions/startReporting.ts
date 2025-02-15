@@ -84,8 +84,12 @@ async function startReporting(mainWindow: BrowserWindow | null,  serviceGroupSer
   }
 
   for (const publisher of publishers) {
-    let type = 'PUBLISHER'
+    if (publisher.status === 'DISASSOCIATION' || publisher.status === 'DISFELLOWSHIPPED') {
+      // !if publisher has status DISFELLOWSHIPPED or DISASSOCIATION no reports will be added
+      continue
+    }
 
+    let type           = 'PUBLISHER'
     const pioneerArray = ['PIONEER', 'SPECIALPIONEER', 'AUXILIARY', 'MISSIONARY']
 
     publisher.appointments.forEach((appointment) => {

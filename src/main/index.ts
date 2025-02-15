@@ -81,19 +81,21 @@ import {
   storeEvent,
   updateSettings,
 } from './functions'
-import getServiceYear                 from './utils/getServiceYear'
-import ImportantDateService           from './services/importantDateService'
-import ExportServiceGroupInternalList from './functions/exportServiceGroupInternalList'
-import generateIdentifier             from './utils/generateIdentifier'
-import getSortOrder                   from './utils/getSortOrder'
-import ExportAuxiliariesList          from './functions/exportAuxiliariesList'
-import importS21                      from './functions/importS21'
-import importExcel                    from './functions/importExcel'
-import GetInformationResponses        from './functions/getInformation'
-import DeleteInformation              from './functions/deleteInformation'
-import OrganizationService            from './services/organizationService'
-import forceUpdateReport              from './functions/forceUpdateReport'
-import getAllReportsFromServer        from './functions/getAllReportFromServer'
+import getServiceYear                              from './utils/getServiceYear'
+import ImportantDateService                        from './services/importantDateService'
+import ExportServiceGroupInternalList              from './functions/exportServiceGroupInternalList'
+import generateIdentifier                          from './utils/generateIdentifier'
+import getSortOrder                                from './utils/getSortOrder'
+import ExportAuxiliariesList                       from './functions/exportAuxiliariesList'
+import importS21                                   from './functions/importS21'
+import importExcel                                 from './functions/importExcel'
+import GetInformationResponses                     from './functions/getInformation'
+import DeleteInformation                           from './functions/deleteInformation'
+import OrganizationService                         from './services/organizationService'
+import forceUpdateReport                           from './functions/forceUpdateReport'
+import getAllReportsFromServer                     from './functions/getAllReportFromServer'
+import exportExtendedRegisterCardsDisfellowshipped from './functions/exportExtendedRegisterCardsDisfellowshipped'
+import exportAddressListDisfellowshipped           from './functions/exportAddressListDisfellowshipped'
 
 // Initialize services
 const circuitOverseerService = new CircuitOverseerService()
@@ -417,6 +419,10 @@ ipcMain.handle('get-contacts', async () => {
   return await publisherService.findContacts()
 })
 
+ipcMain.handle('get-all-publishers', async (_, args: { sortfield: string, queryString: string }) => {
+  return await publisherService.findAll(args.sortfield, args.queryString)
+})
+
 ipcMain.handle('get-publishers', async (_, args: { sortfield: string, queryString: string }) => {
   return await publisherService.find(args.sortfield, args.queryString)
 })
@@ -549,6 +555,22 @@ ipcMain.on('export-addresslist-alphabetically-pdf', async () => {
 
   exportService.upsert('ADDRESSLIST_ALPHA', 'PDF', 'export-addresslist-alphabetically-pdf')
   exportAddressList(mainWindow, publisherService, 'NAME', 'PDF')
+})
+
+ipcMain.on('export-addresslist-disfellowshipped-pdf', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportAddressListDisfellowshipped(mainWindow, publisherService, 'PDF')
+})
+
+ipcMain.on('export-addresslist-disfellowshipped-xlsx', async () => {
+  if (!mainWindow)
+    return
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportAddressListDisfellowshipped(mainWindow, publisherService, 'XLSX')
 })
 
 ipcMain.on('export-addresslist-group-xlsx', async () => {
@@ -842,6 +864,15 @@ ipcMain.on('export-extended-register-card', async (_event, args) => {
   mainWindow?.webContents.send('show-spinner', { status: true })
 
   exportExtendedRegisterCard(mainWindow, args)
+})
+
+ipcMain.on('export-extended-register-cards-disfellowshipped', async (_event) => {
+  if (!mainWindow)
+    return
+
+  mainWindow?.webContents.send('show-spinner', { status: true })
+
+  exportExtendedRegisterCardsDisfellowshipped(mainWindow)
 })
 
 ipcMain.on('export-extended-register-cards', async (_event) => {
@@ -1183,13 +1214,15 @@ ipcMain.handle('add-publisher-report', async (_, args) => {
       log.info('serviceMonth', serviceMonth?._id)
       if (serviceMonth && serviceMonth._id) {
         await publisherService.findOneById(args.publisherId).then((publisher) => {
-          newReport.publisherId             = publisher._id
-          newReport.publisherName           = `${publisher.lastname}, ${publisher.firstname}`
-          newReport.publisherEmail          = publisher.email
-          newReport.publisherMobile         = publisher.mobile
-          newReport.publisherServiceGroupId = publisher.serviceGroupId
-          newReport.publisherStatus         = publisher.status
-          newReport.publisherSendEmail      = publisher.sendReports
+          if (publisher.status === 'ACTIVE' || publisher.status === 'IRREGULAR' || publisher.status === 'INACTIVE') {
+            newReport.publisherId             = publisher._id
+            newReport.publisherName           = `${publisher.lastname}, ${publisher.firstname}`
+            newReport.publisherEmail          = publisher.email
+            newReport.publisherMobile         = publisher.mobile
+            newReport.publisherServiceGroupId = publisher.serviceGroupId
+            newReport.publisherStatus         = publisher.status
+            newReport.publisherSendEmail      = publisher.sendReports
+          }
         })
 
         delete newReport.addToActive
