@@ -4,7 +4,8 @@ import { PDFDocument, StandardFonts, TextAlignment, rgb } from 'pdf-lib'
 import fontkit                                            from '@pdf-lib/fontkit'
 import fs                                                 from 'fs-extra'
 import TemplateService                                    from '../services/templateService'
-import type { PublisherModel }                            from '../../types/models'
+import type { PublisherModel, Report }                    from '../../types/models'
+import i18n                                               from '../../localization/i18next.config'
 import isDev                                              from './isDev'
 
 const templatesService = new TemplateService()
@@ -143,19 +144,47 @@ export default async function generatePublishersS21(
         }
       })
 
-      const serviceYearField = form.createTextField(`${serviceYear}-${publisher._id}-serviceYear`)
-      serviceYearField.setAlignment(TextAlignment.Center)
-      serviceYearField.setText(serviceYear.toString())
-      serviceYearField.addToPage(page, { font: customFont, x: 19.32, y: 650.29, width: 63.734, height: 17.03, borderColor: rgb(1, 1, 1) })
-
       // Fill reports
-      let sumHours  = 0
+      let serviceYearText   = ''
+      let sumHours          = 0
+      let reports: Report[] = []
       let hasBeenInServiceCheckbox: PDFCheckBox,
         studiesField: PDFTextField,
         auxiliaryCheckbox: PDFCheckBox,
         hoursField: PDFTextField,
         remarksField: PDFTextField
-      const reports = publisher.reports.filter(report => report.serviceYear === serviceYear)
+
+      if (publisher.status !== 'INACTIVE') {
+        serviceYearText = serviceYear.toString()
+        reports         = publisher.reports.filter(report => report.serviceYear === serviceYear)
+      }
+      else {
+        // Get last active report and use this as current serviceYear
+        const allReports = publisher.reports.sort((a, b) => b.serviceYear - a.serviceYear || b.sortOrder - a.sortOrder)
+        const lastReport = allReports.find(r => r.hasBeenInService)
+
+        if (lastReport) {
+          reports         = publisher.reports.filter(report => report.serviceYear === lastReport.serviceYear)
+          serviceYearText = lastReport.serviceYear.toString()
+        }
+        else {
+          // no report is found
+          serviceYearText = '?'
+        }
+
+        // Add inactive label
+        page.drawText(i18n.t('label.inactive'), {
+          x:    10,
+          y:    page.getHeight() - 2 * 12,
+          size: 12,
+        })
+      }
+
+      const serviceYearField = form.createTextField(`${serviceYear}-${publisher._id}-serviceYear`)
+      serviceYearField.setAlignment(TextAlignment.Center)
+      serviceYearField.setText(serviceYearText)
+      serviceYearField.addToPage(page, { font: customFont, x: 19.32, y: 650.29, width: 63.734, height: 17.03, borderColor: rgb(1, 1, 1) })
+
       for await (const report of reports) {
         switch (report.sortOrder) {
           case 0:
