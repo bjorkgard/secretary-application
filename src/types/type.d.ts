@@ -78,15 +78,17 @@ export interface ServiceGroupService extends BaseService<ServiceGroupModel> {
 }
 
 export interface ResponsibilityService extends BaseService<ResponsibilityModel> {
-  find:   () => Promise<ResponsibilityModel[]>
-  upsert: (data: ResponsibilityModel) => Promise<number>
-  remove: (data: ResponsibilityModel) => Promise<number>
+  find:                   () => Promise<ResponsibilityModel[]>
+  findResponsibilityById: (id: string) => Promise<T | null>
+  upsert:                 (data: ResponsibilityModel) => Promise<number>
+  remove:                 (data: ResponsibilityModel) => Promise<number>
 }
 
 export interface TaskService extends BaseService<TaskModel> {
-  find:   () => Promise<TaskModel[]>
-  upsert: (data: TaskModel) => Promise<number>
-  remove: (data: TaskModel) => Promise<number>
+  find:         () => Promise<TaskModel[]>
+  findTaskById: (id: string) => Promise<T | null>
+  upsert:       (data: TaskModel) => Promise<number>
+  remove:       (data: TaskModel) => Promise<number>
 }
 
 export interface ImportantDateService extends BaseService<ImportantDateModel> {

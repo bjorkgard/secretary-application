@@ -32,14 +32,14 @@ export default async function GenerateExtendedRegisterCard(publisher: PublisherM
   const countryCallingCode = `+${getCountryCallingCode((settings?.congregation.country || 'SE') as CountryCode)}`
 
   for await (const r of publisher.responsibilities) {
-    const resp = await responsibilityService.findOneById(r)
+    const resp = await responsibilityService.findResponsibilityById(r)
 
     if (resp)
       responsibilities.push(i18n.t(resp.name.toLocaleLowerCase()))
   }
 
   for await (const t of publisher.tasks) {
-    const task = await taskService.findOneById(t)
+    const task = await taskService.findTaskById(t)
 
     if (task)
       tasks.push(i18n.t(task.name))
