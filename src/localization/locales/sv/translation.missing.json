@@ -1,1 +1,5 @@
-{}
+{
+  "mainMenu": {
+    "addressListDisfellowshipped": "mainMenu.addressListDisfellowshipped"
+  }
+}
