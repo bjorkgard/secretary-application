@@ -75,6 +75,16 @@ export default class TaskService implements ITaskService {
     return parseTask(task)
   }
 
+  async findTaskById(id: string): Promise<TaskModel | null> {
+    const task = await taskStore.findOneById(id)
+    if (task) {
+      return parseTask(task)
+    }
+    else {
+      return null
+    }
+  }
+
   async drop(): Promise<void> {
     taskStore.drop()
   }

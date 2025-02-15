@@ -71,6 +71,16 @@ export default class ResponsibilityService implements IResponsibilityService {
     return parseResponsibility(responsible)
   }
 
+  async findResponsibilityById(id: string): Promise<ResponsibilityModel | null> {
+    const responsible = await responsibilityStore.findOneById(id)
+    if (responsible) {
+      return parseResponsibility(responsible)
+    }
+    else {
+      return null
+    }
+  }
+
   async drop(): Promise<void> {
     responsibilityStore.drop()
   }
