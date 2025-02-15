@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [v1.7.6](https://github.com/bjorkgard/secretary-application/releases/tag/v1.7.6) - 2025-02-15 10:40:53
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.7.6 -->
+
+## What's Changed
+* Update URL for downloading the new version by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/1018
+* Task and Responsibility can be null by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/1025
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.7.5...v1.7.6
+
 ## [v1.7.5](https://github.com/bjorkgard/secretary-application/releases/tag/v1.7.5) - 2025-02-06 08:53:26
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.7.5 -->
