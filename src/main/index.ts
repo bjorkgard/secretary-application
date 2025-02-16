@@ -646,15 +646,15 @@ ipcMain.on('export-organization-schema', async () => {
   exportOrganizationSchema(mainWindow, publisherService)
 })
 
-ipcMain.on('export-namelist', async () => {
+ipcMain.on('export-namelist', async (_event, args) => {
   if (!mainWindow)
     return
 
   mainWindow?.webContents.send('show-spinner', { status: true })
 
-  exportService.upsert('NAMELIST', 'PDF', 'export-namelist')
+  exportService.upsert('NAMELIST', args.type, 'export-namelist')
 
-  exportNameList(mainWindow, publisherService)
+  exportNameList(mainWindow, publisherService, args.type)
 })
 
 ipcMain.on('export-needs-completions', async () => {
