@@ -777,17 +777,17 @@ ipcMain.on('export-spiritual-status', async (_event) => {
   exportSpiritualStatusLst(mainWindow, settingsService, serviceGroupService, publisherService)
 })
 
-ipcMain.on('export-serviceGroups-internal-list', async (_event) => {
+ipcMain.on('export-serviceGroups-internal-list', async (_event, args) => {
   if (!mainWindow)
     return
 
   mainWindow?.webContents.send('show-spinner', { status: true })
 
-  exportService.upsert('SERVICEGROUP_INTERNAL_LIST', 'PDF', 'export-serviceGroups-internal-list')
-  ExportServiceGroupInternalList(mainWindow, settingsService, serviceGroupService, publisherService)
+  exportService.upsert('SERVICEGROUP_INTERNAL_LIST', args.type, 'export-serviceGroups-internal-list')
+  ExportServiceGroupInternalList(mainWindow, settingsService, serviceGroupService, publisherService, args.type)
 })
 
-ipcMain.on('export-serviceGroups-list', async (_event) => {
+ipcMain.on('export-serviceGroups-list', async (_event, args) => {
   // This function is used to get all inactive publishers and send to the renderer
   // to be able to select which publishers to include in the export
   if (!mainWindow)
@@ -804,7 +804,7 @@ ipcMain.on('export-serviceGroups-list', async (_event) => {
     )
   })
 
-  mainWindow?.webContents.send('show-inactive-for-servicegroups', { inactives: inactivePublishers })
+  mainWindow?.webContents.send('show-inactive-for-servicegroups', { inactives: inactivePublishers, type: args.type })
 })
 
 ipcMain.on('export-service-groups', async (_event, args) => {
@@ -814,8 +814,8 @@ ipcMain.on('export-service-groups', async (_event, args) => {
 
   mainWindow?.webContents.send('show-spinner', { status: true })
 
-  exportService.upsert('SERVICEGROUP_LIST', 'PDF', 'export-serviceGroups-list')
-  exportServiceGroupList(mainWindow, settingsService, serviceGroupService, publisherService, args.inactives)
+  exportService.upsert('SERVICEGROUP_LIST', args.type, 'export-serviceGroups-list')
+  exportServiceGroupList(mainWindow, settingsService, serviceGroupService, publisherService, args.type, args.inactives)
 })
 
 ipcMain.on('export-register-card', async (_event, args) => {

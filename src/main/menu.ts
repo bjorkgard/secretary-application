@@ -438,16 +438,38 @@ export default class MenuBuilder {
           label:   i18n.t('mainMenu.serviceGroups'),
           submenu: [
             {
-              label: i18n.t('mainMenu.serviceGroupsList'),
-              click: (): void => {
-                ipcMain.emit('export-serviceGroups-list', null, {})
-              },
+              label:   i18n.t('mainMenu.serviceGroupsList'),
+              submenu: [
+                {
+                  label: i18n.t('mainMenu.pdf'),
+                  click: (): void => {
+                    ipcMain.emit('export-serviceGroups-list', null, { type: 'PDF' })
+                  },
+                },
+                {
+                  label: i18n.t('mainMenu.xlsx'),
+                  click: (): void => {
+                    ipcMain.emit('export-serviceGroups-list', null, { type: 'XLSX' })
+                  },
+                },
+              ],
             },
             {
-              label: i18n.t('mainMenu.serviceGroupsInternalList'),
-              click: (): void => {
-                ipcMain.emit('export-serviceGroups-internal-list', null, {})
-              },
+              label:   i18n.t('mainMenu.serviceGroupsInternalList'),
+              submenu: [
+                {
+                  label: i18n.t('mainMenu.pdf'),
+                  click: (): void => {
+                    ipcMain.emit('export-serviceGroups-internal-list', null, { type: 'PDF' })
+                  },
+                },
+                {
+                  label: i18n.t('mainMenu.xlsx'),
+                  click: (): void => {
+                    ipcMain.emit('export-serviceGroups-internal-list', null, { type: 'XLSX' })
+                  },
+                },
+              ],
             },
           ],
         },
