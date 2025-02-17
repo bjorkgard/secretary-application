@@ -767,14 +767,14 @@ ipcMain.on('export-register-card-congregation', async (_event) => {
     })
 })
 
-ipcMain.on('export-spiritual-status', async (_event) => {
+ipcMain.on('export-spiritual-status', async (_event, args) => {
   if (!mainWindow)
     return
 
   mainWindow?.webContents.send('show-spinner', { status: true })
 
-  exportService.upsert('SPIRITUAL_STATUS_LIST', 'PDF', 'export-spiritual-status')
-  exportSpiritualStatusLst(mainWindow, settingsService, serviceGroupService, publisherService)
+  exportService.upsert('SPIRITUAL_STATUS_LIST', args.type, 'export-spiritual-status')
+  exportSpiritualStatusLst(mainWindow, settingsService, serviceGroupService, publisherService, args.type)
 })
 
 ipcMain.on('export-serviceGroups-internal-list', async (_event, args) => {

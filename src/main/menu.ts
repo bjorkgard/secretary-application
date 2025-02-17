@@ -379,10 +379,21 @@ export default class MenuBuilder {
               ],
             },
             {
-              label: i18n.t('mainMenu.spiritualStatus'),
-              click: (): void => {
-                ipcMain.emit('export-spiritual-status', null, {})
-              },
+              label:   i18n.t('mainMenu.spiritualStatus'),
+              submenu: [
+                {
+                  label: i18n.t('mainMenu.pdf'),
+                  click: (): void => {
+                    ipcMain.emit('export-spiritual-status', null, { type: 'PDF' })
+                  },
+                },
+                {
+                  label: i18n.t('mainMenu.xlsx'),
+                  click: (): void => {
+                    ipcMain.emit('export-spiritual-status', null, { type: 'XLSX' })
+                  },
+                },
+              ],
             },
             {
               label: i18n.t('mainMenu.needsCompletions'),
@@ -812,10 +823,21 @@ export default class MenuBuilder {
                 ],
               },
               {
-                label: i18n.t('mainMenu.spiritualStatus'),
-                click: (): void => {
-                  ipcMain.emit('export-spiritual-status', null, {})
-                },
+                label:   i18n.t('mainMenu.spiritualStatus'),
+                submenu: [
+                  {
+                    label: i18n.t('mainMenu.pdf'),
+                    click: (): void => {
+                      ipcMain.emit('export-spiritual-status', null, { type: 'PDF' })
+                    },
+                  },
+                  {
+                    label: i18n.t('mainMenu.xlsx'),
+                    click: (): void => {
+                      ipcMain.emit('export-spiritual-status', null, { type: 'XLSX' })
+                    },
+                  },
+                ],
               },
               {
                 label: i18n.t('mainMenu.needsCompletions'),
