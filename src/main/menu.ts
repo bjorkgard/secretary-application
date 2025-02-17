@@ -351,10 +351,21 @@ export default class MenuBuilder {
           label:   i18n.t('mainMenu.congregation'),
           submenu: [
             {
-              label: i18n.t('mainMenu.organizationSchema'),
-              click: (): void => {
-                ipcMain.emit('export-organization-schema', null, {})
-              },
+              label:   i18n.t('mainMenu.organizationSchema'),
+              submenu: [
+                {
+                  label: i18n.t('mainMenu.pdf'),
+                  click: (): void => {
+                    ipcMain.emit('export-organization-schema', null, { type: 'PDF' })
+                  },
+                },
+                {
+                  label: i18n.t('mainMenu.xlsx'),
+                  click: (): void => {
+                    ipcMain.emit('export-organization-schema', null, { type: 'XLSX' })
+                  },
+                },
+              ],
             },
           ],
         },
@@ -795,10 +806,21 @@ export default class MenuBuilder {
             label:   i18n.t('mainMenu.congregation'),
             submenu: [
               {
-                label: i18n.t('mainMenu.organizationSchema'),
-                click: (): void => {
-                  ipcMain.emit('export-organization-schema', null, {})
-                },
+                label:   i18n.t('mainMenu.organizationSchema'),
+                submenu: [
+                  {
+                    label: i18n.t('mainMenu.pdf'),
+                    click: (): void => {
+                      ipcMain.emit('export-organization-schema', null, { type: 'PDF' })
+                    },
+                  },
+                  {
+                    label: i18n.t('mainMenu.xlsx'),
+                    click: (): void => {
+                      ipcMain.emit('export-organization-schema', null, { type: 'XLSX' })
+                    },
+                  },
+                ],
               },
             ],
           },

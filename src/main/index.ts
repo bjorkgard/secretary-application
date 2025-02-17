@@ -637,13 +637,13 @@ ipcMain.on('export-members', async () => {
   exportMembersDocument(mainWindow, publisherService)
 })
 
-ipcMain.on('export-organization-schema', async () => {
+ipcMain.on('export-organization-schema', async (_event, args) => {
   if (!mainWindow)
     return
   mainWindow?.webContents.send('show-spinner', { status: true })
 
-  exportService.upsert('ORGANIZATION_SCHEMA', 'PDF', 'export-organization-schema')
-  exportOrganizationSchema(mainWindow, publisherService)
+  exportService.upsert('ORGANIZATION_SCHEMA', args.type, 'export-organization-schema')
+  exportOrganizationSchema(mainWindow, publisherService, args.type)
 })
 
 ipcMain.on('export-namelist', async (_event, args) => {

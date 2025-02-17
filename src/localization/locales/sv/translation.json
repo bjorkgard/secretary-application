@@ -801,5 +801,6 @@
   "Ångra": "Ångra",
   "label.addresslist": "Adresslista",
   "export.date": "Datum",
-  "label.firstnames": "Förnamn"
+  "label.firstnames": "Förnamn",
+  "label.organizationSchema": "Organisationsschema"
 }
