@@ -60,6 +60,8 @@ jobs:
           APPLE_ID_PASSWORD: ${{ secrets.APPLEIDPASS }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLEIDPASS }}
           TEAM_ID: ${{ secrets.APPLEIDTEAM }}
+          # workaround for building
+          USE_HARD_LINKS: false
         with:
           max_attempts: 3
           github_token: ${{ secrets.github_token }}
