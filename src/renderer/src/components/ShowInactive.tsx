@@ -11,13 +11,13 @@ export interface iInactive {
   id:   string
   name: string
 }
-export function ShowInactive({ show, inactives, handleClose }: { show: boolean, inactives: iInactive[], handleClose: () => void }): JSX.Element {
+export function ShowInactive({ show, inactives, type, handleClose }: { show: boolean, inactives: iInactive[], type: 'PDF' | 'XLSX', handleClose: () => void }): JSX.Element {
   const { t } = useTranslation()
 
   const [selectedInactives, setSelectedInactives] = useState<string[]>([])
 
   const onExport = () => {
-    window.electron.ipcRenderer.send('export-service-groups', { inactives: selectedInactives })
+    window.electron.ipcRenderer.send('export-service-groups', { inactives: selectedInactives, type })
     handleClose()
   }
 
@@ -65,6 +65,7 @@ export function ShowInactive({ show, inactives, handleClose }: { show: boolean, 
                       className="text-base font-semibold leading-6 text-gray-900 dark:text-slate-300"
                     >
                       {t('serviceGroups.inactivePublishers')}
+                      {type}
                     </DialogTitle>
                     <div className="mt-2 flex w-full flex-col">
                       <Text>{t('serviceGroups.selectInactivePublishers')}</Text>

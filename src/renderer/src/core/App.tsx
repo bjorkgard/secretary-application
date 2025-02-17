@@ -14,6 +14,7 @@ function App(): JSX.Element {
   const [showImport, setShowImport]     = useState<boolean>(false)
   const [inactives, setInactives]       = useState<iInactive[]>([])
   const [publishers, setPublishers]     = useState<iInactive[]>([])
+  const [type, setType]                 = useState<'PDF' | 'XLSX'>('PDF')
 
   window.electron.ipcRenderer.on('show-spinner', (_, args) => {
     setSpinner(args.status)
@@ -23,6 +24,7 @@ function App(): JSX.Element {
     setInactives(args.inactives as iInactive[])
     setSpinner(false)
     setShowInactive(true)
+    setType(args.type)
   })
 
   window.electron.ipcRenderer.on('show-publishers-for-import', (_, args) => {
@@ -38,7 +40,7 @@ function App(): JSX.Element {
 
   return (
     <ConfirmationModalContextProvider>
-      <ShowInactive show={showInactive} inactives={inactives} handleClose={closeDialog} />
+      <ShowInactive show={showInactive} inactives={inactives} handleClose={closeDialog} type={type} />
       <ShowImport show={showImport} publishers={publishers} handleClose={closeDialog} />
       <Spinner show={spinner} />
       <RouterProvider router={router} />

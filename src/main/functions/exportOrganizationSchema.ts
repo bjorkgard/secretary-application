@@ -4,6 +4,7 @@ import { jsPDF }                                  from 'jspdf'
 import type { CellDef, UserOptions }              from 'jspdf-autotable'
 import fs                                         from 'fs-extra'
 import log                                        from 'electron-log'
+import Excel                                      from 'exceljs'
 import ResponsibilityService                      from '../services/responsibilityService'
 import SettingsService                            from '../services/settingsService'
 import TaskService                                from '../services/taskService'
@@ -11,6 +12,7 @@ import getPublishersWithResponsibility            from '../utils/getPublishersWi
 import i18n                                       from '../../localization/i18next.config'
 import type { OrganizationModel, PublisherModel } from '../../types/models'
 import type { PublisherService }                  from '../../types/type'
+import adjustColumnWidth                          from '../utils/adjustColumnWidth'
 import getPublishersWithTask                      from '../utils/getPublishersWithTask'
 import getPublishersWithAppointment               from '../utils/getPublishersWithAppointment'
 import OrganizationService                        from '../services/organizationService'
@@ -226,13 +228,146 @@ async function generate_PDF(mainWindow: BrowserWindow, publishers: PublisherMode
   savePdfFile(mainWindow, `${name}.pdf`, pdfDoc.output('arraybuffer'))
 }
 
+function saveXlsxFile(mainWindow: BrowserWindow, name: string, workbook: Excel.Workbook): void {
+  const dialogOptions = {
+    title:       i18n.t('export.saveAs'),
+    defaultPath: `${app.getPath('downloads')}/${name}`,
+    buttonLabel: i18n.t('export.save'),
+  }
+
+  dialog
+    .showSaveDialog(mainWindow, dialogOptions)
+    .then((response) => {
+      if (!response.canceled && response.filePath) {
+        if (workbook)
+          workbook.xlsx.writeFile(response.filePath)
+      }
+    })
+    .catch((err) => {
+      log.error(err)
+      mainWindow?.webContents.send('show-spinner', { status: false })
+    })
+  mainWindow?.webContents.send('show-spinner', { status: false })
+}
+
+async function generate_XLSX(mainWindow: BrowserWindow, publishers: PublisherModel[], name: string): Promise<void> {
+  // Generate XLSX-file
+  const congregationSettings = await settingsService.find()
+  const organization         = await organizationService.find()
+  const workbook             = new Excel.Workbook()
+  workbook.creator           = congregationSettings?.congregation.name || 'SECRETARY'
+  workbook.created           = new Date()
+
+  const worksheet = workbook.addWorksheet('Sheet1', {
+    pageSetup: {
+      fitToPage:        true,
+      paperSize:        9,
+      verticalCentered: true,
+      showGridLines:    false,
+      margins:          {
+        left:   0.2,
+        right:  0.2,
+        top:    0.75,
+        bottom: 0.75,
+        header: 0.3,
+        footer: 0.1,
+      },
+    },
+    headerFooter: {
+      differentFirst: true,
+      firstFooter:    `&L&8&K000000${new Date().toLocaleString('sv-SE', {
+        hour12: false,
+      })}&R&8&K000000${i18n.t('label.page')} &P ${i18n.t('label.of')} &N`,
+      oddFooter: `&L&8&K000000${new Date().toLocaleString('sv-SE', {
+        hour12: false,
+      })}&R&8&K000000${i18n.t('label.page')} &P ${i18n.t('label.of')} &N`,
+    },
+    views: [{ state: 'frozen', xSplit: 0, ySplit: 2 }],
+  })
+
+  worksheet.insertRow(1, [congregationSettings?.congregation.name])
+  worksheet.mergeCells('A1:E1')
+  worksheet.getRow(1).font      = { size: 24, bold: true }
+  worksheet.getRow(1).alignment = { horizontal: 'center' }
+  worksheet.insertRow(2, [i18n.t('export.congregationNumber', { number: congregationSettings?.congregation.number })])
+  worksheet.mergeCells('A2:E2')
+  worksheet.getRow(2).font      = { size: 12, bold: false }
+  worksheet.getRow(2).alignment = { horizontal: 'center' }
+
+  let ROW = 4
+
+  // Responsibility Table
+  const responsibilityRows = await createResponsibilityRows(publishers, organization)
+  for (let index = 0; index < responsibilityRows.length; index++) {
+    worksheet.insertRow(ROW, [
+      responsibilityRows[index][0].content,
+      responsibilityRows[index][1].content,
+    ])
+    worksheet.mergeCells(`B${ROW}:E${ROW}`)
+    worksheet.getCell(`A${ROW}`).font = { bold: true }
+    ROW++
+  }
+  ROW++
+
+  // Tasks table
+  // pageSize has no meaning in this case, just added random numbers
+  const taskRows = await createTaskRows(publishers, { width: 210, height: 297 }, organization)
+  worksheet.insertRow(ROW, [i18n.t('label.task'), i18n.t('label.manager'), i18n.t('label.assistant')])
+  worksheet.getRow(ROW).font = { bold: true }
+  ROW++
+
+  for (let index = 0; index < taskRows.length; index++) {
+    worksheet.insertRow(ROW, [
+      taskRows[index][0].content,
+      taskRows[index][1].content,
+      taskRows[index][2].content,
+    ])
+    if (taskRows[index][1].colSpan === 2) {
+      worksheet.mergeCells(`B${ROW}:E${ROW}`)
+    }
+    else {
+      worksheet.mergeCells(`C${ROW}:E${ROW}`)
+    }
+    worksheet.getCell(`A${ROW}`).font = { bold: true }
+    ROW++
+  }
+  ROW++
+
+  // TODO: Appointments Table
+  const appointmentsTable = await createAppointmentsRows(publishers, organization)
+  for (let index = 0; index < appointmentsTable.length; index++) {
+    worksheet.insertRow(ROW, [
+      appointmentsTable[index][0].content,
+      appointmentsTable[index][1].content,
+    ])
+    worksheet.mergeCells(`B${ROW}:E${ROW}`)
+    worksheet.getCell(`A${ROW}`).font = { bold: true }
+    ROW++
+  }
+
+  adjustColumnWidth(worksheet)
+
+  worksheet.eachColumnKey((col) => {
+    col.eachCell((cell) => {
+      cell.alignment = { wrapText: true }
+    })
+  })
+
+  saveXlsxFile(mainWindow, `${name}.xlsx`, workbook)
+}
+
 export default async function ExportOrganizationSchema(
   mainWindow: BrowserWindow,
   publisherService: PublisherService,
+  type: 'PDF' | 'XLSX',
 ): Promise<void> {
   const publishers = await publisherService.find('lastname')
+  const name       = `OrganizationSchema`
 
-  const name = `OrganizationSchema`
-
-  generate_PDF(mainWindow, publishers, name)
+  if (type === 'PDF') {
+    generate_PDF(mainWindow, publishers, name)
+  }
+  else {
+    generate_XLSX(mainWindow, publishers, name)
+  }
 }

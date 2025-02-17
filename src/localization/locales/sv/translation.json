@@ -800,5 +800,7 @@
   "updates.newVersion": "Det finns en ny version, {{tag}}!",
   "Ångra": "Ångra",
   "label.addresslist": "Adresslista",
-  "export.date": "Datum"
+  "export.date": "Datum",
+  "label.firstnames": "Förnamn",
+  "label.organizationSchema": "Organisationsschema"
 }
