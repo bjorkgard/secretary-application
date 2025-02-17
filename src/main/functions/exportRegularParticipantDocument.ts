@@ -114,8 +114,10 @@ async function generate_DOCX(mainWindow: BrowserWindow,  publishers: PublisherMo
   // eslint-disable-next-line node/prefer-global/process
     : path.join(process.resourcesPath, 'documents', 'regularParticipants.docx')
 
-  patchDocument(fs.readFileSync(docPath), {
-    patches: {
+  patchDocument({
+    outputType: 'nodebuffer',
+    data:       fs.readFileSync(docPath),
+    patches:    {
       participants_headline: {
         type:     PatchType.PARAGRAPH,
         children: [
@@ -175,7 +177,7 @@ async function generate_DOCX(mainWindow: BrowserWindow,  publishers: PublisherMo
       },
     },
   }).then((doc) => {
-    saveDocxFile(mainWindow, `${fileName}.docx`, doc)
+    saveDocxFile(mainWindow, `${fileName}.docx`, new Uint8Array(doc))
   })
 }
 
