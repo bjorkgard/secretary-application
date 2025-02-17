@@ -134,8 +134,12 @@ autoUpdater.checkForUpdatesAndNotify()
 async function createWindow(): Promise<void> {
   if (isDebug) {
     try {
-      installExtension(REACT_DEVELOPER_TOOLS)
-        .then(name => log.info(`Added Extension:  ${name}`))
+      installExtension([REACT_DEVELOPER_TOOLS], {
+        loadExtensionOptions: {
+          allowFileAccess: true,
+        },
+      })
+        .then(([ext]) => log.info(`Added Extension:  ${ext.name}`))
         .catch(err => log.info('An error occurred: ', err))
     }
     catch (error) {
