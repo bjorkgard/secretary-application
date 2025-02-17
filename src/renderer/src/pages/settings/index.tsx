@@ -284,6 +284,21 @@ export default function Settings(): JSX.Element {
             <Subheading>{t('settings.experimental.headline')}</Subheading>
             <Text>{t('settings.experimental.information')}</Text>
           </div>
+          <FieldGroup className="sm:col-span-2">
+            <div className="grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-6 md:col-span-2">
+              <SwitchGroup className="sm:col-span-6">
+                <SwitchField>
+                  <Controller
+                    name="automation"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (<Switch color="blue" onChange={onChange} checked={value} />)}
+                  />
+                  <Label>{t('label.automation')}</Label>
+                  <Description>{t('settings.automation')}</Description>
+                </SwitchField>
+              </SwitchGroup>
+            </div>
+          </FieldGroup>
           {
             /*
             <FieldGroup className="sm:col-span-2">

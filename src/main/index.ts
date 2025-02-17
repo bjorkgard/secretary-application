@@ -1,14 +1,15 @@
-import os                                                        from 'node:os'
-import { join }                                                  from 'node:path'
-import { BrowserWindow, app, clipboard, dialog, ipcMain, shell } from 'electron'
-import { electronApp, is, optimizer }                            from '@electron-toolkit/utils'
-import { autoUpdater }                                           from 'electron-updater'
-import windowStateKeeper                                         from 'electron-window-state'
-import prompt                                                    from 'electron-prompt'
-import log                                                       from 'electron-log'
-import fs                                                        from 'fs-extra'
+import os                                                                      from 'node:os'
+import { join }                                                                from 'node:path'
+import { BrowserWindow, Notification, app, clipboard, dialog, ipcMain, shell } from 'electron'
+import { electronApp, is, optimizer }                                          from '@electron-toolkit/utils'
+import { autoUpdater }                                                         from 'electron-updater'
+import windowStateKeeper                                                       from 'electron-window-state'
+import prompt                                                                  from 'electron-prompt'
+import log                                                                     from 'electron-log'
+import fs                                                                      from 'fs-extra'
 // import Bugsnag                                        from '@bugsnag/electron'
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer'
+import schedule                                    from 'node-schedule'
 import icon                                        from '../../resources/icon.png?asset'
 import i18n                                        from '../localization/i18next.config'
 import type {
@@ -96,6 +97,7 @@ import forceUpdateReport                           from './functions/forceUpdate
 import getAllReportsFromServer                     from './functions/getAllReportFromServer'
 import exportExtendedRegisterCardsDisfellowshipped from './functions/exportExtendedRegisterCardsDisfellowshipped'
 import exportAddressListDisfellowshipped           from './functions/exportAddressListDisfellowshipped'
+import getRandomInt                                from './utils/getRandomInt'
 
 // Initialize services
 const circuitOverseerService = new CircuitOverseerService()
@@ -245,6 +247,8 @@ app.on('ready', () => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
+  schedule.gracefulShutdown()
+
   // eslint-disable-next-line node/prefer-global/process
   if (process.platform !== 'darwin')
     app.quit()
@@ -260,6 +264,35 @@ i18n.on('initialized', async () => {
   i18n.changeLanguage(settings?.congregation.locale || 'sv')
 
   i18n.off('initialized')
+
+  // Schedule start reporting 3 am the first of every month (00 03 1 * *)
+  if (settings?.automation) {
+    schedule.scheduleJob(`${getRandomInt(0, 59)} ${getRandomInt(2, 3)} * * *`, (fireDate) => {
+      mainWindow?.webContents.send('show-spinner', { status: true })
+
+      startReporting(
+        mainWindow,
+        serviceGroupService,
+        serviceMonthService,
+        publisherService,
+        settingsService,
+        serviceYearService,
+        auxiliaryService,
+      ).then(() => {
+        // Send to renderer process (missingReports, activeReports) to update the dashboard
+        mainWindow?.webContents.send('updated-reports')
+
+        new Notification({
+          title: 'SECRETARY',
+          body:  i18n.t('reports.autoStarted.body', { time: new Date().toLocaleString() }),
+        }).show()
+      }).finally(() => {
+        mainWindow?.webContents.send('show-spinner', { status: false })
+      })
+
+      log.info(`This job was supposed to run at ${fireDate}, but actually ran at ${new Date()}`)
+    })
+  }
 })
 
 // When the i18n framework starts up, this event is called
@@ -289,6 +322,7 @@ ipcMain.handle('get-initial-translations', () => {
 })
 
 ipcMain.on('app-quit', () => {
+  schedule.gracefulShutdown()
   app.quit()
 })
 
