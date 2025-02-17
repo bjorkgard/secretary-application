@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## [v1.8.0](https://github.com/bjorkgard/secretary-application/releases/tag/v1.8.0) - 2025-02-17 18:07:09
+
+<!-- Release notes generated using configuration in .github/release.yml at v1.8.0 -->
+
+## What's Changed
+* 999 avlägsnade by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/1027
+* Get latest report for inactive publishers when exporting S-21 by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/1028
+* 806 fler exporter i xlsx format by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/1029
+* Update Docx by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/1037
+* Update motion by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/1040
+* Update electron by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/1041
+* Update i18next by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/1042
+
+
+**Full Changelog**: https://github.com/bjorkgard/secretary-application/compare/v1.7.6...v1.8.0
+
 ## [v1.7.6](https://github.com/bjorkgard/secretary-application/releases/tag/v1.7.6) - 2025-02-15 10:40:53
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.7.6 -->
