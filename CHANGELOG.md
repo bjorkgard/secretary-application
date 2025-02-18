@@ -4,6 +4,9 @@
 
 <!-- Release notes generated using configuration in .github/release.yml at v1.8.0 -->
 
+## Breaking change
+* macOS 10.15 stöds inte längre 
+
 ## What's Changed
 * 999 avlägsnade by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/1027
 * Get latest report for inactive publishers when exporting S-21 by @bjorkgard in https://github.com/bjorkgard/secretary-application/pull/1028
