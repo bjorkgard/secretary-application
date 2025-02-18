@@ -73,6 +73,7 @@ function Registration(): JSX.Element {
       user:       { firstname: data.firstname, lastname: data.lastname, email: data.email },
       online:     { send_report_group: false, send_report_publisher: false, public: false },
       mergePdf:   false,
+      automation: false,
       smsMessage: '',
     }
 

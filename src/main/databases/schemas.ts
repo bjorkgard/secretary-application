@@ -51,6 +51,7 @@ export interface Settings extends Base {
   online:       Online
   mergePdf:     boolean
   smsMessage:   string
+  automation:   boolean
 }
 
 export interface ServiceGroup extends Base {
@@ -368,6 +369,7 @@ export const SettingsSchema: JSONSchemaType<Settings> = {
     online:       OnlineSchema,
     smsMessage:   { type: 'string' },
     mergePdf:     { type: 'boolean' },
+    automation:   { type: 'boolean' },
     createdAt:    { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
     updatedAt:    { type: 'object', format: 'custom-date-time', nullable: true, required: [] },
   },

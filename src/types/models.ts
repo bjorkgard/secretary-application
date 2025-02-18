@@ -75,6 +75,7 @@ export interface SettingsModel extends Base {
   user:         UserModel
   mergePdf:     boolean
   smsMessage:   string
+  automation:   boolean
 }
 
 export interface ServiceGroupModel extends Base {

@@ -19,6 +19,7 @@ const settingsState = hookstate<SettingsModel>({
   },
   mergePdf:   false,
   smsMessage: '',
+  automation: false,
 })
 
 export function useSettingsState(): {
