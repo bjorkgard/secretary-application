@@ -54,7 +54,7 @@
     "fs-extra": "^11.3.0",
     "i18next": "^24.2.2",
     "i18next-fs-backend": "^2.6.0",
-    "jspdf": "^2.5.2",
+    "jspdf": "^3.0.0",
     "jspdf-autotable": "^3.8.4",
     "jszip": "^3.10.1",
     "motion": "^12.4.3",
