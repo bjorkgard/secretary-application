@@ -35,7 +35,7 @@
     "make:release": "node ./scripts/modules/release/index.mjs"
   },
   "dependencies": {
-    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^3.0.0",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
