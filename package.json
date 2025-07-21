@@ -99,7 +99,7 @@
     "eslint-plugin-align-import": "^1.0.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-refresh": "^0.4.20",
-    "eslint-plugin-tailwindcss": "^3.18.0",
+    "eslint-plugin-tailwindcss": "^3.18.2",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.1",
     "postcss": "^8.5.6",
