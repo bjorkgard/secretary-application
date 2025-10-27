@@ -44,7 +44,7 @@
     "@szhsin/react-accordion": "^1.4.1",
     "ajv": "^8.17.1",
     "ajv-formats": "^2.1.1",
-    "chart.js": "^4.5.0",
+    "chart.js": "^4.5.1",
     "clsx": "^2.1.1",
     "docx": "^9.5.1",
     "electron-prompt": "^1.7.0",
