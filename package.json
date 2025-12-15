@@ -57,7 +57,7 @@
     "jspdf": "^3.0.4",
     "jspdf-autotable": "^5.0.2",
     "jszip": "^3.10.1",
-    "motion": "^12.23.25",
+    "motion": "^12.23.26",
     "nedb-promises": "^6.2.3",
     "node-schedule": "^2.1.1",
     "open": "^10.2.0",
