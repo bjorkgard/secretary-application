@@ -60,7 +60,7 @@
     "motion": "^12.24.0",
     "nedb-promises": "^6.2.3",
     "node-schedule": "^2.1.1",
-    "open": "^10.2.0",
+    "open": "^11.0.0",
     "pdf-lib": "^1.17.1",
     "react-chartjs-2": "^5.3.1",
     "react-hook-form": "^7.70.0",
