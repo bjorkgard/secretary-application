@@ -69,7 +69,7 @@
     "react-phone-number-input": "^3.4.14",
     "react-router-dom": "^6.30.3",
     "react-tailwindcss-select": "^1.8.5",
-    "tailwind-scrollbar-hide": "^2.0.0",
+    "tailwind-scrollbar-hide": "^4.0.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
