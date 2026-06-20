@@ -70,7 +70,7 @@
     "react-router-dom": "^6.30.4",
     "react-tailwindcss-select": "^1.8.5",
     "tailwind-scrollbar-hide": "^2.0.0",
-    "uuid": "^14.0.0"
+    "uuid": "^14.0.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.2",
