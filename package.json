@@ -51,7 +51,7 @@
     "electron-updater": "^6.8.9",
     "electron-window-state": "^5.0.3",
     "exceljs": "^4.4.0",
-    "fs-extra": "^11.4.0",
+    "fs-extra": "^11.4.1",
     "i18next": "^24.2.3",
     "i18next-fs-backend": "^2.6.7",
     "jspdf": "^4.2.1",
